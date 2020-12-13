@@ -9,6 +9,8 @@
 int main() {
     
     printf("lex '_Zer0' result: %d\n", lex("_Zer0"));
+    printf("lex 'one two three' result: %d\n", lex("one two three"));
+    printf("lex '' result: %d\n", lex(""));
     
     char commandLine[100];
     while ( fgets(commandLine, 100, stdin) ) {
