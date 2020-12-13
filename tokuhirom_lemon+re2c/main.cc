@@ -1,4 +1,4 @@
-//#include <sstream>
+#include <sstream>
 #include <cassert>
 #include <cstdlib>
 #include "scanner.h"
