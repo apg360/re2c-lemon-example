@@ -1,0 +1,14 @@
+The code for this article generates a parsing application for SimpleC. It's provided in an archive called lemon_demo.zip, which contains four files:
+- simple_c.re - lexer definition file, re2c can use this to generate a lexer
+- simple_c_grammar.y - SimpleC grammar file, Lemon can use this to generate parsing code
+- test.dat - Contains C code that can be successfully parsed
+- Makefile - Contains instructions for generating the lexer and parser and building the application
+
+If you have GNU's make and gcc utilities, you can execute the make command. This will read the Makefile instructions and automatically build the application.
+
+If you want to build the application manually, you need to perform three steps:
+1. Use Lemon to generate parser code from the grammar (lemon simple_c_grammar.y)
+2. Use re2c to generate the lexer code (re2c -o simple_c.c simple_c.re)
+3. Compile the lexer and parser code (gcc -o simple_c simple_c.c simple_c_grammar.c)
+
+The application parses the code in test.dat. In addition to printing messages to standard output, it uses ParseTrace to print state messages to trace.out.
