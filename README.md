@@ -27,6 +27,6 @@ by [@bskari Brandon Skari](https://github.com/bskari).
 
 (*) Lemon+Flex+C => Ported to C from [@theory David E. Wheeler](https://github.com/theory) 
 
-(*) Lemon+re2c+C++ => Also used [tokuhirom](https://github.com/tokuhirom/re2c-lemon-tutorial) example
+(*) Lemon+re2c+C++ => [tokuhirom](https://github.com/tokuhirom/re2c-lemon-tutorial) example
 
 (*) Matt Scarpino ** License is CPOL : Generating a High-Speed Parser, [Part1 (re2c)](https://www.codeproject.com/Articles/1035799/Generating-a-High-Speed-Parser-Part-re-c?display=Print)  + [Part2 (lemon)](https://www.codeproject.com/Articles/1056460/Generating-a-High-Speed-Parser-Part-Lemon)
