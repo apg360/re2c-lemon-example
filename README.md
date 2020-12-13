@@ -33,5 +33,5 @@ by [@bskari Brandon Skari](https://github.com/bskari).
 * [Part1 (re2c)](https://www.codeproject.com/Articles/1035799/Generating-a-High-Speed-Parser-Part-re-c?display=Print)
 * [Part2 (lemon)](https://www.codeproject.com/Articles/1056460/Generating-a-High-Speed-Parser-Part-Lemon)
 
-(*) Lemon+re2c+C => [masscry badcode](https://github.com/masscry/badcode) Simple example learning interpreter using re2c and Lemon
+(*) Lemon+re2c+C => [masscry badcode](https://github.com/masscry/badcode) Simple example learning interpreter using Lemon and re2c
 
