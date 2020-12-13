@@ -1,0 +1,12 @@
+#define NAME 1
+#define SEMICOLON 2
+#define EQUAL 3
+#define LPAREN 4
+#define RPAREN 5
+#define LBRACE 6
+#define RBRACE 7
+#define STRING_LITERAL 8
+#define INT_LITERAL 9
+#define RETURN 10
+#define INT_TYPE 11
+#define END_TOKEN 12
