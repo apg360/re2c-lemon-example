@@ -1,5 +1,6 @@
 // re2c $INPUT -o $OUTPUT -i
-// https://fr.qaz.wiki/wiki/Re2c
+// french : https://fr.qaz.wiki/wiki/Re2c
+// english : https://wikivisually.com/wiki/re2c
 // https://www.systutorials.com/docs/linux/man/1-re2c
 
 int lex(const char *YYCURSOR)
