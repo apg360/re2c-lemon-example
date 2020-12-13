@@ -1,0 +1,156 @@
+State 0:
+          start ::= * commandList
+          commandList ::= * command PIPE commandList
+          commandList ::= * command
+          command ::= * FILENAME argumentList
+          command ::= * FILENAME
+          command ::= * COMMAND_SUBSTITUTION_START commandList COMAMND_SUBSTITUTION_END
+
+                      FILENAME shift  1
+    COMMAND_SUBSTITUTION_START shift  3
+                         start accept
+                   commandList shift  8
+                       command shift  9
+
+State 1:
+          command ::= FILENAME * argumentList
+      (4) command ::= FILENAME *
+          argumentList ::= * argument argumentList
+          argumentList ::= * argument
+          argument ::= * ARGUMENT
+          argument ::= * FILENAME
+          argument ::= * COMMAND_SUBSTITUTION_START commandList COMAMND_SUBSTITUTION_END
+
+                      FILENAME shift  15
+    COMMAND_SUBSTITUTION_START shift  5
+                      ARGUMENT shift  14
+                  argumentList shift  12
+                      argument shift  2
+                     {default} reduce 4
+
+State 2:
+          argumentList ::= * argument argumentList
+          argumentList ::= argument * argumentList
+          argumentList ::= * argument
+      (7) argumentList ::= argument *
+          argument ::= * ARGUMENT
+          argument ::= * FILENAME
+          argument ::= * COMMAND_SUBSTITUTION_START commandList COMAMND_SUBSTITUTION_END
+
+                      FILENAME shift  15
+    COMMAND_SUBSTITUTION_START shift  5
+                      ARGUMENT shift  14
+                  argumentList shift  13
+                      argument shift  2
+                     {default} reduce 7
+
+State 3:
+          commandList ::= * command PIPE commandList
+          commandList ::= * command
+          command ::= * FILENAME argumentList
+          command ::= * FILENAME
+          command ::= * COMMAND_SUBSTITUTION_START commandList COMAMND_SUBSTITUTION_END
+          command ::= COMMAND_SUBSTITUTION_START * commandList COMAMND_SUBSTITUTION_END
+
+                      FILENAME shift  1
+    COMMAND_SUBSTITUTION_START shift  3
+                   commandList shift  6
+                       command shift  9
+
+State 4:
+          commandList ::= * command PIPE commandList
+          commandList ::= command PIPE * commandList
+          commandList ::= * command
+          command ::= * FILENAME argumentList
+          command ::= * FILENAME
+          command ::= * COMMAND_SUBSTITUTION_START commandList COMAMND_SUBSTITUTION_END
+
+                      FILENAME shift  1
+    COMMAND_SUBSTITUTION_START shift  3
+                   commandList shift  11
+                       command shift  9
+
+State 5:
+          commandList ::= * command PIPE commandList
+          commandList ::= * command
+          command ::= * FILENAME argumentList
+          command ::= * FILENAME
+          command ::= * COMMAND_SUBSTITUTION_START commandList COMAMND_SUBSTITUTION_END
+          argument ::= COMMAND_SUBSTITUTION_START * commandList COMAMND_SUBSTITUTION_END
+
+                      FILENAME shift  1
+    COMMAND_SUBSTITUTION_START shift  3
+                   commandList shift  7
+                       command shift  9
+
+State 6:
+          command ::= COMMAND_SUBSTITUTION_START commandList * COMAMND_SUBSTITUTION_END
+
+      COMAMND_SUBSTITUTION_END shift  16
+
+State 7:
+          argument ::= COMMAND_SUBSTITUTION_START commandList * COMAMND_SUBSTITUTION_END
+
+      COMAMND_SUBSTITUTION_END shift  10
+
+State 8:
+      (0) start ::= commandList *
+
+                             $ reduce 0
+
+State 9:
+          commandList ::= command * PIPE commandList
+      (2) commandList ::= command *
+
+                          PIPE shift  4
+                     {default} reduce 2
+
+State 10:
+     (10) argument ::= COMMAND_SUBSTITUTION_START commandList COMAMND_SUBSTITUTION_END *
+
+                     {default} reduce 10
+
+State 11:
+      (1) commandList ::= command PIPE commandList *
+
+                     {default} reduce 1
+
+State 12:
+      (3) command ::= FILENAME argumentList *
+
+                     {default} reduce 3
+
+State 13:
+      (6) argumentList ::= argument argumentList *
+
+                     {default} reduce 6
+
+State 14:
+      (8) argument ::= ARGUMENT *
+
+                     {default} reduce 8
+
+State 15:
+      (9) argument ::= FILENAME *
+
+                     {default} reduce 9
+
+State 16:
+      (5) command ::= COMMAND_SUBSTITUTION_START commandList COMAMND_SUBSTITUTION_END *
+
+                     {default} reduce 5
+
+----------------------------------------------------
+Symbols:
+    0: $:
+    1: PIPE
+    2: FILENAME
+    3: COMMAND_SUBSTITUTION_START
+    4: COMAMND_SUBSTITUTION_END
+    5: ARGUMENT
+    6: error:
+    7: start: FILENAME COMMAND_SUBSTITUTION_START
+    8: commandList: FILENAME COMMAND_SUBSTITUTION_START
+    9: command: FILENAME COMMAND_SUBSTITUTION_START
+   10: argumentList: FILENAME COMMAND_SUBSTITUTION_START ARGUMENT
+   11: argument: FILENAME COMMAND_SUBSTITUTION_START ARGUMENT
