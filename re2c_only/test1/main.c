@@ -75,12 +75,12 @@ int main() {
       size_t size = strlen(commandLine);
       printf(">Number characters %d \n",size);
       printf(">Number words %d \n", lex(commandLine, size)  );
-
-      //for (int j=0; j<=size; j++) printf("'%s'\n", &commandLine[j++] ); // remove carriage return and newline
       
       free(commandLine); //free the memory allocated with malloc
     }
 
+    //for (int j=0; j<=size; j++) printf("'%s'\n", &commandLine[j++] ); // remove carriage return and newline
+    
     // char wordsProper[100]; //commandLine without carriage return and 0 at end
     // for (char *p=commandLine,j=0; *p; p++) if (*p != '\r' && *p != '\x00' && *p != '\n') wordsProper[j++]=*p; // remove carriage return and newline
     // char* rtr = realloc(rtr, strlen(commandLine)+strlen(rtr));
