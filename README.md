@@ -35,3 +35,4 @@ by [@bskari Brandon Skari](https://github.com/bskari).
 
 * Lemon+re2c+C => [masscry badcode](https://github.com/masscry/badcode) Simple example learning interpreter using Lemon and re2c
 
+* Lemon Parser generator explanation by [Amjad Abdullah](https://www.youtube.com/channel/UCsH233Xh1gOfgRExYzMofZg) *In arabs so mute sound and read text, well resumed to learn much in a few minutes only.

@@ -1,0 +1,34 @@
+
+
+re2c vs ragel
+Ragel is more open as it can do state machine like re2c but also table and longest-match method. Plus more language support.
+re2c : state machine and longest-match only. speed very fast, minimalistic small, simplicity, zero cost abstraction.
+
+
+Re2c is a free and open-source lexer generator for C, C++ and Go.
+
+
+RE2C's model is different from Lex/Flex, instead of writing a lexer, you are writing your C/C++ file and embed the lexer part which is auto generated (like macro or inline) and will expand just like if you wrote it manually.
+
+A tool for writing very fast and very flexible scanners. Unlike any other such tool, re2c focuses on generating high efficient code for regular expression matching. As a result this allows a much broader range of use than any traditional lexer.
+
+It compiles declarative regular expression specifications to deterministic finite automata.
+It is the lexer generator adopted by projects such as PHP,[3] SpamAssassin,[4] Ninja build system[5] and others.
+Together with the Lemon parser generator, re2c is used in BRL-CAD.[6] This combination is also used with STEPcode, an implementation of ISO 10303 standard.
+
+The main goal of re2c is generating fast lexers:[1] at least as fast as reasonably optimized C lexers coded by hand. Instead of using traditional table-driven approach, re2c encodes the generated finite state machine directly in the form of conditional jumps and comparisons. The resulting program is faster and much easier to debug and understand.
+Moreover, this approach often results in smaller lexers,[1] as re2c applies a number of optimizations such as DFA minimization and the construction of tunnel automaton.
+The main idea is that re2c should be a zero-cost abstraction for the programmer: using it should never result in a slower program than the corresponding hand-coded implementation. 
+
+
+
+Ragel is a finite-state machine compiler and a parser generator.
+Initially Ragel supported output for C, C++ and Assembly source code,[1] was expanded to support several other languages including Objective C, D, Go, Ruby, and Java.[2] Additional language support is also in development.[3] 
+
+It supports the generation of table or control flow driven state machines from regular expressions[4] and/or state charts and can also build lexical analysers via the longest-match method.
+Ragel specifically targets text parsing and input validation.[5]
+
+A unique feature of Ragel is that user actions can be associated with arbitrary state machine transitions using operators that are integrated into the regular expressions.
+Ragel also supports visualization of the generated machine via graphviz. 
+
+
