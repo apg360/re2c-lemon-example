@@ -11,6 +11,8 @@ loop:
     re2c:define:YYCTYPE = char;                  // configuration
     re2c:yyfill:enable = 0;                      // configuration
     re2c:flags:case-ranges = 1;                  // configuration
+    re2c:define:YYLIMIT = last_char;
+    re2c:define:YYCURSOR = current_char;
     
     end = "\x00";    // end of line
     wsp = [ \t\r\n]; // whitespace
@@ -20,6 +22,7 @@ loop:
     end             { return wordCount; }            // whenever EOF
     // normal rule
     "reset"         { printf("Reset ....");wordCount=0;return 0; } // reset counter
+    ","             { return(","); }
     [a-z]+          { ++wordCount; goto loop; }  //only letters are counted
     [ ]+            { goto loop; }               // everything else ignored
     */
