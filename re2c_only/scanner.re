@@ -8,11 +8,11 @@ int lex(const char *YYCURSOR)
     int wordCount = 0; // count word, not letters
 loop:
     /*!re2c                                      // start of re2c block
-    re2c:define:YYCTYPE = char;                  // configuration
+    re2c:define:YYCTYPE = char;                  // The type of the input characters (code units). For ASCII, EBCDIC and UTF-8 encodings it should be 1-byte unsigned integer.
+    //re2c:define:YYLIMIT = last_char;           // A pointer-like r-value that stores the end of input position  (usually a pointer of type YYCTYPE*)
+    //re2c:define:YYCURSOR = current_char;       // A pointer-like l-value that stores the current input position (usually a pointer of type YYCTYPE*)
     re2c:yyfill:enable = 0;                      // configuration
     re2c:flags:case-ranges = 1;                  // configuration
-    //re2c:define:YYLIMIT = last_char;
-    //re2c:define:YYCURSOR = current_char;
     
     end = "\x00";    // end of line
     wsp = [ \t\r\n]; // whitespace
