@@ -1,154 +1,72 @@
-#pragma once
+// re2c $INPUT -o $OUTPUT -i
+// french : https://fr.qaz.wiki/wiki/Re2c
+// english : https://wikivisually.com/wiki/re2c
+// https://www.systutorials.com/docs/linux/man/1-re2c
+// https://re2c.org/manual/manual_c.html
 
-#include <stdio.h>
-#include <string.h>
-#include <string>
-#include <fstream>
+/*!include:re2c "definitions.h" */
 
-//#include <vector>
-//#include <sstream>
-//#include <iostream>
-//#include <cstdlib>
-//#include <cassert>
-
-typedef union {
-    int int_value;
-} YYSTYPE;
-
-struct ParserState {
-    int result;
-    ParserState() :result(0) {
-    }
-};
-
-#include "parser.h"
-
-//private
-// iostream sucks. very slow.
-std::istream *ifs;
-
-// buffer memory
- char* m_buffer;
  // current position
- char* m_cursor;
- char* m_limit;
- char* m_token;
- char* m_marker;
- int m_buffer_size;
+ char* m_cursor;     // current_char : the next input character to be read.                     A pointer-like l-value that stores the current input position
+ char* m_limit;      // last_char    : the position after the last available input character.   A pointer-like r-value that stores the end of input position
+                     //                Lexer compares YYCURSOR to YYLIMIT in order to determine if there is enough input characters left
+ char* m_token;      // token_char   : 
+ char* m_marker;     // marker_char  : the position of the most recent match
  int m_lineno;
- 
-//public
 
-    void increment_line_number() {
-        m_lineno++;
-    }
+void increment_line_number() {
+    m_lineno++;
+}
+int length() {
+    return (m_cursor-m_token);
+}
+char* text() {
+    return m_token; //std::string( m_token, m_token+length() );
+}
+int lineno() {
+    return m_lineno;
+}
 
-    void SCANNER_INIT( std::istream *ifs_, int init_size=1024 ){
-        m_buffer=0;
-        m_cursor=0;
-        m_limit=0;
-        m_token=0;
-        m_marker=0;
-        m_buffer_size = init_size;
-        m_lineno=1;
-        
-        m_buffer = new char[m_buffer_size];
-        m_cursor = m_limit = m_token = m_marker = m_buffer;
-        ifs = ifs_;
+static int SCANNER(char *str, unsigned int len) // const char *YYCURSOR) 
+{
+    m_cursor = str;
+    m_limit = str + len;
+    int wordCount = 0;                           // count word, not letters
+    
+loop:
+    m_token = m_cursor;
+    
+    /*!re2c                                      // start of re2c block
+    re2c:eof = 0;                                // zero byte \x00
+                                                 // Specifies the sentinel symbol used with EOF rule $ to check for the end of input in the generated lexer. 
+                                                 // The default value is -1 (EOF rule is not used).
+                                                 // Other possible values include all valid code units. Only decimal numbers are recognized.
+    
+    re2c:define:YYCTYPE = char;                  // The type of the input characters (code units). For ASCII, EBCDIC and UTF-8 encodings it should be 1-byte unsigned integer.
+    re2c:define:YYCURSOR = m_cursor;
+    re2c:define:YYMARKER = m_marker;
+    re2c:define:YYLIMIT = m_limit;
+    re2c:yyfill:enable = 0;                      // configuration
+    re2c:indent:top = 2;
+    re2c:indent:string="    ";
+    re2c:flags:case-ranges = 1;                  // configuration
+    
+    *               { return -1; }               // default rule
+    $               { return wordCount; }        // whenever EOF
+    
+    // normal rule
+    INTEGER {
+        yylval.int_value = atoi(m_token);
+        return TOKEN_INT;
     }
- 
-    void SCANNER_DELETE() {
-        delete [] m_buffer;
+    "+" { return TOKEN_ADD; }
+    "-" { return TOKEN_SUB; }
+    "*" { return TOKEN_MUL; }
+    "/" { return TOKEN_DIV; }
+    WS  { goto loop; }
+    ANY_CHARACTER {
+        printf("unexpected character: '%c(%d)'\n", *m_token, *m_token);
+        goto loop;
     }
- 
-    bool fill(int n) {
- 
-        // is eof?
-        if (ifs->eof()) {
-            if ((m_limit-m_cursor) <= 0) {
-                return false;
-            }
-        }
- 
-        int restSize = m_limit-m_token;
-        if (restSize+n >= m_buffer_size) {
-            // extend buffer
-            m_buffer_size *= 2;
-            char* newBuffer = new char[m_buffer_size];
-            for (int i=0; i<restSize; ++i) { // memcpy
-                *(newBuffer+i) = *(m_token+i);
-            }
-            m_cursor = newBuffer + (m_cursor-m_token);
-            m_token = newBuffer;
-            m_limit = newBuffer + restSize;
- 
-            delete [] m_buffer;
-            m_buffer = newBuffer;
-        } else {
-            // move remained data to head.
-            for (int i=0; i<restSize; ++i) { //memmove( m_buffer, m_token, (restSize)*sizeof(char) );
-                *(m_buffer+i) = *(m_token+i);
-            }
-            m_cursor = m_buffer + (m_cursor-m_token);
-            m_token = m_buffer;
-            m_limit = m_buffer+restSize;
-        }
- 
-        // fill to buffer
-        int read_size = m_buffer_size - restSize;
-        ifs->read( m_limit, read_size );
-        m_limit += ifs->gcount();
- 
-        return true;
-    }
- 
-    int length() {
-        return (m_cursor-m_token);
-    }
-    std::string text() {
-        return std::string( m_token, m_token+length() );
-    }
-    int lineno() {
-        return m_lineno;
-    }
- 
-    int SCAN(YYSTYPE& yylval) {
-std:
-        m_token = m_cursor;
- 
-    /*!re2c
-        re2c:define:YYCTYPE = "char";
-        re2c:define:YYCURSOR = m_cursor;
-        re2c:define:YYMARKER = m_marker;
-        re2c:define:YYLIMIT = m_limit;
-        re2c:define:YYFILL:naked = 1;
-        re2c:define:YYFILL@len = #;
-        re2c:define:YYFILL = "if (!fill(#)) { return 0; }";
-        re2c:yyfill:enable = 1;
-        re2c:indent:top = 2;
-        re2c:indent:string="    ";
-
-        INTEGER                = [1-9][0-9]*;
-        WS                     = [ \r\n\t\f];
-        ANY_CHARACTER          = [^];
-
-        INTEGER {
-            yylval.int_value = atoi(text().c_str());
-            return TOKEN_INT;
-        }
-        "+" { return TOKEN_ADD; }
-        "-" { return TOKEN_SUB; }
-        "*" { return TOKEN_MUL; }
-        "/" { return TOKEN_DIV; }
-        WS {
-            goto std;
-        }
-        ANY_CHARACTER {
-            printf("unexpected character: '%c(%d)'\n", *m_token, *m_token);
-            goto std;
-        }
-
     */
-
-    }
-
+}

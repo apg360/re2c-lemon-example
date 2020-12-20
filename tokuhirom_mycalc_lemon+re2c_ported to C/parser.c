@@ -4,11 +4,10 @@
 /* First off, code is included that follows the "include" declaration
 ** in the input grammar file. */
 #include <stdio.h>
-#line 10 "parser.yy"
+#line 10 "parser.lem"
 
-#include <iostream>
-#include "scanner.h"
-#line 12 "parser.c"
+#include "definitions.h"
+#line 11 "parser.c"
 /* Next is all token values, in a form suitable for use by makeheaders.
 ** This section will be null unless lemon is run with the -m switch.
 */
@@ -640,47 +639,47 @@ static void yy_reduce(
   **     break;
   */
       case 0: /* program ::= expr */
-#line 25 "parser.yy"
+#line 24 "parser.lem"
 {
     state->result = yymsp[0].minor.yy0.int_value;
 }
-#line 648 "parser.c"
+#line 647 "parser.c"
         break;
       case 1: /* expr ::= primary_expression */
       case 6: /* primary_expression ::= INT */ yytestcase(yyruleno==6);
-#line 29 "parser.yy"
+#line 28 "parser.lem"
 {
     yygotominor.yy0.int_value = yymsp[0].minor.yy0.int_value;
 }
-#line 656 "parser.c"
+#line 655 "parser.c"
         break;
       case 2: /* expr ::= expr SUB primary_expression */
-#line 32 "parser.yy"
+#line 31 "parser.lem"
 {
     yygotominor.yy0.int_value = yymsp[-2].minor.yy0.int_value - yymsp[0].minor.yy0.int_value;
 }
-#line 663 "parser.c"
+#line 662 "parser.c"
         break;
       case 3: /* expr ::= expr ADD primary_expression */
-#line 35 "parser.yy"
+#line 34 "parser.lem"
 {
     yygotominor.yy0.int_value = yymsp[-2].minor.yy0.int_value + yymsp[0].minor.yy0.int_value;
 }
-#line 670 "parser.c"
+#line 669 "parser.c"
         break;
       case 4: /* expr ::= expr DIV primary_expression */
-#line 38 "parser.yy"
+#line 37 "parser.lem"
 {
     yygotominor.yy0.int_value = yymsp[-2].minor.yy0.int_value / yymsp[0].minor.yy0.int_value;
 }
-#line 677 "parser.c"
+#line 676 "parser.c"
         break;
       case 5: /* expr ::= expr MUL primary_expression */
-#line 41 "parser.yy"
+#line 40 "parser.lem"
 {
     yygotominor.yy0.int_value = yymsp[-2].minor.yy0.int_value * yymsp[0].minor.yy0.int_value;
 }
-#line 684 "parser.c"
+#line 683 "parser.c"
         break;
       default:
         break;
@@ -728,10 +727,10 @@ static void yy_parse_failed(
   while( yypParser->yyidx>=0 ) yy_pop_parser_stack(yypParser);
   /* Here code is inserted which will be executed whenever the
   ** parser fails */
-#line 19 "parser.yy"
+#line 18 "parser.lem"
 
     fprintf(stderr,"Giving up.  Parser is hopelessly lost...\n");
-#line 735 "parser.c"
+#line 734 "parser.c"
   ParseARG_STORE; /* Suppress warning about unused %extra_argument variable */
 }
 #endif /* YYNOERRORRECOVERY */
@@ -746,10 +745,10 @@ static void yy_syntax_error(
 ){
   ParseARG_FETCH;
 #define TOKEN (yyminor.yy0)
-#line 15 "parser.yy"
+#line 14 "parser.lem"
 
     fprintf(stderr, "Syntax error\n");
-#line 753 "parser.c"
+#line 752 "parser.c"
   ParseARG_STORE; /* Suppress warning about unused %extra_argument variable */
 }
 

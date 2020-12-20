@@ -10,8 +10,10 @@ int main() {
     void *pParser = ParseAlloc(malloc);
     int tokenID;
 
+#if 0
     ParseTrace(stderr, (char*)"[Parser] >> ");
-    
+#endif
+
     ParserState state;
     // scanner.scan return 0 when get EOF.
     while (tokenID == scanner.scan(yylval)) {

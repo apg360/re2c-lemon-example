@@ -8,8 +8,7 @@
 %extra_argument { ParserState *state }
 
 %include {
-#include <iostream>
-#include "scanner.h"
+#include "definitions.h"
 }
 
 %syntax_error {
