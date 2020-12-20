@@ -29,14 +29,14 @@ int main() {
     ParseFree(pParser, free);
     printf("RESULT: %d\n", state.result);
     
-    char *commandLine;
+    /*char *commandLine;
     while (  (commandLine = dynamic_fgets())  ){
       size_t size = strlen(commandLine);
       printf(">Number characters %zu \n",size);
       printf(">Number words %d \n", SCANNER(commandLine, size)  );
       
       free(commandLine); //free the memory allocated with malloc
-    }
+    }*/
     
     return 0;
 }

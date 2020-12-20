@@ -4,16 +4,8 @@
 // https://www.systutorials.com/docs/linux/man/1-re2c
 // https://re2c.org/manual/manual_c.html
 
+#include "../parser.h"
 /*!include:re2c "definitions.h" */
-
-typedef union {
-    int int_value;
-} YYSTYPE;
-
-struct ParserState {
-    int result;
-    ParserState() :result(0) {}
-};
 
  // current position
  char* m_cursor;     // current_char : the next input character to be read.                     A pointer-like l-value that stores the current input position
