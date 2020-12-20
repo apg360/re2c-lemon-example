@@ -8,7 +8,7 @@
 %extra_argument { ParserState *state }
 
 %include {
-#include "definitions.h"
+#include "build/scanner.h"
 }
 
 %syntax_error {

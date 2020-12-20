@@ -6,6 +6,15 @@
 
 /*!include:re2c "definitions.h" */
 
+typedef union {
+    int int_value;
+} YYSTYPE;
+
+struct ParserState {
+    int result;
+    ParserState() :result(0) {}
+};
+
  // current position
  char* m_cursor;     // current_char : the next input character to be read.                     A pointer-like l-value that stores the current input position
  char* m_limit;      // last_char    : the position after the last available input character.   A pointer-like r-value that stores the end of input position
@@ -27,9 +36,11 @@ int lineno() {
     return m_lineno;
 }
 
-static int SCANNER(char *str, unsigned int len) // const char *YYCURSOR) 
+static int SCANNER(char *str) // const char *YYCURSOR) 
 {
     m_cursor = str;
+    //unsigned int len;
+    size_t len = strlen(str);
     m_limit = str + len;
     int wordCount = 0;                           // count word, not letters
     

@@ -6,7 +6,7 @@
 #include <stdio.h>
 #line 10 "parser.lem"
 
-#include "definitions.h"
+#include "build/scanner.h"
 #line 11 "parser.c"
 /* Next is all token values, in a form suitable for use by makeheaders.
 ** This section will be null unless lemon is run with the -m switch.
