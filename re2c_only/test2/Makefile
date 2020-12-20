@@ -7,13 +7,13 @@ all: mycalc
 
 #parser.c
 mycalc: scanner.h
-	$(CC) main.c -o testre2c
+	$(CC) main.c -o build/testre2c
 
 #parser.c: parser.yy
 #	lemon parser.yy
 
 scanner.h: scanner.re
-	re2c scanner.re -o scanner.h -i
+	re2c scanner.re -o build/scanner.h -i
 
 clean:
 	rm -rf *.o parser.h parser.out parser.c scanner.h testre2c

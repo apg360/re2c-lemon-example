@@ -1,5 +1,5 @@
 #include "util.h"
-#include "scanner.h"
+#include "build/scanner.h"
 
 #define TEST(s) printf("'%s' => result= %d\n",s, SCANNER(s, sizeof(s) - 1) )
 int main() {
