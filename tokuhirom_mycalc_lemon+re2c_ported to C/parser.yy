@@ -9,7 +9,7 @@
 
 %include {
 #include <iostream>
-#include "scanner.def.h"
+#include "scanner.h"
 }
 
 %syntax_error {

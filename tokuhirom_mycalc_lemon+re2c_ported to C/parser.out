@@ -1,0 +1,97 @@
+State 0:
+          program ::= * expr
+          expr ::= * primary_expression
+          expr ::= * expr SUB primary_expression
+          expr ::= * expr ADD primary_expression
+          expr ::= * expr DIV primary_expression
+          expr ::= * expr MUL primary_expression
+          primary_expression ::= * INT
+
+                           INT shift  9
+                       program accept
+                          expr shift  5
+            primary_expression shift  7
+
+State 1:
+          expr ::= expr DIV * primary_expression
+          primary_expression ::= * INT
+
+                           INT shift  9
+            primary_expression shift  11
+
+State 2:
+          expr ::= expr ADD * primary_expression
+          primary_expression ::= * INT
+
+                           INT shift  9
+            primary_expression shift  10
+
+State 3:
+          expr ::= expr MUL * primary_expression
+          primary_expression ::= * INT
+
+                           INT shift  9
+            primary_expression shift  6
+
+State 4:
+          expr ::= expr SUB * primary_expression
+          primary_expression ::= * INT
+
+                           INT shift  9
+            primary_expression shift  8
+
+State 5:
+      (0) program ::= expr *
+          expr ::= expr * SUB primary_expression
+          expr ::= expr * ADD primary_expression
+          expr ::= expr * DIV primary_expression
+          expr ::= expr * MUL primary_expression
+
+                             $ reduce 0
+                           ADD shift  2
+                           SUB shift  4
+                           MUL shift  3
+                           DIV shift  1
+
+State 6:
+      (5) expr ::= expr MUL primary_expression *
+
+                     {default} reduce 5
+
+State 7:
+      (1) expr ::= primary_expression *
+
+                     {default} reduce 1
+
+State 8:
+      (2) expr ::= expr SUB primary_expression *
+
+                     {default} reduce 2
+
+State 9:
+      (6) primary_expression ::= INT *
+
+                     {default} reduce 6
+
+State 10:
+      (3) expr ::= expr ADD primary_expression *
+
+                     {default} reduce 3
+
+State 11:
+      (4) expr ::= expr DIV primary_expression *
+
+                     {default} reduce 4
+
+----------------------------------------------------
+Symbols:
+    0: $:
+    1: ADD
+    2: SUB
+    3: MUL
+    4: DIV
+    5: INT
+    6: error:
+    7: program: INT
+    8: expr: INT
+    9: primary_expression: INT
