@@ -16,7 +16,7 @@ static int SCANNER(const char *str, unsigned int len) // const char *YYCURSOR)
     
 loop:
     /*!re2c                                      // start of re2c block
-    re2c:eof = 0;                                // zero byte \x00 
+    re2c:eof = 0;                                // zero byte \x00
                                                  // Specifies the sentinel symbol used with EOF rule $ to check for the end of input in the generated lexer. 
                                                  // The default value is -1 (EOF rule is not used).
                                                  // Other possible values include all valid code units. Only decimal numbers are recognized.
