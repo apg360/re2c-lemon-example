@@ -1,32 +1,25 @@
-#include <stdlib.h>
-#include <stdio.h>
-#include <assert.h>
+#include "util.h"
 #include "scanner.h"
-//#include "parser.c"
 
-int main()
-{
-    const char *fname = "input";
-    const char str[] = "'qu\0tes' 'are' 'fine: \\'' ";
-    FILE *f;
-    Input in;
-
-    // prepare input file: a few times the size of the buffer,
-    // containing strings with zeroes and escaped quotes
-    //f = fopen(fname, "w");
-    //for (int i = 0; i < SIZE; ++i) {
-    //    fwrite(str, 1, sizeof(str) - 1, f);
-    //}
-    //fclose(f);
-
-    f = fopen(fname, "r");
-    init(&in, f);
-    printf( "The size is %d \n", lex(&in) );
-    assert(lex(&in) == SIZE * 3);
-    fclose(f);
-
-    //remove(fname);
+#define TEST(s) printf("'%s' => result= %d\n",s, SCANNER(s, sizeof(s) - 1) )
+int main() {
     
-    //printf("'_Zer0' result: %d\n", lex("_Zer0"));
+    TEST("_Zer0");
+    TEST("");
+    TEST("one");
+    TEST("one two");
+    TEST("one two three");
+    TEST("one two three four");
+    
+    char *commandLine;
+    while (  (commandLine = dynamic_fgets())  ){
+      size_t size = strlen(commandLine);
+      printf(">Number characters %zu \n",size);
+      printf(">Number words %d \n", SCANNER(commandLine, size)  );
+      
+      free(commandLine); //free the memory allocated with malloc
+    }
+    
     return 0;
 }
+

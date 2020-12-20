@@ -4,64 +4,33 @@
 // https://www.systutorials.com/docs/linux/man/1-re2c
 // https://re2c.org/manual/manual_c.html
 
-#include <assert.h>
-#include <stdio.h>
-#include <string.h>
+/*!include:re2c "definitions.h" */
 
-#define SIZE 4096
-
-typedef struct {
-    FILE *file;
-    char buf[SIZE + 1], *lim, *cur, *mar, *tok;
-    int eof;
-} Input;
-
-static int fill(Input *in)
+static int SCANNER(const char *str, unsigned int len) // const char *YYCURSOR) 
 {
-    if (in->eof) {
-        return 1;
-    }
-    const size_t free = in->tok - in->buf;
-    if (free < 1) {
-        return 2;
-    }
-    memmove(in->buf, in->tok, in->lim - in->tok);
-    in->lim -= free;
-    in->cur -= free;
-    in->mar -= free;
-    in->tok -= free;
-    in->lim += fread(in->lim, 1, free, in->file);
-    in->lim[0] = 0;
-    in->eof |= in->lim < in->buf + SIZE;
-    return 0;
-}
-
-static void init(Input *in, FILE *file)
-{
-    in->file = file;
-    in->cur = in->mar = in->tok = in->lim = in->buf + SIZE;
-    in->eof = 0;
-    fill(in);
-}
-
-static int lex(Input *in)
-{
-    int count = 0;
+    const char *YYCURSOR = str;                  // current_char : the next input character to be read.                     A pointer-like l-value that stores the current input position
+    const char *YYLIMIT = str + len;             // last_char    : the position after the last available input character.   A pointer-like r-value that stores the end of input position
+                                                                                                                            // Lexer compares YYCURSOR to YYLIMIT in order to determine if there is enough input characters left
+    const char *YYMARKER;                        // marker_char  : the position of the most recent match
+    int wordCount = 0;                           // count word, not letters
+    
 loop:
-    in->tok = in->cur;
-    /*!re2c
-    re2c:eof = 0;
-    re2c:api:style = free-form;
-    re2c:define:YYCTYPE  = char;
-    re2c:define:YYCURSOR = in->cur;
-    re2c:define:YYMARKER = in->mar;
-    re2c:define:YYLIMIT  = in->lim;
-    re2c:define:YYFILL   = "fill(in) == 0";
-
-    *                           { return -1; }
-    $                           { return count; }
-    ['] ([^'\\] | [\\][^])* ['] { ++count; goto loop; }
-    [ ]+                        { goto loop; }
-
+    /*!re2c                                      // start of re2c block
+    re2c:eof = 0;                                // zero byte \x00 
+                                                 // Specifies the sentinel symbol used with EOF rule $ to check for the end of input in the generated lexer. 
+                                                 // The default value is -1 (EOF rule is not used).
+                                                 // Other possible values include all valid code units. Only decimal numbers are recognized.
+    
+    re2c:define:YYCTYPE = char;                  // The type of the input characters (code units). For ASCII, EBCDIC and UTF-8 encodings it should be 1-byte unsigned integer.
+    re2c:yyfill:enable = 0;                      // configuration
+    re2c:flags:case-ranges = 1;                  // configuration
+    
+    *               { return FAIL; }             // default rule
+    $               { return wordCount; }        // whenever EOF
+    
+    // normal rule
+    wsp             { goto loop;}                      // ignore any whitespace that shows up at the end //[^ \t\r\n]+
+    letter          { ++wordCount; goto loop; }        //only letters are counted
+    [ ]+            { goto loop; }                     // everything else ignored
     */
 }
