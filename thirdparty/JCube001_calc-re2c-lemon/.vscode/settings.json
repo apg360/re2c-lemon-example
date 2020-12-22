@@ -1,0 +1,14 @@
+{
+    "files.associations": {
+        "*.h": "c",
+        "*.h.in": "c",
+        "lexer.re": "c"
+    },
+    "cSpell.words": [
+        "lparen",
+        "rparen",
+        "yycursor",
+        "yyfill",
+        "yymarker"
+    ]
+}
