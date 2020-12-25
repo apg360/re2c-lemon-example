@@ -1,10 +1,10 @@
+#pragma once
+
 #include <assert.h>
-#include <stdio.h>  // output on screen
-#include <stdlib.h> // os access: open file, read/write file, delete file etc...
-#include <stddef.h> // size_t
-#include <string.h> // strlen
-#include "scanner.h"
-//#include "parser.c"
+#include <stdio.h>   // output on screen
+#include <stdlib.h>  // os access: open file, read/write file, delete file etc...
+#include <stddef.h>  // size_t
+#include <string.h>  // strlen
 
 /*
   https://stackoverflow.com/questions/2667648/what-does-it-mean-to-be-terminated-by-a-zero
@@ -59,40 +59,3 @@ static char* dynamic_fgets (void) //read_stdin
 
   return buffer;
 }
-
-#define TEST(s) printf("'%s' => result= %d\n",s,lex(s, strlen(commandLine)) )
-int main() {
-    
-    TEST("_Zer0");
-    TEST("");
-    TEST("one");
-    TEST("one two");
-    TEST("one two three");
-    TEST("one two three four");
-    
-    char *commandLine;
-    while (  commandLine=dynamic_fgets() ) {     
-      size_t size = strlen(commandLine);
-      printf(">Number characters %d \n",size);
-      printf(">Number words %d \n", lex(commandLine, size)  );
-      
-      free(commandLine); //free the memory allocated with malloc
-    }
-
-    //for (int j=0; j<=size; j++) printf("'%s'\n", &commandLine[j++] ); // remove carriage return and newline
-    
-    // char wordsProper[100]; //commandLine without carriage return and 0 at end
-    // for (char *p=commandLine,j=0; *p; p++) if (*p != '\r' && *p != '\x00' && *p != '\n') wordsProper[j++]=*p; // remove carriage return and newline
-    // char* rtr = realloc(rtr, strlen(commandLine)+strlen(rtr));
-    
-    /*
-    char commandLine[100];
-    while ( fgets(commandLine, 100, stdin) ) {
-        //printf("Result> '%s' = %d \n", commandLine, lex(commandLine, strlen(commandLine) -1)  );
-        free(commandLine);
-    }
-    */
-
-    return 0;
-}
-

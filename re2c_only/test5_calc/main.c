@@ -1,7 +1,8 @@
 #include "util.h"
-#include "build/scanner.h"
+#include "scanner.h"
 
-#define TEST(s) printf("'%s' => result= %d\n",s, SCANNER(s, strlen(commandLine)) )
+#define TEST(s) SCANNER(s, strlen(s))
+
 int main() {
     
     TEST("_Zer0");
@@ -10,12 +11,12 @@ int main() {
     TEST("one two");
     TEST("one two three");
     TEST("one two three four");
+    TEST("(4+4)");
     
     char *commandLine;
     while (  (commandLine = dynamic_fgets())  ){
-      size_t size = strlen(commandLine);
-      printf(">Number characters %zu \n",size);
-      printf(">Number words %d \n", SCANNER(commandLine, size)  );
+      
+      SCANNER( commandLine, strlen(commandLine) );
       
       free(commandLine); //free the memory allocated with malloc
     }
