@@ -10,8 +10,9 @@ void show(const char *str) {
   printf("> %s\n",str);
 }
 
-static int SCANNER(const char *str, unsigned int lensize) // const char *YYCURSOR) 
+static int SCANNER(const char *str) // const char *YYCURSOR) 
 {
+    unsigned int lensize = strlen(str);
     const char *YYCURSOR = str;                  // current_char : the next input character to be read.                     A pointer-like l-value that stores the current input position
     const char *YYLIMIT = str + lensize;             // last_char    : the position after the last available input character.   A pointer-like r-value that stores the end of input position
                                                                                                                             // Lexer compares YYCURSOR to YYLIMIT in order to determine if there is enough input characters left
