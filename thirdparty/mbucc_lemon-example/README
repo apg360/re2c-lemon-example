@@ -1,0 +1,54 @@
+lemon-example
+
+	An example of using a tokenizer and a grammar to validate date
+	expressions; for example, "Jan 30 through Feb 15 at 8pm".
+
+	The tokenizer is plain-old C and a lemon grammar [0] is used to
+	generate the parser. 
+
+	Lemon is written by the same author  as SQLite. It's benefis include
+	a simpler grammar than yacc, thread-safety, and a looser coupling
+	with the tokenizer.
+    
+	This repository was started from David Wheeler's C port [1] of a 
+	C++ lemon tutorial [2].   The core of the tokenizer was copied 
+	pretty much verbatim from Troy Hanson's lemon example [3].
+
+	[0] http://www.hwaci.com/sw/lemon/
+	[1] https://github.com/bskari/lemon-parser-tutorial
+	[2] https://github.com/bskari
+	[3] https://github.com/troydhanson/misc/tree/master/text_handling/lemon
+
+
+Status
+
+	Functional.  See the files test_tokenizer.sh and test_isadate.sh
+	(in the regress directory) for examples of strings that are handled.
+
+Build
+
+	make
+
+		Builds an object file that provides the method
+
+				int isadate(const char *, struct emsg *);
+
+		which returns 0 if the string is a date, and 1 otherwise.
+
+		If the string is not recognized as a date, the emsg struct is 
+		populated with an error message and a column index.
+
+
+Test
+
+	make test
+
+
+
+Other Lemon references:
+
+	http://linuxgazette.net/106/chirico.html
+
+	http://brskari.wordpress.com/2012/04/29/writing-a-basic-shell-using-flex-and-lemon-part-1/
+
+
