@@ -1,0 +1,125 @@
+State 0:
+          in ::= * expr
+          expr ::= * expr OP_ADD expr
+          expr ::= * expr OP_SUB expr
+          expr ::= * expr OP_MUL expr
+          expr ::= * expr OP_DIV expr
+          expr ::= * OP_INTEGER
+
+                    OP_INTEGER shift  8
+                          expr shift  5
+                            in accept
+
+State 1:
+          expr ::= * expr OP_ADD expr
+          expr ::= * expr OP_SUB expr
+          expr ::= * expr OP_MUL expr
+          expr ::= * expr OP_DIV expr
+          expr ::= expr OP_DIV * expr
+          expr ::= * OP_INTEGER
+
+                    OP_INTEGER shift  8
+                          expr shift  9
+
+State 2:
+          expr ::= * expr OP_ADD expr
+          expr ::= * expr OP_SUB expr
+          expr ::= * expr OP_MUL expr
+          expr ::= expr OP_MUL * expr
+          expr ::= * expr OP_DIV expr
+          expr ::= * OP_INTEGER
+
+                    OP_INTEGER shift  8
+                          expr shift  10
+
+State 3:
+          expr ::= * expr OP_ADD expr
+          expr ::= * expr OP_SUB expr
+          expr ::= expr OP_SUB * expr
+          expr ::= * expr OP_MUL expr
+          expr ::= * expr OP_DIV expr
+          expr ::= * OP_INTEGER
+
+                    OP_INTEGER shift  8
+                          expr shift  6
+
+State 4:
+          expr ::= * expr OP_ADD expr
+          expr ::= expr OP_ADD * expr
+          expr ::= * expr OP_SUB expr
+          expr ::= * expr OP_MUL expr
+          expr ::= * expr OP_DIV expr
+          expr ::= * OP_INTEGER
+
+                    OP_INTEGER shift  8
+                          expr shift  7
+
+State 5:
+      (0) in ::= expr *
+          expr ::= expr * OP_ADD expr
+          expr ::= expr * OP_SUB expr
+          expr ::= expr * OP_MUL expr
+          expr ::= expr * OP_DIV expr
+
+                             $ reduce 0
+                        OP_ADD shift  4
+                        OP_SUB shift  3
+                        OP_MUL shift  2
+                        OP_DIV shift  1
+
+State 6:
+          expr ::= expr * OP_ADD expr
+          expr ::= expr * OP_SUB expr
+      (2) expr ::= expr OP_SUB expr *
+          expr ::= expr * OP_MUL expr
+          expr ::= expr * OP_DIV expr
+
+                        OP_MUL shift  2
+                        OP_DIV shift  1
+                     {default} reduce 2
+
+State 7:
+          expr ::= expr * OP_ADD expr
+      (1) expr ::= expr OP_ADD expr *
+          expr ::= expr * OP_SUB expr
+          expr ::= expr * OP_MUL expr
+          expr ::= expr * OP_DIV expr
+
+                        OP_MUL shift  2
+                        OP_DIV shift  1
+                     {default} reduce 1
+
+State 8:
+      (5) expr ::= OP_INTEGER *
+
+                     {default} reduce 5
+
+State 9:
+          expr ::= expr * OP_ADD expr
+          expr ::= expr * OP_SUB expr
+          expr ::= expr * OP_MUL expr
+          expr ::= expr * OP_DIV expr
+      (4) expr ::= expr OP_DIV expr *
+
+                     {default} reduce 4
+
+State 10:
+          expr ::= expr * OP_ADD expr
+          expr ::= expr * OP_SUB expr
+          expr ::= expr * OP_MUL expr
+      (3) expr ::= expr OP_MUL expr *
+          expr ::= expr * OP_DIV expr
+
+                     {default} reduce 3
+
+----------------------------------------------------
+Symbols:
+    0: $:
+    1: OP_INTEGER
+    2: OP_ADD
+    3: OP_SUB
+    4: OP_MUL
+    5: OP_DIV
+    6: error:
+    7: expr: OP_INTEGER
+    8: in: OP_INTEGER
