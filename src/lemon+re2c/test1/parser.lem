@@ -1,0 +1,73 @@
+
+%include
+{
+    #include <assert.h>
+    #include <stdio.h>
+    #include <stdlib.h>
+    #include <stdbool.h>
+    #include "parser.h"
+}
+
+%token_type {const char*}
+
+//%extra_argument {bool* valid}
+
+%parse_accept { printf("The parser has completed successfully.\n"); }
+
+%syntax_error { fprintf(stderr, "Error\n"); }
+
+%parse_failure { fprintf(stderr, "Parse failure\n"); }
+
+//program ::= in .
+//in ::= .
+//in ::= in commandList EOL .
+//{
+//    printf("in ::= in commandList EOL .\n");
+//    printf("> ");
+//}
+
+program ::= commandList .
+{
+    printf("> ");
+}
+commandList ::= command PIPE commandList .
+{
+    printf("commandList ::= command PIPE commandList .\n");
+}
+commandList ::= command .
+{
+    printf("commandList ::= command .\n");
+}
+
+command ::= FILENAME argumentList .
+{
+    printf("command ::= FILENAME argumentList .\n");
+}
+command ::= FILENAME .
+{
+    printf("command ::= FILENAME .\n");
+}
+command ::= COMMAND_SUBSTITUTION_START commandList COMMAND_SUBSTITUTION_END .
+{
+}
+
+argumentList ::= argument argumentList .
+{
+    printf("argumentList ::= argument argumentList .\n");
+}
+argumentList ::= argument .
+{
+    printf("argumentList ::= argument .\n");
+}
+argument ::= ARGUMENT .
+{
+    printf("argument ::= ARGUMENT .\n");
+}
+argument ::= FILENAME .
+{
+    printf("argument ::= FILENAME .\n");
+}
+argument ::= COMMAND_SUBSTITUTION_START commandList COMMAND_SUBSTITUTION_END .
+{
+}
+
