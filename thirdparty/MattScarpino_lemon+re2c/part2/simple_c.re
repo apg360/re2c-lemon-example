@@ -11,6 +11,7 @@
 void *ParseAlloc();
 void Parse();
 void ParseFree();
+void ParseTrace();
 
 typedef struct ParserCount {
   int numFunctionDefinitions;
@@ -199,7 +200,7 @@ int main() {
   parser = ParseAlloc(malloc);
   ParseTrace(traceFile, "parser >> ");
 
-  while(token = scan(&scanner, buff_end)) {
+  while(token == scan(&scanner, buff_end)) {
     
     // Send strings to the parser with NAME tokens
     if(token == NAME) {

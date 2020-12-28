@@ -1,8 +1,8 @@
 PROJ=simple_c
 
 CC=gcc
-LEXER=./re2c
-PARSER=./lemon
+LEXER=re2c
+PARSER=lemon
 GRAMMAR=$(PROJ)_grammar
 
 $(PROJ): $(PROJ).re $(GRAMMAR).c

@@ -1,0 +1,24 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/a0/MyProjects/GitHub/re2c-lemon-example/src/lemon/lemon.c
+stdio.h
+-
+stdarg.h
+-
+string.h
+-
+ctype.h
+-
+stdlib.h
+-
+assert.h
+-
+unistd.h
+-
+

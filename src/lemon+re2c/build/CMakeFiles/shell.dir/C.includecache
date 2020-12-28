@@ -1,0 +1,40 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/a0/MyProjects/GitHub/re2c-lemon-example/src/lemon+re2c/main.c
+assert.h
+-
+stdio.h
+-
+stdlib.h
+-
+stdbool.h
+-
+scanner.re2c.h
+/Users/a0/MyProjects/GitHub/re2c-lemon-example/src/lemon+re2c/scanner.re2c.h
+
+/Users/a0/MyProjects/GitHub/re2c-lemon-example/src/lemon+re2c/parser.c
+stdio.h
+-
+assert.h
+-
+stdio.h
+-
+stdlib.h
+-
+stdbool.h
+-
+stdio.h
+-
+
+/Users/a0/MyProjects/GitHub/re2c-lemon-example/src/lemon+re2c/parser.h
+
+/Users/a0/MyProjects/GitHub/re2c-lemon-example/src/lemon+re2c/scanner.re2c.h
+parser.h
+/Users/a0/MyProjects/GitHub/re2c-lemon-example/src/lemon+re2c/parser.h
+

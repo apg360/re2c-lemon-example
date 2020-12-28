@@ -1,0 +1,4 @@
+/Users/a0/MyProjects/GitHub/re2c-lemon-example/src/lemon/build/CMakeFiles/rebuild_cache.dir
+/Users/a0/MyProjects/GitHub/re2c-lemon-example/src/lemon/build/CMakeFiles/edit_cache.dir
+/Users/a0/MyProjects/GitHub/re2c-lemon-example/src/lemon/build/CMakeFiles/lemonlib.dir
+/Users/a0/MyProjects/GitHub/re2c-lemon-example/src/lemon/build/CMakeFiles/lemon.dir
