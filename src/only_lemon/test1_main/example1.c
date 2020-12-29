@@ -531,13 +531,12 @@ static void yy_reduce(
 { yygotominor.yy0 = yymsp[-2].minor.yy0 * yymsp[0].minor.yy0; }
         break;
       case 4: /* expr ::= expr DIVIDE expr */
-{ 
-
+{
          if(yymsp[0].minor.yy0 != 0){
            yygotominor.yy0 = yymsp[-2].minor.yy0 / yymsp[0].minor.yy0;
           }else{
            printf("divide by zero" );
-           }
+          }
 }
         break;
       case 5: /* expr ::= INTEGER */
