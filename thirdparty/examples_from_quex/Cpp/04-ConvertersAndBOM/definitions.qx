@@ -1,0 +1,49 @@
+start = PROGRAM;
+
+define {
+    // \G{Nd}       = characters with general category property 'decimal number'.
+    // [\X0-\XFFFF] = characters below 0-65536.
+    RANGE                       [\X0-\XFFFF]
+
+    \macro PRUNE(set X):        [: intersection({X}, {RANGE}) :]
+
+    \macro DIGITS(set X):       [: intersection({X}, {RANGE}, \G{Nd}) :]
+    \macro NUMBER(set X):       ({DIGITS {X}}+".")?{DIGITS {X}}+
+
+    \macro ID_START(set X):     [: intersection({X}, {RANGE}, \P{ID_Start})    :]
+    \macro ID_CONTINUE(set X):  [: intersection({X}, {RANGE}, \P{ID_Continue}) :]
+    \macro ID(set X):           {ID_START {X}}{ID_CONTINUE {X}}*
+
+    LATIN_NUMBER       {NUMBER [0-9]}  // Actually, ... those are classic arabic numbers.
+    THAI_NUMBER        {NUMBER \P{Script=Thai}}
+    ARABIC_NUMBER      {NUMBER [: intersection(\P{Block=Arabic}, [\X660-\X6D0]) :]}
+    DEVANGARI_NUMBER   {NUMBER \P{Script=Devanagari}}
+
+    GREEK_IDENTIFIER   {ID \P{Script=Greek}}
+    LATIN_IDENTIFIER   {ID \P{Script=Latin}}
+}
+
+token {
+    NUMBER;
+    OK;
+    COPYRIGHT;
+    DJAMEEL;
+    ALPHA;
+    INFINITY;
+    CLOSE_FRENCH_QUOTE;
+    OPEN_FRENCH_QUOTE;
+    L_BRACKET;
+    R_BRACKET;
+    ARROW;
+    DEGREE_CELSIUS;
+    PI;
+    ALLMOST_EQUAL;
+    LATIN_IDENTIFIER;
+    LATIN_NUMBER;
+    GREEK_IDENTIFIER;
+    ARABIC_NUMBER;
+    DEVANGARI_NUMBER;
+    THAI_NUMBER;
+    GREEK_IDENTIFIER;
+}
+

@@ -1,0 +1,42 @@
+        Copyright (C) 2003  Mike Chirico mmc mchirico@users.sourceforge.net 
+	Copyright and Porting: see COPYING
+
+	main.c
+		Input can be read 1 of 2 ways. From a file ./main <file> or
+		if no file is given from the two strings  'buff' and 'buff2'.
+		buff2 contains a divide by zero error and a parse error
+		to see how parse.y handles these situations.
+
+	lexer.l
+		Valid numbers, token NUM, are defined with the following
+		regular expression:
+		([0-9]+|([0-9]*\.[0-9]+)([eE][-+]?[0-9]+)?)
+
+		This includes the following:
+		5.2
+		5.2e2
+		5
+
+		This is taken care of in the lexer.l.   "yylval.dval" is used
+		to return a type double token to the parser. Note, since this
+		is type double, parser.y defines yylval as  "%union { double dval; int vblno }". 
+		Without this definition, yylval will return an integer.  This is used
+		for both NAME tokens and NUM tokens.
+
+		Variables: [a-z], one letter only, and note the second use of yylval as yylval.vblno 
+		via the union statement in parser.y
+		
+	parser.y
+		This is an example of explicitly specifying the precedence level.  Yes, it
+		can also be done with the grammer; but, that would have required an additional
+		rule.
+		"%left '-' '+'" 
+		"%left '*' '/'" 
+		
+		 
+	
+
+	Makefile
+		-lm option is needed for math.h
+		Kyle R. Burton <mortis@voicenet.com> made interesting use of 'test -e' and mv
+		

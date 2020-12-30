@@ -1,0 +1,59 @@
+define {
+    \macro  PLAIN_LEVENSHTEIN(dfa X): 
+            \EdLevenshtein{{X} 1 [ACGT] [ACGT] [ACGT] [ACGT]}
+
+    // A Levenshtein Automata has to be flexible enough to match similar
+    // patterns. However, no such fuzzy-matcher shall match a 'genuine' pattern.                 
+    ALL     AAACAATAAGAA|AAAGAACAATAA|AAATAAAAATAAGAACAA|AAATAACAAGAA      
+
+    \macro  ALL_BUT_THIS(dfa X):
+            \Diff{{ALL} {X}}
+
+    \macro  TOL(dfa X):
+            \Diff{{PLAIN_LEVENSHTEIN {X}} {ALL_BUT_THIS {X}}}
+}
+
+header {
+    static const ptrdiff_t ID_NONE = 0;
+    static const ptrdiff_t ID_AAACAATAAGAA = 1;
+    static const ptrdiff_t ID_AAAGAACAATAA = 2;
+    static const ptrdiff_t ID_AAATAAAAATAAGAACAA = 3;
+    static const ptrdiff_t ID_AAATAACAAGAA = 4;
+
+    typedef struct { const char* name; size_t count; } DnaCountDbEntry;
+
+    void    DnaCountDb_register(DnaLex* dna_lex, ptrdiff_t Id, size_t LexemeL);
+    void    DnaCountDb_begin_mismatch(DnaLex* dna_lex);
+}
+
+body {
+    long              mismatch_begin_position;
+    DnaCountDbEntry   count_db[5];
+}
+
+token {
+    SOMETHING;
+}
+
+constructor {
+    self.mismatch_begin_position = -1L;
+
+    self.count_db[ID_NONE].name = "<NONE>";
+    self.count_db[ID_NONE].count = 0;
+    self.count_db[ID_AAACAATAAGAA].name = "AAACAATAAGAA";
+    self.count_db[ID_AAACAATAAGAA].count = 0;
+    self.count_db[ID_AAAGAACAATAA].name = "AAAGAACAATAA";
+    self.count_db[ID_AAAGAACAATAA].count = 0;
+    self.count_db[ID_AAATAAAAATAAGAACAA].name = "AAATAAAAATAAGAACAA";
+    self.count_db[ID_AAATAAAAATAAGAACAA].count = 0;
+    self.count_db[ID_AAATAACAAGAA].name = "AAATAACAAGAA";
+    self.count_db[ID_AAATAACAAGAA].count = 0;
+}
+
+mode COUNTER : <skip: [ \t\n]>{
+    [ACTG]                   { DnaCountDb_begin_mismatch(&self); }
+    {TOL AAACAATAAGAA}       { DnaCountDb_register(&self, ID_AAACAATAAGAA, LexemeL); }
+    {TOL AAAGAACAATAA}       { DnaCountDb_register(&self, ID_AAAGAACAATAA, LexemeL); }
+    {TOL AAATAAAAATAAGAACAA} { DnaCountDb_register(&self, ID_AAATAAAAATAAGAACAA, LexemeL); }
+    {TOL AAATAACAAGAA}       { DnaCountDb_register(&self, ID_AAATAACAAGAA, LexemeL); }
+}

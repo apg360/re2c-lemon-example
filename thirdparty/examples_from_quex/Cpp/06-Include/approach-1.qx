@@ -1,0 +1,71 @@
+body {
+    size_t      letter_count;
+    size_t      include_depth;  /* Track the include depth for fun */
+}
+
+constructor {
+    self.letter_count  = 0;
+    self.include_depth = 0;
+}
+
+memento {
+    size_t   my_letter_count_store;
+}
+
+memento_pack {
+    memento->my_letter_count_store = self.letter_count;
+    self.letter_count = 0;
+    self.include_depth += 1;
+    /* Store the file handle, so that it can be closed later */
+}
+
+memento_unpack {
+    self.letter_count = memento->my_letter_count_store;
+    self.include_depth -= 1;
+    /* Close the file handle */
+}
+
+token {
+   INCLUDE;
+   IDENTIFIER;
+   BRACKET_OPEN;
+   BRACKET_CLOSE;
+   NUMBER;
+}
+
+start = MAIN;
+
+mode MAIN
+: <skip: [ \t\r\n] > 
+{
+    <<EOF>> {
+	    self.send_string(QUEX_TKN_TERMINATION, LexemeNull);
+    }
+
+    "(" => QUEX_TKN_BRACKET_OPEN(LexemeNull);
+    ")" => QUEX_TKN_BRACKET_CLOSE(LexemeNull);
+    //
+    "include"   { 
+        self.send_string(QUEX_TKN_INCLUDE, LexemeNull); 
+        self.letter_count += strlen((char*)Lexeme); 
+        self.enter_mode(FIND_INCLUDE_NAME);
+        FLUSH;
+    }
+    //
+    ([_a-zA-Z]|("/"|"."|"'"))+  { 
+        self.send_string(QUEX_TKN_IDENTIFIER, Lexeme); 
+        self.letter_count += strlen((char*)Lexeme); 
+    }
+}
+
+mode FIND_INCLUDE_NAME 
+: <skip: [ \t\r\n] > 
+{
+    ([_a-zA-Z]|("/"|"."|"'"))+  { 
+        self.send_string(QUEX_TKN_IDENTIFIER, Lexeme); 
+        self.letter_count += strlen((char*)Lexeme); 
+        self.enter_mode(MAIN);
+    }
+}
+
+

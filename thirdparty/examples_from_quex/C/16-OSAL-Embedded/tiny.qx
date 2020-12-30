@@ -1,0 +1,11 @@
+token { SPACE; NUMBER; COLOR; IDENTIFIER; }
+
+mode ONE_AND_ONLY
+{   
+    <<EOF>>                      => QUEX_TKN_TERMINATION;
+
+    [ \t\r\n]+                   => QUEX_TKN_SPACE(LexemeNull);
+    [0-9]+                       => QUEX_TKN_NUMBER(Lexeme);
+    red|green|blue|yellow|orange => QUEX_TKN_COLOR(Lexeme);
+    [_a-zA-Z]+                   => QUEX_TKN_IDENTIFIER(Lexeme);
+}   

@@ -1,0 +1,11 @@
+
+token {
+    WORD;
+}
+
+mode X :
+<skip: [ \t\n] >
+{
+    on_end_of_stream => TKN_TERMINATION(LexemeNull);
+    [ΆΈΉΊΌΎ-Ϋ]+   => QUEX_TKN_WORD(Lexeme);
+}

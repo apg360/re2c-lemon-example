@@ -1,0 +1,65 @@
+// -*- C++ -*- vim:set ft=c:
+// 
+// "simple2.qx": A lexical analyzer with more specific behavior on indentation
+//               as "simple.qx".
+//_____________________________________________________________________________
+
+start = PROGRAM;
+
+header {
+#include <Easy2/lib/extra/accumulator/Accumulator>
+}
+footer {
+#include <Easy2/lib/extra/accumulator/Accumulator.i>
+}
+
+mode END_OF_FILE : <inheritable: only>  
+{    
+    on_end_of_stream => QUEX_TKN_TERMINATION;
+    on_failure       => QUEX_TKN_FAILURE(Lexeme); 
+}
+
+mode PROGRAM : END_OF_FILE
+<indentation: 
+  [.]+                  => whitespace;
+  ([ ]+[\t])|([\t]+[ ]) => bad; // do not allow to mix tabs and spaces
+  "^"                   => suppressor;
+  "%%"                  => suspend;
+>
+<skip:       {P_WHITESPACE}>
+<skip_range: "%%" "\n">
+{
+    {P_CURLY_BRACKET_O} => QUEX_TKN_CURLY_BRACKET_O(Lexeme); 
+    {P_CURLY_BRACKET_C} => QUEX_TKN_CURLY_BRACKET_C(Lexeme); 
+    {P_BRACKET_O}       => QUEX_TKN_BRACKET_O(Lexeme);
+    {P_BRACKET_C}       => QUEX_TKN_BRACKET_C(Lexeme);
+    {P_EQUAL}           => QUEX_TKN_OP_EQUAL(Lexeme);
+    {P_KEY_AND}         => QUEX_TKN_AND(Lexeme);
+    {P_PRINT}           => QUEX_TKN_PRINT(Lexeme);
+    {P_KEY_OR}          => QUEX_TKN_OR(Lexeme);
+    {P_COLON}           => QUEX_TKN_COLON(Lexeme);
+    {P_KEY_IN}          => QUEX_TKN_IN(Lexeme);
+
+    {P_KEY_STRUCT}      => QUEX_TKN_STRUCT(Lexeme);
+    {P_KEY_IF}          => QUEX_TKN_IF(Lexeme); 
+    {P_KEY_ELSE}        => QUEX_TKN_ELSE(Lexeme);
+    {P_KEY_FOR}         => QUEX_TKN_FOR(Lexeme); 
+    {P_KEY_DEF}         => QUEX_TKN_FUNCTION_DEF(Lexeme);
+    {P_IDENTIFIER}      => QUEX_TKN_IDENTIFIER(Lexeme);
+    {P_NUMBER}          => QUEX_TKN_NUMBER(LexemeNull);
+
+    {P_STRING_DELIMITER} => GOTO(STRING_READER, QUEX_TKN_EVENT_MODE_CHANGE(LexemeNull));
+    "."+                 => QUEX_TKN_DOTS(Lexeme);
+}
+
+mode STRING_READER : END_OF_FILE
+{
+    on_entry                         { self.accumulator.clear(); }
+    on_exit                          { self.accumulator.flush(QUEX_TKN_STRING); }
+
+    {P_BACKSLASHED_STRING_DELIMITER} { self.accumulator.add(Lexeme, LexemeEnd); }
+    {P_BACKSLASHED_BACKSLASH}        { self.accumulator.add(Lexeme, LexemeEnd); }
+    {P_STRING_DELIMITER} => GOTO(PROGRAM, QUEX_TKN_EVENT_MODE_CHANGE(LexemeNull));
+    /* Default pattern must come last! */
+    .                                { self.accumulator.add(Lexeme, LexemeEnd); }
+}

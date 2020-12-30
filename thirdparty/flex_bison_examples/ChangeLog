@@ -1,0 +1,8 @@
+Wed Aug 11 09:58:35 EDT 2004
+	o Cleaned up Makfile rm error
+	o Added user help to main in flex_bison_example1
+
+Thu Aug  5 20:04:42 EDT 2004
+	o This is the good version. I had to clean up 
+	a lot of cvs stuff.
+	o example3 was added. It uses the extern examples

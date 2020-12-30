@@ -1,0 +1,21 @@
+define {
+    // Arabic Vowelization: 
+    //    U+064B Fathatan     U+064C Dammatan     U+064D Kasratan     
+    //    U+064E Fatha        U+064F Damma        U+0650 Kasra    
+    //    U+0651 Shadda       U+0652 Sukun        U+0653 Maddah Above 
+    //    U+0654 Hamza Above  U+0655 Hamza Below  U+0656 Subscript Alef 
+    ARABIC_DIACRITICS [\X064B\X064C\X064D\X064E\X064F\X0650\X0651\X0652\X0653\X0654\X0655\X0656]
+
+    \macro  ANY_POSSIBLE(dfa X): \EdDelete{{X} 100 {ARABIC_DIACRITICS}}
+}
+
+token { KNOWLEDGE; BEFORE; SPEECH; AND; ACTION; }
+
+
+mode TOLERANT_MATCHER : <skip: [ \t\n]> {
+    {ANY_POSSIBLE العِلمُ} => QUEX_TKN_KNOWLEDGE(Lexeme);
+    {ANY_POSSIBLE قَبلَ}   => QUEX_TKN_BEFORE(Lexeme);
+    {ANY_POSSIBLE القَولِ} => QUEX_TKN_SPEECH(Lexeme);
+    {ANY_POSSIBLE وَ}     => QUEX_TKN_AND(Lexeme);
+    {ANY_POSSIBLE العَملِ} => QUEX_TKN_ACTION(Lexeme);
+}

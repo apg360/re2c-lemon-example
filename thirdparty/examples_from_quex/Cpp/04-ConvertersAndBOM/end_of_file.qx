@@ -1,0 +1,11 @@
+mode END_OF_FILE :
+<inheritable: only>  
+{    
+    <<EOF>> {
+        /* NOTE: The local variable is deleted soon, but the sender copies the
+         *       content into a string object.                                  */
+	    self.send_string(QUEX_TKN_TERMINATION, LexemeNull);
+    }
+}
+
+

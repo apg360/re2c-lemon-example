@@ -1,0 +1,67 @@
+// -*- C++ -*- vim: set syntax=cpp:
+token {
+    HELLO;
+    WORLD;
+    NUMBER;
+    BYE;
+    DOT;
+    SOMETHING;
+    IDENTIFIER;
+    WHITESPACE;
+    MESSAGE;
+    KILOBYTE;
+    STARTS;
+    SINGLE;
+    BIT;
+}
+
+define {
+    RANGE                       [\X0-\XFFFF]
+
+    \macro ID_START(set X):     [: intersection({X}, {RANGE}, \P{ID_Start})    :]
+    \macro ID_CONTINUE(set X):  [: intersection({X}, {RANGE}, \P{ID_Continue}) :]
+    \macro ID(set X):           {ID_START {X}}{ID_CONTINUE {X}}*
+
+    CYRILLIC_ID {ID \P{Script=Cyrillic}} 
+    LATIN_ID    {ID \P{Script=Latin}} 
+    GREEK_ID    {ID \P{Script=Greek}} 
+
+    IDENTIFIER  (GREEK_ID|LATIN_ID|CYRILLIC_ID)
+}
+
+mode ONE_AND_ONLY :
+{
+    on_end_of_stream => QUEX_TKN_TERMINATION(LexemeNull);
+    on_failure       { self.send_string(QUEX_TKN_SOMETHING, Lexeme); 
+                       self.error_code_clear_this(E_Error_OnFailure); }
+    [ \t\n]          => QUEX_TKN_WHITESPACE(Lexeme);
+    
+    "Ένα μήνυμα"|"message"|"Сообщение" => QUEX_TKN_MESSAGE(Lexeme);
+    "kilobyte"|"килобайт"              => QUEX_TKN_KILOBYTE(Lexeme);
+    "ξεκινά με"|"starts"|"начинается"  => QUEX_TKN_STARTS(Lexeme);
+    "ένα μόνο"|"single"|"одного"       => QUEX_TKN_SINGLE(Lexeme);
+    "bit"|"бита"                       => QUEX_TKN_BIT(Lexeme);
+
+    "bye"                              => QUEX_TKN_BYE(Lexeme);
+    {IDENTIFIER}                       => QUEX_TKN_IDENTIFIER(Lexeme);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,17 @@
+struct example:
+  int    x
+  double y
+
+
+def function(Name)
+   if Name == "Josef":
+      print "hello Joe" 
+   else:
+      print "hello " Name
+
+   print "welcome to my program"
+
+   for letter in Name:
+      print letter "!"
+
+

@@ -1,0 +1,51 @@
+// -*- C++ -*- vim: set syntax=cpp:
+token {
+    ARTICLE;
+    STORAGE_UNIT;
+    PREPOSITION;
+    NUMBER;
+    VERB;
+    SUBJECT;
+    NUMBER;
+    BYE;
+    DOT;
+    FAIL;
+    IDENTIFIER;
+    ATTRIBUTE;
+}
+
+mode ONE_AND_ONLY :
+<skip: [ \n\t\r] >
+{
+    on_end_of_stream => QUEX_TKN_TERMINATION(LexemeNull);
+    on_failure       { self.send_string(&self, QUEX_TKN_FAIL, Lexeme); 
+                       self.error_code_clear_this(&self, E_Error_OnFailure); }
+
+    "A"|"a"|"The"|"the"       => QUEX_TKN_ARTICLE(Lexeme);
+    "byte"|"bit"              => QUEX_TKN_STORAGE_UNIT(Lexeme);
+    "with"|"of"               => QUEX_TKN_PREPOSITION(Lexeme);
+    "begin"s?                 => QUEX_TKN_VERB(Lexeme);
+    "bye"                     => QUEX_TKN_BYE(Lexeme);
+    "single"                  => QUEX_TKN_ATTRIBUTE(Lexeme);
+    [A-Za-z_][A-Za-z0-9_]+    => QUEX_TKN_SUBJECT(Lexeme);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

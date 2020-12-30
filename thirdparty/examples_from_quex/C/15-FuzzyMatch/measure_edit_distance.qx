@@ -1,0 +1,36 @@
+token { HANDKERCHIEF; CONSCIENCE; PLAYWRIGHT; }
+
+start = ED_0;
+
+define {
+    \macro  TOL(integer N, dfa X):
+            \EdLevenshtein{{X} {N} [a-z] [a-z] [a-z] [a-z]} 
+}
+
+mode ED_0 {
+    "handkerchief"         => QUEX_TKN_HANDKERCHIEF(number=0);
+    "conscience"           => QUEX_TKN_CONSCIENCE(number=0);
+    "playwright"           => QUEX_TKN_PLAYWRIGHT(number=0);
+    on_failure             { self.undo(&self); self.enter_mode(&self, ED_1); }
+}
+
+mode ED_1 {
+    {TOL 1 "handkerchief"} => QUEX_TKN_HANDKERCHIEF(number=1);
+    {TOL 1 "conscience"}   => QUEX_TKN_CONSCIENCE(number=1);
+    {TOL 1 "playwright"}   => QUEX_TKN_PLAYWRIGHT(number=1);
+    on_failure             { self.undo(&self); self.enter_mode(&self, ED_2); }
+}
+
+mode ED_2 {
+    {TOL 2 "handkerchief"} => QUEX_TKN_HANDKERCHIEF(number=2);
+    {TOL 2 "conscience"}   => QUEX_TKN_CONSCIENCE(number=2);
+    {TOL 2 "playwright"}   => QUEX_TKN_PLAYWRIGHT(number=2);
+    on_failure             { self.undo(&self); self.enter_mode(&self, ED_2); }
+}
+
+mode ED_3 {
+    {TOL 3 "handkerchief"} => QUEX_TKN_HANDKERCHIEF(number=3);
+    {TOL 3 "conscience"}   => QUEX_TKN_CONSCIENCE(number=3);
+    {TOL 3 "playwright"}   => QUEX_TKN_PLAYWRIGHT(number=3);
+}
+

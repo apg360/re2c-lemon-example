@@ -1,0 +1,14 @@
+body {
+    QUEX_NAME(Accumulator)          accumulator;
+}
+constructor {
+    if( ! QUEX_NAME(Accumulator_construct)(&me->accumulator, me) ) {
+        return false;
+    }
+}
+destructor {
+    QUEX_NAME(Accumulator_destruct)(&me->accumulator);
+}
+print {
+    QUEX_NAME(Accumulator_print_this)(&me->accumulator);
+}

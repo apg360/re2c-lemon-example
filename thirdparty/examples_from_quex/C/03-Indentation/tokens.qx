@@ -1,0 +1,32 @@
+
+token {
+    INDENT;
+    DEDENT \repeatable;
+    NODENT;
+    BRACKET_O;
+    BRACKET_C;
+    CURLY_BRACKET_O;
+    CURLY_BRACKET_C;
+    OP_EQUAL;
+    IF;
+    ELSE;
+    AND;
+    OR;
+    COLON;
+    FOR;
+    IN;
+    PRINT;
+    FUNCTION_DEF;
+    INDENTATION;
+    STRUCT;
+    SEMICOLON;
+    IDENTIFIER;
+    NUMBER;
+    STRING;
+    ERROR_MISALIGNED_INDENTATION;
+    EVENT_MODE_CHANGE;
+    DOTS;
+
+    FAILURE;
+}
+

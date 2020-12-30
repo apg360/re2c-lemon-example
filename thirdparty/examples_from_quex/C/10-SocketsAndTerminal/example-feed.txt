@@ -1,0 +1,1 @@
+A message of a kilo byte begins with a single bit.

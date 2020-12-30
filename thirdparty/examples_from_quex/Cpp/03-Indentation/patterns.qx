@@ -1,0 +1,28 @@
+
+define {
+    // Pattern definitions for example application
+    P_WHITESPACE          [ \t]
+    P_CURLY_BRACKET_O     "{"
+    P_CURLY_BRACKET_C     "}"
+    P_BRACKET_O           "("
+    P_BRACKET_C           ")"
+    P_EQUAL               "=="
+    P_KEY_STRUCT          "struct"
+    P_KEY_IF              "if"
+    P_KEY_IN              "in"
+    P_KEY_ELSE            "else:"
+    P_KEY_AND             "and"
+    P_KEY_OR              "or"
+    P_KEY_FOR             "for"
+    P_KEY_DEF             "def"
+    P_COLON               ":"
+    P_IDENTIFIER          [a-zA-Z]+
+    P_PRINT               "print"
+    P_NUMBER              [0-9]+
+    //
+    P_STRING_DELIMITER               "\""
+    P_BACKSLASHED_STRING_DELIMITER   "\\\""
+    P_BACKSLASHED_BACKSLASH          "\\\\"
+    P_BACKSLASHED_NEWLINE            "\\\n"
+}
+

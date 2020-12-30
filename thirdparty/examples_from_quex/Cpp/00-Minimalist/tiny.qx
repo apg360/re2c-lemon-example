@@ -1,0 +1,10 @@
+token { OP_EQUAL; NUMBER; IDENTIFIER; }
+
+mode ONE_AND_ONLY
+{   
+    <<EOF>>     => QUEX_TKN_TERMINATION;
+
+    [ \t\r\n]+  {}  
+    [0-9]+      => QUEX_TKN_NUMBER(Lexeme);
+    [_a-zA-Z]+  => QUEX_TKN_IDENTIFIER(Lexeme);
+}   

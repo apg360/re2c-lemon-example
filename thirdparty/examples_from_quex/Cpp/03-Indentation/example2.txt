@@ -1,0 +1,22 @@
+struct example:
+..int    x
+..%% This is a comment
+..double y
+.....
+...
+def function(Name)
+...if Name == "Josef":
+......print ^
+      "hello Joe" 
+%% This is a comment
+...else:
+......print "hello " ^
+      Name
+
+...print ^
+   "welcome to my program"
+
+...for letter in Name:
+......print letter "!"
+
+

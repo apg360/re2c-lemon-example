@@ -1,0 +1,100 @@
+// -*- C++ -*- vim: set syntax=cpp:
+start = PROGRAM;
+
+token {
+   FAILURE;
+   BACKLASHED_NEWLINE;
+}
+
+
+define {
+    // Pattern definitions for example application
+    P_WHITESPACE          [ \t\n]+
+    P_IDENTIFIER          [_a-zA-Z][_a-zA-Z0-9]*
+    P_NUMBER              [0-9]+
+    //
+    // String: 
+    //    Quote " followe by either \" or something different from " and then a final "
+    P_STRING              "\""(\\"\""|[^"])*"\""
+    P_QUOTED_CHAR_1       ("'\\''")|("'"[^'\n\t]?"'")
+    P_QUOTED_CHAR_2       "'\\"([0-7]+|[abcfnrtv\\])"'"
+    P_QUOTED_CHAR_3       "'\\x"[0-9a-fA-F]+"'"
+    P_QUOTED_CHAR         ({P_QUOTED_CHAR_1}|{P_QUOTED_CHAR_2}|{P_QUOTED_CHAR_3})
+    P_INCLUDE_FILE1       "<"[^>]+">"
+    P_INCLUDE_FILE2       "\""[^"]+"\""
+
+    \macro PPC(dfa KEY):  "#"[ \t]*{KEY}
+}
+
+mode PROGRAM :
+<skip:       [ \r\n\t] >
+<skip_range: "/*" "*/">
+<skip_range: "//" "\n">
+{
+    on_end_of_stream => QUEX_TKN_TERMINATION(LexemeNull);
+    on_failure       => QUEX_TKN_FAILURE(Lexeme);
+
+    brief(iL) PP_ {
+        {PPC "include"}[ \t]*{P_INCLUDE_FILE2} INCLUDE;
+        {PPC "include"}[ \t]*{P_INCLUDE_FILE1} INCLUDE;
+        {PPC "define"}                         DEFINE;
+        {PPC "if"}                             IF;
+        {PPC "elif"}                           ELIF;
+        {PPC "ifdef"}                          IFDEF;
+        {PPC "ifndef"}                         IFNDEF;
+        {PPC "endif"}                          ENDIF;
+        {PPC "else"}                           ELSE;
+        {PPC "pragma"}                         PRAGMA;
+        {PPC "error"}                          ERROR;
+        defined                                DEFINED;
+    }
+
+    "\\\n"             => QUEX_TKN_BACKLASHED_NEWLINE(Lexeme);
+
+    keyword_list(uiL) TYPE_ {
+        unsigned int long float double char
+    }
+
+    brief(iL) {
+        "#"   HASH;
+        "##"  DOUBLE_HASH;
+        "?"   QUESTION_MARK;
+
+        // Brackets
+        "("   BRACKET_O;        ")"   BRACKET_C;
+        "["   CORNER_BRACKET_O; "]"   CORNER_BRACKET_C;
+        "{"   CURLY_BRACKET_O;  "}"   CURLY_BRACKET_C;
+
+        // Arithmetic
+        "+"   PLUS;        "-"   MINUS;        "*"   MULT;        "/"   DIV;
+
+        // Assignment
+        "="   OP_ASSIGNMENT;
+        "+="  ASSIGN_PLUS; "-="  ASSIGN_MINUS; "*="  ASSIGN_MULT; "/="  ASSIGN_DIV;
+
+        "%"   MODULO;
+        
+        // Conditional operators
+        "=="  EQ; "!="  NOT_EQ; ">" GREATER; ">=" GR_EQ; "<" LESS; "<=" LE_EQ;
+
+        // Bit operations
+        "~"   TILDE; "|" LOGICAL_OR; "^" EXCLUSIVE_OR; "&"   AMPERSANT; 
+
+        // Logical operators 
+        "||"  OR; "&&"  AND; "!" NOT; 
+
+        ":"   COLON; ";" SEMICOLON; "." DOT; "," COMMA;
+    }
+
+    keyword_list(iuL) { 
+        struct const if else switch for do while break continue
+    }
+
+    brief(iL) {
+        {P_IDENTIFIER}  IDENTIFIER;
+        {P_NUMBER}      NUMBER;
+        {P_STRING}      STRING;
+        {P_QUOTED_CHAR} QUOTED_CHAR;
+    }
+}
+

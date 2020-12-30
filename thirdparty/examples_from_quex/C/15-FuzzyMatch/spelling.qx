@@ -1,0 +1,30 @@
+define {
+    \macro TOL(integer N, dfa X):
+           \EdPseudoDamerau{{X} {N} [a-z] [a-z] [a-z] [a-z] [a-z]}
+}
+
+token {
+   HANDKERCHIEF; CONSCIENCE; PLAYWRIGHT; EMBARRASS; PHARAOH; 
+   LIAISON; SUPERSEDE; MAINTENANCE; PRONUNCIATION;
+}
+
+header {
+    void notify(const char* Name, const char* Lexeme);
+}
+
+start = CORRECT;
+
+mode CORRECT : <skip: [ \t\n]> {
+    "handkerchief" => QUEX_TKN_HANDKERCHIEF();
+    "conscience"   => QUEX_TKN_CONSCIENCE();
+    "playwright"   => QUEX_TKN_PLAYWRIGHT();
+
+    on_failure     { self.undo(&self); self.push_mode(&self, TOLERANT); self.error_code_clear_this(&self, E_Error_OnFailure); }
+}
+
+mode TOLERANT {
+    {TOL 2 handkerchief}  { notify("handkerchief", (const char*)Lexeme); self.pop_mode(&self); }
+    {TOL 2 conscience}    { notify("conscience", (const char*)Lexeme); self.pop_mode(&self); }
+    {TOL 2 playwright}    { notify("playwright", (const char*)Lexeme); self.pop_mode(&self); }
+    [a-z]+                { printf("    no match for '%s'\n", (const char*)Lexeme); self.pop_mode(&self); }
+}
