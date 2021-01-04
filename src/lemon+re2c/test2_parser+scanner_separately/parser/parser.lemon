@@ -1,0 +1,31 @@
+// https://sqlite.org/src/doc/trunk/doc/lemon.html
+// http://souptonuts.sourceforge.net/readme_lemon_tutorial.html
+
+%include
+{
+    #include "../include/common.h"
+}
+
+%parse_accept  { printf("The parser has completed successfully.\n"); }
+%syntax_error  { fprintf(stderr, "Syntax Error.\n"); }
+%parse_failure { fprintf(stderr, "Parse failure.\n"); }
+
+%token_type {int}
+
+%left PLUS MINUS.
+%left DIVIDE TIMES.
+
+program ::= expr(A).   { printf("Result= %u \n",A); }
+
+expr(A) ::= expr(B) MINUS  expr(C).   { A = B - C; }
+expr(A) ::= expr(B) PLUS   expr(C).   { A = B + C; }
+expr(A) ::= expr(B) TIMES  expr(C).   { A = B * C; }
+expr(A) ::= expr(B) DIVIDE expr(C).   {
+         if(C != 0){
+           A = B / C;
+          }else{
+           printf("divide by zero" );
+          }
+}/* end of DIVIDE */
+
+expr(A) ::= INTEGER(B). { A = B; }

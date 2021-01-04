@@ -1,0 +1,88 @@
+// re2c $INPUT -o $OUTPUT -i
+// french : https://fr.qaz.wiki/wiki/Re2c
+// english : https://wikivisually.com/wiki/re2c
+// https://www.systutorials.com/docs/linux/man/1-re2c
+// https://re2c.org/manual/manual_c.html
+//
+// With Lemon it is the lexer/tokenizer that calls/initiate the parser
+// re2c calls lemon
+//----------------------------------------------------------------------
+
+// the contents of 'definitions.re2c' are copy-pasted verbatim in place of the directive
+/*!include:re2c "definitions.re2c"*/
+
+//Parser START----------------------------------------------------------
+//header for functions in parser.c  Make sure parser.c is added at compilation time.
+void* ParseAlloc(void* (*allocProc)(size_t));
+void ParseFree(void* parser, void(*freeProc)(void*));
+void Parse(void* parser, int token, const int);
+void ParseTrace(FILE *TraceFILE, char *str);
+
+
+#include "../parser/parser.h"
+
+void* theParser;
+
+void PARSER_INIT(){
+  theParser = ParseAlloc(malloc);
+  if (DebugMode == true)ParseTrace(stderr, "[Parser] >> ");
+}
+void PARSER(int token, const int number){
+  Parse(theParser, token, number);
+}
+void PARSER_FREE(){
+  ParseFree(theParser, free);
+}
+
+//Parser END-----------------------------------------------------------
+
+
+int SCANNER(const char *str)
+{
+    unsigned int lensize = strlen(str);
+    const char *YYCURSOR = str;                  // current_char : the next input character to be read.                     A pointer-like l-value that stores the current input position
+    const char *YYLIMIT = str + lensize;         // last_char    : the position after the last available input character.   A pointer-like r-value that stores the end of input position
+                                                                // Lexer compares YYCURSOR to YYLIMIT in order to determine if there is enough input characters left
+    const char *YYMARKER;                        // marker_char  : the position of the most recent match
+    const char *lexeme;                          // the next input to be scanned.
+    
+    if (DebugMode == true) printf("Scanning : '%s'\n",str);
+    if (DebugMode == true) printf("Number of characters %u\n",lensize);
+    
+loop:
+    lexeme = YYCURSOR;
+    printf("> lexeme : '%s'\n",lexeme);
+    /*!re2c                                      // start of re2c block
+    re2c:eof = 0;                                // zero byte \x00
+                                                 // Specifies the sentinel symbol used with EOF rule $ to check for the end of input in the generated lexer. 
+                                                 // The default value is -1 (EOF rule is not used).
+                                                 // Other possible values include all valid code units. Only decimal numbers are recognized.
+    
+    re2c:define:YYCTYPE = char;                  // The type of the input characters (code units). For ASCII, EBCDIC and UTF-8 encodings it should be 1-byte unsigned integer.
+    re2c:yyfill:enable = 0;                      // configuration
+    
+    *               { println("Scan Failure");
+                      return FAIL;}              // 
+    $               { printf("The scanner has completed successfully.\n");
+                      return OK;}                // whenever EOF stop scanning
+    wsp             { println("token_wsp"); goto loop;}                // ignore any whitespace that shows up at the end
+    word            { println("token_word"); goto loop;}
+
+    "+" { println("TOKEN_PLUS");     goto loop; }
+    "-" { println("TOKEN_MINUS");    goto loop; }
+    "*" { println("TOKEN_TIMES");    goto loop; }
+    "/" { println("TOKEN_DIVIDE");   goto loop; }
+    "(" { println("token_parenthesis"); goto loop; }
+    ")" { println("token_parenthesis"); goto loop; }
+    number
+    {
+        println("TOKEN_INTEGER");
+        //token->num = atof(str);
+        //printf("> %f \n",atof(str));
+        goto loop;
+    }
+    
+    [ ]+            { println("token_any"); goto loop; }                     // everything else ignored
+    */
+}
+

@@ -1,0 +1,47 @@
+//definitions.re2c START -----------------------
+#include "../include/common.h"
+
+typedef enum { FAIL, OK } Result; //typedef enum { false, true } bool;
+
+bool DebugMode = false;
+
+struct scanner_state
+{
+    const char *cursor; //start  - current_char
+    const char *limit;  //end    - last_char
+    const char *marker; //marker - the position of the most recent match
+};
+
+// https://data-flair.training/blogs/union-in-c-language/
+// union means only one member can be accessed at a time in a union.
+// Only one data member of a union can be accessed at one time.
+// Not a struct with many members but a struct with one single member, that can be one of those.
+// A union prohibits the initialization of all its data members. The first member of the union can only be initialized through an object.
+// ll the data members of a union share the same memory location. Hence, changes made in one data member inevitably affects the other.
+union scanner_token
+{
+    int num;
+};
+
+void println(const char *str) {
+  printf("%s\n",str);
+}
+
+/*
+R* : zero or more occurrences of the regular expression R.
+R+ : one or more repetition of the regular expression R.
+R? : zero or one R. That means, there maybe an R or not.
+*/
+/*!re2c
+    wsp    = [ \t\r\n\v\f]+;              // whitespace
+    letter = [A-Za-z];                    // [A-Za-z]  = will scan one letter at a time, letter after letter
+    word = [A-Za-z]+;                     // [A-Za-z]+ = word after word
+    number = [0-9]+;                      // [0-9]+|[0-9]*\.[0-9]+  ///  ([0-9]+[.][0-9]*)|([.][0-9]+)|([0-9]+) ///  [-+]?([0-9]+([.][0-9]*)?|[.][0-9]+)([Ee][-+]?[0-9]+)?;
+    digits  = [1-9][0-9]*;                // [0-9][0-9.,]+
+    alphanum = [A-Za-z0-9];               // alphanumeric
+    IDENTIFIER = [_a-zA-Z][_a-zA-Z0-9]*;  // An identifier can never start with a number
+    hexadecimal_digits = [A-Fa-f0-9]+;     //
+    punctuation = [!"#$%&’()*+,-./:;?@[\\\]_‘{|}~];
+    
+*/
+//definitions.re2c END -----------------------
