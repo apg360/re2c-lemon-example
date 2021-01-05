@@ -1,7 +1,7 @@
 //definitions.re2c START -----------------------
 #include "../include/common.h"
 
-typedef enum { FAIL, OK } Result; //typedef enum { false, true } bool;
+typedef enum { FAIL, OK } Result; //typedef enum { false, true } bool; // 0, 1
 
 bool DebugMode = false;
 
@@ -42,6 +42,11 @@ R? : zero or one R. That means, there maybe an R or not.
     IDENTIFIER = [_a-zA-Z][_a-zA-Z0-9]*;  // An identifier can never start with a number
     hexadecimal_digits = [A-Fa-f0-9]+;     //
     punctuation = [!"#$%&’()*+,-./:;?@[\\\]_‘{|}~];
+    
+    bin = '0b' [01]+;
+    oct = "0" [0-7]*;
+    dec = [1-9][0-9]*;
+    hex = '0x' [0-9a-fA-F]+;
     
 */
 //definitions.re2c END -----------------------

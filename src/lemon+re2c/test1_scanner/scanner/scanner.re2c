@@ -11,7 +11,7 @@
 // the contents of 'definitions.re2c' are copy-pasted verbatim in place of the directive
 /*!include:re2c "definitions.re2c"*/
 
-int SCANNER(const char *str)
+static const char *SCANNER(const char *str)
 {
     unsigned int lensize = strlen(str);
     const char *YYCURSOR = str;                  // current_char : the next input character to be read.                     A pointer-like l-value that stores the current input position
@@ -25,17 +25,37 @@ int SCANNER(const char *str)
     
 loop:
     lexeme = YYCURSOR;
-    printf("> lexeme : '%s'\n",lexeme);
-    /*!re2c                                      // start of re2c block
-    re2c:eof = -1;                                // Carriage return = \r
-                                                 // Specifies the sentinel symbol used with EOF rule $ to check for the end of input in the generated lexer. 
-                                                 // The default value is -1 (EOF rule is not used).
-                                                 // Other possible values include all valid code units. Only decimal numbers are recognized.
+    // if lexeme != "" then
+    // The expression lexeme == "" checks if the two pointers are the same (point to the same memory location).
+    // The expression strcmp( lexeme, "") == 0 will check if the contents of the two strings are the same.
+    /*
+        'a' means the value of the character a.
+        "a" means the address of the memory location where the string "a" is stored 
+        (which will generally be in the data section of your program's memory space).
+        At that memory location, you will have two bytes -- the character 'a' and the null terminator for the string.
+    */
+    if (strcmp( lexeme, "") != 0) printf("> lexeme : '%s'\n",lexeme);
     
+    /*!re2c                                      // start of re2c block
     re2c:define:YYCTYPE = char;                  // The type of the input characters (code units). For ASCII, EBCDIC and UTF-8 encodings it should be 1-byte unsigned integer.
     re2c:yyfill:enable = 0;                      // configuration
+    end = "\x00";                                // LF(Line Feed)=10 CR(Carriage Return)=13  https://www.eso.org/~ndelmott/ascii.html
     
-    wsp { println("token_wsp"); goto loop;}                // ignore any whitespace that shows up at the end
+    // Default rule
+    *       { printf ("%s: %s\n", "err", lexeme); return "err"; }
+    
+    //When this are found they are one time scan, the scan stop after finding this.
+    bin end { printf ("%s: %s\n", "bin", lexeme); return "bin"; }
+    oct end { printf ("%s: %s\n", "oct", lexeme); return "oct"; }
+    dec end { printf ("%s: %s\n", "dec", lexeme); return "dec"; }
+    hex end { printf ("%s: %s\n", "hex", lexeme); return "hex"; }
+    dec wsp dec end { printf ("%s: %s\n", "dec wsp dec", lexeme); return "dec wsp dec"; }
+    
+    //Scan this and continue scanning
+    IDENTIFIER end{ printf ("%s: %s\n", "identifier", str); return "identifier"; }
+    word { println("token_word"); goto loop;}
+    number { println("TOKEN_INTEGER"); goto loop;}
+    wsp { println("token_wsp"); goto loop;}
     "+" { println("TOKEN_PLUS");     goto loop; }
     "-" { println("TOKEN_MINUS");    goto loop; }
     "*" { println("TOKEN_TIMES");    goto loop; }
@@ -44,18 +64,6 @@ loop:
     ")" { println("token_parenthesis"); goto loop; }
     "_" { println("token_underscore"); goto loop; }
     
-    IDENTIFIER            { println("token_identifier"); goto loop;}
-    number
-    {
-        println("TOKEN_INTEGER");
-        //token->num = atof(str);
-        //printf("> %f \n",atof(str));$
-        goto loop;
-    }
-    
-    [ ]+            { println("token_any"); goto loop; }                     // everything else ignored
-    *               { printf("The scanner has completed successfully.\n");
-                      return OK;}              //
     */
 }
 

@@ -5,13 +5,17 @@
 int main() {
 
     SCANNER("_Zer0");
-    SCANNER("");
+    SCANNER("_ Zer 0");
     SCANNER("one");
     SCANNER("one two");
     SCANNER("one two three");
     SCANNER("one two three four");
+    SCANNER("");
     SCANNER("4+4");
     SCANNER("(4+4)");
+    SCANNER("one \
+    two three \
+    four");
 
     char *commandLine;
     while (  (commandLine = dynamic_fgets())  ){
