@@ -17,22 +17,22 @@ enum Token_value {
 };
 
 struct scanner_state {
-  const char *cursor, *marker, *begin, *end, *column_position;
+  const char *cursor, *marker, *begin, *end, *lexeme;
   enum Token_value token;
   char tokenvalue[255]; // no more than 255 characters
-  int line_number,cpos;
+  int line_number,column_position;
 };
 
 struct scanner_state SCANNER_STATE;
 
 void SCANNER(char *buff, char *buff_end) {
 
-    SCANNER_STATE.token = -1;
     SCANNER_STATE.begin = buff;
     SCANNER_STATE.cursor = buff;
-    SCANNER_STATE.column_position = buff;
+    SCANNER_STATE.lexeme = buff;
     SCANNER_STATE.line_number = 1;
-
+    SCANNER_STATE.column_position = 1;
+    
     /*!re2c
       re2c:define:YYCURSOR = SCANNER_STATE.cursor;
       re2c:define:YYMARKER = SCANNER_STATE.marker;
@@ -75,7 +75,7 @@ loop:
       { SCANNER_STATE.token=(INT_LITERAL); goto end;}
 
       
-      end { SCANNER_STATE.column_position = SCANNER_STATE.cursor; SCANNER_STATE.line_number++; goto loop; }
+      end { SCANNER_STATE.lexeme = SCANNER_STATE.cursor; SCANNER_STATE.line_number++; goto loop; }
       // Anything else
       any { printf("unexpected character: %c\n", *SCANNER_STATE.cursor); goto loop; }
     */
@@ -115,10 +115,8 @@ end:
     
     // end inifinite loop when END_TOKEN
     if(END_TOKEN == SCANNER_STATE.token) break;
-    SCANNER_STATE.cpos=(int)(SCANNER_STATE.begin - SCANNER_STATE.column_position);
-    //printf("\n SCANNER_STATE.column_position %s \n", SCANNER_STATE.column_position);
-    printf(" found on Line %d at Position %d\n", SCANNER_STATE.line_number, SCANNER_STATE.cpos);
-  
+    SCANNER_STATE.column_position=(int)(SCANNER_STATE.begin - SCANNER_STATE.lexeme);
+    printf(" found on Line %d at Position %d\n", SCANNER_STATE.line_number, SCANNER_STATE.column_position);
   }//for loop
 }
 
