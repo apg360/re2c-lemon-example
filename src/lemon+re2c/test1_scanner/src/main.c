@@ -13,9 +13,10 @@ int main() {
     SCANNER("");
     SCANNER("4+4");
     SCANNER("(4+4)");
+    /*
     SCANNER("one \
     two three \
-    four");
+    four");*/
 
     char *commandLine;
     while (  (commandLine = dynamic_fgets())  ){

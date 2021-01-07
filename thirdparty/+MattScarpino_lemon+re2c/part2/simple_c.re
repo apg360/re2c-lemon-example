@@ -20,7 +20,7 @@ typedef struct ParserCount {
 
 typedef struct Scanner {
   char *top, *cur, *ptr, *pos;
-  int line;  
+  int line;
 } Scanner;
 
 int scan(Scanner* s, char *buff_end) {

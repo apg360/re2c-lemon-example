@@ -69,7 +69,7 @@ build cmake_object_order_depends_target_mycalc: phony || CMakeFiles/mycalc.dir
 build CMakeFiles/mycalc.dir/src/main.c.o: C_COMPILER__mycalc_debug ../src/main.c || cmake_object_order_depends_target_mycalc
   DEP_FILE = CMakeFiles/mycalc.dir/src/main.c.o.d
   FLAGS = -g -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk
-  INCLUDES = -I../include -I../scanner
+  INCLUDES = -I../include -I.
   OBJECT_DIR = CMakeFiles/mycalc.dir
   OBJECT_FILE_DIR = CMakeFiles/mycalc.dir/src
   TARGET_COMPILE_PDB = CMakeFiles/mycalc.dir/

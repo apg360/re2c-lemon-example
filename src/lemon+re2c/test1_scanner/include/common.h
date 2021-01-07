@@ -60,3 +60,120 @@ static char* dynamic_fgets (void) //read_stdin
 
   return buffer;
 }
+
+// Below function extracts characters present in src
+// between m and n (excluding n)
+// returns the substring of the source string starting at the position m and ending at position n-1
+/*
+    char src[] = "substr function Implementation";
+    int m = 7;
+    int n = 12;
+    char* dest = substr(src, m, n);
+    printf("%s\n", dest);
+*/
+/*
+char* substr(const char *src, int m, int n)
+{
+    // get length of the destination string
+    int len = n - m;
+ 
+    // allocate (len + 1) chars for destination (+1 for extra null character)
+    char *dest = (char*)malloc(sizeof(char) * (len + 1));
+ 
+    // extracts characters between m'th and n'th index from source string
+    // and copy them into the destination string
+    for (int i = m; i < n && (*(src + i) != '\0'); i++)
+    {
+        *dest = *(src + i);
+        dest++;
+    }
+ 
+    // null-terminate the destination string
+    *dest = '\0';
+ 
+    // return the destination string
+    return dest - len;
+}*/
+// another implementation that uses C library’s strncpy() function
+char* substr(const char *src, int m, int n)
+{
+    // get length of the destination string
+    int len = n - m;
+ 
+    // allocate (len + 1) chars for destination (+1 for extra null character)
+    char *dest = (char*)malloc(sizeof(char) * (len + 1));
+ 
+    // start with m'th char and copy 'len' chars into destination
+    strncpy(dest, (src + m), len);
+ 
+    // return the destination string
+    return dest;
+}
+
+// strtok() function to split a string (and specify the delimiter to use).
+// Note that strtok() will modify the string passed into it.
+// If the original string is required elsewhere make a copy of it and pass the copy to strtok().
+char** str_split(char* a_str, const char a_delim)
+{
+/*
+    char months[] = "JAN,FEB,MAR,APR,MAY,JUN,JUL,AUG,SEP,OCT,NOV,DEC";
+    char** tokens;
+    printf("months=[%s]\n\n", months);
+    tokens = str_split(months, ',');
+    if (tokens)
+    {
+        int i;
+        for (i = 0; *(tokens + i); i++)
+        {
+            printf("month=[%s]\n", *(tokens + i));
+            free(*(tokens + i));
+        }
+        printf("\n");
+        free(tokens);
+    }
+*/
+    char** result    = 0;
+    size_t count     = 0;
+    char* tmp        = a_str;
+    char* last_comma = 0;
+    char delim[2];
+    delim[0] = a_delim;
+    delim[1] = 0;
+
+    /* Count how many elements will be extracted. */
+    while (*tmp)
+    {
+        if (a_delim == *tmp)
+        {
+            count++;
+            last_comma = tmp;
+        }
+        tmp++;
+    }
+
+    /* Add space for trailing token. */
+    count += last_comma < (a_str + strlen(a_str) - 1);
+
+    /* Add space for terminating null string so caller
+       knows where the list of returned strings ends. */
+    count++;
+
+    result = malloc(sizeof(char*) * count);
+
+    if (result)
+    {
+        size_t idx  = 0;
+        char* token = strtok(a_str, delim);
+
+        while (token)
+        {
+            assert(idx < count);
+            *(result + idx++) = strdup(token);
+            token = strtok(0, delim);
+        }
+        assert(idx == count - 1);
+        *(result + idx) = 0;
+    }
+
+    return result;
+}
