@@ -8,87 +8,130 @@
 // re2c calls lemon
 //----------------------------------------------------------------------
 
-struct scanner_state* s;
+struct scanner_state SCANNER_STATE; // make it a pointer ?
 
 // the contents of 'definitions.re2c' are copy-pasted verbatim in place of the directive
 /*!include:re2c "definitions.re2c"*/
 
-static const char *SCANNER(const char *str)
+void set_token_value(const char *token_type)
 {
-    s->cursor = str;              // current_char : the next input character to be read.                     A pointer-like l-value that stores the current input position
-    s->begin = str;
-    s->end = str + strlen(str);   // last_char    : the position after the last available input character.   A pointer-like r-value that stores the end of input position
-                                  //                Lexer compares YYCURSOR to YYLIMIT in order to determine if there is enough input characters left
-    
-    
-    const char *lexeme;                          // the next input to be scanned.
-    char *the_match;                             // the current matched value
-    union scanner_token *token;
-    
-    if (DebugMode == true) printf("Scanning : '%s'\n",str);
-    if (DebugMode == true) printf("Number of characters %lu\n", strlen(str));
-    
-    //infinite for loop
-    for (;;) {
-loop:
-    lexeme = s->cursor;
-    
-    // if lexeme != "" then
-    // The expression lexeme == "" checks if the two pointers are the same (point to the same memory location).
-    // The expression strcmp( lexeme, "") == 0 will check if the contents of the two strings are the same.
-    /*
-        'a' means the value of the character a.
-        "a" means the address of the memory location where the string "a" is stored 
-        (which will generally be in the data section of your program's memory space).
-        At that memory location, you will have two bytes -- the character 'a' and the null terminator for the string.
-    */
-    if (strcmp( str, lexeme) == 0) printf("\n>strcmp value: %u\n", strcmp(str, lexeme));
-    if (strcmp( lexeme, "") != 0) printf("> lexeme : '%s'\n",lexeme);
-        /*!re2c                                      // start of re2c block
-        re2c:define:YYCURSOR = s->cursor;
-        re2c:define:YYMARKER = s->marker;
-        re2c:define:YYCTYPE = char;                  // The type of the input characters (code units). For ASCII, EBCDIC and UTF-8 encodings it should be 1-byte unsigned integer.
-        re2c:yyfill:enable = 0;                      // configuration
-        
-        // Default rule
-        *       { return "default rule"; }
-        
-        //When this are found they are one time scan, the scan stop after finding this.
-        bin end { printf ("%s: %s\n", "bin", lexeme); return "bin"; }
-        oct end { printf ("%s: %s\n", "oct", lexeme); return "oct"; }
-        dec end { printf ("%s: %s\n", "dec", lexeme); return "dec"; }
-        hex end { printf ("%s: %s\n", "hex", lexeme); return "hex"; }
-        dec wsp dec end { printf ("%s: %s\n", "dec wsp dec", lexeme); return "dec wsp dec"; }
-        
-        //Scan this and continue scanning
-        wsp { println("token_wsp"); continue;}
-        "_" { println("token_underscore"); continue;}
-        "+" { println("TOKEN_PLUS");     continue;}
-        "-" { println("TOKEN_MINUS");    continue;}
-        "*" { println("TOKEN_TIMES");    continue;}
-        "/" { println("TOKEN_DIVIDE");   continue;}
-        "(" { println("token_parenthesis"); continue;}
-        ")" { println("token_parenthesis"); continue;}
-        "{" { println("token_lbrace"); continue;}
-        "}" { println("token_rbrace"); continue;}
-        "." { println("token_dot"); continue;}
-        "," { println("token_comma"); continue;}
-        "="  { println("token_equal"); continue;}
-        "==" { println("token_CEQ"); continue;}
-        "!=" { println("token_CNE"); continue;}
-        "<"  { println("token_CLT"); continue;}
-        "<=" { println("token_CLE"); continue;}
-        ">"  { println("token_CGT"); continue;}
-        ">=" { println("token_CGE"); continue;}
-        IDENTIFIER {
-                    println("token_IDENTIFIER, value=");
-                    //fprintf(stderr, "%.*s", (int)(str - lexeme), lexeme);
-                    printf("IDENTIFIER (\'%.*s\')", (int)(lexeme - str), str);
-                    continue;
-                   }
-        word { println("token_word"); continue;}
-        number { println("TOKEN_INTEGER"); printf("> %f \n",atof(lexeme)); token->num = atof(lexeme); continue;}
-        */
-    }
+  sprintf( SCANNER_STATE.tokenvalue, "%s (\'%.*s\')",token_type, (int)(SCANNER_STATE.cursor - SCANNER_STATE.begin), SCANNER_STATE.begin );
 }
 
+void SCANNER(const char *the_text)
+{
+    SCANNER_STATE.begin = the_text;
+    SCANNER_STATE.end = the_text + strlen(the_text);
+    SCANNER_STATE.cursor = the_text;
+    SCANNER_STATE.lexeme = the_text;
+    SCANNER_STATE.line_number = 1;
+    SCANNER_STATE.column_position = 1;
+    
+    if (scanner_DebugMode == true) printf("\n ** START Scanning : '%s', ",the_text);
+    if (scanner_DebugMode == true) printf("Number of characters %lu\n\n", strlen(the_text));
+    bool bFoundSomething_tokenNOThandled; // if token found but not handled in switch case
+    
+    /*!re2c 
+      //configuration
+      re2c:define:YYCURSOR = SCANNER_STATE.cursor;
+      re2c:define:YYMARKER = SCANNER_STATE.marker;
+      re2c:define:YYCTYPE = char;                    // The type of the input characters (code units). For ASCII, EBCDIC and UTF-8 encodings it should be 1-byte unsigned integer.
+      re2c:yyfill:enable = 0;
+    */
+    
+    // Infinite loop
+    for (;;) {
+loop:
+    if (SCANNER_STATE.cursor >= SCANNER_STATE.end) {
+        SCANNER_STATE.tokentype = END_TOKEN; goto end;
+    }
+    SCANNER_STATE.begin = SCANNER_STATE.cursor;
+    bFoundSomething_tokenNOThandled = true; // by default assume something were found
+    
+    /*!re2c
+      "/*"            { goto comment; }
+      "="             { SCANNER_STATE.tokentype = ASSIGN; goto end;}
+      "=="            { SCANNER_STATE.tokentype = CEQ; goto end;}
+      '('             { SCANNER_STATE.tokentype = LPAREN; goto end;}
+      ")"             { SCANNER_STATE.tokentype = RPAREN; goto end;}
+      "{"             { SCANNER_STATE.tokentype = LBRACE; goto end;}
+      "}"             { SCANNER_STATE.tokentype = RBRACE; goto end;}
+      "."             { SCANNER_STATE.tokentype = DOT; goto end;}
+      ","             { SCANNER_STATE.tokentype = COMMA; goto end;}
+      ";"             { SCANNER_STATE.tokentype = SEMICOLON; goto end;}
+      "u8|u16|u32|u64|u128|f16|f32|f64|i8|i16|i32|i64|i128"           { SCANNER_STATE.tokentype = INT_TYPE; goto end;}
+      "return"        { SCANNER_STATE.tokentype = RETURN; goto end;}
+      ["]([^"]+)["]   { SCANNER_STATE.tokentype = STRING_LITERAL; goto end;}
+      
+      let (let|dig)*  { SCANNER_STATE.tokentype = NAME; goto end;}
+      identifier|word { SCANNER_STATE.tokentype = NAME; goto end;}
+      
+      number          { SCANNER_STATE.tokentype = INT_LITERAL; goto end;}
+      ("0" [xX] hex+ int_des?) | ("0" dig+ int_des?) | (dig+ int_des?)
+      { SCANNER_STATE.tokentype=(INT_LITERAL); goto end;}
+
+      "+"             { SCANNER_STATE.tokentype = PLUS; goto end;}
+      "-"             { SCANNER_STATE.tokentype = MINUS; goto end;}
+      "*"             { SCANNER_STATE.tokentype = MUL; goto end;}
+      "/"             { SCANNER_STATE.tokentype = DIV; goto end;}
+
+      whitespace      { SCANNER_STATE.tokentype = WHITESPACE; goto end;}
+      end { SCANNER_STATE.lexeme = SCANNER_STATE.cursor; SCANNER_STATE.line_number++; goto loop; }
+      // Default rule : Anything else
+      any { printf("unexpected character: %c\n", *SCANNER_STATE.cursor+1); goto loop; }
+    */
+
+comment:
+    /*!re2c
+      "*/"          { goto loop; }
+      "\n"          { SCANNER_STATE.line_number++; goto comment; }
+      any           { goto comment; }
+    */
+
+end:
+    // end inifinite loop when END_TOKEN
+    if(END_TOKEN == SCANNER_STATE.tokentype) break;
+    
+    switch(SCANNER_STATE.tokentype) {
+        case SEMICOLON: printf("SEMICOLON"); break;
+        case LPAREN: printf("LPAREN"); break;
+        case RPAREN: printf("RPAREN"); break;
+        case LBRACE: printf("LBRACE"); break;
+        case RBRACE: printf("RBRACE"); break;
+        case ASSIGN: printf("ASSIGN"); break;
+        case CEQ: printf("CEQ"); break;
+        case PLUS: printf("PLUS"); break;
+        case MINUS: printf("MINUS"); break;
+        case MUL: printf("MUL"); break;
+        case DIV: printf("DIV"); break;
+        case INT_TYPE: printf("INT_TYPE"); break;
+        case RETURN: printf("RETURN"); break;
+        case NAME:
+          set_token_value("NAME");
+          printf("%s",SCANNER_STATE.tokenvalue);
+          break;
+        case STRING_LITERAL:
+          set_token_value("STRING_LITERAL");
+          printf("%s",SCANNER_STATE.tokenvalue);
+          break;
+        case INT_LITERAL:
+          set_token_value("INT_LITERAL");
+          printf("%s",SCANNER_STATE.tokenvalue);
+          break;
+        default:
+          //if we ever come here it means nothing were found
+          bFoundSomething_tokenNOThandled=false;
+          break;
+    }
+    SCANNER_STATE.column_position=(int)(SCANNER_STATE.begin - SCANNER_STATE.lexeme);
+    
+    if (bFoundSomething_tokenNOThandled == true) {
+      printf(" found on Line %d at Position %d\n", SCANNER_STATE.line_number, SCANNER_STATE.column_position);
+    } else {
+      set_token_value("Tokentype");
+      printf("%s found but not handled, Line %d at Position %d\n",SCANNER_STATE.tokenvalue, SCANNER_STATE.line_number, SCANNER_STATE.column_position);
+    }
+
+    }//end for loop
+    if (scanner_DebugMode == true) printf("\n ** THE END ** \n");
+}

@@ -4,35 +4,35 @@
 
 int main() {
 
+    scanner_DebugMode=true;
     SCANNER("_Zer0");
-    SCANNER("");
+    SCANNER("_ Zer 0");
     SCANNER("one");
     SCANNER("one two");
     SCANNER("one two three");
     SCANNER("one two three four");
+    SCANNER("");
     SCANNER("4+4");
     SCANNER("(4+4)");
 
+    parser_DebugMode=false;
     PARSER_INIT();
-    /* First input: 
-          15 / 5
-                                    */
+    // First input: 
+    //      15 / 5
     PARSER(INTEGER, 15);
     PARSER(DIVIDE, 0);
     PARSER(INTEGER, 5);
     PARSER(0, 0);
 
-    /*  Second input:
-            50 + 125
-                                   */
+    //  Second input:
+    //      50 + 125
     PARSER(INTEGER, 50);
     PARSER(PLUS, 0);
     PARSER(INTEGER, 125);
     PARSER(0, 0);
 
-    /*  Third input:
-            50 * 125 + 125
-                                   */
+    //  Third input:
+    //      50 * 125 + 125
     PARSER(INTEGER, 50);
     PARSER(TIMES, 0);
     PARSER(INTEGER, 125);

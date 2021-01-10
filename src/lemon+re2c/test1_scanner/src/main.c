@@ -4,6 +4,7 @@
 
 int main() {
 
+    scanner_DebugMode=true;
     SCANNER("_Zer0");
     SCANNER("_ Zer 0");
     SCANNER("one");

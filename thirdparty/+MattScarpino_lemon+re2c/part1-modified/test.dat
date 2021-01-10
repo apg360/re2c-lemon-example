@@ -1,0 +1,6 @@
+/* This is a simple test
+for the re2c-generated lexer */
+int main() {
+  printf("Hello World");
+  return 0;
+}

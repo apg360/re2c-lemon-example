@@ -32,4 +32,3 @@ target_include_directories(${CMAKE_PROJECT_NAME}
    PUBLIC "${CMAKE_CURRENT_BINARY_DIR}" # ./build
    )
 
-#file(COPY lempar.c DESTINATION ${CMAKE_BINARY_DIR})

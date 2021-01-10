@@ -17,8 +17,6 @@ export LIBRARY_PATH='/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/lib
 
 #Use cmake to perform OS operation
 cmake -E rm -rf build           #delete directory build
-cmake -E rm -f parser/parser.h parser/parser.c parser/parser.out
-cmake -E rm -f src/scanner/scanner.h
 cmake -E make_directory build   #create directory build
 
 cmake -E chdir parser lemon parser.lemon -l

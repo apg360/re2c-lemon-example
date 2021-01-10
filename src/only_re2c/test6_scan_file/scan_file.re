@@ -1,8 +1,9 @@
-#include <stdlib.h>
+//inspired from : https://www.codeproject.com/Articles/1035799/Generating-a-High-Speed-Parser-Part-re-c
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
-enum Token_value {
+enum token_type {
   END_TOKEN,
   RETURN, NAME,
   STRING_LITERAL,
@@ -18,18 +19,24 @@ enum Token_value {
 
 struct scanner_state {
   const char *cursor, *marker, *begin, *end, *lexeme;
-  enum Token_value token;
+  enum token_type token;
   char tokenvalue[255]; // no more than 255 characters
   int line_number,column_position;
 };
 
 struct scanner_state SCANNER_STATE;
 
-void SCANNER(char *buff, char *buff_end) {
+void set_token_value(const char *token_type)
+{
+  sprintf( SCANNER_STATE.tokenvalue, "%s (\'%.*s\')",token_type, (int)(SCANNER_STATE.cursor - SCANNER_STATE.begin), SCANNER_STATE.begin );
+}
 
-    SCANNER_STATE.begin = buff;
-    SCANNER_STATE.cursor = buff;
-    SCANNER_STATE.lexeme = buff;
+void SCANNER(const char *the_text) {
+
+    SCANNER_STATE.begin = the_text;
+    SCANNER_STATE.end = the_text + strlen(the_text);
+    SCANNER_STATE.cursor = the_text;
+    SCANNER_STATE.lexeme = the_text;
     SCANNER_STATE.line_number = 1;
     SCANNER_STATE.column_position = 1;
     
@@ -52,7 +59,7 @@ void SCANNER(char *buff, char *buff_end) {
   // Infinite loop
   for (;;) {
 loop:
-    if (SCANNER_STATE.cursor >= buff_end) {
+    if (SCANNER_STATE.cursor >= SCANNER_STATE.end) {
         SCANNER_STATE.token = END_TOKEN; goto end;
     }
     SCANNER_STATE.begin = SCANNER_STATE.cursor;
@@ -76,7 +83,7 @@ loop:
 
       
       end { SCANNER_STATE.lexeme = SCANNER_STATE.cursor; SCANNER_STATE.line_number++; goto loop; }
-      // Anything else
+      // Default rule : Anything else
       any { printf("unexpected character: %c\n", *SCANNER_STATE.cursor); goto loop; }
     */
 
@@ -89,7 +96,7 @@ comment:
 
 end:
     switch(SCANNER_STATE.token) {
-        case SEMICOLON: printf("SEMICOLON"); break;      
+        case SEMICOLON: printf("SEMICOLON"); break;
         case LPAREN: printf("LPAREN"); break;
         case RPAREN: printf("RPAREN"); break;
         case LBRACE: printf("LBRACE"); break;
@@ -98,25 +105,25 @@ end:
         case INT_TYPE: printf("INT_TYPE"); break;
         case RETURN: printf("RETURN"); break;
         case NAME:
-          sprintf( SCANNER_STATE.tokenvalue, "NAME (\'%.*s\')", (int)(SCANNER_STATE.cursor - SCANNER_STATE.begin), SCANNER_STATE.begin );
+          set_token_value("NAME");
           printf("%s",SCANNER_STATE.tokenvalue);
           break;
         case STRING_LITERAL:
-          sprintf( SCANNER_STATE.tokenvalue, "STRING_LITERAL (\'%.*s\')", (int)(SCANNER_STATE.cursor - SCANNER_STATE.begin), SCANNER_STATE.begin );
+          set_token_value("STRING_LITERAL");
           printf("%s",SCANNER_STATE.tokenvalue);
           break;
         case INT_LITERAL:
-          sprintf( SCANNER_STATE.tokenvalue, "INT_LITERAL (\'%.*s\')", (int)(SCANNER_STATE.cursor - SCANNER_STATE.begin), SCANNER_STATE.begin );
+          set_token_value("INT_LITERAL");
           printf("%s",SCANNER_STATE.tokenvalue);
           break;
         default:
           break;
     }
+    SCANNER_STATE.column_position=(int)(SCANNER_STATE.begin - SCANNER_STATE.lexeme);
+    printf(" found on Line %d at Position %d\n", SCANNER_STATE.line_number, SCANNER_STATE.column_position);
     
     // end inifinite loop when END_TOKEN
     if(END_TOKEN == SCANNER_STATE.token) break;
-    SCANNER_STATE.column_position=(int)(SCANNER_STATE.begin - SCANNER_STATE.lexeme);
-    printf(" found on Line %d at Position %d\n", SCANNER_STATE.line_number, SCANNER_STATE.column_position);
   }//for loop
 }
 
@@ -129,7 +136,7 @@ int main() {
   size_t bytes;
 
   /* Open input file */
-  fp = fopen("test.dat", "r");
+  fp = fopen("test.cscript", "r");
   if(fp == NULL) {
     fprintf(stderr, "Can't open test file\n");
     exit(-1);
@@ -148,13 +155,13 @@ int main() {
     exit(-1);
   }
   
-  buff_end = (char*) ( ((char*)buff) + size );
+  buff_end = buff + strlen(buff);//(char*) ( ((char*)buff) + size );
   
   //printf(">>>> buff : '%s'\n",buff);
   //printf(">>>> buff_end : '%s'\n",buff_end);
   
   /* Start scanning */
-  SCANNER(buff, buff_end);
+  SCANNER(buff); //, buff_end);
 
   /* Close file and deallocate */
   fclose(fp);

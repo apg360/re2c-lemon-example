@@ -177,3 +177,39 @@ char** str_split(char* a_str, const char a_delim)
 
     return result;
 }
+
+/*
+    char* str = malloc(strlen("abcdef")+1);
+    strcpy(str, "abcdbbbef");
+    removeChar(str, 'b');
+    printf("%s", str);
+    free(str);
+
+output
+acdef
+*/
+void removeChar(char *str, char garbage) {
+
+    char *src, *dst;
+    for (src = dst = str; *src != '\0'; src++) {
+        *dst = *src;
+        if (*dst != garbage) dst++;
+    }
+    *dst = '\0';
+}
+
+/*
+To remove characters from a string, you have to shift the contents of the string to the left (including the null terminator) using memmove
+
+char str[12] = "hello world";
+if (removechars(str, 5, 4) == 0)  // remove 4 chars starting at str[5]
+    printf("%s\n", str);          // hellold
+*/
+int removechars(char *str, size_t pos, size_t cnt) {
+    size_t len = strlen(str);
+    if (pos + cnt > len)
+        return -1;
+
+    memmove(str + pos, str + pos + cnt, len - pos - cnt + 1);
+    return 0;
+}

@@ -1,0 +1,4 @@
+# ninja log v5
+1	88	1610236670591928843	CMakeFiles/mycalc.dir/parser.c.o	46bb739bb30b4a69
+0	118	1610236670621797787	CMakeFiles/mycalc.dir/src/main.c.o	a044a1b82d9e5205
+118	184	1610236670690078433	mycalc	32c9a706922cbfb2

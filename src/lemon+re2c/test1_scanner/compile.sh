@@ -17,7 +17,6 @@ export LIBRARY_PATH='/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/lib
 
 #Use cmake to perform OS operation
 cmake -E rm -rf build           #delete directory build
-cmake -E rm -f src/scanner/scanner.h
 cmake -E make_directory build   #create directory build
 
 cmake -E chdir scanner re2c scanner.re2c -o scanner.h -i

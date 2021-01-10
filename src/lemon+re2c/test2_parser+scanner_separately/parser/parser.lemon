@@ -3,7 +3,7 @@
 
 %include
 {
-    #include "../include/common.h"
+    //#include <common.h>
 }
 
 %parse_accept  { printf("The parser has completed successfully.\n"); }
