@@ -246,7 +246,7 @@ void ParseTrace(FILE *TraceFILE, char *zTracePrompt){
 static const char *yyTokenName[] = { 
   "$",             "ADD",           "SUB",           "MUL",         
   "DIV",           "NEWLINE",       "LPAREN",        "RPAREN",      
-  "INT_LITERAL",   "error",         "program",       "in",          
+  "INT_LITERAL",   "error",         "main",          "in",          
   "state",         "expr",        
 };
 #endif /* NDEBUG */
@@ -255,7 +255,7 @@ static const char *yyTokenName[] = {
 /* For tracing reduce actions, the names of all rules are required.
 */
 static const char *yyRuleName[] = {
- /*   0 */ "program ::= in",
+ /*   0 */ "main ::= in",
  /*   1 */ "in ::=",
  /*   2 */ "in ::= in state NEWLINE",
  /*   3 */ "state ::= expr",
@@ -568,7 +568,7 @@ static void yy_reduce(
 { yygotominor.yy0 = yymsp[0].minor.yy0; }
         break;
       default:
-      /* (0) program ::= in */ yytestcase(yyruleno==0);
+      /* (0) main ::= in */ yytestcase(yyruleno==0);
       /* (1) in ::= */ yytestcase(yyruleno==1);
       /* (2) in ::= in state NEWLINE */ yytestcase(yyruleno==2);
         break;

@@ -1,14 +1,14 @@
 State 0:
-          program ::= * in
+          main ::= * in
       (1) in ::= *
           in ::= * in state NEWLINE
 
-                       program accept
+                          main accept
                             in shift  1
                      {default} reduce 1
 
 State 1:
-      (0) program ::= in *
+      (0) main ::= in *
           in ::= in * state NEWLINE
           state ::= * expr
           expr ::= * expr ADD expr
@@ -187,7 +187,7 @@ Symbols:
     7: RPAREN
     8: INT_LITERAL
     9: error:
-   10: program: LPAREN INT_LITERAL
+   10: main: LPAREN INT_LITERAL
    11: in: <lambda> LPAREN INT_LITERAL
    12: state: LPAREN INT_LITERAL
    13: expr: LPAREN INT_LITERAL
