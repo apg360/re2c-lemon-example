@@ -1,6 +1,6 @@
 # ninja log v5
-0	389	1610316411405273724	CMakeFiles/common_requirement_lib.dir/include/common.c.o	b76a4a70c15a6104
-1	399	1610316411416058026	CMakeFiles/mycalc.dir/parser.c.o	46bb739bb30b4a69
-0	425	1610316411445233105	CMakeFiles/mycalc.dir/src/main.c.o	a044a1b82d9e5205
-391	450	1610316411474671000	libcommon_requirement_lib.a	c2c827b36f21633
-450	558	1610316411580253234	mycalc	bcbe5d99605d0853
+1	180	1610316454790340728	CMakeFiles/mycalc.dir/parser.c.o	46bb739bb30b4a69
+0	194	1610316454801746276	CMakeFiles/mycalc.dir/src/main.c.o	a044a1b82d9e5205
+0	201	1610316454812622412	CMakeFiles/common_requirement_lib.dir/include/common.c.o	b76a4a70c15a6104
+201	259	1610316454876974000	libcommon_requirement_lib.a	c2c827b36f21633
+260	340	1610316454953962420	mycalc	bcbe5d99605d0853
