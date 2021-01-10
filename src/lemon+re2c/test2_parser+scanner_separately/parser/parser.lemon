@@ -3,29 +3,36 @@
 
 %include
 {
-    //#include <common.h>
+    #include <parser_definitions.h>
 }
 
-%parse_accept  { printf("The parser has completed successfully.\n"); }
-%syntax_error  { fprintf(stderr, "Syntax Error.\n"); }
-%parse_failure { fprintf(stderr, "Parse failure.\n"); }
+%token_type { double }
+%extra_argument { struct parser_state * PARSER_STATE }
 
-%token_type {int}
+%left ADD SUB.       //PLUS  MINUS
+%left MUL DIV.       //TIMES DIVIDE
 
-%left PLUS MINUS.
-%left DIVIDE TIMES.
+// This is to terminate with a new line, the grammar dictate when the expression can no longer be reduced.
+// Without this PARSER(0, 0); Parse(pParse,0,0) had to be called to signal the end of the input for an expression
+main ::= in.
+in ::= .
+in ::= in state NEWLINE.
 
-program ::= expr(A).   { printf("Result= %u \n",A); }
+state ::= expr(A).   { PARSER_STATE->result = A; }
 
-expr(A) ::= expr(B) MINUS  expr(C).   { A = B - C; }
-expr(A) ::= expr(B) PLUS   expr(C).   { A = B + C; }
-expr(A) ::= expr(B) TIMES  expr(C).   { A = B * C; }
-expr(A) ::= expr(B) DIVIDE expr(C).   {
-         if(C != 0){
-           A = B / C;
-          }else{
-           printf("divide by zero" );
-          }
-}/* end of DIVIDE */
+expr(A) ::= expr(B) ADD  expr(C).    { A = B + C; }
+expr(A) ::= expr(B) SUB  expr(C).    { A = B - C; }
+expr(A) ::= expr(B) MUL  expr(C).    { A = B * C; }
+expr(A) ::= expr(B) DIV  expr(C).    { if(C != 0){ A = B / C;
+                                        }else{
+                                          printf("divide by zero" );
+                                        }
+                                      }/* end of DIVIDE */
 
-expr(A) ::= INTEGER(B). { A = B; }
+expr(A) ::= LPAREN expr(B) RPAREN.   { A = B; }
+
+expr(A) ::= INT_LITERAL(B).          { A = B; }
+
+%parse_accept  { PARSER_STATE->error = false; printf("Result : %f\n",PARSER_STATE->result); printf("The parser has completed successfully.\n"); }
+%syntax_error  { PARSER_STATE->error = true; fprintf(stderr, "Syntax Error.\n"); }
+%parse_failure { PARSER_STATE->error = true; fprintf(stderr, "Parse failure.\n"); }

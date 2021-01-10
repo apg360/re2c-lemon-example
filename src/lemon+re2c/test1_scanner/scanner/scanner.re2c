@@ -8,10 +8,11 @@
 // re2c calls lemon
 //----------------------------------------------------------------------
 
-struct scanner_state SCANNER_STATE; // make it a pointer ?
-
 // the contents of 'definitions.re2c' are copy-pasted verbatim in place of the directive
 /*!include:re2c "definitions.re2c"*/
+
+
+struct scanner_state SCANNER_STATE; // make it a pointer ?
 
 void set_token_value(const char *token_type)
 {
@@ -29,7 +30,7 @@ void SCANNER(const char *the_text)
     
     if (scanner_DebugMode == true) printf("\n ** START Scanning : '%s', ",the_text);
     if (scanner_DebugMode == true) printf("Number of characters %lu\n\n", strlen(the_text));
-    bool bFoundSomething_tokenNOThandled; // if token found but not handled in switch case
+    bool bFoundSomething_and_token_handled; // if token found and handled in switch case
     
     /*!re2c 
       //configuration
@@ -46,7 +47,7 @@ loop:
         SCANNER_STATE.tokentype = END_TOKEN; goto end;
     }
     SCANNER_STATE.begin = SCANNER_STATE.cursor;
-    bFoundSomething_tokenNOThandled = true; // by default assume something were found
+    bFoundSomething_and_token_handled = true; // by default assume something were found and handled
     
     /*!re2c
       "/*"            { goto comment; }
@@ -56,6 +57,7 @@ loop:
       ")"             { SCANNER_STATE.tokentype = RPAREN; goto end;}
       "{"             { SCANNER_STATE.tokentype = LBRACE; goto end;}
       "}"             { SCANNER_STATE.tokentype = RBRACE; goto end;}
+      "_"             { SCANNER_STATE.tokentype = UNDERSCORE; goto end;}
       "."             { SCANNER_STATE.tokentype = DOT; goto end;}
       ","             { SCANNER_STATE.tokentype = COMMA; goto end;}
       ";"             { SCANNER_STATE.tokentype = SEMICOLON; goto end;}
@@ -119,17 +121,16 @@ end:
           printf("%s",SCANNER_STATE.tokenvalue);
           break;
         default:
-          //if we ever come here it means nothing were found
-          bFoundSomething_tokenNOThandled=false;
+          //if we ever come here it means nothing were found but NOT handled. No case for the token in switch case
+          bFoundSomething_and_token_handled=false;
+          set_token_value("Tokentype");
+          printf("%s found but not handled, Line %d at Position %d\n",SCANNER_STATE.tokenvalue, SCANNER_STATE.line_number, SCANNER_STATE.column_position);
           break;
     }
     SCANNER_STATE.column_position=(int)(SCANNER_STATE.begin - SCANNER_STATE.lexeme);
     
-    if (bFoundSomething_tokenNOThandled == true) {
+    if ( bFoundSomething_and_token_handled == true ) {
       printf(" found on Line %d at Position %d\n", SCANNER_STATE.line_number, SCANNER_STATE.column_position);
-    } else {
-      set_token_value("Tokentype");
-      printf("%s found but not handled, Line %d at Position %d\n",SCANNER_STATE.tokenvalue, SCANNER_STATE.line_number, SCANNER_STATE.column_position);
     }
 
     }//end for loop

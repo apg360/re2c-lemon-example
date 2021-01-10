@@ -4,7 +4,6 @@
 typedef enum { FAIL, OK } Result; //typedef enum { false, true } bool; // 0, 1
 
 bool scanner_DebugMode = false;
-bool parser_DebugMode = false;
 
 /*
     'a' means the value of the character a.

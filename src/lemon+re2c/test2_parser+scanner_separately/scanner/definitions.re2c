@@ -4,7 +4,6 @@
 typedef enum { FAIL, OK } Result; //typedef enum { false, true } bool; // 0, 1
 
 bool scanner_DebugMode = false;
-bool parser_DebugMode = false;
 
 /*
     'a' means the value of the character a.
@@ -24,7 +23,7 @@ enum scanner_tokentype {
   SEMICOLON=';',
   DOT='.',
   COMMA=',',
-  PLUS='+', MINUS='-', MUL='*', DIV='/',
+  ADD='+', SUB='-', MUL='*', DIV='/',
   ASSIGN='=',
   CEQ,//='==',
   CNE,//='!=',
@@ -63,7 +62,7 @@ struct scanner_state
     const char *lexeme;             // the next input remaining to be scanned.
 
     enum scanner_tokentype tokentype;      //
-    char tokenvalue[255];           // the current matched value.  no more than 255 characters
+    char tokenvalue[255];                  // the current matched value.  no more than 255 characters
     union scanner_tokenvalue *tokenvaluestruct;//not used
 
     int line_number, column_position;       //line number, column position

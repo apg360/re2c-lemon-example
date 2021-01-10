@@ -8,10 +8,11 @@
 // re2c calls lemon
 //----------------------------------------------------------------------
 
-struct scanner_state SCANNER_STATE; // make it a pointer ?
-
 // the contents of 'definitions.re2c' are copy-pasted verbatim in place of the directive
 /*!include:re2c "definitions.re2c"*/
+
+
+struct scanner_state SCANNER_STATE;
 
 void set_token_value(const char *token_type)
 {
@@ -29,7 +30,7 @@ void SCANNER(const char *the_text)
     
     if (scanner_DebugMode == true) printf("\n ** START Scanning : '%s', ",the_text);
     if (scanner_DebugMode == true) printf("Number of characters %lu\n\n", strlen(the_text));
-    bool bFoundSomething_tokenNOThandled; // if token found but not handled in switch case
+    bool bFoundSomething_and_token_handled; // if token found and handled in switch case
     
     /*!re2c 
       //configuration
@@ -46,7 +47,7 @@ loop:
         SCANNER_STATE.tokentype = END_TOKEN; goto end;
     }
     SCANNER_STATE.begin = SCANNER_STATE.cursor;
-    bFoundSomething_tokenNOThandled = false; // by default assume something were found
+    bFoundSomething_and_token_handled = true; // by default assume something were found and handled
     
     /*!re2c
       "/*"            { goto comment; }
@@ -56,6 +57,7 @@ loop:
       ")"             { SCANNER_STATE.tokentype = RPAREN; goto end;}
       "{"             { SCANNER_STATE.tokentype = LBRACE; goto end;}
       "}"             { SCANNER_STATE.tokentype = RBRACE; goto end;}
+      "_"             { SCANNER_STATE.tokentype = UNDERSCORE; goto end;}
       "."             { SCANNER_STATE.tokentype = DOT; goto end;}
       ","             { SCANNER_STATE.tokentype = COMMA; goto end;}
       ";"             { SCANNER_STATE.tokentype = SEMICOLON; goto end;}
@@ -70,8 +72,8 @@ loop:
       ("0" [xX] hex+ int_des?) | ("0" dig+ int_des?) | (dig+ int_des?)
       { SCANNER_STATE.tokentype=(INT_LITERAL); goto end;}
 
-      "+"             { SCANNER_STATE.tokentype = PLUS; goto end;}
-      "-"             { SCANNER_STATE.tokentype = MINUS; goto end;}
+      "+"             { SCANNER_STATE.tokentype = ADD; goto end;}
+      "-"             { SCANNER_STATE.tokentype = SUB; goto end;}
       "*"             { SCANNER_STATE.tokentype = MUL; goto end;}
       "/"             { SCANNER_STATE.tokentype = DIV; goto end;}
 
@@ -100,8 +102,8 @@ end:
         case RBRACE: printf("RBRACE"); break;
         case ASSIGN: printf("ASSIGN"); break;
         case CEQ: printf("CEQ"); break;
-        case PLUS: printf("PLUS"); break;
-        case MINUS: printf("MINUS"); break;
+        case ADD: printf("ADD"); break;
+        case SUB: printf("SUB"); break;
         case MUL: printf("MUL"); break;
         case DIV: printf("DIV"); break;
         case INT_TYPE: printf("INT_TYPE"); break;
@@ -119,17 +121,16 @@ end:
           printf("%s",SCANNER_STATE.tokenvalue);
           break;
         default:
-          //if we ever come here it means nothing were found
-          bFoundSomething_tokenNOThandled=true;
+          //if we ever come here it means nothing were found but NOT handled. No case for the token in switch case
+          bFoundSomething_and_token_handled=false;
+          set_token_value("Tokentype");
+          printf("%s found but not handled, Line %d at Position %d\n",SCANNER_STATE.tokenvalue, SCANNER_STATE.line_number, SCANNER_STATE.column_position);
           break;
     }
     SCANNER_STATE.column_position=(int)(SCANNER_STATE.begin - SCANNER_STATE.lexeme);
     
-    if (bFoundSomething_tokenNOThandled == true) {
+    if ( bFoundSomething_and_token_handled == true ) {
       printf(" found on Line %d at Position %d\n", SCANNER_STATE.line_number, SCANNER_STATE.column_position);
-    } else {
-      set_token_value("Tokentype");
-      printf("%s found but not handled, Line %d at Position %d\n",SCANNER_STATE.tokenvalue, SCANNER_STATE.line_number, SCANNER_STATE.column_position);
     }
 
     }//end for loop
@@ -138,22 +139,20 @@ end:
 
 //Parser START----------------------------------------------------------
 //header for functions in parser.c  Make sure parser.c is added at compilation time.
-void* ParseAlloc(void* (*allocProc)(size_t));
-void ParseFree(void* parser, void(*freeProc)(void*));
-void Parse(void* parser, int token, const int);
-void ParseTrace(FILE *TraceFILE, char *str);
 
+#include <parser_definitions.h>
+#include <parser.h> // tokens type definition
 
-#include <parser.h>
-
+bool parser_DebugMode = false;
 void* theParser;
+struct parser_state PARSER_STATE;
 
 void PARSER_INIT(){
   theParser = ParseAlloc(malloc);
-  if (parser_DebugMode == true)ParseTrace(stderr, "[Parser] >> ");
+  if (parser_DebugMode == true) ParseTrace(stderr, "[Parser] >> ");
 }
-void PARSER(int token, const int number){
-  Parse(theParser, token, number);
+void PARSER(int token, const double tokenvalue){
+  Parse(theParser, token, tokenvalue, &PARSER_STATE);
 }
 void PARSER_FREE(){
   ParseFree(theParser, free);

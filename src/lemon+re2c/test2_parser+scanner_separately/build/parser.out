@@ -1,125 +1,193 @@
 State 0:
-          program ::= * expr
-          expr ::= * expr MINUS expr
-          expr ::= * expr PLUS expr
-          expr ::= * expr TIMES expr
-          expr ::= * expr DIVIDE expr
-          expr ::= * INTEGER
+          program ::= * in
+      (1) in ::= *
+          in ::= * in state NEWLINE
 
-                       INTEGER shift  10
                        program accept
-                          expr shift  5
+                            in shift  1
+                     {default} reduce 1
 
 State 1:
-          expr ::= * expr MINUS expr
-          expr ::= * expr PLUS expr
-          expr ::= * expr TIMES expr
-          expr ::= expr TIMES * expr
-          expr ::= * expr DIVIDE expr
-          expr ::= * INTEGER
+      (0) program ::= in *
+          in ::= in * state NEWLINE
+          state ::= * expr
+          expr ::= * expr ADD expr
+          expr ::= * expr SUB expr
+          expr ::= * expr MUL expr
+          expr ::= * expr DIV expr
+          expr ::= * LPAREN expr RPAREN
+          expr ::= * INT_LITERAL
 
-                       INTEGER shift  10
+                             $ reduce 0
+                        LPAREN shift  6
+                   INT_LITERAL shift  16
+                         state shift  11
                           expr shift  8
 
 State 2:
-          expr ::= * expr MINUS expr
-          expr ::= expr MINUS * expr
-          expr ::= * expr PLUS expr
-          expr ::= * expr TIMES expr
-          expr ::= * expr DIVIDE expr
-          expr ::= * INTEGER
+          expr ::= * expr ADD expr
+          expr ::= * expr SUB expr
+          expr ::= * expr MUL expr
+          expr ::= expr MUL * expr
+          expr ::= * expr DIV expr
+          expr ::= * LPAREN expr RPAREN
+          expr ::= * INT_LITERAL
 
-                       INTEGER shift  10
-                          expr shift  7
+                        LPAREN shift  6
+                   INT_LITERAL shift  16
+                          expr shift  15
 
 State 3:
-          expr ::= * expr MINUS expr
-          expr ::= * expr PLUS expr
-          expr ::= * expr TIMES expr
-          expr ::= * expr DIVIDE expr
-          expr ::= expr DIVIDE * expr
-          expr ::= * INTEGER
+          expr ::= * expr ADD expr
+          expr ::= expr ADD * expr
+          expr ::= * expr SUB expr
+          expr ::= * expr MUL expr
+          expr ::= * expr DIV expr
+          expr ::= * LPAREN expr RPAREN
+          expr ::= * INT_LITERAL
 
-                       INTEGER shift  10
+                        LPAREN shift  6
+                   INT_LITERAL shift  16
                           expr shift  9
 
 State 4:
-          expr ::= * expr MINUS expr
-          expr ::= * expr PLUS expr
-          expr ::= expr PLUS * expr
-          expr ::= * expr TIMES expr
-          expr ::= * expr DIVIDE expr
-          expr ::= * INTEGER
+          expr ::= * expr ADD expr
+          expr ::= * expr SUB expr
+          expr ::= expr SUB * expr
+          expr ::= * expr MUL expr
+          expr ::= * expr DIV expr
+          expr ::= * LPAREN expr RPAREN
+          expr ::= * INT_LITERAL
 
-                       INTEGER shift  10
-                          expr shift  6
+                        LPAREN shift  6
+                   INT_LITERAL shift  16
+                          expr shift  10
 
 State 5:
-      (0) program ::= expr *
-          expr ::= expr * MINUS expr
-          expr ::= expr * PLUS expr
-          expr ::= expr * TIMES expr
-          expr ::= expr * DIVIDE expr
+          expr ::= * expr ADD expr
+          expr ::= * expr SUB expr
+          expr ::= * expr MUL expr
+          expr ::= * expr DIV expr
+          expr ::= expr DIV * expr
+          expr ::= * LPAREN expr RPAREN
+          expr ::= * INT_LITERAL
 
-                             $ reduce 0
-                          PLUS shift  4
-                         MINUS shift  2
-                        DIVIDE shift  3
-                         TIMES shift  1
+                        LPAREN shift  6
+                   INT_LITERAL shift  16
+                          expr shift  13
 
 State 6:
-          expr ::= expr * MINUS expr
-          expr ::= expr * PLUS expr
-      (2) expr ::= expr PLUS expr *
-          expr ::= expr * TIMES expr
-          expr ::= expr * DIVIDE expr
+          expr ::= * expr ADD expr
+          expr ::= * expr SUB expr
+          expr ::= * expr MUL expr
+          expr ::= * expr DIV expr
+          expr ::= * LPAREN expr RPAREN
+          expr ::= LPAREN * expr RPAREN
+          expr ::= * INT_LITERAL
 
-                        DIVIDE shift  3
-                         TIMES shift  1
-                     {default} reduce 2
+                        LPAREN shift  6
+                   INT_LITERAL shift  16
+                          expr shift  7
 
 State 7:
-          expr ::= expr * MINUS expr
-      (1) expr ::= expr MINUS expr *
-          expr ::= expr * PLUS expr
-          expr ::= expr * TIMES expr
-          expr ::= expr * DIVIDE expr
+          expr ::= expr * ADD expr
+          expr ::= expr * SUB expr
+          expr ::= expr * MUL expr
+          expr ::= expr * DIV expr
+          expr ::= LPAREN expr * RPAREN
 
-                        DIVIDE shift  3
-                         TIMES shift  1
-                     {default} reduce 1
+                           ADD shift  3
+                           SUB shift  4
+                           MUL shift  2
+                           DIV shift  5
+                        RPAREN shift  12
 
 State 8:
-          expr ::= expr * MINUS expr
-          expr ::= expr * PLUS expr
-          expr ::= expr * TIMES expr
-      (3) expr ::= expr TIMES expr *
-          expr ::= expr * DIVIDE expr
+      (3) state ::= expr *
+          expr ::= expr * ADD expr
+          expr ::= expr * SUB expr
+          expr ::= expr * MUL expr
+          expr ::= expr * DIV expr
 
+                           ADD shift  3
+                           SUB shift  4
+                           MUL shift  2
+                           DIV shift  5
                      {default} reduce 3
 
 State 9:
-          expr ::= expr * MINUS expr
-          expr ::= expr * PLUS expr
-          expr ::= expr * TIMES expr
-          expr ::= expr * DIVIDE expr
-      (4) expr ::= expr DIVIDE expr *
+          expr ::= expr * ADD expr
+      (4) expr ::= expr ADD expr *
+          expr ::= expr * SUB expr
+          expr ::= expr * MUL expr
+          expr ::= expr * DIV expr
 
+                           MUL shift  2
+                           DIV shift  5
                      {default} reduce 4
 
 State 10:
-      (5) expr ::= INTEGER *
+          expr ::= expr * ADD expr
+          expr ::= expr * SUB expr
+      (5) expr ::= expr SUB expr *
+          expr ::= expr * MUL expr
+          expr ::= expr * DIV expr
 
+                           MUL shift  2
+                           DIV shift  5
                      {default} reduce 5
+
+State 11:
+          in ::= in state * NEWLINE
+
+                       NEWLINE shift  14
+
+State 12:
+      (8) expr ::= LPAREN expr RPAREN *
+
+                     {default} reduce 8
+
+State 13:
+          expr ::= expr * ADD expr
+          expr ::= expr * SUB expr
+          expr ::= expr * MUL expr
+          expr ::= expr * DIV expr
+      (7) expr ::= expr DIV expr *
+
+                     {default} reduce 7
+
+State 14:
+      (2) in ::= in state NEWLINE *
+
+                     {default} reduce 2
+
+State 15:
+          expr ::= expr * ADD expr
+          expr ::= expr * SUB expr
+          expr ::= expr * MUL expr
+      (6) expr ::= expr MUL expr *
+          expr ::= expr * DIV expr
+
+                     {default} reduce 6
+
+State 16:
+      (9) expr ::= INT_LITERAL *
+
+                     {default} reduce 9
 
 ----------------------------------------------------
 Symbols:
     0: $:
-    1: PLUS
-    2: MINUS
-    3: DIVIDE
-    4: TIMES
-    5: INTEGER
-    6: error:
-    7: program: INTEGER
-    8: expr: INTEGER
+    1: ADD
+    2: SUB
+    3: MUL
+    4: DIV
+    5: NEWLINE
+    6: LPAREN
+    7: RPAREN
+    8: INT_LITERAL
+    9: error:
+   10: program: LPAREN INT_LITERAL
+   11: in: <lambda> LPAREN INT_LITERAL
+   12: state: LPAREN INT_LITERAL
+   13: expr: LPAREN INT_LITERAL

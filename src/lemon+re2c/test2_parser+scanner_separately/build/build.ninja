@@ -58,13 +58,48 @@ build CMakeFiles/edit_cache.util: CUSTOM_COMMAND
 build edit_cache: phony CMakeFiles/edit_cache.util
 
 # =============================================================================
+# Object build statements for STATIC_LIBRARY target common_requirement_lib
+
+
+#############################################
+# Order-only phony target for common_requirement_lib
+
+build cmake_object_order_depends_target_common_requirement_lib: phony || CMakeFiles/common_requirement_lib.dir
+
+build CMakeFiles/common_requirement_lib.dir/include/common.c.o: C_COMPILER__common_requirement_lib_debug ../include/common.c || cmake_object_order_depends_target_common_requirement_lib
+  DEP_FILE = CMakeFiles/common_requirement_lib.dir/include/common.c.o.d
+  FLAGS = -g -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -Wall -Wextra -pedantic -pedantic-errors -Werror -Wunused-parameter
+  OBJECT_DIR = CMakeFiles/common_requirement_lib.dir
+  OBJECT_FILE_DIR = CMakeFiles/common_requirement_lib.dir/include
+  TARGET_COMPILE_PDB = CMakeFiles/common_requirement_lib.dir/common_requirement_lib.pdb
+  TARGET_PDB = libcommon_requirement_lib.pdb
+
+
+# =============================================================================
+# Link build statements for STATIC_LIBRARY target common_requirement_lib
+
+
+#############################################
+# Link the static library libcommon_requirement_lib.a
+
+build libcommon_requirement_lib.a: C_STATIC_LIBRARY_LINKER__common_requirement_lib_debug CMakeFiles/common_requirement_lib.dir/include/common.c.o
+  ARCH_FLAGS = -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk
+  LANGUAGE_COMPILE_FLAGS = -g
+  OBJECT_DIR = CMakeFiles/common_requirement_lib.dir
+  POST_BUILD = :
+  PRE_LINK = :
+  TARGET_COMPILE_PDB = CMakeFiles/common_requirement_lib.dir/common_requirement_lib.pdb
+  TARGET_FILE = libcommon_requirement_lib.a
+  TARGET_PDB = libcommon_requirement_lib.pdb
+
+# =============================================================================
 # Object build statements for EXECUTABLE target mycalc
 
 
 #############################################
 # Order-only phony target for mycalc
 
-build cmake_object_order_depends_target_mycalc: phony || CMakeFiles/mycalc.dir
+build cmake_object_order_depends_target_mycalc: phony || cmake_object_order_depends_target_common_requirement_lib
 
 build CMakeFiles/mycalc.dir/src/main.c.o: C_COMPILER__mycalc_debug ../src/main.c || cmake_object_order_depends_target_mycalc
   DEP_FILE = CMakeFiles/mycalc.dir/src/main.c.o.d
@@ -92,8 +127,9 @@ build CMakeFiles/mycalc.dir/parser.c.o: C_COMPILER__mycalc_debug parser.c || cma
 #############################################
 # Link the executable mycalc
 
-build mycalc: C_EXECUTABLE_LINKER__mycalc_debug CMakeFiles/mycalc.dir/src/main.c.o CMakeFiles/mycalc.dir/parser.c.o
+build mycalc: C_EXECUTABLE_LINKER__mycalc_debug CMakeFiles/mycalc.dir/src/main.c.o CMakeFiles/mycalc.dir/parser.c.o | libcommon_requirement_lib.a || libcommon_requirement_lib.a
   FLAGS = -g -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk
+  LINK_LIBRARIES = libcommon_requirement_lib.a
   OBJECT_DIR = CMakeFiles/mycalc.dir
   POST_BUILD = :
   PRE_LINK = :
@@ -104,6 +140,8 @@ build mycalc: C_EXECUTABLE_LINKER__mycalc_debug CMakeFiles/mycalc.dir/src/main.c
 # =============================================================================
 # Target aliases.
 
+build common_requirement_lib: phony libcommon_requirement_lib.a
+
 # =============================================================================
 # Folder targets.
 
@@ -112,7 +150,7 @@ build mycalc: C_EXECUTABLE_LINKER__mycalc_debug CMakeFiles/mycalc.dir/src/main.c
 #############################################
 # Folder: /Users/a0/MyProjects/GitHub/re2c-lemon-example/src/lemon+re2c/test2_parser+scanner_separately/build
 
-build all: phony mycalc
+build all: phony libcommon_requirement_lib.a mycalc
 
 # =============================================================================
 # Built-in targets
