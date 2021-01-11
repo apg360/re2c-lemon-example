@@ -47,9 +47,9 @@
 // Without this PARSER(0, 0); Parse(pParse,0,0) had to be called to signal the end of the input for an expression
 start ::= in.
 in ::= .
-in ::= in program NEWLINE.
+in ::= in program NEWLINE. // NEWLINE is EOL : end of line
 
-program ::= expr(A).   { PARSER_STATE->result = A; printf("Result : %f\n",PARSER_STATE->result);}
+program ::= expr(A).   { PARSER_STATE->result = A; }
 
 expr(A) ::= expr(B) ADD  expr(C).    { A = B + C; }
 expr(A) ::= expr(B) SUB  expr(C).    { A = B - C; }
@@ -64,6 +64,6 @@ expr(A) ::= LPAREN expr(B) RPAREN.   { A = B; }
 
 expr(A) ::= INT_LITERAL(B).          { A = B; }
 
-%parse_accept  { PARSER_STATE->error = false; printf("The parser has completed successfully.\n"); }
+%parse_accept  { PARSER_STATE->error = false; printf("Result : %f\n",PARSER_STATE->result); printf("The parser has completed successfully.\n"); } // must do PARSER(0, 0); to enter parse_accept
 %syntax_error  { PARSER_STATE->error = true; fprintf(stderr, "Syntax Error.\n"); }
 %parse_failure { PARSER_STATE->error = true; fprintf(stderr, "Parse failure.\n"); }

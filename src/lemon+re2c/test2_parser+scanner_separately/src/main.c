@@ -22,6 +22,7 @@ int main() {
     PARSER(DIV, 0);
     PARSER(INT_LITERAL, 5);
     PARSER(NEWLINE, 0);
+    PARSER(0, 0);
 
     //  Second input:
     //      50 + 125
@@ -29,6 +30,7 @@ int main() {
     PARSER(ADD, 0);
     PARSER(INT_LITERAL, 125);
     PARSER(NEWLINE, 0);
+    PARSER(0, 0);
 
     //  Third input:
     //      50 * 125 + 125
@@ -38,6 +40,7 @@ int main() {
     PARSER(ADD, 0);
     PARSER(INT_LITERAL, 125);
     PARSER(NEWLINE, 0);
+    PARSER(0, 0);
 
     char *commandLine;
     while (  (commandLine = dynamic_fgets())  ){
