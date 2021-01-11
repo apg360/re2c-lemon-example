@@ -28,11 +28,6 @@
     void * theParser;
     struct parser_state PARSER_STATE;
     
-    extern struct parser_state * getPARSER_STATE()
-    {
-      return &PARSER_STATE;
-    }
-    
     void PARSER_INIT(bool parser_DebugMode){
       theParser = ParseAlloc(malloc);
       if (parser_DebugMode == true) ParseTrace(stderr, "[Parser] >> ");
