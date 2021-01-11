@@ -139,10 +139,22 @@ end:
 
 //Parser START----------------------------------------------------------
 
-#include <parser.h> // tokens type definition
+    #include <parser.h> // tokens type definition
 
-void PARSER_INIT(bool parser_DebugMode);
-void PARSER(int token, const double tokenvalue);
-void PARSER_FREE();
+    // header for functions in parser.c  Make sure parser.c is added at compilation time.
+    void PARSER_INIT(bool parser_DebugMode);
+    void PARSER(int token, const double tokenvalue);
+    void PARSER_FREE();
+
+    // A way to access the PARSER_STATE variable
+    //
+    // must copy paste the struct definition as the one in parser.lemon
+    struct parser_state {
+        double result;
+        bool error;
+    };
+    // use extern and variable name must be same as the one in parser.lemon
+    extern struct parser_state PARSER_STATE;
+    //printf("Result : %f\n",PARSER_STATE.result);
 
 //Parser END-----------------------------------------------------------
