@@ -1,4 +1,3 @@
 .DS_Store
 src/lemon+re2c/test1_scanner/build/
 src/lemon+re2c/test2_parser+scanner_separately/build/
-src/lemon+re2c/test2_parser+scanner_separately/build/.ninja_deps
