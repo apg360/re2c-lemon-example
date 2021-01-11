@@ -5,7 +5,45 @@
 ** in the input file. */
 #include <stdio.h>
 
-    #include <parser_definitions.h>
+    //#include <parser_definitions.h>
+
+    #include <stdlib.h>
+    #include <stdbool.h>
+
+    struct parser_state {
+        double result;
+        bool error;
+    };
+
+    void * ParseAlloc(void* (*allocProc)(size_t));
+    void ParseFree(void* parser, void(*freeProc)(void*));
+    void ParseTrace(FILE *TraceFILE, char *str);
+    void Parse(
+        void * parser,                       // The parser
+        int token,                           // The major token code number
+        double tokenvalue,                   // Value associated with a token %token_type { double }
+        struct parser_state * PARSER_STATE          // Optional %extra_argument parameter
+    );
+
+    void * theParser;
+    struct parser_state PARSER_STATE;
+    
+    extern struct parser_state * getPARSER_STATE()
+    {
+      return &PARSER_STATE;
+    }
+    
+    void PARSER_INIT(bool parser_DebugMode){
+      theParser = ParseAlloc(malloc);
+      if (parser_DebugMode == true) ParseTrace(stderr, "[Parser] >> ");
+    }
+    void PARSER(int token, const double tokenvalue){
+      Parse(theParser, token, tokenvalue, &PARSER_STATE);
+    }
+    void PARSER_FREE(){
+      ParseFree(theParser, free);
+    }
+
 /* Next is all token values, in a form suitable for use by makeheaders.
 ** This section will be null unless lemon is run with the -m switch.
 */
@@ -246,8 +284,8 @@ void ParseTrace(FILE *TraceFILE, char *zTracePrompt){
 static const char *yyTokenName[] = { 
   "$",             "ADD",           "SUB",           "MUL",         
   "DIV",           "NEWLINE",       "LPAREN",        "RPAREN",      
-  "INT_LITERAL",   "error",         "main",          "in",          
-  "state",         "expr",        
+  "INT_LITERAL",   "error",         "start",         "in",          
+  "program",       "expr",        
 };
 #endif /* NDEBUG */
 
@@ -255,10 +293,10 @@ static const char *yyTokenName[] = {
 /* For tracing reduce actions, the names of all rules are required.
 */
 static const char *yyRuleName[] = {
- /*   0 */ "main ::= in",
+ /*   0 */ "start ::= in",
  /*   1 */ "in ::=",
- /*   2 */ "in ::= in state NEWLINE",
- /*   3 */ "state ::= expr",
+ /*   2 */ "in ::= in program NEWLINE",
+ /*   3 */ "program ::= expr",
  /*   4 */ "expr ::= expr ADD expr",
  /*   5 */ "expr ::= expr SUB expr",
  /*   6 */ "expr ::= expr MUL expr",
@@ -542,8 +580,8 @@ static void yy_reduce(
   **  #line <lineno> <thisfile>
   **     break;
   */
-      case 3: /* state ::= expr */
-{ PARSER_STATE->result = yymsp[0].minor.yy0; }
+      case 3: /* program ::= expr */
+{ PARSER_STATE->result = yymsp[0].minor.yy0; printf("Result : %f\n",PARSER_STATE->result);}
         break;
       case 4: /* expr ::= expr ADD expr */
 { yygotominor.yy0 = yymsp[-2].minor.yy0 + yymsp[0].minor.yy0; }
@@ -568,9 +606,9 @@ static void yy_reduce(
 { yygotominor.yy0 = yymsp[0].minor.yy0; }
         break;
       default:
-      /* (0) main ::= in */ yytestcase(yyruleno==0);
+      /* (0) start ::= in */ yytestcase(yyruleno==0);
       /* (1) in ::= */ yytestcase(yyruleno==1);
-      /* (2) in ::= in state NEWLINE */ yytestcase(yyruleno==2);
+      /* (2) in ::= in program NEWLINE */ yytestcase(yyruleno==2);
         break;
   };
   yygoto = yyRuleInfo[yyruleno].lhs;
@@ -632,7 +670,7 @@ static void yy_accept(
   while( yypParser->yyidx>=0 ) yy_pop_parser_stack(yypParser);
   /* Here code is inserted which will be executed whenever the
   ** parser accepts */
- PARSER_STATE->error = false; printf("Result : %f\n",PARSER_STATE->result); printf("The parser has completed successfully.\n"); 
+ PARSER_STATE->error = false; printf("The parser has completed successfully.\n"); 
   ParseARG_STORE; /* Suppress warning about unused %extra_argument variable */
 }
 

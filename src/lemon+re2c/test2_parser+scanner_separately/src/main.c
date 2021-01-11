@@ -15,21 +15,20 @@ int main() {
     SCANNER("4+4");
     SCANNER("(4+4)");
 
-    parser_DebugMode=false;
-    PARSER_INIT();
+    PARSER_INIT(false);
     // First input: 
     //      15 / 5
     PARSER(INT_LITERAL, 15);
     PARSER(DIV, 0);
     PARSER(INT_LITERAL, 5);
-    //PARSER(0, 0);
+    PARSER(NEWLINE, 0);
 
     //  Second input:
     //      50 + 125
     PARSER(INT_LITERAL, 50);
     PARSER(ADD, 0);
     PARSER(INT_LITERAL, 125);
-    PARSER(0, 0);
+    PARSER(NEWLINE, 0);
 
     //  Third input:
     //      50 * 125 + 125
@@ -38,7 +37,7 @@ int main() {
     PARSER(INT_LITERAL, 125);
     PARSER(ADD, 0);
     PARSER(INT_LITERAL, 125);
-    PARSER(0, 0);
+    PARSER(NEWLINE, 0);
 
     char *commandLine;
     while (  (commandLine = dynamic_fgets())  ){

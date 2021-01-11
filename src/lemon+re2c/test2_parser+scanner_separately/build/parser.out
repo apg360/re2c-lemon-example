@@ -1,16 +1,16 @@
 State 0:
-          main ::= * in
+          start ::= * in
       (1) in ::= *
-          in ::= * in state NEWLINE
+          in ::= * in program NEWLINE
 
-                          main accept
+                         start accept
                             in shift  1
                      {default} reduce 1
 
 State 1:
-      (0) main ::= in *
-          in ::= in * state NEWLINE
-          state ::= * expr
+      (0) start ::= in *
+          in ::= in * program NEWLINE
+          program ::= * expr
           expr ::= * expr ADD expr
           expr ::= * expr SUB expr
           expr ::= * expr MUL expr
@@ -21,7 +21,7 @@ State 1:
                              $ reduce 0
                         LPAREN shift  6
                    INT_LITERAL shift  16
-                         state shift  11
+                       program shift  11
                           expr shift  8
 
 State 2:
@@ -103,7 +103,7 @@ State 7:
                         RPAREN shift  12
 
 State 8:
-      (3) state ::= expr *
+      (3) program ::= expr *
           expr ::= expr * ADD expr
           expr ::= expr * SUB expr
           expr ::= expr * MUL expr
@@ -138,7 +138,7 @@ State 10:
                      {default} reduce 5
 
 State 11:
-          in ::= in state * NEWLINE
+          in ::= in program * NEWLINE
 
                        NEWLINE shift  14
 
@@ -157,7 +157,7 @@ State 13:
                      {default} reduce 7
 
 State 14:
-      (2) in ::= in state NEWLINE *
+      (2) in ::= in program NEWLINE *
 
                      {default} reduce 2
 
@@ -187,7 +187,7 @@ Symbols:
     7: RPAREN
     8: INT_LITERAL
     9: error:
-   10: main: LPAREN INT_LITERAL
+   10: start: LPAREN INT_LITERAL
    11: in: <lambda> LPAREN INT_LITERAL
-   12: state: LPAREN INT_LITERAL
+   12: program: LPAREN INT_LITERAL
    13: expr: LPAREN INT_LITERAL

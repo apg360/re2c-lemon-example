@@ -138,24 +138,11 @@ end:
 }
 
 //Parser START----------------------------------------------------------
-//header for functions in parser.c  Make sure parser.c is added at compilation time.
 
-#include <parser_definitions.h>
 #include <parser.h> // tokens type definition
 
-bool parser_DebugMode = false;
-void* theParser;
-struct parser_state PARSER_STATE;
-
-void PARSER_INIT(){
-  theParser = ParseAlloc(malloc);
-  if (parser_DebugMode == true) ParseTrace(stderr, "[Parser] >> ");
-}
-void PARSER(int token, const double tokenvalue){
-  Parse(theParser, token, tokenvalue, &PARSER_STATE);
-}
-void PARSER_FREE(){
-  ParseFree(theParser, free);
-}
+void PARSER_INIT(bool parser_DebugMode);
+void PARSER(int token, const double tokenvalue);
+void PARSER_FREE();
 
 //Parser END-----------------------------------------------------------

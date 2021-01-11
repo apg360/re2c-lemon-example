@@ -3,7 +3,40 @@
 
 %include
 {
-    #include <parser_definitions.h>
+    //#include <parser_definitions.h>
+
+    #include <stdlib.h>
+    #include <stdbool.h>
+
+    struct parser_state {
+        double result;
+        bool error;
+    };
+
+    void * ParseAlloc(void* (*allocProc)(size_t));
+    void ParseFree(void* parser, void(*freeProc)(void*));
+    void ParseTrace(FILE *TraceFILE, char *str);
+    void Parse(
+        void * parser,                       // The parser
+        int token,                           // The major token code number
+        double tokenvalue,                   // Value associated with a token %token_type { double }
+        struct parser_state * PARSER_STATE          // Optional %extra_argument parameter
+    );
+
+    void * theParser;
+    struct parser_state PARSER_STATE;
+    
+    void PARSER_INIT(bool parser_DebugMode){
+      theParser = ParseAlloc(malloc);
+      if (parser_DebugMode == true) ParseTrace(stderr, "[Parser] >> ");
+    }
+    void PARSER(int token, const double tokenvalue){
+      Parse(theParser, token, tokenvalue, &PARSER_STATE);
+    }
+    void PARSER_FREE(){
+      ParseFree(theParser, free);
+    }
+
 }
 
 %token_type { double }
@@ -14,11 +47,11 @@
 
 // This is to terminate with a new line, the grammar dictate when the expression can no longer be reduced.
 // Without this PARSER(0, 0); Parse(pParse,0,0) had to be called to signal the end of the input for an expression
-main ::= in.
+start ::= in.
 in ::= .
-in ::= in state NEWLINE.
+in ::= in program NEWLINE.
 
-state ::= expr(A).   { PARSER_STATE->result = A; }
+program ::= expr(A).   { PARSER_STATE->result = A; printf("Result : %f\n",PARSER_STATE->result);}
 
 expr(A) ::= expr(B) ADD  expr(C).    { A = B + C; }
 expr(A) ::= expr(B) SUB  expr(C).    { A = B - C; }
@@ -33,6 +66,6 @@ expr(A) ::= LPAREN expr(B) RPAREN.   { A = B; }
 
 expr(A) ::= INT_LITERAL(B).          { A = B; }
 
-%parse_accept  { PARSER_STATE->error = false; printf("Result : %f\n",PARSER_STATE->result); printf("The parser has completed successfully.\n"); }
+%parse_accept  { PARSER_STATE->error = false; printf("The parser has completed successfully.\n"); }
 %syntax_error  { PARSER_STATE->error = true; fprintf(stderr, "Syntax Error.\n"); }
 %parse_failure { PARSER_STATE->error = true; fprintf(stderr, "Parse failure.\n"); }

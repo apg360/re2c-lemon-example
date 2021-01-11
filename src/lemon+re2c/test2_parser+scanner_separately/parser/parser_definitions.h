@@ -1,4 +1,5 @@
 //parser definitions.h START -----------------------
+
 #include <stdlib.h>
 #include <stdbool.h>
 
@@ -7,6 +8,7 @@ struct parser_state {
     bool error;
 };
 
+// header for functions in parser.c  Make sure parser.c is added at compilation time.
 void* ParseAlloc(void* (*allocProc)(size_t));
 void ParseFree(void* parser, void(*freeProc)(void*));
 void ParseTrace(FILE *TraceFILE, char *str);

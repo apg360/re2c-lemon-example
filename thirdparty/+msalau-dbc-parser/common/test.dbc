@@ -1,0 +1,247 @@
+VERSION "v1"
+
+NS_:
+  NS_DESC_
+  CM_
+  BA_DEF_
+  BA_
+  VAL_
+  CAT_DEF_
+  CAT_
+  FILTER
+  BA_DEF_DEF_
+  EV_DATA_
+  ENVVAR_DATA_
+  SGTYPE_
+  SGTYPE_VAL_
+  BA_DEF_SGTYPE_
+  BA_SGTYPE_
+  SIG_TYPE_REF_
+  VAL_TABLE_
+  SIG_GROUP_
+  SIG_VALTYPE_
+  SIGTYPE_VALTYPE_
+  BO_TX_BU_
+  BA_DEF_REL_
+  BA_REL_
+  BA_DEF_DEF_REL_
+  BU_SG_REL_
+  BU_EV_REL_
+  BU_BO_REL_
+  SG_MUL_VAL_
+BS_:
+
+BU_: ECU0 ECU1 ECU2 ECU3
+
+VAL_TABLE_ TFS 0 "FALSE" 1 "TRUE";
+VAL_TABLE_ LRS 0 "LEFT" 1 "RIGHT";
+VAL_TABLE_ UDS 0 "UP" 1 "DOWN";
+VAL_TABLE_ NUMBERS 0 "Zero" +5 "PlusFive" -1 "MinusOne" 1.5 "OneAndAHalf" -3.14 "MinusPi";
+VAL_TABLE_ EmptyValueTable ;
+VAL_TABLE_ FooSignalValues ;
+
+BO_ 60 TestMsg0Le: 8 ECU0
+ SG_ TestMsg0BigEndian8 : 0|8@1+ (1,0) [0|255] ""  ECU1
+ SG_ TestMsg0BigEndian12 : 16|12@1+ (1,0) [0|255] ""  ECU1
+
+BO_ 61 TestMsg0Be: 8 ECU0
+ SG_ TestMsg0BigEndian8 : 7|8@0+ (1,0) [0|255] ""  ECU1
+ SG_ TestMsg0BigEndian12 : 19|12@0+ (1,0) [0|255] ""  ECU1
+
+BO_ 66 TestMsg1: 8 ECU1
+ SG_ TestMsg1Voltage : 0|16@1- (0.001,0) [-32.768|32.767] "V" ECU2,ECU1,ECU0
+ SG_ TestMsg1Current : 16|16@1- (0.001,0) [-32.768|32.767] "A" ECU2
+ SG_ TestMsg1Power : 32|16@1+ (0.001,0) [0|65.535] "W" ECU2
+ SG_ TestMsg1Energy : 48|16@1+ (0.001,100) [100|165.535] "kWh" ECU2
+
+BO_ 67 TestMsg2: 8 ECU1
+ SG_ TestMsg2Signal : 0|16@1+ (1,0) [0|10] "Enum" ECU2
+
+BO_ 68 TestMsg3: 8 ECU1
+ SG_ TestMsg3Voltage : 0|16@1- (0.001,0) [-32.768|32.767] "V" ECU2
+ SG_ TestMsg3Current : 16|16@1- (0.001,1) [-32.768|32.767] "A" ECU2
+ SG_ TestMsg3Power : 32|16@1+ (1.0e-3,0) [0|65.535] "W" ECU2
+ SG_ TestMsg3Energy : 48|16@1+ (0.001,1e2) [1.e2|165.535] "kWh" ECU2
+
+BO_ 69 TestMsg4: 8 ECU3
+ SG_ Muxer M : 0|8@1+ (1,0) [0|3] "" ECU1
+ SG_ Muxed0 m0 : 8|8@1+ (1,0) [0|255] "" ECU1
+ SG_ Muxed1 m1 : 8|8@1+ (1,0) [0|255] "" ECU1
+ SG_ Muxed2 m2 : 8|8@1+ (1,0) [0|255] "" ECU1
+ SG_ M : 16|8@1+ (1,0) [0|255] "" ECU1
+ SG_ m0 m0 : 24|8@1+ (1,0) [0|255] "" ECU1
+ SG_ m1 m1 : 24|8@1+ (1,0) [0|255] "" ECU1
+ SG_ m2 m2 : 24|8@1+ (1,0) [0|255] "" ECU1
+
+BO_ 70 TestMsg5: 8 ECU0
+ SG_ Foo : 0|8@1+ (1,0) [0|255] ""  ECU1,ECU2,ECU3
+
+BO_ 71 TestMsg6: 8 ECU0
+ SG_ Float1 : 0|32@1+ (1,0) [0|0] "" ECU1
+ SG_ Float2 : 32|32@1+ (1,0) [0|0] "" ECU1
+
+BO_ 72 TestComplexMuxing: 8 ECU2
+ SG_ RootMuxer M : 0|8@1+ (1,0) [0|3] "" ECU1
+ SG_ Muxed1 m1M : 8|8@1+ (1,0) [0|255] "" ECU1
+ SG_ Muxed2 m2 : 16|8@1+ (1,0) [0|255] "" ECU1
+ SG_ Muxed3 m3 : 16|8@1+ (1,0) [0|255] "" ECU1
+
+
+BO_TX_BU_ 71 : ECU0,ECU2,ECU3;
+
+EV_ EnvVar1: 0 [-1|5] "" -1 1 DUMMY_NODE_VECTOR8001  ECU0,ECU1,ECU2,ECU3;
+EV_ EnvVar2: 0 [0|0] "" 0 2 DUMMY_NODE_VECTOR1  ECU0;
+EV_ EnvVar3: 0 [0|0] "" 0 3 DUMMY_NODE_VECTOR1  ECU0;
+
+EV_DATA_ EnvVar2: 10;
+ENVVAR_DATA_ EnvVar3: 24;
+
+SGTYPE_ FooSignalType : 8@1+ (1,0) [0|255] "" 1 FooSignalValues ;
+SGTYPE_ BarSignalType : 8@1+ (1,0) [0|255] "" 1 ;
+
+// Comments go below
+
+CM_ "This is a file
+comment
+that spans several lines";
+
+CM_ BO_ 66 "This is a \"frame comment\"";
+CM_ SG_ 66 TestMsg1Current "This is a signal comment";
+CM_ EV_ EnvVar1 "This is a comment for an environment variable #1";
+CM_ EV_ EnvVar2 "This is a comment for an environment variable #2";
+CM_ EV_ EnvVar3 "This is a comment for an environment variable #3";
+CM_ BU_ ECU0 "This is a comment for \"ECU0\"";
+CM_ BU_ ECU1 "This is a comment for \"ECU1\"";
+CM_ BU_ ECU2 "This is a comment for \"ECU2\"";
+
+BA_DEF_ "BusType" STRING;
+BA_DEF_ "BusSpeed" INT 0 1000000;
+BA_DEF_ EV_  "EvAttr" HEX 0 3;
+BA_DEF_ BU_  "SubsystemName" STRING;
+BA_DEF_ BU_  "SystemNodeLongSymbol" STRING;
+BA_DEF_ BO_  "GenMsgSendType" ENUM  "Cyclic","NotUsed","NotUsed","NotUsed","NotUsed","NotUsed","NotUsed","IfActive","NoMsgSendType","NotUsed","vector_leerstring";
+BA_DEF_ BO_  "GenMsgCycleTime" INT 0 50000;
+BA_DEF_ BO_  "SystemMessageLongSymbol" STRING;
+BA_DEF_ SG_  "GenSigStartValue" INT 0 65536;
+BA_DEF_ SG_  "GenSigStartValueForType" INT 0 65536;
+BA_DEF_ SG_  "GenSigStringAttrForType" STRING;
+BA_DEF_ SG_  "SystemSignalLongSymbol" STRING;
+
+BA_DEF_REL_ BU_BO_REL_ "GenMsgCycleTimeOnError" INT 0 1000;
+BA_DEF_REL_ BU_SG_REL_ "GenSigStartValueOnError" INT 0 65536;
+BA_DEF_REL_ BU_EV_REL_ "EvValueForBu" INT 0 100;
+
+// BA_DEF_SGTYPE_ mus appear after all BA_DEF_(REL_)? and before BA_DEF_DEF_(REL_)?
+BA_DEF_SGTYPE_ "GenSigStartValueForType";
+BA_DEF_SGTYPE_ "GenSigStringAttrForType";
+
+BA_DEF_DEF_ "BusType" "";
+BA_DEF_DEF_ "BusSpeed" 125000;
+BA_DEF_DEF_ "EvAttr" 2;
+BA_DEF_DEF_ "SubsystemName" "";
+BA_DEF_DEF_ "GenMsgSendType" "Cyclic";
+BA_DEF_DEF_ "GenMsgCycleTime" 100;
+BA_DEF_DEF_ "GenSigStartValue" 0;
+BA_DEF_DEF_ "SystemMessageLongSymbol" "";
+BA_DEF_DEF_ "SystemSignalLongSymbol" "";
+BA_DEF_DEF_ "SystemNodeLongSymbol" "";
+
+BA_DEF_DEF_REL_ "GenMsgCycleTimeOnError" 10;
+BA_DEF_DEF_REL_ "GenSigStartValueOnError" 2;
+BA_DEF_DEF_REL_ "EvValueForBu" 2;
+
+
+BA_ "BusType" "CAN";
+BA_ "BusSpeed" 500000;
+BA_ "EvAttr" EV_ EnvVar1 1;
+BA_ "EvAttr" EV_ EnvVar2 2;
+BA_ "EvAttr" EV_ EnvVar3 3;
+BA_ "SubsystemName" BU_ ECU0 "System0";
+BA_ "SubsystemName" BU_ ECU1 "System1";
+BA_ "SubsystemName" BU_ ECU2 "System2";
+BA_ "SubsystemName" BU_ ECU3 "System3";
+BA_ "SystemNodeLongSymbol" BU_ ECU3 "ECU3LongName";
+BA_ "GenMsgSendType" BO_ 66 0;
+BA_ "GenMsgSendType" BO_ 67 7;
+BA_ "GenMsgSendType" BO_ 68 7;
+BA_ "GenMsgSendType" BO_ 69 8;
+BA_ "GenMsgSendType" BO_ 70 0;
+BA_ "GenMsgSendType" BO_ 71 0;
+BA_ "GenMsgCycleTime" BO_ 66 100;
+BA_ "GenMsgCycleTime" BO_ 67 50;
+BA_ "GenMsgCycleTime" BO_ 68 10000;
+BA_ "GenMsgCycleTime" BO_ 69 200;
+BA_ "GenMsgCycleTime" BO_ 70 300;
+BA_ "GenMsgCycleTime" BO_ 71 400;
+BA_ "GenSigStartValue" SG_ 70 Foo 42;
+BA_ "SystemMessageLongSymbol" BO_ 66 "TestMsg1LongName";
+BA_ "SystemSignalLongSymbol" SG_ 66 TestMsg1Voltage "TestMsg1VoltageLongName";
+
+
+// Applies only to senders
+BA_REL_ "GenMsgCycleTimeOnError" BU_BO_REL_ ECU0 71 100;
+BA_REL_ "GenMsgCycleTimeOnError" BU_BO_REL_ ECU2 71 100;
+BA_REL_ "GenMsgCycleTimeOnError" BU_BO_REL_ ECU3 71 100;
+
+// Applies only to receivers
+BA_REL_ "GenSigStartValueOnError" BU_SG_REL_ ECU1 SG_ 70 Foo 3 ;
+BA_REL_ "GenSigStartValueOnError" BU_SG_REL_ ECU2 SG_ 70 Foo 4 ;
+BA_REL_ "GenSigStartValueOnError" BU_SG_REL_ ECU3 SG_ 70 Foo 5 ;
+
+// Applies only to ECUs listed in EV_ statement
+BA_REL_ "EvValueForBu" BU_EV_REL_ ECU0 EnvVar1 10;
+BA_REL_ "EvValueForBu" BU_EV_REL_ ECU1 EnvVar1 11;
+BA_REL_ "EvValueForBu" BU_EV_REL_ ECU2 EnvVar1 12;
+BA_REL_ "EvValueForBu" BU_EV_REL_ ECU3 EnvVar1 13;
+
+// BA_SGTYPE_ may appear anywhere in BA_(REL_)? section
+BA_SGTYPE_ "GenSigStartValueForType" SGTYPE_ FooSignalType 100;
+BA_SGTYPE_ "GenSigStringAttrForType" SGTYPE_ FooSignalType "Foo";
+
+// Multiline statements should be ok
+VAL_ 67 TestMsg2Signal
+     0 "NOP"
+     1 "ACT0"
+     2 "ACT2"
+     -1 "NEG"
+     ;
+
+VAL_ 70 Foo 0 "Zero" 1 "One" 2 "Two" 3 "Three";
+VAL_ EnvVar1 0 "Zero" 1 "One" 2 "Two" -1 "MinusOne";
+
+CAT_DEF_ 1 Category1 1;
+CAT_DEF_ 2 Category1 2;
+CAT_DEF_ 3 Category1 3;
+
+CAT_ EV_ EnvVar1 1;
+CAT_ EV_ EnvVar2 2;
+CAT_ EV_ EnvVar3 3;
+
+CAT_ BU_ ECU0 1;
+CAT_ BU_ ECU1 1;
+CAT_ BU_ ECU2 2;
+CAT_ BU_ ECU3 3;
+
+CAT_ BO_ 66 1;
+CAT_ BO_ 67 2;
+CAT_ BO_ 68 3;
+CAT_ BO_ 69 1;
+CAT_ BO_ 70 2;
+CAT_ BO_ 71 3;
+
+FILTER 0 CAT_ 1 2 3 BU_ ECU0 ECU1 ECU2 ECU3;
+
+SIG_TYPE_REF_ 70 Foo : FooSignalType ;
+
+SIG_GROUP_ 71 FloatValues 1 : Float1 Float2;
+
+SIG_VALTYPE_ 71 Float1 : 1;
+SIG_VALTYPE_ 71 Float2 : 1;
+
+SG_MUL_VAL_ 69 m0 M 0-3, 16-23;
+SG_MUL_VAL_ 69 m1 M 4-7, 24-31;
+SG_MUL_VAL_ 69 m2 M 8-15, 32-47;
+
+SG_MUL_VAL_ 72 Muxed1 RootMuxer 1-1;
+SG_MUL_VAL_ 72 Muxed2 Muxed1 2-2;
+SG_MUL_VAL_ 72 Muxed3 Muxed1 3-3;
