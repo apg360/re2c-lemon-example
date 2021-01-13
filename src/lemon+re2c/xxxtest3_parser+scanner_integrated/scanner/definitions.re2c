@@ -1,0 +1,92 @@
+//definitions.re2c START -----------------------
+#include <common.h>  // A library with most common needs when programming
+#include <token.h>   // 
+
+typedef enum { FAIL, OK } Result; //typedef enum { false, true } bool; // 0, 1
+
+bool scanner_DebugMode = false;
+
+/*
+    'a' means the value of the character a.
+    "a" means the address of the memory location where the string "a" is stored 
+    (which will generally be in the data section of your program's memory space).
+    At that memory location, you will have two bytes -- the character 'a' and the null terminator for the string.
+*/
+enum scanner_tokentype {
+  END_TOKEN,
+  RETURN,
+  NAME,
+  STRING_LITERAL,
+  INT_LITERAL,
+  INT_TYPE,
+  WHITESPACE,
+  UNDERSCORE='_',
+  SEMICOLON=';',
+  DOT='.',
+  COMMA=',',
+  ADD='+', SUB='-', MUL='*', DIV='/',
+  ASSIGN='=',
+  CEQ,//='==',
+  CNE,//='!=',
+  CLT='<',
+  CLE,//='<=',
+  CGT='>',
+  CGE,//='>=',
+  LPAREN='(',
+  RPAREN=')',
+  LBRACE='{',
+  RBRACE='}'
+};
+
+void println(const char *str) {
+  printf("%s\n",str);
+}
+
+struct scanner_state
+{
+    const char *cursor;             // current_char : the next input character to be read.  A pointer-like l-value that stores the current input position
+    const char *begin;              //first_char
+    const char *end;                //last_char, limit, YYLIMIT  : the position after the last available input character.   A pointer-like r-value that stores the end of input position
+                                    //                Lexer compares YYCURSOR to YYLIMIT in order to determine if there is enough input characters left
+    const char *marker;             // marker - the position of the most recent match
+    const char *lexeme;             // the next input remaining to be scanned.
+
+    enum scanner_tokentype tokentype;           //
+    union Token tokenvalue;         // the current matched value. No more than 255 characters
+
+    int line_number, column_position;           //line number, column position
+};
+
+
+/*
+R* : zero or more occurrences of the regular expression R.
+R+ : one or more repetition of the regular expression R.
+R? : zero or one R. That means, there maybe an R or not.
+*/
+/*!re2c
+    //regex types
+    end = "\r\n"|"\n"|"\x00";             // carriage return+new line or new line or 0     /// LF(Line Feed)=10 CR(Carriage Return)=13  https://www.eso.org/~ndelmott/ascii.html
+    whitespace = [ \t\r\n\v\f]+;          // whitespace
+    any = [\000-\377];
+    
+    letter = [A-Za-z];                    // [A-Za-z]  = will scan one letter at a time, letter after letter
+    word = [A-Za-z]+;                     // [A-Za-z]+ = word after word
+    number = [0-9]+;                      // integer
+    double = [0-9]+.[0-9]*;               // [0-9]+|[0-9]*\.[0-9]+  ///  ([0-9]+[.][0-9]*)|([.][0-9]+)|([0-9]+) ///  [-+]?([0-9]+([.][0-9]*)?|[.][0-9]+)([Ee][-+]?[0-9]+)?;
+    digits  = [1-9][0-9]*;                // [0-9][0-9.,]+
+    alphanum = [A-Za-z0-9];               // alphanumeric
+    identifier = [_a-zA-Z][_a-zA-Z0-9_]*;  // An identifier can never start with a number
+    hexadecimal_digits = [A-Fa-f0-9]+;     //
+    punctuation = [!"#$%&’()*+,-./:;?@[\\\]_‘{|}~];
+    
+    dig = [0-9];
+    let = [_a-zA-Z_];
+    int_des = [uUlL]*;
+    
+    bin = '0b' [01]+;
+    oct = "0" [0-7]*;
+    dec = [1-9][0-9]*;
+    hex = '0x' [0-9a-fA-F]+;
+    
+*/
+//definitions.re2c END -----------------------

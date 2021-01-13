@@ -18,28 +18,30 @@ int main() {
     PARSER_INIT(false);
     // First input: 
     //      15 / 5
-    PARSER(INT_LITERAL, 15);
-    PARSER(DIV, 0);
-    PARSER(INT_LITERAL, 5);
-    PARSER(NEWLINE, 0);
+    PARSER(TK_INT_LITERAL, 15);
+    PARSER(TK_DIV, 0);
+    PARSER(TK_INT_LITERAL, 5);
+    PARSER(TK_NEWLINE, 0);
     PARSER(0, 0);
 
     //  Second input:
     //      50 + 125
-    PARSER(INT_LITERAL, 50);
-    PARSER(ADD, 0);
-    PARSER(INT_LITERAL, 125);
-    PARSER(NEWLINE, 0);
+    PARSER(TK_INT_LITERAL, 50);
+    PARSER(TK_ADD, 0);
+    PARSER(TK_INT_LITERAL, 125);
+    PARSER(TK_NEWLINE, 0);
     PARSER(0, 0);
 
     //  Third input:
-    //      50 * 125 + 125
-    PARSER(INT_LITERAL, 50);
-    PARSER(MUL, 0);
-    PARSER(INT_LITERAL, 125);
-    PARSER(ADD, 0);
-    PARSER(INT_LITERAL, 125);
-    PARSER(NEWLINE, 0);
+    //      50 * 125 - 50 + 125
+    PARSER(TK_INT_LITERAL, 50);
+    PARSER(TK_MUL, 0);
+    PARSER(TK_INT_LITERAL, 125);
+    PARSER(TK_SUB, 0);
+    PARSER(TK_INT_LITERAL, 50);
+    PARSER(TK_ADD, 0);
+    PARSER(TK_INT_LITERAL, 125);
+    PARSER(TK_NEWLINE, 0);
     PARSER(0, 0);
 
     char *commandLine;

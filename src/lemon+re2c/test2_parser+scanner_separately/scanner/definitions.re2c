@@ -1,73 +1,8 @@
 //definitions.re2c START -----------------------
-#include <common.h>
-
-typedef enum { FAIL, OK } Result; //typedef enum { false, true } bool; // 0, 1
+#include <common.h>  // A library with most common needs when programming
+#include <token.h>   // 
 
 bool scanner_DebugMode = false;
-
-/*
-    'a' means the value of the character a.
-    "a" means the address of the memory location where the string "a" is stored 
-    (which will generally be in the data section of your program's memory space).
-    At that memory location, you will have two bytes -- the character 'a' and the null terminator for the string.
-*/
-enum scanner_tokentype {
-  END_TOKEN,
-  RETURN,
-  NAME,
-  STRING_LITERAL,
-  INT_LITERAL,
-  INT_TYPE,
-  WHITESPACE,
-  UNDERSCORE='_',
-  SEMICOLON=';',
-  DOT='.',
-  COMMA=',',
-  ADD='+', SUB='-', MUL='*', DIV='/',
-  ASSIGN='=',
-  CEQ,//='==',
-  CNE,//='!=',
-  CLT='<',
-  CLE,//='<=',
-  CGT='>',
-  CGE,//='>=',
-  LPAREN='(',
-  RPAREN=')',
-  LBRACE='{',
-  RBRACE='}'
-};
-// https://data-flair.training/blogs/union-in-c-language/
-// union means only one member can be accessed at a time in a union.
-// Only one data member of a union can be accessed at one time.
-// Not a struct with many members but a struct with one single member, that can be one of those.
-// A union prohibits the initialization of all its data members. The first member of the union can only be initialized through an object.
-// ll the data members of a union share the same memory location. Hence, changes made in one data member inevitably affects the other.
-union scanner_tokenvalue
-{
-    int   number;
-    char  string[255];
-};
-
-void println(const char *str) {
-  printf("%s\n",str);
-}
-
-struct scanner_state
-{
-    const char *cursor;             // current_char : the next input character to be read.  A pointer-like l-value that stores the current input position
-    const char *begin;              //first_char
-    const char *end;                //last_char, limit, YYLIMIT  : the position after the last available input character.   A pointer-like r-value that stores the end of input position
-                                    //                Lexer compares YYCURSOR to YYLIMIT in order to determine if there is enough input characters left
-    const char *marker;             // marker - the position of the most recent match
-    const char *lexeme;             // the next input remaining to be scanned.
-
-    enum scanner_tokentype tokentype;      //
-    char tokenvalue[255];                  // the current matched value.  no more than 255 characters
-    union scanner_tokenvalue *tokenvaluestruct;//not used
-
-    int line_number, column_position;       //line number, column position
-};
-
 
 /*
 R* : zero or more occurrences of the regular expression R.

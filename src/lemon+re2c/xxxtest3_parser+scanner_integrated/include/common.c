@@ -1,10 +1,6 @@
 
 #include "common.h"
 
-void println(const char *str) {
-  printf("%s\n",str);
-}
-
 /*
   https://stackoverflow.com/questions/2667648/what-does-it-mean-to-be-terminated-by-a-zero
 
