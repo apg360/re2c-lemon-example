@@ -43,7 +43,7 @@ int main() {
     PARSER(TK_INT_LITERAL, 125);
     PARSER(TK_NEWLINE, 0);
     PARSER(0, 0);
-
+    
     char *commandLine;
     while (  (commandLine = dynamic_fgets())  ){
       

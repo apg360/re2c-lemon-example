@@ -1,4 +1,5 @@
 // https://sqlite.org/src/doc/trunk/doc/lemon.html
+// https://sqlite.org/src/doc/trunk/doc/lemon.html#token_type
 // http://souptonuts.sourceforge.net/readme_lemon_tutorial.html
 
 %include
@@ -58,8 +59,9 @@ program ::= expr(A).   { PARSER_STATE->result_value.number = A; }
 expr(X) ::= expr(A) ADD  expr(B).    { X = A + B; }
 expr(X) ::= expr(A) SUB  expr(B).    { X = A - B; }
 expr(X) ::= expr(A) MUL  expr(B).    { X = A * B; }
-//expr(X) ::= expr(A) DIV  expr(B).    { X = A / B; }
-//{ if(B != 0){ X = A / B; }else{ printf("divide by zero" ); PARSER_STATE->error = true;} }// end of DIVIDE
+expr(X) ::= expr(A) DIV  expr(B).    { if(B != 0){ X = A / B; 
+                                       }else{ printf("divide by zero" ); PARSER_STATE->error = true;} 
+                                     }// end of DIVIDE
 
 expr(X) ::= LPAREN expr(A) RPAREN.   { X = A; }
 

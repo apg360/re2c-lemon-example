@@ -42,7 +42,7 @@ enum scanner_tokentype {
 // Not a struct with many members but a struct with one single member, that can be one of those.
 // A union prohibits the initialization of all its data members. The first member of the union can only be initialized through an object.
 // ll the data members of a union share the same memory location. Hence, changes made in one data member inevitably affects the other.
-union _Token {
+union _Tokenvalue {
     double   number;
     char     string[255];
 };
@@ -56,14 +56,14 @@ struct _scanner_state
     const char *marker;                 // marker - the position of the most recent match
     const char *lexeme;                 // the next input remaining to be scanned.
 
-    enum scanner_tokentype tokentype;   //
-    union _Token tokenvalue;            // the current matched value. No more than 255 characters
+    enum scanner_tokentype tokentype;   // int tokentype; when using <parser.h>
+    union _Tokenvalue tokenvalue;       // the current matched value. No more than 255 characters
 
     int line_number, column_position;   // line number, column position
 };
 
 struct _parser_state {
-    union _Token result_value;
+    union _Tokenvalue result_value;
     bool error;
 };
 
