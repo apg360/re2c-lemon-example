@@ -7,7 +7,13 @@
 #include <string.h>  // strlen, strcmp
 #include <stdbool.h> // bool
 
-typedef enum { FAIL, OK } Result; //typedef enum { false, true } bool; // 0, 1
+typedef enum { FAIL, OK } Result;
+//typedef enum { false, true } bool; // 0, 1
+/*
+#define VRAI 1
+#define FAUX 0
+typedef int BOOLEAN;
+*/
 
 char* dynamic_fgets (void);
 char* substr(const char *src, int m, int n);

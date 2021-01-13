@@ -63,6 +63,7 @@ continue_scanning:
       "/*"            { goto comment; }
       '('             { set_token( MACRO_VALUE_AND_NAME(TK_LPAREN)      ); goto parser_now;}
       ")"             { set_token( MACRO_VALUE_AND_NAME(TK_RPAREN)      ); goto parser_now;}
+      "^"             { set_token( MACRO_VALUE_AND_NAME(TK_EXP)         ); goto parser_now;}
       "/"             { set_token( MACRO_VALUE_AND_NAME(TK_DIV)         ); goto parser_now;}
       "*"             { set_token( MACRO_VALUE_AND_NAME(TK_MUL)         ); goto parser_now;}
       "+"             { set_token( MACRO_VALUE_AND_NAME(TK_ADD)         ); goto parser_now;}
@@ -103,4 +104,14 @@ parser_now:
     
     }//end for loop
     if (scanner_DebugMode == true) printf("\n ** THE END ** \n");
+}
+
+double eval(const char *the_text)
+{
+    double result;
+    SCANNER(the_text);
+    // Access PARSER_STATE and take the result value
+    result = PARSER_STATE.result_value.number;
+    
+    return result;
 }
