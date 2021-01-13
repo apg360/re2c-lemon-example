@@ -1,0 +1,31 @@
+int a;
+int b;
+int c;
+int d;
+void main(void)
+{
+ 
+if(c>d)
+  {if(c==a)c=b+a*c-d;
+   else c=a-b;
+  }
+else
+  {
+   if(b==a)c=b*d;
+   else c=a;  
+  }
+ 
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
