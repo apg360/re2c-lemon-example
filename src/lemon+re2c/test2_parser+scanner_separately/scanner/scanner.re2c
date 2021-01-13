@@ -11,9 +11,6 @@
 // the contents of 'definitions.re2c' are copy-pasted verbatim in place of the directive
 /*!include:re2c "definitions.re2c"*/
 
-
-struct _scanner_state SCANNER_STATE;
-
 void set_token_value(const char *token_type)
 {
   sprintf( SCANNER_STATE.tokenvalue.string, "%s (\'%.*s\')",token_type, (int)(SCANNER_STATE.cursor - SCANNER_STATE.begin), SCANNER_STATE.begin );

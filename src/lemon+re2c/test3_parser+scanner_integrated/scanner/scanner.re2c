@@ -1,0 +1,106 @@
+// re2c $INPUT -o $OUTPUT -i
+// french : https://fr.qaz.wiki/wiki/Re2c
+// english : https://wikivisually.com/wiki/re2c
+// https://www.systutorials.com/docs/linux/man/1-re2c
+// https://re2c.org/manual/manual_c.html
+//
+// With Lemon it is the lexer/tokenizer that calls/initiate the parser
+// re2c calls lemon
+//----------------------------------------------------------------------
+
+// the contents of 'definitions.re2c' are copy-pasted verbatim in place of the directive
+/*!include:re2c "definitions.re2c"*/
+
+void set_token(const int tokentype, const char* tokentypename)
+{
+    SCANNER_STATE.Token.type = tokentype;
+    SCANNER_STATE.Token.type_name = tokentypename;
+    
+    //get the equivalent int value of the string, as in parse.h
+    //printf("%d = %s \n",tokentype,tokentypename); // SCANNER_STATE.Token.type, SCANNER_STATE.Token.code);
+    
+    // if numeric (TK_INT_LITERAL) then take input as a string and convert it to double
+    if ( TK_INT_LITERAL == tokentype )
+    {
+        char tokenvalue_string[255];
+        sprintf( tokenvalue_string, "%.*s", (int)(SCANNER_STATE.cursor - SCANNER_STATE.begin), SCANNER_STATE.begin );
+        // converting string to double
+        sscanf( tokenvalue_string, "%lf", &SCANNER_STATE.Token.value.number);
+    }
+}
+
+void SCANNER(const char *the_text)
+{
+    SCANNER_STATE.begin = the_text;
+    SCANNER_STATE.end = the_text + strlen(the_text);
+    SCANNER_STATE.cursor = the_text;
+    SCANNER_STATE.lexeme = the_text;
+    SCANNER_STATE.line_number = 1;
+    SCANNER_STATE.column_position = 1;
+    
+    printf(" ** START Scanning : '%s'\n",the_text);
+    if (scanner_DebugMode == true) printf("Number of characters %lu\n", strlen(the_text));
+    
+    /*!re2c 
+      //configuration
+      re2c:define:YYCURSOR = SCANNER_STATE.cursor;
+      re2c:define:YYMARKER = SCANNER_STATE.marker;
+      re2c:define:YYCTYPE = char;                    // The type of the input characters (code units). For ASCII, EBCDIC and UTF-8 encodings it should be 1-byte unsigned integer.
+      re2c:yyfill:enable = 0;
+    */
+    
+    // Infinite loop
+    for (;;) {
+continue_scanning:
+    if (SCANNER_STATE.cursor >= SCANNER_STATE.end) {
+        SCANNER_STATE.Token.type = TK_NEWLINE; goto parser_now;
+    }
+    SCANNER_STATE.begin = SCANNER_STATE.cursor;
+    SCANNER_STATE.Token.type = 0;
+    SCANNER_STATE.Token.value.number = 0;
+    
+    /*!re2c
+      "/*"            { goto comment; }
+      '('             { set_token( MACRO_VALUE_AND_NAME(TK_LPAREN)      ); goto parser_now;}
+      ")"             { set_token( MACRO_VALUE_AND_NAME(TK_RPAREN)      ); goto parser_now;}
+      "/"             { set_token( MACRO_VALUE_AND_NAME(TK_DIV)         ); goto parser_now;}
+      "*"             { set_token( MACRO_VALUE_AND_NAME(TK_MUL)         ); goto parser_now;}
+      "+"             { set_token( MACRO_VALUE_AND_NAME(TK_ADD)         ); goto parser_now;}
+      "-"             { set_token( MACRO_VALUE_AND_NAME(TK_SUB)         ); goto parser_now;}
+
+      number          { set_token( MACRO_VALUE_AND_NAME(TK_INT_LITERAL) ); goto parser_now;}
+
+      whitespace      { goto continue_scanning;}
+      end { SCANNER_STATE.lexeme = SCANNER_STATE.cursor; SCANNER_STATE.line_number++; goto continue_scanning; }
+      
+      // Default rule : Anything else
+      any { printf("unexpected character: %c\n", *SCANNER_STATE.cursor+1); goto continue_scanning; }
+    */
+
+comment:
+    /*!re2c
+      "*/"          { goto continue_scanning; }
+      "\n"          { SCANNER_STATE.line_number++; goto comment; }
+      any           { goto comment; }
+    */
+
+parser_now:
+    // end inifinite loop when TK_NEWLINE
+    if( TK_NEWLINE == SCANNER_STATE.Token.type )
+    {
+      PARSER(&SCANNER_STATE.Token);
+      break;
+    };
+    
+    SCANNER_STATE.column_position=(int)(SCANNER_STATE.begin - SCANNER_STATE.lexeme);
+    
+    if (scanner_DebugMode == true) { 
+      printf("Line:%d / Col:%d ", SCANNER_STATE.line_number, SCANNER_STATE.column_position);
+      printf("parser(%s, %.lf) \n", SCANNER_STATE.Token.type_name, SCANNER_STATE.Token.value.number); // Formating number of digits after dot %.15lf
+    }
+    
+    PARSER(&SCANNER_STATE.Token );
+    
+    }//end for loop
+    if (scanner_DebugMode == true) printf("\n ** THE END ** \n");
+}
