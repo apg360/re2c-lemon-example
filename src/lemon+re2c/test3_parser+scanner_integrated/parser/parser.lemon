@@ -3,17 +3,17 @@
 // http://souptonuts.sourceforge.net/readme_lemon_tutorial.html
 
 /*
-    <> (inequality) - use != instead
-    add (concatenation (strings)) - use + instead
-    eq (equality (strings)) - use == instead
-    ne (not equal (strings)) - use != instead
-    lt (less than (strings)) - use < instead
-    le (less than or equal to (strings)) - use <= instead
-    gt (greater than (strings)) - use > instead
-    ge (greater than or equal to (strings)) - use >= instead
-    and (logical and) - use && instead
-    or (logical or) - use || instead
-    not (logical not) - use ! instead
+    <> (inequality) 							- use != instead
+    add (concatenation (strings)) 				- use + instead
+    eq (equality (strings)) 					- use == instead
+    ne (not equal (strings)) 					- use != instead
+    lt (less than (strings)) 					- use < instead
+    le (less than or equal to (strings)) 		- use <= instead
+    gt (greater than (strings)) 				- use > instead
+    ge (greater than or equal to (strings)) 	- use >= instead
+    and (logical and) 							- use && instead
+    or (logical or) 							- use || instead
+    not (logical not) 							- use ! instead
 */
 
 %syntax_error  { PARSER_STATE->error = true; fprintf(stderr, "Syntax Error.\n"); }
