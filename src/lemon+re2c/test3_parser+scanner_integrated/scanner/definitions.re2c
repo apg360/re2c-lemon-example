@@ -27,12 +27,30 @@ R? : zero or one R. That means, there maybe an R or not.
 */
 /*!re2c
     //regex types
-    end = "\r\n"|"\n"|"\x00";             // carriage return+new line or new line or 0     /// LF(Line Feed)=10 CR(Carriage Return)=13  https://www.eso.org/~ndelmott/ascii.html
-    whitespace = [ \t\r\n\v\f]+;          // whitespace
+    
+    // https://www.eso.org/~ndelmott/ascii.html
+    // https://c.developpez.com/cours/bernard-cassagne/node17.php#SECTION00383000000000000000
+    // LF(Line Feed)=10 CR(Carriage Return)=13
+    // carriage return+new line or new line or 0
+    // \n  new line
+    // \r  carriage return
+    // \x00  NUL
+    // \x0A  newline
+    // \x0D  return
+    //-----------------
+    // \t  horizontal tabulation
+    // \v  vertical tabulation
+    // \b  back space
+    // \f  form feed
+    // \a  audible alert
+    //-----------------
+    
+    end = ";"|"\r"|"\n"|"\r\n"|"\x00"|"\x0A"|"\x0D";
+    whitespace = [ \t\v\f]+;          // whitespace
     any = [\000-\377];
     
     letter = [A-Za-z];                     // [A-Za-z]  = will scan one letter at a time, letter after letter
-    word = [A-Za-z]+;                      // [A-Za-z]+ = word after word
+    word   = [A-Za-z]+;                    // [A-Za-z]+ = word after word
     number = [0-9]+;                       // do not do -number or +number, You return - and INTEGER separately to the parser, and let the parser handle unary minus.
                                            //      [-+]?([0-9]+([.][0-9]*)?|[.][0-9]+)([Ee][-+]?[0-9]+)?;
     double = [0-9]+.[0-9]*;                // [0-9][0-9.,]+   [0-9]+|[0-9]*\.[0-9]+  ///  ([0-9]+[.][0-9]*)|([.][0-9]+)|([0-9]+)

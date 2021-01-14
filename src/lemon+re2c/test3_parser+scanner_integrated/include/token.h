@@ -4,21 +4,26 @@
 
 #define MACRO_VALUE_AND_NAME(X)  X, #X  // eg : this call MACRO_VALUE_AND_NAME(TK_NEWLINE) will return 5,TK_NEWLINE
 
-// https://data-flair.training/blogs/union-in-c-language/
+//https://zestedesavoir.com/tutoriels/755/le-langage-c-1/notions-avancees/les-unions
+// https://data-flair.training/blogs/union-in-c-language
 // union means only one member can be accessed at a time in a union.
 // Only one data member of a union can be accessed at one time.
 // Not a struct with many members but a struct with one single member, that can be one of those.
 // A union prohibits the initialization of all its data members. The first member of the union can only be initialized through an object.
 // ll the data members of a union share the same memory location. Hence, changes made in one data member inevitably affects the other.
 union _Tokenvalue {
-    double   number;
-    char     string[255];
+    double   value_is_a_number;
+    char     value_is_a_string[255]; // the current assigned value. No more than 255 characters
 };
 
 struct _Token {
     int  type;                  // int value as found in <parser.h>
     const char * type_name;     // string name as found in <parser.h>
-    union _Tokenvalue value;    // the current assigned value. No more than 255 characters
+    union
+    {
+        double   value_is_a_number;
+        char     value_is_a_string[255]; // the current assigned value. No more than 255 characters
+    };
 };
 
 struct _scanner_state

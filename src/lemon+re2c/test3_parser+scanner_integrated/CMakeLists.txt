@@ -9,7 +9,7 @@ file(RENAME ${CMAKE_CURRENT_SOURCE_DIR}/scanner/scanner.h ${CMAKE_CURRENT_BINARY
 file(RENAME ${CMAKE_CURRENT_SOURCE_DIR}/parser/parser.h ${CMAKE_CURRENT_BINARY_DIR}/parser.h)
 file(RENAME ${CMAKE_CURRENT_SOURCE_DIR}/parser/parser.c ${CMAKE_CURRENT_BINARY_DIR}/parser.c)
 file(RENAME ${CMAKE_CURRENT_SOURCE_DIR}/parser/parser.out ${CMAKE_CURRENT_BINARY_DIR}/parser.out)
-#file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/parser/parser_definitions.h DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/test.dat DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
 add_executable(${CMAKE_PROJECT_NAME} src/main.c build/parser.c)
 

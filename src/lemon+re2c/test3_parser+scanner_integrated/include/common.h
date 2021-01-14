@@ -21,3 +21,5 @@ char** str_split(char* a_str, const char a_delim);
 void removeChar(char *str, char garbage);
 int removechars(char *str, size_t pos, size_t cnt);
 void println(const char *str);
+double char_to_double(char * pString);
+const char * readFile();

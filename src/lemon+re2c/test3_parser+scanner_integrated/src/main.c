@@ -64,18 +64,31 @@ void validation_test()
     assert( eval("2 ^ (3 ^ 2)")                   == 512);
     assert( eval("2 ^ -1")                        == 0.5);
     assert( eval("-2 ^ 1")                        == -2);
+    //
+    /*assert( eval("0 % 4")                         == 0);
+    assert( eval("1 % 4")                         == 1);
+    assert( eval("2 % 4")                         == 2);
+    assert( eval("3 % 4")                         == 3);
+    assert( eval("4 % 4")                         == 0);
+    assert( eval("5 % 4")                         == 1);
+    assert( eval("6 % 4")                         == 2);
+    assert( eval("7 % 4")                         == 3);
+    assert( eval("8 % 4")                         == 0);*/
 }
 
 int main() {
 
-    scanner_DebugMode=false;
+    scanner_DebugMode=true;
     PARSER_INIT(false);
     
-    validation_test();
+    //validation_test();
     
-    SCANNER("50 + 125");
+    SCANNER("50 + 125;");
     SCANNER("15 / 5");
     SCANNER("50 * 125 - 50 + 125");
+    
+    //Process test.dat
+    //SCANNER( readFile() );
     
     char *commandLine;
     while (  (commandLine = dynamic_fgets())  ){

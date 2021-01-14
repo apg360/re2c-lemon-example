@@ -25,7 +25,7 @@ void set_token(const int tokentype, const char* tokentypename)
         char tokenvalue_string[255];
         sprintf( tokenvalue_string, "%.*s", (int)(SCANNER_STATE.cursor - SCANNER_STATE.begin), SCANNER_STATE.begin );
         // converting string to double
-        sscanf( tokenvalue_string, "%lf", &SCANNER_STATE.Token.value.number);
+        SCANNER_STATE.Token.value_is_a_number = char_to_double(tokenvalue_string);
     }
 }
 
@@ -52,12 +52,15 @@ void SCANNER(const char *the_text)
     // Infinite loop
     for (;;) {
 continue_scanning:
-    if (SCANNER_STATE.cursor >= SCANNER_STATE.end) {
-        SCANNER_STATE.Token.type = TK_NEWLINE; goto parser_now;
-    }
+    // TK_NEWLINE or if reached end of text
+    if ( TK_NEWLINE == SCANNER_STATE.Token.type || SCANNER_STATE.cursor >= SCANNER_STATE.end )
+    {
+      goto parser_now;
+    };
+    
     SCANNER_STATE.begin = SCANNER_STATE.cursor;
     SCANNER_STATE.Token.type = 0;
-    SCANNER_STATE.Token.value.number = 0;
+    SCANNER_STATE.Token.value_is_a_number = 0;
     
     /*!re2c
       "/*"            { goto comment; }
@@ -68,11 +71,17 @@ continue_scanning:
       "*"             { set_token( MACRO_VALUE_AND_NAME(TK_MUL)         ); goto parser_now;}
       "+"             { set_token( MACRO_VALUE_AND_NAME(TK_ADD)         ); goto parser_now;}
       "-"             { set_token( MACRO_VALUE_AND_NAME(TK_SUB)         ); goto parser_now;}
-
+      "%"             { set_token( MACRO_VALUE_AND_NAME(TK_MOD)         ); goto parser_now;}
+      
       number          { set_token( MACRO_VALUE_AND_NAME(TK_INT_LITERAL) ); goto parser_now;}
-
+      
       whitespace      { goto continue_scanning;}
-      end { SCANNER_STATE.lexeme = SCANNER_STATE.cursor; SCANNER_STATE.line_number++; goto continue_scanning; }
+      
+      end             { set_token( MACRO_VALUE_AND_NAME(TK_NEWLINE)     );
+                        SCANNER_STATE.lexeme = SCANNER_STATE.cursor;
+                        SCANNER_STATE.line_number++;
+                        goto parser_now;
+                      }
       
       // Default rule : Anything else
       any { printf("unexpected character: %c\n", *SCANNER_STATE.cursor+1); goto continue_scanning; }
@@ -97,7 +106,7 @@ parser_now:
     
     if (scanner_DebugMode == true) { 
       printf("Line:%d / Col:%d ", SCANNER_STATE.line_number, SCANNER_STATE.column_position);
-      printf("parser(%s, %.lf) \n", SCANNER_STATE.Token.type_name, SCANNER_STATE.Token.value.number); // Formating number of digits after dot %.15lf
+      printf("parser(%s, %.lf) \n", SCANNER_STATE.Token.type_name, SCANNER_STATE.Token.value_is_a_number); // Formating number of digits after dot %.15lf
     }
     
     PARSER(&SCANNER_STATE.Token );
@@ -111,7 +120,7 @@ double eval(const char *the_text)
     double result;
     SCANNER(the_text);
     // Access PARSER_STATE and take the result value
-    result = PARSER_STATE.result_value.number;
+    result = PARSER_STATE.result_value.value_is_a_number;
     
     return result;
 }

@@ -186,7 +186,7 @@ char** str_split(char* a_str, const char a_delim)
 output
 acdef
 */
-void removeChar(char *str, char garbage)
+void removechar(char *str, char garbage)
 {
 
     char *src, *dst;
@@ -212,4 +212,74 @@ int removechars(char *str, size_t pos, size_t cnt)
 
     memmove(str + pos, str + pos + cnt, len - pos - cnt + 1);
     return 0;
+}
+
+/*
+ * converting string to double : https://www.tutorialspoint.com/how-do-i-convert-a-char-to-an-int-in-c-and-cplusplus
+
+   const char *str = "12345";
+   int x;
+   sscanf(str, "%d", &x); // Using sscanf
+   printf("\nThe value of x : %d", x);
+   
+   int y;
+   y = atoi(str); // atoi=integer atof=double http://manpagesfr.free.fr/man/man3/atof.3.html
+   printf("\nThe value of y(integer) : %d", y);
+   
+   int z;
+   char c = 's';
+   z = (int)(c); // Using typecasting
+   printf("\nThe value of z : %d", z);
+   
+   * using strtol (long int)
+   https://www.tutorialspoint.com/c_standard_library/c_function_strtol.htm
+   https://koor.fr/C/cstdlib/strtol.wp
+*/
+double char_to_double(char * pString) {
+  double result;
+  sscanf( pString, "%lf", &result);
+  return result;
+}
+
+const char * readFile() {
+  FILE *fp;
+  size_t size;
+  size_t bytes;
+  char *buff, *buff_end;
+  
+  static char * THE_FILE;
+  
+  /* Open input file */
+  fp = fopen("test.dat", "r");
+  if(fp == NULL) {
+    fprintf(stderr, "Can't open test file\n");
+    exit(-1);
+  }
+
+  /* Get file size */
+  fseek(fp, 0, SEEK_END);
+  size = ftell(fp);
+  rewind(fp);
+
+  /* Allocate buffer and read */
+  buff = (char*) malloc(size * sizeof(char));
+  bytes = fread(buff, 1, size, fp);  
+  if (bytes != size) {
+    fprintf(stderr, "Reading error"); 
+    exit(-1);
+  }
+  
+  buff_end = (char*) ( ((char*)buff) + size );
+  
+  //printf(">>>> buff : '%s'\n",buff);
+  //printf(">>>> buff_end : '%s'\n",buff_end);
+  
+  //store in the static variable (will remain in memory even after function exit)
+  THE_FILE = buff;
+
+  /* Close file and deallocate */
+  fclose(fp);
+  free(buff);
+  
+  return THE_FILE;
 }
