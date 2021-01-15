@@ -1,10 +1,6 @@
 
 #include "common.h"
 
-void println(const char *str) {
-  printf("%s\n",str);
-}
-
 /*
   https://stackoverflow.com/questions/2667648/what-does-it-mean-to-be-terminated-by-a-zero
 
@@ -247,20 +243,21 @@ const char * readFile() {
   size_t bytes;
   char *buff, *buff_end;
   
-  static char * THE_FILE;
+  static char THE_FILE[4096]; // 4MB file maximum
   
   /* Open input file */
   fp = fopen("test.dat", "r");
   if(fp == NULL) {
-    fprintf(stderr, "Can't open test file\n");
-    exit(-1);
+    fprintf(stderr, "Can't open test.dat file\n");
+    return "";
+    //exit(-1);
   }
-
+  
   /* Get file size */
   fseek(fp, 0, SEEK_END);
   size = ftell(fp);
   rewind(fp);
-
+  
   /* Allocate buffer and read */
   buff = (char*) malloc(size * sizeof(char));
   bytes = fread(buff, 1, size, fp);  
@@ -269,14 +266,15 @@ const char * readFile() {
     exit(-1);
   }
   
-  buff_end = (char*) ( ((char*)buff) + size );
+  //buff_end = (char*) ( ((char*)buff) + size );
+  buff_end = buff + strlen(buff);
   
   //printf(">>>> buff : '%s'\n",buff);
   //printf(">>>> buff_end : '%s'\n",buff_end);
   
   //store in the static variable (will remain in memory even after function exit)
-  THE_FILE = buff;
-
+  strcpy(THE_FILE,buff);
+  
   /* Close file and deallocate */
   fclose(fp);
   free(buff);

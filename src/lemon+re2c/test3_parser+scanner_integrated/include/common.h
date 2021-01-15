@@ -15,11 +15,10 @@ typedef enum { FAIL, OK } Result;
 typedef int BOOLEAN;
 */
 
-char* dynamic_fgets (void);
-char* substr(const char *src, int m, int n);
-char** str_split(char* a_str, const char a_delim);
-void removeChar(char *str, char garbage);
-int removechars(char *str, size_t pos, size_t cnt);
-void println(const char *str);
-double char_to_double(char * pString);
-const char * readFile();
+char *       dynamic_fgets   (void);
+char *       substr          (const char *src, int m, int n);
+char **      str_split       (char* a_str, const char a_delim);
+void         removechar      (char *str, char garbage);
+int          removechars     (char *str, size_t pos, size_t cnt);
+double       char_to_double  (char * pString);
+const char * readFile        ();

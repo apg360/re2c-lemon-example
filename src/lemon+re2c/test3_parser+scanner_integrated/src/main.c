@@ -65,7 +65,7 @@ void validation_test()
     assert( eval("2 ^ -1")                        == 0.5);
     assert( eval("-2 ^ 1")                        == -2);
     //
-    /*assert( eval("0 % 4")                         == 0);
+    assert( eval("0 % 4")                         == 0);
     assert( eval("1 % 4")                         == 1);
     assert( eval("2 % 4")                         == 2);
     assert( eval("3 % 4")                         == 3);
@@ -73,7 +73,7 @@ void validation_test()
     assert( eval("5 % 4")                         == 1);
     assert( eval("6 % 4")                         == 2);
     assert( eval("7 % 4")                         == 3);
-    assert( eval("8 % 4")                         == 0);*/
+    assert( eval("8 % 4")                         == 0);
 }
 
 int main() {
@@ -83,20 +83,23 @@ int main() {
     
     //validation_test();
     
-    SCANNER("50 + 125;");
-    SCANNER("15 / 5");
-    SCANNER("50 * 125 - 50 + 125");
+    //SCANNER("50+125");
+    //SCANNER("15/5");
+    //SCANNER("50*125-50+125");
+    //SCANNER(" 4 + 5 - 6 + 7\n \
+(24/2)*5\n \
+");
     
     //Process test.dat
-    //SCANNER( readFile() );
+    SCANNER( readFile() );
     
-    char *commandLine;
+    /*char *commandLine;
     while (  (commandLine = dynamic_fgets())  ){
       
       SCANNER(commandLine);
       
       free(commandLine); //dynamic_fgets do malloc, free the allocated memory now that variable is no more used
-    }
+    }*/
     
     PARSER_FREE();
     return 0;

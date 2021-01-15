@@ -19,8 +19,8 @@
 %syntax_error  { PARSER_STATE->error = true; fprintf(stderr, "Syntax Error.\n"); }
 %parse_failure { PARSER_STATE->error = true; fprintf(stderr, "Parse failure.\n"); }
 
-// must call PARSER(0, 0); to enter parse_accept
-%parse_accept  { PARSER_STATE->error = false; printf(" ** Parser Result : %.lf\n",PARSER_STATE->result_value.value_is_a_number); printf("The parser has completed successfully.\n"); } // Formating number of digits after dot %.15lf
+// must call PARSER(0, 0); to enter %parse_accept
+%parse_accept  { PARSER_STATE->error = false; printf(" ** Parser Result : %.lf\n",PARSER_STATE->result_value.value_is_a_number); puts("The parser has completed successfully."); } // Formating number of digits after dot %.15lf
 
 %include
 {
@@ -51,19 +51,19 @@
     
     void PARSER_INIT(bool parser_DebugMode){
       theParser = ParseAlloc(malloc);
-      if (parser_DebugMode == true) ParseTrace(stderr, "[Parser] >> ");
+      if ( parser_DebugMode == true ) ParseTrace(stderr, "[Parser] >> ");
     }
     void PARSER(const struct _Token * pToken){
       
-      //printf("inside PARSER, %s=%.d\n", pToken->type, pToken->code);
-      //printf("PARSER (%d ,%.lf) \n", pToken->type, pToken->value_is_a_number);
+      //puts("inside PARSER, %s=%.d", pToken->type, pToken->code);
+      //puts("PARSER (%d ,%.lf)", pToken->type, pToken->value_is_a_number);
       
-      if ( TK_NEWLINE == pToken->type )
+      if ( TK_NEWLINE == pToken->type || TK_END_OF_LINE == pToken->type )
       {
-        // PARSER(TK_NEWLINE, 0); + PARSER(0, 0);
+        // PARSER(TK_NEWLINE,0); or PARSER(TK_END_OF_LINE,0);
         Parse(theParser, pToken->type, pToken->value_is_a_number, &PARSER_STATE);
+        // must call PARSER(0, 0); to enter %parse_accept
         Parse(theParser, 0, 0, &PARSER_STATE);
-        //Parse(theParser, 0, (union _Tokenvalue){.number=0}, &PARSER_STATE);
       }
       else 
       {
@@ -93,7 +93,8 @@
 // Without this PARSER(0, 0); Parse(pParse,0,0) have to be called to signal the end of the input for an expression
 start ::= in.
 in ::= .
-in ::= in program NEWLINE. // NEWLINE is EOL : end of line
+in ::= END_OF_LINE.
+in ::= in program NEWLINE.
 
 program ::= expr(A).                { PARSER_STATE->result_value.value_is_a_number = A; }
 
@@ -101,8 +102,8 @@ expr(X) ::= expr(A) ADD expr(B).    { X = A + B; }
 expr(X) ::= expr(A) SUB expr(B).    { X = A - B; }
 expr(X) ::= expr(A) MUL expr(B).    { X = A * B; }
 expr(X) ::= expr(A) DIV expr(B).    { if(B != 0){ X = A / B; 
-                                       }else{ printf("/!\\ warning divide by zero\n" ); X = 0; PARSER_STATE->error = true;} 
-                                     }// end of DIVIDE
+                                        }else{ puts("/!\\ warning divide by zero" ); X = 0; PARSER_STATE->error = true;} 
+                                    } // end of DIVIDE
 expr(X) ::= expr(A) MOD expr(B).    { X = fmod(A, B ); } // A % B cannot be done on double
 expr(X) ::= expr(A) EXP expr(B).    { X = pow(A, B); } // Exponentiation
 

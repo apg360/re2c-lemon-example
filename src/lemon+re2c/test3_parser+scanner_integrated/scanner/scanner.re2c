@@ -15,17 +15,15 @@ void set_token(const int tokentype, const char* tokentypename)
 {
     SCANNER_STATE.Token.type = tokentype;
     SCANNER_STATE.Token.type_name = tokentypename;
+    SCANNER_STATE.column_position=(int)(SCANNER_STATE.begin - SCANNER_STATE.lexeme);
     
-    //get the equivalent int value of the string, as in parse.h
-    //printf("%d = %s \n",tokentype,tokentypename); // SCANNER_STATE.Token.type, SCANNER_STATE.Token.code);
-    
-    // if numeric (TK_INT_LITERAL) then take input as a string and convert it to double
+    // if numeric(TK_INT_LITERAL) then take input(string) and convert it to double
     if ( TK_INT_LITERAL == tokentype )
     {
-        char tokenvalue_string[255];
-        sprintf( tokenvalue_string, "%.*s", (int)(SCANNER_STATE.cursor - SCANNER_STATE.begin), SCANNER_STATE.begin );
-        // converting string to double
-        SCANNER_STATE.Token.value_is_a_number = char_to_double(tokenvalue_string);
+      char tokenvalue_string[255];
+      sprintf( tokenvalue_string, "%.*s", (int)(SCANNER_STATE.cursor - SCANNER_STATE.begin), SCANNER_STATE.begin );
+      // converting string to double
+      SCANNER_STATE.Token.value_is_a_number = char_to_double(tokenvalue_string);
     }
 }
 
@@ -50,17 +48,20 @@ void SCANNER(const char *the_text)
     */
     
     // Infinite loop
-    for (;;) {
-continue_scanning:
-    // TK_NEWLINE or if reached end of text
-    if ( TK_NEWLINE == SCANNER_STATE.Token.type || SCANNER_STATE.cursor >= SCANNER_STATE.end )
+    for (;;) 
     {
-      goto parser_now;
-    };
-    
+continue_scanning:
+    // Reset variables
     SCANNER_STATE.begin = SCANNER_STATE.cursor;
     SCANNER_STATE.Token.type = 0;
     SCANNER_STATE.Token.value_is_a_number = 0;
+    
+    // If reached end of the text, last character (does not have "end");
+    if ( SCANNER_STATE.cursor >= SCANNER_STATE.end )
+    { 
+      set_token( MACRO_VALUE_AND_NAME(TK_END_OF_LINE) );
+      goto parser_now;
+    };
     
     /*!re2c
       "/*"            { goto comment; }
@@ -78,15 +79,15 @@ continue_scanning:
       whitespace      { goto continue_scanning;}
       
       end             { set_token( MACRO_VALUE_AND_NAME(TK_NEWLINE)     );
-                        SCANNER_STATE.lexeme = SCANNER_STATE.cursor;
-                        SCANNER_STATE.line_number++;
+                        SCANNER_STATE.lexeme = SCANNER_STATE.cursor;    // remove already scanned text
+                        SCANNER_STATE.line_number++;                    // line counter increase +1
                         goto parser_now;
                       }
       
       // Default rule : Anything else
       any { printf("unexpected character: %c\n", *SCANNER_STATE.cursor+1); goto continue_scanning; }
     */
-
+    
 comment:
     /*!re2c
       "*/"          { goto continue_scanning; }
@@ -95,24 +96,17 @@ comment:
     */
 
 parser_now:
-    // end inifinite loop when TK_NEWLINE
-    if( TK_NEWLINE == SCANNER_STATE.Token.type )
-    {
-      PARSER(&SCANNER_STATE.Token);
-      break;
-    };
-    
-    SCANNER_STATE.column_position=(int)(SCANNER_STATE.begin - SCANNER_STATE.lexeme);
-    
-    if (scanner_DebugMode == true) { 
-      printf("Line:%d / Col:%d ", SCANNER_STATE.line_number, SCANNER_STATE.column_position);
-      printf("parser(%s, %.lf) \n", SCANNER_STATE.Token.type_name, SCANNER_STATE.Token.value_is_a_number); // Formating number of digits after dot %.15lf
-    }
-    
-    PARSER(&SCANNER_STATE.Token );
-    
+      if (scanner_DebugMode == true) { 
+        printf("Line:%d / Col:%d ", SCANNER_STATE.line_number, SCANNER_STATE.column_position);
+        printf("parser(%s, %.lf) \n", SCANNER_STATE.Token.type_name, SCANNER_STATE.Token.value_is_a_number); // Formating number of digits after dot %.15lf
+      }
+      
+      PARSER( &SCANNER_STATE.Token );
+      
+      // end inifinite loop when reached end of text
+      if( TK_END_OF_LINE == SCANNER_STATE.Token.type ) break;
     }//end for loop
-    if (scanner_DebugMode == true) printf("\n ** THE END ** \n");
+    if (scanner_DebugMode == true) puts("\n ** THE END ** \n");
 }
 
 double eval(const char *the_text)
