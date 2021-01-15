@@ -55,8 +55,8 @@
     }
     void PARSER(const struct _Token * pToken){
       
-      //puts("inside PARSER, %s=%.d", pToken->type, pToken->code);
-      //puts("PARSER (%d ,%.lf)", pToken->type, pToken->value_is_a_number);
+      // Reset variables
+      PARSER_STATE.result_value.value_is_a_number = 0;
       
       if ( TK_NEWLINE == pToken->type || TK_END_OF_LINE == pToken->type )
       {
