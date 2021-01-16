@@ -6,6 +6,9 @@ void validation_test()
 {
     //Some validation testing
     //
+    assert( eval("    1+       1")                == 2);
+    assert( eval("	1+		1")                   == 2);
+    //
     assert( eval("0 - 0")                         == 0);
     assert( eval("0 - 1")                         == -1);
     assert( eval("1 - 0")                         == 1);
@@ -86,7 +89,7 @@ int main() {
     SCANNER("50+125");
     SCANNER("15/5");
     SCANNER("50*125-50+125");
-    SCANNER(" 4 + 5 - 6 + 7\n \
+    SCANNER("   4 + 5 - 20 + 7\n \
 (24/2)*5\n \
 ");
     

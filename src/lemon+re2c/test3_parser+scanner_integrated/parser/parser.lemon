@@ -3,24 +3,28 @@
 // http://souptonuts.sourceforge.net/readme_lemon_tutorial.html
 
 /*
-    <> (inequality) 							- use != instead
+    <> (inequality) 							- use != instead will be : not=
     add (concatenation (strings)) 				- use + instead
     eq (equality (strings)) 					- use == instead
-    ne (not equal (strings)) 					- use != instead
+    ne (not equal (strings)) 					- use != instead will be : not=
     lt (less than (strings)) 					- use < instead
     le (less than or equal to (strings)) 		- use <= instead
     gt (greater than (strings)) 				- use > instead
     ge (greater than or equal to (strings)) 	- use >= instead
-    and (logical and) 							- use && instead
-    or (logical or) 							- use || instead
-    not (logical not) 							- use ! instead
+    and (logical and) 							- use && instead mine will be : and
+    or (logical or) 							- use || instead mine will be : or
+    not (logical not) 							- use ! instead  mine will be : not
 */
 
 %syntax_error  { PARSER_STATE->error = true; fprintf(stderr, "Syntax Error.\n"); }
 %parse_failure { PARSER_STATE->error = true; fprintf(stderr, "Parse failure.\n"); }
 
 // must call PARSER(0, 0); to enter %parse_accept
-%parse_accept  { PARSER_STATE->error = false; printf(" ** Parser Result : %.lf\n",PARSER_STATE->result_value.value_is_a_number); puts("The parser has completed successfully."); } // Formating number of digits after dot %.15lf
+// Formating number of digits after dot %.15lf
+%parse_accept  { PARSER_STATE->error = false;
+                 printf(" ** Parser Result : %.lf\n",PARSER_STATE->result_value.value_is_a_number);
+                 // puts("The parser has completed successfully.");
+               }
 
 %include
 {
@@ -93,7 +97,7 @@
 // Without this PARSER(0, 0); Parse(pParse,0,0) have to be called to signal the end of the input for an expression
 start ::= in.
 in ::= .
-in ::= END_OF_LINE.
+in ::= in program END_OF_LINE.
 in ::= in program NEWLINE.
 
 program ::= expr(A).                { PARSER_STATE->result_value.value_is_a_number = A; }
