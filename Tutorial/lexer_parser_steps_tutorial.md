@@ -64,19 +64,19 @@ Symbol table often implemented as a hash table.
 main  | func int | global
 x     | int      | local
 
- Lexeme | Token Class | Type | Address location
-------|----------|------
-if   | Keyword             | |
-x    | Identifier          | | 0x00000000 (pointer address)
-<=   | Relational_operator | |
-0    | Constant            | |
-Then | Keyword             | |
-Description | Identifier   | | 0x00000000 (pointer address)
-=    | Assignment_operator | |
-"    | Quote               | |
-Freezing | Literal         | |
-"    | Quote
-End If | Keyword           | |
+ Lexeme     | Token Class         | Type | Address location
+------------|---------------------|------
+if          | Keyword             |      |
+x           | Identifier          |      | 0x00000000 (pointer address)
+<=          | Relational_operator |      |
+0           | Constant            |      |
+Then        | Keyword             |      |
+Description | Identifier          |      | 0x00000000 (pointer address)
+=           | Assignment_operator |      |
+"           | Quote               |      |
+Freezing    | Literal             |      |
+"           | Quote               |      |
+End If      | Keyword             |      |
 
 Abstract syntax tree traversed several times during semantic analysis.
 Spot problems like :
