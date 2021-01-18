@@ -46,4 +46,9 @@ Characters/letters become words/tokens :
 #### Tokens >>to Parser tree
 
 Tokens are organized into a hierarchical structure, a parse tree :
-![alt text](parsetree.png)
+![parsetree](parsetree.png)
+
+
+Figuring out what the grammar is.
+
+
