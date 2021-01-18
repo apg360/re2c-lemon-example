@@ -14,9 +14,23 @@ int•main()•{\n\tint•x;\n\tx•=•3;\n}\n
 First step divides the text up into individual "tokens".
 Characters/letters become tokens/words :
 
-![#ff0000](https://placehold.it/12/ff0000?text=+) int
-<span style="color:blue">some *blue* int</span>.
+```diff
+- text in red
++ text in green
+! text in orange
+# text in gray
+@@ text in purple (and bold)@@
+```
 
+```diff
+- int
+- main
+- (
+- )
+@@ text in purple (and bold)@@
+```
+
+int
 main
 (
 )
