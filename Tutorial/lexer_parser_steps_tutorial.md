@@ -57,7 +57,7 @@ Figuring out what the grammar is.
 
 Records context about the program : variable, function names
 
-                 Symbol Table
+      Symbol Table
  Name | Type     | Scope
 ------|----------|------
 main  | func int | global
