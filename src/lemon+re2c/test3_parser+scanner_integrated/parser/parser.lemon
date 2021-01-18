@@ -97,10 +97,10 @@
 // Without this PARSER(0, 0); Parse(pParse,0,0) have to be called to signal the end of the input for an expression
 start ::= in.
 in ::= .
-in ::= in program END_OF_LINE.
-in ::= in program NEWLINE.
+in ::= in expression END_OF_LINE.
+in ::= in expression NEWLINE.
 
-program ::= expr(A).                { PARSER_STATE->result_value.value_is_a_number = A; }
+expression ::= expr(A).                { PARSER_STATE->result_value.value_is_a_number = A; }
 
 expr(X) ::= expr(A) ADD expr(B).    { X = A + B; }
 expr(X) ::= expr(A) SUB expr(B).    { X = A - B; }
