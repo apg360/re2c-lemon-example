@@ -65,7 +65,7 @@ main  | func int | global
 x     | int      | local
 
  Lexeme     | Token Class         | Type | Address location
-------------|---------------------|------
+------------|---------------------|------|-----------------
 if          | Keyword             |      |
 x           | Identifier          |      | 0x00000000 (pointer address)
 <=          | Relational_operator |      |
