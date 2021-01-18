@@ -86,7 +86,7 @@
 %token_type      { double }
 
 // Math order of priority => BIDMAS : Bracket/Parenthesis Indices/Power/Order Divide Multiply Addition Substraction
-%nonassoc EQ NE GT GE LT LE.
+%nonassoc AND OR EQ NE GT GE LT LE.
 %left ADD SUB.       // PLUS   MINUS
 %left DIV MUL MOD.   // DIVIDE TIMES MODULUS(remainder operator)
 %left POS NEG.       // Negation--unary minus
