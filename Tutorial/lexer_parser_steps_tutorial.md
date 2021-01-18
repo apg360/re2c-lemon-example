@@ -43,4 +43,5 @@ Characters/letters become words/tokens :
 ## STEP2 Syntactic Analysis
 #### Tokens >>to Parser tree
 
-Tokens are organized into a hierarchical structure, a parse tree
+Tokens are organized into a hierarchical structure, a parse tree :
+![alt text](parsetree.png)
