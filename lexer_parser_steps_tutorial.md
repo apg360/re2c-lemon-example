@@ -7,18 +7,21 @@
 ```
 
 
-## Lexical Analysis
+## STEP1 Lexical Analysis (tokenizer, scanner)
+#### Letters >>to words/token
 
+```javascript
 int main() {
     int x;
     x = 3;
 }
+```
 
 For the computer it's just a meaningless sequence of letters/characters :
 int•main()•{\n\tint•x;\n\tx•=•3;\n}\n
 
 First step divides the text up into individual "tokens".
-Characters/letters become tokens/words :
+Characters/letters become words/tokens :
 
 ```diff
 -   int
@@ -37,4 +40,7 @@ Characters/letters become tokens/words :
 ```
 
 
+## STEP2 Syntactic Analysis
+#### Tokens >>to Parser tree
 
+Tokens are organized into a hierarchical structure, a parse tree
