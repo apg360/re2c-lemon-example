@@ -52,3 +52,8 @@ Tokens are organized into a hierarchical structure, a parse tree :
 Figuring out what the grammar is.
 
 
+## STEP3 Semantic Analysis
+#### Symbol Table
+
+Records context about the program : variable, function names
+
