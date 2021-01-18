@@ -61,5 +61,9 @@ Records context about the program : variable, function names
 main  | func int | global
 x     | int      | local
 
+Spot problems like :
+- Undeclared variables
+- Multiple declarations within the same scope
+- Misuse of reserved identifiers
 
 
