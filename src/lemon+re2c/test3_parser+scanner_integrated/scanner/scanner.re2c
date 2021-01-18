@@ -79,7 +79,7 @@ continue_scanning:
       whitespace      { goto continue_scanning;}
       
       end             { set_token( MACRO_VALUE_AND_NAME(TK_NEWLINE)     );
-                        SCANNER_STATE.lexeme = SCANNER_STATE.cursor;    // remove already scanned text
+                        SCANNER_STATE.lexeme = SCANNER_STATE.cursor;    // remove already scanned text, remaining only unconsumed part
                         SCANNER_STATE.line_number++;                    // line counter increase +1
                         goto parser_now;
                       }
