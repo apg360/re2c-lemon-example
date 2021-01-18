@@ -23,24 +23,21 @@ Characters/letters become tokens/words :
 ```
 
 ```diff
-- int
-- main
-- (
-- )
+-   int
+-   main
+-   (
+-   )
+-   {
+-   int
+-   x
+-   ;
+-   x
+-   =
+-   3
+-   ;
+-   }
 @@ text in purple (and bold)@@
 ```
 
-int
-main
-(
-)
-{
-int
-x
-;
-x
-=
-3
-;
-}
+
 
