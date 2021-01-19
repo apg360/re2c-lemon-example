@@ -2,3 +2,4 @@
 src/lemon+re2c/test1_scanner/build/
 src/lemon+re2c/test2_parser+scanner_separately/build/
 src/lemon+re2c/test3_parser+scanner_integrated/build/
+src/lemon+re2c/test4_variable/build/

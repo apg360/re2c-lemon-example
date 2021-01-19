@@ -42,8 +42,8 @@ char* dynamic_fgets (void) //read_stdin
       if (++len == cap) {
         /* Make the output buffer twice its current size */
         buffer = realloc(buffer, (cap *= 2) * sizeof (char));
-        if (NULL == buffer) { printf("ERR_OUT_OF_MEMORY"); exit(0); }
-	   }
+        if (NULL == buffer) { printf("ERR_OUT_OF_MEMORY") ; exit(0); }
+	    }
     }
 
   /* Trim off any unused bytes from the buffer */
