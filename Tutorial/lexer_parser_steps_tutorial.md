@@ -6,6 +6,17 @@
 @@ text in purple (and bold)@@
 ```
 
+For Golang, Javascript, Typescript, C#
+ -   1. input  => tokenizer   => tokens
+ -   2. tokens => parser      => ast
+ 
+For C
+ -   3. ast    => transformer => output (C source code)
+ 
+For Golang, Javascript, Typescript, C#
+ -   3. ast    => transformer => Universal Ast to be used in ANTLRv4
+ -   4. UAST   => ANTLRv4     => output
+
 
 ## STEP1 Lexical Analysis (tokenizer, scanner)
 #### Letters >>to words/token
