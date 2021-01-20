@@ -7,19 +7,20 @@
 ```
 
 For Golang, Javascript, Typescript, C#
- -   1. input  => tokenizer   => tokens
- -   2. tokens => parser      => ast
+ -   1. input   => lexer       => tokens
+ -   2. tokens  => parser      => Syntax Tree and Symbol Table
+ -   3. ST & ST => semantics   => AST (abstract syntax tree)
  
 For C
- -   3. ast    => transformer => output (C source code)
+ -   4. AST    => transformer => output (C source code)
  
-For Golang, Javascript, Typescript, C#
- -   3. ast    => transformer => Universal Ast to be used in ANTLRv4
- -   4. UAST   => ANTLRv4     => output
+For ANTLRv4 
+ -   3. AST    => transformer => Universal Ast to be used in ANTLRv4
+ -   4. UAST   => ANTLRv4     => output (Golang, Javascript, Typescript, C#, Haxe, Rust)
 
 
-## STEP1 Lexical Analysis (tokenizer, scanner)
-#### Letters >>to words/token
+## STEP1 Lexical Analyzer (tokenizer, scanner)
+#### Letters >>to words/tokens
 
 ```javascript
 int main() {
@@ -53,8 +54,8 @@ Characters/letters become words/tokens :
 ```
 
 
-## STEP2 Syntactic Analysis
-#### Tokens >>to Parser tree
+## STEP2 Syntax Analyzer
+#### Syntax tree and Symbol Table
 
 Tokens are organized into a hierarchical structure, a parse tree :
 ![parsetree](parsetree.png)
@@ -64,8 +65,8 @@ Parse tree is like figuring out what the grammar is.
 Then parse tree is refined to become an Abstract Syntax Tree
 
 
-## STEP3 Semantic Analysis
-#### Symbol Table
+## STEP3 Semantic Analyzer
+#### Syntax tree and Symbol Table >>to Abstract Syntax Tree
 
 Records context about the program : variable, function names
 Symbol table often implemented as a hash table.
