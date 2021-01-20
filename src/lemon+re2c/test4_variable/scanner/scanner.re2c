@@ -64,6 +64,13 @@ continue_scanning:
     };
     
     /*!re2c
+
+     // lexer rules are analyzed in the order that they appear and they can be ambiguous.
+     // The typical example is the identifier: in many programming languages it can be any string of letters, 
+     // but certain combinations, such as “class” or “function” are forbidden because they indicate a class or a function.
+     // So the order of the rules solves the ambiguity by using the first match and that’s why the tokens identifying keywords such as class or function are defined first,
+     // while the one for the identifier is put last.
+
       "/*"            { goto comment; }
       '('             { set_token( MACRO_VALUE_AND_NAME(TK_LPAREN)      ); goto parser_now;}
       ")"             { set_token( MACRO_VALUE_AND_NAME(TK_RPAREN)      ); goto parser_now;}
