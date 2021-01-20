@@ -8,7 +8,7 @@
 
 For Golang, Javascript, Typescript, C#
  -   1. input   => lexer       => tokens
- -   2. tokens  => parser      => Syntax Tree and Symbol Table
+ -   2. tokens  => parser      => Syntax Tree(Parse Tree) and Symbol Table
  -   3. ST & ST => semantics   => AST (abstract syntax tree)
  
 For C

@@ -2,6 +2,8 @@
 // LLVM 11.0.0
 // clang version 11.0.0
 // gcc version 10.2.0 (GCC)
+// https://nelkinda.com/blog/suppress-warnings-in-gcc-and-clang
+// https://clang.llvm.org/docs/DiagnosticsReference.html
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunused-value"
 #pragma GCC diagnostic ignored "-Wmacro-redefined"
