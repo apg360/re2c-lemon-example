@@ -1,3 +1,12 @@
+// To avoid errors with recent version of compilers
+// LLVM 11.0.0
+// clang version 11.0.0
+// gcc version 10.2.0 (GCC)
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-value"
+#pragma GCC diagnostic ignored "-Wmacro-redefined"
+#define YY_REDUCE_USE_DFLT 0
+
 /* Driver template for the LEMON parser generator.
 ** The author disclaims copyright to this source code.
 */
@@ -16,6 +25,8 @@
 ** Each symbol here is a terminal symbol in the grammar.
 */
 %%
+
+#define YY_SHIFT_USE_DFLT (0)
 
 /* Define the yytestcase() macro to be a no-op if is not already defined
 ** otherwise.
@@ -382,7 +393,7 @@ static int yy_find_reduce_action(
 ){
   int i;
   int stateno = pParser->yystack[pParser->yyidx].stateno;
- 
+  
   i = yy_reduce_ofst[stateno];
   if( i==YY_REDUCE_USE_DFLT ){
     return yy_default[stateno];
@@ -698,3 +709,4 @@ void Parse(
   }while( yymajor!=YYNOCODE && yypParser->yyidx>=0 );
   return;
 }
+#pragma GCC diagnostic pop

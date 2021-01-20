@@ -108,8 +108,8 @@ char* substr(const char *src, int m, int n)
 // strtok() function to split a string (and specify the delimiter to use).
 // Note that strtok() will modify the string passed into it.
 // If the original string is required elsewhere make a copy of it and pass the copy to strtok().
-char** str_split(char* a_str, const char a_delim)
-{
+/*char** str_split(char* a_str, const char a_delim)
+{*/
 /*
     char months[] = "JAN,FEB,MAR,APR,MAY,JUN,JUL,AUG,SEP,OCT,NOV,DEC";
     char** tokens;
@@ -126,7 +126,7 @@ char** str_split(char* a_str, const char a_delim)
         printf("\n");
         free(tokens);
     }
-*/
+*//*
     char** result    = 0;
     size_t count     = 0;
     char* tmp        = a_str;
@@ -135,7 +135,7 @@ char** str_split(char* a_str, const char a_delim)
     delim[0] = a_delim;
     delim[1] = 0;
 
-    /* Count how many elements will be extracted. */
+    // Count how many elements will be extracted.
     while (*tmp)
     {
         if (a_delim == *tmp)
@@ -146,11 +146,11 @@ char** str_split(char* a_str, const char a_delim)
         tmp++;
     }
 
-    /* Add space for trailing token. */
+    // Add space for trailing token.
     count += last_comma < (a_str + strlen(a_str) - 1);
 
-    /* Add space for terminating null string so caller
-       knows where the list of returned strings ends. */
+    // Add space for terminating null string so caller
+    // knows where the list of returned strings ends.
     count++;
 
     result = malloc(sizeof(char*) * count);
@@ -171,7 +171,7 @@ char** str_split(char* a_str, const char a_delim)
     }
 
     return result;
-}
+}*/
 
 /*
     char* str = malloc(strlen("abcdef")+1);
