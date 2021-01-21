@@ -97,8 +97,10 @@ get_attribute, To get       an attribute associated with a given entry
 >    4. if the symbol is initialized.
 >    5. if the symbol declared multiple times.
 >
+> ```javascript
 > lookup(symbol)
 > This method returns 0 (zero) if the symbol does not exist in the symbol table. If the symbol exists in the symbol table, it returns its attributes stored in the table.
+> ```
 
 
 Symbol Table Example :
