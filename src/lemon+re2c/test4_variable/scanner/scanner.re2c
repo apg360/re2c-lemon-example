@@ -15,7 +15,7 @@ void set_token(const int tokentype, const char* tokentypename)
 {
     SCANNER_STATE.Token.type = tokentype;
     SCANNER_STATE.Token.type_name = tokentypename;
-    SCANNER_STATE.column_position=(int)(SCANNER_STATE.begin - SCANNER_STATE.lexeme);
+    SCANNER_STATE.column_position=(int)(SCANNER_STATE.begin - SCANNER_STATE.lexemes);
     
     // if numeric(TK_INT_LITERAL) then take input(string) and convert it to double
     if ( TK_INT_LITERAL == tokentype )
@@ -29,12 +29,12 @@ void set_token(const int tokentype, const char* tokentypename)
 
 void SCANNER(const char *the_text)
 {
-    SCANNER_STATE.begin = the_text;
-    SCANNER_STATE.end = the_text + strlen(the_text);
-    SCANNER_STATE.cursor = the_text;
-    SCANNER_STATE.lexeme = the_text;
-    SCANNER_STATE.line_number = 1;
-    SCANNER_STATE.column_position = 1;
+    SCANNER_STATE.begin            = the_text;
+    SCANNER_STATE.end              = the_text + strlen(the_text);
+    SCANNER_STATE.cursor           = the_text;
+    SCANNER_STATE.lexemes          = the_text;
+    SCANNER_STATE.line_number      = 1;
+    SCANNER_STATE.column_position  = 1;
     
     printf(" ** START Scanning : '%s'\n",the_text);
     if (scanner_DebugMode == true) printf("Number of characters %lu\n", strlen(the_text));
@@ -86,8 +86,8 @@ continue_scanning:
       whitespace      { goto continue_scanning;}
       
       end             { set_token( MACRO_VALUE_AND_NAME(TK_END_OF_LINE)     );
-                        SCANNER_STATE.lexeme = SCANNER_STATE.cursor;    // remove already scanned text, remaining only unconsumed part
-                        SCANNER_STATE.line_number++;                    // line counter increase +1
+                        SCANNER_STATE.lexemes = SCANNER_STATE.cursor;    // remove already scanned text, remaining only unconsumed part
+                        SCANNER_STATE.line_number++;                     // line counter increase +1
                         goto parser_now;
                       }
       

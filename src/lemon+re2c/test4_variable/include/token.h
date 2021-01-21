@@ -33,7 +33,7 @@ struct _scanner_state
     const char *end;                    // last_char, limit, YYLIMIT  : the position after the last available input character.   A pointer-like r-value that stores the end of input position
                                         //                Lexer compares YYCURSOR to YYLIMIT in order to determine if there is enough input characters left
     const char *marker;                 // marker - the position of the most recent match
-    const char *lexeme;                 // unconsumed part -> the next input remaining to be scanned.
+    const char *lexemes;                // unconsumed part -> the next input remaining to be scanned.
 
     int line_number, column_position;   // line number, column position
     
