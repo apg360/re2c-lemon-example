@@ -69,17 +69,35 @@ Then parse tree is refined to become an Abstract Syntax Tree
 ## STEP3 Semantic Analyzer
 #### Syntax tree and Symbol Table >>to Abstract Syntax Tree
 
-^The parser cannot check for semantics, example it cannot know if the WORD indicating the color actually represents a valid color.
-^That is to say, it doesn’t know that it’s wrong to use “dog” and right to use “red”.
-^This must be checked by the logic of the program, that can access which colors are available.
-^
-^The parser should only check the syntax. So the rule of thumb is that when in doubt you let the parser pass the content up to your program.
-^Then, in your program, you check the semantics and make sure that the rule actually have a proper meaning.
-^
-^Abstract syntax tree traversed several times during semantic analysis.
+> The parser cannot check for semantics, example it cannot know if the WORD indicating the color actually represents a valid color.
+> That is to say, it doesn’t know that it’s wrong to use “dog” and right to use “red”.
+> This must be checked by the logic of the program, that can access which colors are available.
+> 
+> The parser should only check the syntax. So the rule of thumb is that when in doubt you let the parser pass the content up to your program.
+> Then, in your program, you check the semantics and make sure that the rule actually have a proper meaning.
+> 
+> Abstract syntax tree traversed several times during semantic analysis.
 
 Records context about the program : variable, function names
 Symbol table often implemented as a hash table.
+
+Operatation  , Function for Symbol Table.
+Allocate     , To allocate a new empty symbol table
+free         , To remove all entries and free storage of symbol table
+lookup       , To search for a name and return pointer to its entry
+insert       , To insert a name in a symbol table and return a pointer to its entry
+set_attribute, To associate an attribute with a given entry
+get_attribute, To get       an attribute associated with a given entry
+
+
+- lookup() operation is used to search a name in the symbol table to determine:
+    1. if the symbol exists in the table.
+    2. if it is declared before it is being used.
+    3. if the name is used in the scope.
+    4. if the symbol is initialized.
+    5. if the symbol declared multiple times.
+
+
 
 Symbol Table Example :
 
