@@ -65,17 +65,30 @@ Parse tree is like figuring out what the grammar is.
 Then parse tree is refined to become an Abstract Syntax Tree
 
 
+
 ## STEP3 Semantic Analyzer
 #### Syntax tree and Symbol Table >>to Abstract Syntax Tree
+
+^The parser cannot check for semantics, example it cannot know if the WORD indicating the color actually represents a valid color.
+^That is to say, it doesn’t know that it’s wrong to use “dog” and right to use “red”.
+^This must be checked by the logic of the program, that can access which colors are available.
+^
+^The parser should only check the syntax. So the rule of thumb is that when in doubt you let the parser pass the content up to your program.
+^Then, in your program, you check the semantics and make sure that the rule actually have a proper meaning.
+^
+^Abstract syntax tree traversed several times during semantic analysis.
 
 Records context about the program : variable, function names
 Symbol table often implemented as a hash table.
 
+Symbol Table :
+1)
  Name | Type     | Scope
 ------|----------|------
 main  | func int | global
 x     | int      | local
 
+2)
  Lexeme     | Token Class         | Type | Address location
 ------------|---------------------|------|-----------------
 if          | Keyword             |      |
@@ -90,7 +103,7 @@ Freezing    | Literal             |      |
 "           | Quote               |      |
 End If      | Keyword             |      |
 
-Abstract syntax tree traversed several times during semantic analysis.
+
 Spot problems like :
 - Undeclared variables
 - Multiple declarations within the same scope
