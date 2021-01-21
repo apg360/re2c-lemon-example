@@ -91,11 +91,11 @@ get_attribute, To get       an attribute associated with a given entry
 
 
 > * lookup() operation is used to search a name in the symbol table to determine:
->    1. if the symbol exists in the table.
->    2. if it is declared before it is being used.
->    3. if the name is used in the scope.
->    4. if the symbol is initialized.
->    5. if the symbol declared multiple times.
+>    - if the symbol exists in the table.
+>    - if it is declared before it is being used.
+>    - if the name is used in the scope.
+>    - if the symbol is initialized.
+>    - if the symbol declared multiple times.
 >
 > ```javascript
 > lookup(symbol)
