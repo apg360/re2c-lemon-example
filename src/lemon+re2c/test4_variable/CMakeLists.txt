@@ -26,6 +26,7 @@ else()
     # lots of warnings and all warnings as errors
     # add_compile_options(-Wall -Wextra -pedantic -pedantic-errors -Werror -Wunused-parameter -Wunused-value -Wmacro-redefined -Wmisleading-indentation)
     # add_compile_options(-Wall -Wextra -std=c11 -Wmacro-redefined -Wunused-parameter -Wunused-value -Wmisleading-indentation)
+    # add_compile_options( -std=c99 -Wall)
 endif()
 
 #https://cmake.org/cmake/help/latest/prop_gbl/CMAKE_C_KNOWN_FEATURES.html

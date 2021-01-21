@@ -81,7 +81,8 @@ Then parse tree is refined to become an Abstract Syntax Tree
 Records context about the program : variable, function names
 Symbol table often implemented as a hash table.
 
-Symbol Table :
+Symbol Table Example :
+
 1)
  Name | Type     | Scope
 ------|----------|------
