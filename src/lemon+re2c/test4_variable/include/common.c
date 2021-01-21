@@ -1,6 +1,15 @@
 
 #include "common.h"
 
+// Concatenate two strings or macros that resolve to strings.
+#define _dontuseme_CONCAT(a,b)                a ## b
+#define CONCAT(a,b)                _dontuseme_CONCAT(a,b)
+
+// Surround a string or a macro that resolves to a string with double quotes.
+#define _dontuseme_STRINGIFY(a)                # a
+#define STRINGIFY(a)                _dontuseme_STRINGIFY(a)
+
+
 /*
   https://stackoverflow.com/questions/2667648/what-does-it-mean-to-be-terminated-by-a-zero
 
