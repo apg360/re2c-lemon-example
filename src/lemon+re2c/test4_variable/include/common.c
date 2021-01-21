@@ -9,7 +9,6 @@
 #define _dontuseme_STRINGIFY(a)                # a
 #define STRINGIFY(a)                _dontuseme_STRINGIFY(a)
 
-
 /*
   https://stackoverflow.com/questions/2667648/what-does-it-mean-to-be-terminated-by-a-zero
 
