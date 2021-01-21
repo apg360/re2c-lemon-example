@@ -1,6 +1,7 @@
 // symbol table headerfile
 // https://steemit.com/programming/@drifter1/writing-a-simple-compiler-on-my-own-symbol-table-basic-structure
 // https://steemit.com/programming/@drifter1/programming-c-hashtables-with-chaining
+// https://github.com/drifter1/compiler/tree/master/Symbol%20Table%20and%20Lexer
 
 /* maximum size of hash table */
 #define SIZE 211

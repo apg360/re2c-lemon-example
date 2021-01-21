@@ -69,6 +69,16 @@ Then parse tree is refined to become an Abstract Syntax Tree
 ## STEP3 Semantic Analyzer
 #### Syntax tree and Symbol Table >>to Abstract Syntax Tree
 
+Symbol Table is used by various phases of compiler as follows :
+- Lexical Analysis: Creates new table entries in the table, example like entries about token.
+- Syntax Analysis: Adds information regarding attribute type, scope, dimension, line of reference, use, etc in the table.
+- Semantic Analysis: Uses available information in the table to check for semantics i.e. to verify that expressions and assignments are semantically correct(type checking) and update it accordingly.
+- Intermediate Code generation: Refers symbol table for knowing how much and what type of run-time is allocated and table helps in adding temporary variable information.
+- Code Optimization: Uses information present in symbol table for machine dependent optimization.
+- Target Code generation: Generates code by using address information of identifier present in the table.
+
+
+
 > The parser cannot check for semantics, example it cannot know if the WORD indicating the color actually represents a valid color.
 > That is to say, it doesn’t know that it’s wrong to use “dog” and right to use “red”.
 > This must be checked by the logic of the program, that can access which colors are available.
@@ -157,3 +167,18 @@ Spot problems like :
 - The condition in an if statement must evaluate to true or false
 - The exit condition of a loop must evaluate to true or false
 
+Items stored in Symbol table:
+- Variable names and constants
+- Procedure and function names
+- Literal constants and strings
+- Compiler generated temporaries
+- Labels in source languages
+
+Information used by compiler from Symbol table:
+- Data type and name
+- Declaring procedures
+- Offset in storage
+- If structure or record then, pointer to structure table.
+- For parameters, whether parameter passing by value or by reference
+- Number and type of arguments passed to function
+- Base Address
