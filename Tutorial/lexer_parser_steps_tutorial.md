@@ -109,18 +109,16 @@ get_attribute, To get       an attribute associated with a given entry
 >  3.  either the name is found or global symbol table has been searched for the name.
 >  A compiler maintains two types of symbol tables: a global symbol table which can be accessed by all the procedures and scope symbol tables that are created for each scope in the program.
 > ```
-
-```javascript
-For example, if a symbol table has to store information about the following variable declaration:
-
-static int interest;
-Then it should store the entry such as : <symbol name,  type,  attribute>
-insert(interest, int, static);
-
-int a;
-Then it should be :
-insert(a,int);
-```
+> For example, if a symbol table has to store information about the following variable declaration:
+> ```javascript
+> static int interest;
+> Then it should store the entry such as : <symbol name,  type,  attribute>
+> insert(interest, int, static);
+> 
+> int a;
+> Then it should be :
+> insert(a,int);
+> ```
 
 
 Symbol Table Example :
