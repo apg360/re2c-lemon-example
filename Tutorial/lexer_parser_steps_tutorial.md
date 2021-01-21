@@ -107,6 +107,7 @@ get_attribute, To get       an attribute associated with a given entry
 >  1.  first a symbol will be searched in the current scope, i.e. current symbol table.
 >  2.  if a name is found, then search is completed, else it will be searched in the parent symbol table until,
 >  3.  either the name is found or global symbol table has been searched for the name.
+>  A compiler maintains two types of symbol tables: a global symbol table which can be accessed by all the procedures and scope symbol tables that are created for each scope in the program.
 > ```
 
 
