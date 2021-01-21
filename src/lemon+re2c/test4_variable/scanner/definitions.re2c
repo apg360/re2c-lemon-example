@@ -44,6 +44,10 @@ R? : zero or one R. That means, there maybe an R or not.
     // \f  form feed
     // \a  audible alert
     //-----------------
+
+
+    // https://steemit.com/programming/@drifter1/writing-a-simple-compiler-on-my-own-a-simple-c-language?q=A+simple+C+Language
+    // https://github.com/drifter1/compiler/blob/master/Symbol%20Table%20and%20Lexer/lexer.l
     
     end = ( [\r\n] |"\x00"|"\x0A"|"\x0D" )+;
     whitespace = ( " " | [\t\v\f] )+;      // whitespace and tabulation
