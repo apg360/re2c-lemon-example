@@ -101,6 +101,12 @@ get_attribute, To get       an attribute associated with a given entry
 > lookup(symbol)
 > This method returns 0 (zero) if the symbol does not exist in the symbol table.
 > If the symbol exists in the symbol table, it returns its attributes stored in the table.
+
+> This symbol table data structure hierarchy is stored in the semantic analyzer and whenever a name needs to be searched in a symbol table.
+> It is searched using the following algorithm:
+>  1.  first a symbol will be searched in the current scope, i.e. current symbol table.
+>  2.  if a name is found, then search is completed, else it will be searched in the parent symbol table until,
+>  3.  either the name is found or global symbol table has been searched for the name.
 > ```
 
 
