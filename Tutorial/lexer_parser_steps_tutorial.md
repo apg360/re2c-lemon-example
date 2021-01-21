@@ -90,7 +90,7 @@ set_attribute, To associate an attribute with a given entry
 get_attribute, To get       an attribute associated with a given entry
 
 
-> - lookup() operation is used to search a name in the symbol table to determine:
+> * lookup() operation is used to search a name in the symbol table to determine:
 >    1. if the symbol exists in the table.
 >    2. if it is declared before it is being used.
 >    3. if the name is used in the scope.
@@ -99,7 +99,8 @@ get_attribute, To get       an attribute associated with a given entry
 >
 > ```javascript
 > lookup(symbol)
-> This method returns 0 (zero) if the symbol does not exist in the symbol table. If the symbol exists in the symbol table, it returns its attributes stored in the table.
+> This method returns 0 (zero) if the symbol does not exist in the symbol table.
+> If the symbol exists in the symbol table, it returns its attributes stored in the table.
 > ```
 
 
