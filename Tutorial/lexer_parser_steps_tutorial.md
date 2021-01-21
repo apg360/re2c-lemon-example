@@ -6,6 +6,16 @@
 @@ text in purple (and bold)@@
 ```
 
+
+1.Lexical Analysis (split the input up into tokens or lexical units)
+2.Syntax Analysis or Parsing (syntax tree of the tokens)
+3.Semantic Analysis (check correctness of syntax tree)
+4.Intermediate Code Generation (abstract syntax tree with important nodes only)
+5.Optimization (Optimize the AST by doing some operations)
+6.Machine code generation (Generate Assembly code for some CPU) : use [C--](https://en.wikipedia.org/wiki/C--) instead or transpile to C
+
+
+
 For Golang, Javascript, Typescript, C#
  -   1. input   => lexer       => tokens
  -   2. tokens  => parser      => Syntax Tree(Parse Tree) and Symbol Table
