@@ -73,21 +73,13 @@ Tokens are organized into a hierarchical structure, a parse tree :
 
 Parse tree is like figuring out what the grammar is.
 Then parse tree is refined to become an Abstract Syntax Tree
-
+Parse tree have no representation of semantics.
 
 
 ## STEP3 Semantic Analyzer
 #### Syntax tree and Symbol Table >>to Abstract Syntax Tree
 
-Symbol Table is used by various phases of compiler as follows :
-- Lexical Analysis: Creates new table entries in the table, example like entries about token.
-- Syntax Analysis: Adds information regarding attribute type, scope, dimension, line of reference, use, etc in the table.
-- Semantic Analysis: Uses available information in the table to check for semantics i.e. to verify that expressions and assignments are semantically correct(type checking) and update it accordingly.
-- Intermediate Code generation: Refers symbol table for knowing how much and what type of run-time is allocated and table helps in adding temporary variable information.
-- Code Optimization: Uses information present in symbol table for machine dependent optimization.
-- Target Code generation: Generates code by using address information of identifier present in the table.
-
-
+AST is built from the parse tree and represents the behavior of the source code.
 
 > The parser cannot check for semantics, example it cannot know if the WORD indicating the color actually represents a valid color.
 > That is to say, it doesn’t know that it’s wrong to use “dog” and right to use “red”.
@@ -97,6 +89,15 @@ Symbol Table is used by various phases of compiler as follows :
 > Then, in your program, you check the semantics and make sure that the rule actually have a proper meaning.
 > 
 > Abstract syntax tree traversed several times during semantic analysis.
+
+Symbol Table is used by various phases of compiler as follows :
+- Lexical Analysis: Creates new table entries in the table, example like entries about token.
+- Syntax Analysis: Adds information regarding attribute type, scope, dimension, line of reference, use, etc in the table.
+- Semantic Analysis: Uses available information in the table to check for semantics i.e. to verify that expressions and assignments are semantically correct(type checking) and update it accordingly.
+- Intermediate Code generation: Refers symbol table for knowing how much and what type of run-time is allocated and table helps in adding temporary variable information.
+- Code Optimization: Uses information present in symbol table for machine dependent optimization.
+- Target Code generation: Generates code by using address information of identifier present in the table.
+
 
 Records context about the program : variable, function names
 Symbol table often implemented as a hash table.
