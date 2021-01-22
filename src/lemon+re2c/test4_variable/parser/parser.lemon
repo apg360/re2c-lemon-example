@@ -116,7 +116,7 @@
 //https://www.cs.cornell.edu/andru/javaspec/2.doc.html#40415
 
 
-// Syntactic Rules
+// Syntactic Rules  { Semantic Actions }
 start ::= in.
 in ::= .
 in ::= in expression END_OF_FILE.
