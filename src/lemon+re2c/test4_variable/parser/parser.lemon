@@ -2,6 +2,7 @@
 // https://sqlite.org/src/doc/trunk/doc/lemon.html#token_type
 // http://souptonuts.sourceforge.net/readme_lemon_tutorial.html
 // http://matt.might.net/articles/grammars-bnf-ebnf
+// https://www.tutorialspoint.com/compiler_design/compiler_design_syntax_analysis.htm
 // https://www.wikiwand.com/en/Shift-reduce_parser
 // https://www.wikiwand.com/en/Parsing#/Computational_methods#section_Lookahead
 
