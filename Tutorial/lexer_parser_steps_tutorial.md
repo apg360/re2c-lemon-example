@@ -65,7 +65,7 @@ Characters/letters become words/tokens :
 
 
 ## STEP2 Syntax Analyzer
-#### Syntax tree and Symbol Table
+#### Syntax tree (syntactic structure) and Symbol Table
 
 Tokens are organized into a hierarchical structure, a parse tree :
 ![parsetree](parsetree.png)
