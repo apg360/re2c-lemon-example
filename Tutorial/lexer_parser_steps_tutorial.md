@@ -143,13 +143,15 @@ get_attribute, To get       an attribute associated with a given entry
 
 Symbol Table Example :
 
-1)
- Name | Type     | Scope
-------|----------|------
-main  | func int | global
-x     | int      | local
+1) C only have two scope, global and local. Cscript only have one scope, global no matter where it is declared.
+
+ Name or identifier | TypeMarker | TextValue | Scope
+--------------------|------------|-----------|------
+main                | func int   |           | global
+x                   | int        | 1652      | local
 
 2)
+
  Lexeme     | Token Class         | Type | Address location
 ------------|---------------------|------|-----------------
 if          | Keyword             |      |

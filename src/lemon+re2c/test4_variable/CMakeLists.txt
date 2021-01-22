@@ -24,6 +24,7 @@ if (MSVC)
     add_compile_options(/W4 /WX)
 else()
     # lots of warnings and all warnings as errors
+    add_compile_options(-Wall -Wextra -Wunused-parameter)
     # add_compile_options(-Wall -Wextra -pedantic -pedantic-errors -Werror -Wunused-parameter -Wunused-value -Wmacro-redefined -Wmisleading-indentation)
     # add_compile_options(-Wall -Wextra -std=c11 -Wmacro-redefined -Wunused-parameter -Wunused-value -Wmisleading-indentation)
     # add_compile_options( -std=c99 -Wall)
