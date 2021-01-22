@@ -2,6 +2,8 @@
 // https://sqlite.org/src/doc/trunk/doc/lemon.html#token_type
 // http://souptonuts.sourceforge.net/readme_lemon_tutorial.html
 // http://matt.might.net/articles/grammars-bnf-ebnf
+// https://www.wikiwand.com/en/Shift-reduce_parser
+// https://www.wikiwand.com/en/Parsing#/Computational_methods#section_Lookahead
 
 /*
     <> (inequality) 							- use != instead will be : not=
