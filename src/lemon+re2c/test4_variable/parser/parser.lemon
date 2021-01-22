@@ -113,6 +113,7 @@
 //program ::= program line END_OF_FILE.
 //line ::= program expression END_OF_LINE.
 //http://teampli.net/XPL/ldindex.html
+//https://www.cs.cornell.edu/andru/javaspec/2.doc.html#40415
 
 start ::= in.
 in ::= .
