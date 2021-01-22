@@ -112,6 +112,7 @@
 //program ::= .
 //program ::= program line END_OF_FILE.
 //line ::= program expression END_OF_LINE.
+//http://teampli.net/XPL/ldindex.html
 
 start ::= in.
 in ::= .
