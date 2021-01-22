@@ -1,6 +1,7 @@
 // https://sqlite.org/src/doc/trunk/doc/lemon.html
 // https://sqlite.org/src/doc/trunk/doc/lemon.html#token_type
 // http://souptonuts.sourceforge.net/readme_lemon_tutorial.html
+// http://matt.might.net/articles/grammars-bnf-ebnf
 
 /*
     <> (inequality) 							- use != instead will be : not=

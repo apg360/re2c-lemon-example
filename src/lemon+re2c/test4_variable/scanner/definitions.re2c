@@ -44,8 +44,25 @@ R? : zero or one R. That means, there maybe an R or not.
     // \f  form feed
     // \a  audible alert
     //-----------------
-
-
+    // \n for newline (linefeed, character 10)
+    // \r for carriage return (character 13)
+    // \0 for null (character 0)
+    //  \a for alarm bell (character 7)
+    // \b for backspace (character 8)
+    // \t for tab (character 9)
+    // \v for vertical tab (character 11), whatever that is.
+    // \" for a double quote (character 34)
+    // \' for a single quote (character 39)
+    // \\ for a backslash (character 92)
+    // \xCC for an 8-bit character code (where CC is two hex digits)
+    // \uCCCC for a 16-bit character code (where CCCC is four hex digits)
+    // In modern times, \a, \b and \v are almost never used. \' is only needed in a single-quoted string to represent the single quote mark itself ('\'').
+    // Any escape sequences that are not on the list (i.e. backslash followed by anything else) are illegal.
+    //-----------------
+    // line endings :
+    //    UNIX (\n)
+    //    Windows (\r\n)
+    //    Macintosh (\r)
     // https://steemit.com/programming/@drifter1/writing-a-simple-compiler-on-my-own-a-simple-c-language?q=A+simple+C+Language
     // https://github.com/drifter1/compiler/blob/master/Symbol%20Table%20and%20Lexer/lexer.l
     
