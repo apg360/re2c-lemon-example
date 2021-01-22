@@ -33,7 +33,7 @@ R? : zero or one R. That means, there maybe an R or not.
     // LF(Line Feed)=10 CR(Carriage Return)=13
     // carriage return+new line or new line or 0
     // \n  new line
-    // \r  carriage return
+    // \r  carriage return (character 15)
     // \x00  NUL
     // \x0A  newline
     // \x0D  return
@@ -45,15 +45,15 @@ R? : zero or one R. That means, there maybe an R or not.
     // \a  audible alert
     //-----------------
     // \n for newline (linefeed, character 10)
-    // \r for carriage return (character 13)
+    // \r for carriage return (character 13 or 15 ?)
     // \0 for null (character 0)
-    //  \a for alarm bell (character 7)
+    // \a for alarm bell (character 7)
     // \b for backspace (character 8)
     // \t for tab (character 9)
     // \v for vertical tab (character 11), whatever that is.
-    // \" for a double quote (character 34)
+    // \" for a double quote (character 34 or 42 ?)
     // \' for a single quote (character 39)
-    // \\ for a backslash (character 92)
+    // \\ for a backslash (character 92 or 134 ?)
     // \xCC for an 8-bit character code (where CC is two hex digits)
     // \uCCCC for a 16-bit character code (where CCCC is four hex digits)
     // In modern times, \a, \b and \v are almost never used. \' is only needed in a single-quoted string to represent the single quote mark itself ('\'').
