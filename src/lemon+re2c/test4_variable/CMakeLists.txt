@@ -24,18 +24,38 @@ if (MSVC)
     add_compile_options(/W4 /WX)
 else()
     # lots of warnings and all warnings as errors
-    add_compile_options(-Wall -Wextra -Wunused-parameter)
-    # add_compile_options(-Wall -Wextra -pedantic -pedantic-errors -Werror -Wunused-parameter -Wunused-value -Wmacro-redefined -Wmisleading-indentation)
-    # add_compile_options(-Wall -Wextra -std=c11 -Wmacro-redefined -Wunused-parameter -Wunused-value -Wmisleading-indentation)
-    # add_compile_options( -std=c99 -Wall)
+    add_compile_options(-Wall -Wextra -pedantic -pedantic-errors -Werror -Wunused-parameter -Wunused-value -Wmacro-redefined -Wmisleading-indentation -Wunused-comparison)
 endif()
 
 #https://cmake.org/cmake/help/latest/prop_gbl/CMAKE_C_KNOWN_FEATURES.html
 target_compile_features(${CMAKE_PROJECT_NAME} PRIVATE c_std_11) #Compiler mode is at least C 11.
 
-#A library with most common needs when programming
-add_library(common_requirement_lib "include/common.h" "include/common.c")
-target_link_libraries(${CMAKE_PROJECT_NAME} common_requirement_lib)
+#Add library libm : Finding and linking libm
+if(APPLE)
+  find_library(MATH_LIBRARY NAMES libm.dylib)
+elseif(UNIX)
+  find_library(MATH_LIBRARY NAMES libm.a)
+endif()
+if(MATH_LIBRARY)
+  get_filename_component(MATH_LIB_DIR ${MATH_LIBRARY} PATH)
+  link_directories(${MATH_LIB_DIR})
+  message(STATUS "libm FOUND ${MATH_LIBRARY}")
+  
+  # Name the library both with a full path and as "-lm" to
+  # activate the link type switching code for both cases.
+  # If the second one links shared then the link will fail.
+  #set(MATH_LIBRARIES ${MATH_LIBRARY} -lm)
+  
+  set(MATH_LIBRARIES -lm)
+  target_link_libraries(${CMAKE_PROJECT_NAME} PUBLIC ${MATH_LIBRARIES})
+else()
+  message(FATAL_ERROR "Cannot find libm.a needed for this test")
+endif()
+
+#Add library common_requirement : A library with most common needs when programming
+add_library(common_requirement "include/common.h" "include/common.c")
+target_link_libraries(${CMAKE_PROJECT_NAME} PUBLIC common_requirement)
+
 
 # to locate include file  #include <scanner.h> + #include <parser.h>
 target_include_directories(${CMAKE_PROJECT_NAME}

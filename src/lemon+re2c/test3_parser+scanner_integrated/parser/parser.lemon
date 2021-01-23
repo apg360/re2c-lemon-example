@@ -100,7 +100,7 @@ in ::= .
 in ::= in expression END_OF_LINE.
 in ::= in expression NEWLINE.
 
-expression ::= expr(A).                { PARSER_STATE->result_value.value_is_a_number = A; }
+expression ::= expr(A).             { PARSER_STATE->result_value.value_is_a_number = A; }
 
 expr(X) ::= expr(A) ADD expr(B).    { X = A + B; }
 expr(X) ::= expr(A) SUB expr(B).    { X = A - B; }

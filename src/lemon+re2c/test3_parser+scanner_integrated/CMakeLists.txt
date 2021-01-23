@@ -25,6 +25,7 @@ if (MSVC)
 else()
     # lots of warnings and all warnings as errors
     add_compile_options(-Wall -Wextra -pedantic -pedantic-errors -Werror -Wunused-parameter)
+    #add_compile_options(-Wall -Wextra -Wunused-parameter -Wunused-value -Wmacro-redefined -Wmisleading-indentation -Wunused-comparison)
 endif()
 
 #https://cmake.org/cmake/help/latest/prop_gbl/CMAKE_C_KNOWN_FEATURES.html

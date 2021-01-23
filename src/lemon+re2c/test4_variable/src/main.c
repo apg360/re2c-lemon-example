@@ -94,7 +94,7 @@ int main() {
 ");
     
     //Process test.dat
-    SCANNER( readFile() );
+    //SCANNER( readFile() );
     
     char *commandLine;
     while (  (commandLine = dynamic_fgets())  ){

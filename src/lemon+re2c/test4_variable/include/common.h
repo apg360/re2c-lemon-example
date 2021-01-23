@@ -1,11 +1,12 @@
 #pragma once
 
-#include <stdio.h>   // output on screen
+#include <stdio.h>   // FILE, output on screen
 #include <assert.h>  // 
 #include <stdlib.h>  // malloc, free + os access: open file, read/write file, delete file etc...
 #include <stddef.h>  // size_t
 #include <string.h>  // strlen, strcmp
 #include <stdbool.h> // bool
+#include <math.h>
 
 typedef enum { FAIL, OK } Result;
 //typedef enum { false, true } bool; // 0, 1
