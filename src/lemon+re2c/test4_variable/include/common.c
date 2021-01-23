@@ -74,8 +74,7 @@ char* dynamic_fgets (void) //read_stdin
     char* dest = substr(src, m, n);
     printf("%s\n", dest);
 */
-/*
-char* substr(const char *src, int m, int n)
+char* substr_loop(const char *src, int m, int n)
 {
     // get length of the destination string
     int len = n - m;
@@ -96,8 +95,8 @@ char* substr(const char *src, int m, int n)
  
     // return the destination string
     return dest - len;
-}*/
-// another implementation that uses C library’s strncpy() function
+}
+// With strncpy() function
 char* substr(const char *src, int m, int n)
 {
     // get length of the destination string
@@ -116,8 +115,8 @@ char* substr(const char *src, int m, int n)
 // strtok() function to split a string (and specify the delimiter to use).
 // Note that strtok() will modify the string passed into it.
 // If the original string is required elsewhere make a copy of it and pass the copy to strtok().
-/*char** str_split(char* a_str, const char a_delim)
-{*/
+char** str_split(char* a_str, const char a_delim)
+{
 /*
     char months[] = "JAN,FEB,MAR,APR,MAY,JUN,JUL,AUG,SEP,OCT,NOV,DEC";
     char** tokens;
@@ -134,7 +133,7 @@ char* substr(const char *src, int m, int n)
         printf("\n");
         free(tokens);
     }
-*//*
+*/
     char** result    = 0;
     size_t count     = 0;
     char* tmp        = a_str;
@@ -179,7 +178,7 @@ char* substr(const char *src, int m, int n)
     }
 
     return result;
-}*/
+}
 
 /*
     char* str = malloc(strlen("abcdef")+1);

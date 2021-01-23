@@ -96,13 +96,13 @@ int main() {
     //Process test.dat
     //SCANNER( readFile() );
     
-    char *commandLine;
+    /*char *commandLine;
     while (  (commandLine = dynamic_fgets())  ){
       
       SCANNER(commandLine);
       
       free(commandLine); //dynamic_fgets do malloc, free the allocated memory now that variable is no more used
-    }
+    }*/
     
     PARSER_FREE();
     return 0;

@@ -122,13 +122,12 @@
 //http://teampli.net/XPL/ldindex.html
 //https://www.cs.cornell.edu/andru/javaspec/2.doc.html#40415
 
-
-// Syntactic Rules  { Semantic Actions }
 start ::= in.
 in ::= .
 in ::= in expression END_OF_FILE.
 in ::= in expression END_OF_LINE.
 
+// Syntactic Rules  { Semantic Actions }
 expression ::= expr(A).             { PARSER_STATE->result_value.value_is_a_number = A; }
 
 expr(X) ::= expr(A) ADD expr(B).    { X = A + B; }

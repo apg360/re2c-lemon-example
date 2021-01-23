@@ -24,7 +24,8 @@ if (MSVC)
     add_compile_options(/W4 /WX)
 else()
     # lots of warnings and all warnings as errors
-    add_compile_options(-Wall -Wextra -pedantic -pedantic-errors -Werror -Wunused-parameter -Wunused-value -Wmacro-redefined -Wmisleading-indentation -Wunused-comparison)
+    #add_compile_options(-Wall -Wextra -Werror -pedantic -pedantic-errors -Wunused-parameter -Wunused-value -Wmacro-redefined -Wmisleading-indentation -Wunused-comparison)
+    add_compile_options(-Wall -Wextra -Werror -pedantic -pedantic-errors)
 endif()
 
 #https://cmake.org/cmake/help/latest/prop_gbl/CMAKE_C_KNOWN_FEATURES.html
