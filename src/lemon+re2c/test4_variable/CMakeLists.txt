@@ -12,7 +12,12 @@ file(RENAME ${CMAKE_CURRENT_SOURCE_DIR}/parser/parser.c ${CMAKE_CURRENT_BINARY_D
 file(RENAME ${CMAKE_CURRENT_SOURCE_DIR}/parser/parser.out ${CMAKE_CURRENT_BINARY_DIR}/parser.out)
 file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/test.dat DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
+#
 add_executable(${CMAKE_PROJECT_NAME} src/main.c build/parser.c)
+
+#Compiler mode is at least C 11.
+#https://cmake.org/cmake/help/latest/prop_gbl/CMAKE_C_KNOWN_FEATURES.html
+target_compile_features(${CMAKE_PROJECT_NAME} PRIVATE c_std_11)
 
 #Compile with no optimization and adding debug symbols
 set(CMAKE_BUILD_TYPE debug)
@@ -29,9 +34,9 @@ else()
     add_compile_options(-Wall -Wextra -Werror -pedantic -pedantic-errors)
 endif()
 
-#https://cmake.org/cmake/help/latest/prop_gbl/CMAKE_C_KNOWN_FEATURES.html
-target_compile_features(${CMAKE_PROJECT_NAME} PRIVATE c_std_11) #Compiler mode is at least C 11.
-
+#################
+### LIBRARIES ###
+#################
 #Add library libm : Finding and linking libm
 if(APPLE)
   find_library(MATH_LIBRARY NAMES libm.dylib)
@@ -57,7 +62,9 @@ endif()
 #Add library common_requirement : A library with most common needs when programming
 add_library(common_requirement "include/common.h" "include/common.c")
 target_link_libraries(${CMAKE_PROJECT_NAME} PUBLIC common_requirement)
-
+#####################
+### END LIBRARIES ###
+#####################
 
 # to locate include file  #include <scanner.h> + #include <parser.h>
 target_include_directories(${CMAKE_PROJECT_NAME}
