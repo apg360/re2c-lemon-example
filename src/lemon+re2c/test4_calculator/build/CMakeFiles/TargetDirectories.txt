@@ -1,0 +1,4 @@
+/Users/a0/MyProjects/GitHub/re2c-lemon-example/src/lemon+re2c/test4_calculator/build/CMakeFiles/rebuild_cache.dir
+/Users/a0/MyProjects/GitHub/re2c-lemon-example/src/lemon+re2c/test4_calculator/build/CMakeFiles/edit_cache.dir
+/Users/a0/MyProjects/GitHub/re2c-lemon-example/src/lemon+re2c/test4_calculator/build/CMakeFiles/common_requirement.dir
+/Users/a0/MyProjects/GitHub/re2c-lemon-example/src/lemon+re2c/test4_calculator/build/CMakeFiles/mycalc.dir

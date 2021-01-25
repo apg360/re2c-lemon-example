@@ -1,0 +1,7 @@
+cmake_minimum_required(VERSION 3.19)
+project(lemon LANGUAGES C)
+add_executable(${PROJECT_NAME} "lemon.c")
+set(CMAKE_BUILD_TYPE Release)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR})
+file(GLOB SOURCES "lemon.c")
+add_library(lemonlib STATIC ${SOURCES})

@@ -91,34 +91,47 @@
 
 %extra_argument  { struct _parser_state * PARSER_STATE }
 %token_prefix TK_ // All token codes are integers with #defines that begin with "TK_"
+%start_symbol program
 
 %token_type      { double }
 
 // Math order of priority => BIDMAS : Bracket/Parenthesis Indices/Power/Order Divide Multiply Addition Substraction
-%nonassoc AND OR EQ NE GT GE LT LE.
+%nonassoc IF ELSEIF ELSE VARTYPE IDENTIFIER SEMCOL ASSIGN AND OR EQ NE GT GE LT LE.
 %left ADD SUB.       // PLUS   MINUS
 %left DIV MUL MOD.   // DIVIDE TIMES MODULUS(remainder operator)
 %left POS NEG.       // Negation--unary minus
 %right EXP.          // 2^3^2 = 2^(3^2) = 512
-%left LPAREN RPAREN.
+%left LBRACKET RBRACKET LPAREN RPAREN.
 
-// This is to terminate with a new line, the grammar dictate when the expression can no longer be reduced.
-// Without this PARSER(0, 0); Parse(pParse,0,0) have to be called to signal the end of the input for an expression
-//program ::= program.
-//program ::= .
-//program ::= program line END_OF_FILE.
-//line ::= program expression END_OF_LINE.
 
 // http://teampli.net/XPL/ldindex.html
 // https://www.cs.cornell.edu/andru/javaspec/2.doc.html#40415
 // https://steemit.com/programming/@drifter1/writing-a-simple-compiler-on-my-own-creating-a-grammar-for-our-language
 
-start ::= in.
-in ::= .
-in ::= in expression END_OF_FILE.
-in ::= in expression END_OF_LINE.
+program ::= input.
+input ::= .
+input ::= input lines.
 
-IfThenStatement ::= if expression { statement }
+// This is to terminate with a new line, the grammar dictate when the expression can no longer be reduced.
+// Without this PARSER(0, 0); Parse(pParse,0,0) have to be called to signal the end of the input for an expression
+lines ::= statement END_OF_LINE|END_OF_FILE.
+
+//statements ::= statement [SEMCOL statements].
+
+statement ::= varDeclaration.
+statement ::= assignment.
+statement ::= if_statement.
+//statement ::= for_statement.
+statement ::= expression.
+varDeclaration ::= IDENTIFIER ASSIGN VARTYPE ASSIGN expression.
+assignment ::= IDENTIFIER ASSIGN expression.
+
+if_statement     ::=                  IF     bool_expression LBRACKET statement RBRACKET.
+//else_statement   ::= if_statement     ELSE                   LBRACKET statement RBRACKET.
+//elseif_statement ::= if_statement     ELSEIF bool_expression LBRACKET statement RBRACKET.
+//elseif_statement ::= elseif_statement ELSE                   LBRACKET statement RBRACKET.
+
+bool_expression(X) ::= expr(A) AND|OR|EQ|NE|GT|GE|LT|LE expr(B). { printf("X = A AND|OR|EQ|NE|GT|GE|LT|LE B;"); }
 
 // Syntactic Rules  { Semantic Actions }
 expression ::= expr(A).             { PARSER_STATE->result_value.value_is_a_number = A; }
@@ -135,8 +148,6 @@ expr(X) ::= expr(A) EXP expr(B).    { X = pow(A, B); } // Exponentiation
 expr(X) ::= LPAREN expr(A) RPAREN.  { X = A; }
 
 expr(X) ::= ADD expr(A). [POS]      { X = A; }
-
 expr(X) ::= SUB expr(A). [NEG]      { X = A * -1; } // Negation--unary minus
 
 expr(X) ::= INT_LITERAL(A).         { X = A; }
-

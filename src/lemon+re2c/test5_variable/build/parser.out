@@ -1,0 +1,620 @@
+State 0:
+          program ::= * input
+     (13) input ::= *
+          input ::= * input lines
+
+                       program accept
+                         input shift        1      
+                     {default} reduce       13     input ::=
+
+State 1:
+     (12) program ::= input *
+          input ::= input * lines
+          lines ::= * statement END_OF_LINE|END_OF_FILE
+          statement ::= * varDeclaration
+          statement ::= * assignment
+          statement ::= * if_statement
+          statement ::= * expression
+          varDeclaration ::= * IDENTIFIER ASSIGN VARTYPE ASSIGN expression
+          assignment ::= * IDENTIFIER ASSIGN expression
+          if_statement ::= * IF bool_expression LBRACKET statement RBRACKET
+          expression ::= * expr
+          expr ::= * expr ADD expr
+          expr ::= * expr SUB expr
+          expr ::= * expr MUL expr
+          expr ::= * expr DIV expr
+          expr ::= * expr MOD expr
+          expr ::= * expr EXP expr
+          expr ::= * LPAREN expr RPAREN
+          expr ::= * ADD expr
+          expr ::= * SUB expr
+          expr ::= * INT_LITERAL
+
+                             $ reduce       12     program ::= input
+                            IF shift        4      
+                    IDENTIFIER shift        32     
+                           ADD shift        8      
+                           SUB shift        7      
+                        LPAREN shift        9      
+                   INT_LITERAL shift-reduce 11     expr ::= INT_LITERAL
+                         lines shift-reduce 14     input ::= input lines
+                     statement shift        22     
+                varDeclaration shift        22       /* because varDeclaration==statement */
+                    assignment shift        22       /* because assignment==statement */
+                  if_statement shift        22       /* because if_statement==statement */
+                    expression shift        22       /* because expression==statement */
+                          expr shift        19     
+
+State 2:
+          statement ::= * varDeclaration
+          statement ::= * assignment
+          statement ::= * if_statement
+          statement ::= * expression
+          varDeclaration ::= * IDENTIFIER ASSIGN VARTYPE ASSIGN expression
+          assignment ::= * IDENTIFIER ASSIGN expression
+          if_statement ::= * IF bool_expression LBRACKET statement RBRACKET
+          if_statement ::= IF bool_expression LBRACKET * statement RBRACKET
+          expression ::= * expr
+          expr ::= * expr ADD expr
+          expr ::= * expr SUB expr
+          expr ::= * expr MUL expr
+          expr ::= * expr DIV expr
+          expr ::= * expr MOD expr
+          expr ::= * expr EXP expr
+          expr ::= * LPAREN expr RPAREN
+          expr ::= * ADD expr
+          expr ::= * SUB expr
+          expr ::= * INT_LITERAL
+
+                            IF shift        4      
+                    IDENTIFIER shift        32     
+                           ADD shift        8      
+                           SUB shift        7      
+                        LPAREN shift        9      
+                   INT_LITERAL shift-reduce 11     expr ::= INT_LITERAL
+                     statement shift        23     
+                varDeclaration shift        23       /* because varDeclaration==statement */
+                    assignment shift        23       /* because assignment==statement */
+                  if_statement shift        23       /* because if_statement==statement */
+                    expression shift        23       /* because expression==statement */
+                          expr shift        19     
+
+State 3:
+          varDeclaration ::= IDENTIFIER ASSIGN * VARTYPE ASSIGN expression
+          assignment ::= IDENTIFIER ASSIGN * expression
+          expression ::= * expr
+          expr ::= * expr ADD expr
+          expr ::= * expr SUB expr
+          expr ::= * expr MUL expr
+          expr ::= * expr DIV expr
+          expr ::= * expr MOD expr
+          expr ::= * expr EXP expr
+          expr ::= * LPAREN expr RPAREN
+          expr ::= * ADD expr
+          expr ::= * SUB expr
+          expr ::= * INT_LITERAL
+
+                       VARTYPE shift        31     
+                           ADD shift        8      
+                           SUB shift        7      
+                        LPAREN shift        9      
+                   INT_LITERAL shift-reduce 11     expr ::= INT_LITERAL
+                    expression shift-reduce 21     assignment ::= IDENTIFIER ASSIGN expression
+                          expr shift        19     
+
+State 4:
+          if_statement ::= IF * bool_expression LBRACKET statement RBRACKET
+          bool_expression ::= * expr AND|OR|EQ|NE|GT|GE|LT|LE expr
+          expr ::= * expr ADD expr
+          expr ::= * expr SUB expr
+          expr ::= * expr MUL expr
+          expr ::= * expr DIV expr
+          expr ::= * expr MOD expr
+          expr ::= * expr EXP expr
+          expr ::= * LPAREN expr RPAREN
+          expr ::= * ADD expr
+          expr ::= * SUB expr
+          expr ::= * INT_LITERAL
+
+                           ADD shift        8      
+                           SUB shift        7      
+                        LPAREN shift        9      
+                   INT_LITERAL shift-reduce 11     expr ::= INT_LITERAL
+               bool_expression shift        24     
+                          expr shift        16     
+
+State 5:
+          varDeclaration ::= IDENTIFIER ASSIGN VARTYPE ASSIGN * expression
+          expression ::= * expr
+          expr ::= * expr ADD expr
+          expr ::= * expr SUB expr
+          expr ::= * expr MUL expr
+          expr ::= * expr DIV expr
+          expr ::= * expr MOD expr
+          expr ::= * expr EXP expr
+          expr ::= * LPAREN expr RPAREN
+          expr ::= * ADD expr
+          expr ::= * SUB expr
+          expr ::= * INT_LITERAL
+
+                           ADD shift        8      
+                           SUB shift        7      
+                        LPAREN shift        9      
+                   INT_LITERAL shift-reduce 11     expr ::= INT_LITERAL
+                    expression shift-reduce 20     varDeclaration ::= IDENTIFIER ASSIGN VARTYPE ASSIGN expression
+                          expr shift        19     
+
+State 6:
+          bool_expression ::= expr AND|OR|EQ|NE|GT|GE|LT|LE * expr
+          expr ::= * expr ADD expr
+          expr ::= * expr SUB expr
+          expr ::= * expr MUL expr
+          expr ::= * expr DIV expr
+          expr ::= * expr MOD expr
+          expr ::= * expr EXP expr
+          expr ::= * LPAREN expr RPAREN
+          expr ::= * ADD expr
+          expr ::= * SUB expr
+          expr ::= * INT_LITERAL
+
+                           ADD shift        8      
+                           SUB shift        7      
+                        LPAREN shift        9      
+                   INT_LITERAL shift-reduce 11     expr ::= INT_LITERAL
+                          expr shift        18     
+
+State 7:
+          expr ::= * expr ADD expr
+          expr ::= * expr SUB expr
+          expr ::= * expr MUL expr
+          expr ::= * expr DIV expr
+          expr ::= * expr MOD expr
+          expr ::= * expr EXP expr
+          expr ::= * LPAREN expr RPAREN
+          expr ::= * ADD expr
+          expr ::= * SUB expr
+          expr ::= SUB * expr
+          expr ::= * INT_LITERAL
+
+                           ADD shift        8      
+                           SUB shift        7      
+                        LPAREN shift        9      
+                   INT_LITERAL shift-reduce 11     expr ::= INT_LITERAL
+                          expr shift        25     
+
+State 8:
+          expr ::= * expr ADD expr
+          expr ::= * expr SUB expr
+          expr ::= * expr MUL expr
+          expr ::= * expr DIV expr
+          expr ::= * expr MOD expr
+          expr ::= * expr EXP expr
+          expr ::= * LPAREN expr RPAREN
+          expr ::= * ADD expr
+          expr ::= ADD * expr
+          expr ::= * SUB expr
+          expr ::= * INT_LITERAL
+
+                           ADD shift        8      
+                           SUB shift        7      
+                        LPAREN shift        9      
+                   INT_LITERAL shift-reduce 11     expr ::= INT_LITERAL
+                          expr shift        26     
+
+State 9:
+          expr ::= * expr ADD expr
+          expr ::= * expr SUB expr
+          expr ::= * expr MUL expr
+          expr ::= * expr DIV expr
+          expr ::= * expr MOD expr
+          expr ::= * expr EXP expr
+          expr ::= * LPAREN expr RPAREN
+          expr ::= LPAREN * expr RPAREN
+          expr ::= * ADD expr
+          expr ::= * SUB expr
+          expr ::= * INT_LITERAL
+
+                           ADD shift        8      
+                           SUB shift        7      
+                        LPAREN shift        9      
+                   INT_LITERAL shift-reduce 11     expr ::= INT_LITERAL
+                          expr shift        17     
+
+State 10:
+          expr ::= * expr ADD expr
+          expr ::= * expr SUB expr
+          expr ::= * expr MUL expr
+          expr ::= * expr DIV expr
+          expr ::= * expr MOD expr
+          expr ::= * expr EXP expr
+          expr ::= expr EXP * expr
+          expr ::= * LPAREN expr RPAREN
+          expr ::= * ADD expr
+          expr ::= * SUB expr
+          expr ::= * INT_LITERAL
+
+                           ADD shift        8      
+                           SUB shift        7      
+                        LPAREN shift        9      
+                   INT_LITERAL shift-reduce 11     expr ::= INT_LITERAL
+                          expr shift        27     
+
+State 11:
+          expr ::= * expr ADD expr
+          expr ::= * expr SUB expr
+          expr ::= * expr MUL expr
+          expr ::= * expr DIV expr
+          expr ::= * expr MOD expr
+          expr ::= expr MOD * expr
+          expr ::= * expr EXP expr
+          expr ::= * LPAREN expr RPAREN
+          expr ::= * ADD expr
+          expr ::= * SUB expr
+          expr ::= * INT_LITERAL
+
+                           ADD shift        8      
+                           SUB shift        7      
+                        LPAREN shift        9      
+                   INT_LITERAL shift-reduce 11     expr ::= INT_LITERAL
+                          expr shift        28     
+
+State 12:
+          expr ::= * expr ADD expr
+          expr ::= * expr SUB expr
+          expr ::= * expr MUL expr
+          expr ::= * expr DIV expr
+          expr ::= expr DIV * expr
+          expr ::= * expr MOD expr
+          expr ::= * expr EXP expr
+          expr ::= * LPAREN expr RPAREN
+          expr ::= * ADD expr
+          expr ::= * SUB expr
+          expr ::= * INT_LITERAL
+
+                           ADD shift        8      
+                           SUB shift        7      
+                        LPAREN shift        9      
+                   INT_LITERAL shift-reduce 11     expr ::= INT_LITERAL
+                          expr shift        29     
+
+State 13:
+          expr ::= * expr ADD expr
+          expr ::= * expr SUB expr
+          expr ::= * expr MUL expr
+          expr ::= expr MUL * expr
+          expr ::= * expr DIV expr
+          expr ::= * expr MOD expr
+          expr ::= * expr EXP expr
+          expr ::= * LPAREN expr RPAREN
+          expr ::= * ADD expr
+          expr ::= * SUB expr
+          expr ::= * INT_LITERAL
+
+                           ADD shift        8      
+                           SUB shift        7      
+                        LPAREN shift        9      
+                   INT_LITERAL shift-reduce 11     expr ::= INT_LITERAL
+                          expr shift        30     
+
+State 14:
+          expr ::= * expr ADD expr
+          expr ::= * expr SUB expr
+          expr ::= expr SUB * expr
+          expr ::= * expr MUL expr
+          expr ::= * expr DIV expr
+          expr ::= * expr MOD expr
+          expr ::= * expr EXP expr
+          expr ::= * LPAREN expr RPAREN
+          expr ::= * ADD expr
+          expr ::= * SUB expr
+          expr ::= * INT_LITERAL
+
+                           ADD shift        8      
+                           SUB shift        7      
+                        LPAREN shift        9      
+                   INT_LITERAL shift-reduce 11     expr ::= INT_LITERAL
+                          expr shift        20     
+
+State 15:
+          expr ::= * expr ADD expr
+          expr ::= expr ADD * expr
+          expr ::= * expr SUB expr
+          expr ::= * expr MUL expr
+          expr ::= * expr DIV expr
+          expr ::= * expr MOD expr
+          expr ::= * expr EXP expr
+          expr ::= * LPAREN expr RPAREN
+          expr ::= * ADD expr
+          expr ::= * SUB expr
+          expr ::= * INT_LITERAL
+
+                           ADD shift        8      
+                           SUB shift        7      
+                        LPAREN shift        9      
+                   INT_LITERAL shift-reduce 11     expr ::= INT_LITERAL
+                          expr shift        21     
+
+State 16:
+          bool_expression ::= expr * AND|OR|EQ|NE|GT|GE|LT|LE expr
+          expr ::= expr * ADD expr
+          expr ::= expr * SUB expr
+          expr ::= expr * MUL expr
+          expr ::= expr * DIV expr
+          expr ::= expr * MOD expr
+          expr ::= expr * EXP expr
+
+                           AND shift        6      
+                            OR shift        6      
+                            EQ shift        6      
+                            NE shift        6      
+                            GT shift        6      
+                            GE shift        6      
+                            LT shift        6      
+                            LE shift        6      
+                           ADD shift        15     
+                           SUB shift        14     
+                           DIV shift        12     
+                           MUL shift        13     
+                           MOD shift        11     
+                           EXP shift        10     
+
+State 17:
+          expr ::= expr * ADD expr
+          expr ::= expr * SUB expr
+          expr ::= expr * MUL expr
+          expr ::= expr * DIV expr
+          expr ::= expr * MOD expr
+          expr ::= expr * EXP expr
+          expr ::= LPAREN expr * RPAREN
+
+                           ADD shift        15     
+                           SUB shift        14     
+                           DIV shift        12     
+                           MUL shift        13     
+                           MOD shift        11     
+                           EXP shift        10     
+                        RPAREN shift-reduce 8      expr ::= LPAREN expr RPAREN
+
+State 18:
+      (0) bool_expression ::= expr AND|OR|EQ|NE|GT|GE|LT|LE expr *
+          expr ::= expr * ADD expr
+          expr ::= expr * SUB expr
+          expr ::= expr * MUL expr
+          expr ::= expr * DIV expr
+          expr ::= expr * MOD expr
+          expr ::= expr * EXP expr
+
+                           ADD shift        15     
+                           SUB shift        14     
+                           DIV shift        12     
+                           MUL shift        13     
+                           MOD shift        11     
+                           EXP shift        10     
+                     {default} reduce       0      bool_expression ::= expr AND|OR|EQ|NE|GT|GE|LT|LE expr
+
+State 19:
+      (1) expression ::= expr *
+          expr ::= expr * ADD expr
+          expr ::= expr * SUB expr
+          expr ::= expr * MUL expr
+          expr ::= expr * DIV expr
+          expr ::= expr * MOD expr
+          expr ::= expr * EXP expr
+
+                           ADD shift        15     
+                           SUB shift        14     
+                           DIV shift        12     
+                           MUL shift        13     
+                           MOD shift        11     
+                           EXP shift        10     
+                     {default} reduce       1      expression ::= expr
+
+State 20:
+          expr ::= expr * ADD expr
+          expr ::= expr * SUB expr
+      (3) expr ::= expr SUB expr *
+          expr ::= expr * MUL expr
+          expr ::= expr * DIV expr
+          expr ::= expr * MOD expr
+          expr ::= expr * EXP expr
+
+                           DIV shift        12     
+                           MUL shift        13     
+                           MOD shift        11     
+                           EXP shift        10     
+                     {default} reduce       3      expr ::= expr SUB expr
+
+State 21:
+          expr ::= expr * ADD expr
+      (2) expr ::= expr ADD expr *
+          expr ::= expr * SUB expr
+          expr ::= expr * MUL expr
+          expr ::= expr * DIV expr
+          expr ::= expr * MOD expr
+          expr ::= expr * EXP expr
+
+                           DIV shift        12     
+                           MUL shift        13     
+                           MOD shift        11     
+                           EXP shift        10     
+                     {default} reduce       2      expr ::= expr ADD expr
+
+State 22:
+          lines ::= statement * END_OF_LINE|END_OF_FILE
+
+                   END_OF_LINE shift-reduce 15     lines ::= statement END_OF_LINE|END_OF_FILE
+                   END_OF_FILE shift-reduce 15     lines ::= statement END_OF_LINE|END_OF_FILE
+
+State 23:
+          if_statement ::= IF bool_expression LBRACKET statement * RBRACKET
+
+                      RBRACKET shift-reduce 22     if_statement ::= IF bool_expression LBRACKET statement RBRACKET
+
+State 24:
+          if_statement ::= IF bool_expression * LBRACKET statement RBRACKET
+
+                      LBRACKET shift        2      
+
+State 25:
+          expr ::= expr * ADD expr
+          expr ::= expr * SUB expr
+          expr ::= expr * MUL expr
+          expr ::= expr * DIV expr
+          expr ::= expr * MOD expr
+          expr ::= expr * EXP expr
+     (10) expr ::= SUB expr *
+
+                           EXP shift        10     
+                     {default} reduce       10     expr ::= SUB expr
+
+State 26:
+          expr ::= expr * ADD expr
+          expr ::= expr * SUB expr
+          expr ::= expr * MUL expr
+          expr ::= expr * DIV expr
+          expr ::= expr * MOD expr
+          expr ::= expr * EXP expr
+      (9) expr ::= ADD expr *
+
+                           EXP shift        10     
+                     {default} reduce       9      expr ::= ADD expr
+
+State 27:
+          expr ::= expr * ADD expr
+          expr ::= expr * SUB expr
+          expr ::= expr * MUL expr
+          expr ::= expr * DIV expr
+          expr ::= expr * MOD expr
+          expr ::= expr * EXP expr
+      (7) expr ::= expr EXP expr *
+
+                           EXP shift        10     
+                     {default} reduce       7      expr ::= expr EXP expr
+
+State 28:
+          expr ::= expr * ADD expr
+          expr ::= expr * SUB expr
+          expr ::= expr * MUL expr
+          expr ::= expr * DIV expr
+          expr ::= expr * MOD expr
+      (6) expr ::= expr MOD expr *
+          expr ::= expr * EXP expr
+
+                           EXP shift        10     
+                     {default} reduce       6      expr ::= expr MOD expr
+
+State 29:
+          expr ::= expr * ADD expr
+          expr ::= expr * SUB expr
+          expr ::= expr * MUL expr
+          expr ::= expr * DIV expr
+      (5) expr ::= expr DIV expr *
+          expr ::= expr * MOD expr
+          expr ::= expr * EXP expr
+
+                           EXP shift        10     
+                     {default} reduce       5      expr ::= expr DIV expr
+
+State 30:
+          expr ::= expr * ADD expr
+          expr ::= expr * SUB expr
+          expr ::= expr * MUL expr
+      (4) expr ::= expr MUL expr *
+          expr ::= expr * DIV expr
+          expr ::= expr * MOD expr
+          expr ::= expr * EXP expr
+
+                           EXP shift        10     
+                     {default} reduce       4      expr ::= expr MUL expr
+
+State 31:
+          varDeclaration ::= IDENTIFIER ASSIGN VARTYPE * ASSIGN expression
+
+                        ASSIGN shift        5      
+
+State 32:
+          varDeclaration ::= IDENTIFIER * ASSIGN VARTYPE ASSIGN expression
+          assignment ::= IDENTIFIER * ASSIGN expression
+
+                        ASSIGN shift        3      
+
+----------------------------------------------------
+Symbols:
+The first-set of non-terminals is shown after the name.
+
+    0: $:
+    1: IF (precedence=1)
+    2: ELSEIF (precedence=1)
+    3: ELSE (precedence=1)
+    4: VARTYPE (precedence=1)
+    5: IDENTIFIER (precedence=1)
+    6: SEMCOL (precedence=1)
+    7: ASSIGN (precedence=1)
+    8: AND (precedence=1)
+    9: OR (precedence=1)
+   10: EQ (precedence=1)
+   11: NE (precedence=1)
+   12: GT (precedence=1)
+   13: GE (precedence=1)
+   14: LT (precedence=1)
+   15: LE (precedence=1)
+   16: ADD (precedence=2)
+   17: SUB (precedence=2)
+   18: DIV (precedence=3)
+   19: MUL (precedence=3)
+   20: MOD (precedence=3)
+   21: POS (precedence=4)
+   22: NEG (precedence=4)
+   23: EXP (precedence=5)
+   24: LBRACKET (precedence=6)
+   25: RBRACKET (precedence=6)
+   26: LPAREN (precedence=6)
+   27: RPAREN (precedence=6)
+   28: END_OF_LINE
+   29: END_OF_FILE
+   30: INT_LITERAL
+   31: program: <lambda> IF IDENTIFIER ADD SUB LPAREN INT_LITERAL
+   32: input: <lambda> IF IDENTIFIER ADD SUB LPAREN INT_LITERAL
+   33: lines: IF IDENTIFIER ADD SUB LPAREN INT_LITERAL
+   34: statement: IF IDENTIFIER ADD SUB LPAREN INT_LITERAL
+   35: varDeclaration: IDENTIFIER
+   36: assignment: IDENTIFIER
+   37: if_statement: IF
+   38: expression: ADD SUB LPAREN INT_LITERAL
+   39: bool_expression: ADD SUB LPAREN INT_LITERAL
+   40: elseif_statement: IF
+   41: expr: ADD SUB LPAREN INT_LITERAL
+----------------------------------------------------
+Syntax-only Symbols:
+The following symbols never carry semantic content.
+
+$ IF ELSEIF ELSE VARTYPE IDENTIFIER SEMCOL ASSIGN AND OR EQ NE GT GE LT LE
+ADD SUB DIV MUL MOD POS NEG EXP LBRACKET RBRACKET LPAREN RPAREN END_OF_LINE
+END_OF_FILE program input lines statement varDeclaration assignment
+if_statement expression bool_expression elseif_statement
+----------------------------------------------------
+Rules:
+   0: bool_expression ::= expr AND|OR|EQ|NE|GT|GE|LT|LE expr. [AND precedence=1]
+   1: expression ::= expr.
+   2: expr ::= expr ADD expr. [ADD precedence=2]
+   3: expr ::= expr SUB expr. [SUB precedence=2]
+   4: expr ::= expr MUL expr. [MUL precedence=3]
+   5: expr ::= expr DIV expr. [DIV precedence=3]
+   6: expr ::= expr MOD expr. [MOD precedence=3]
+   7: expr ::= expr EXP expr. [EXP precedence=5]
+   8: expr ::= LPAREN expr RPAREN. [LPAREN precedence=6]
+   9: expr ::= ADD expr. [POS precedence=4]
+  10: expr ::= SUB expr. [NEG precedence=4]
+  11: expr ::= INT_LITERAL.
+  12: program ::= input.
+  13: input ::=.
+  14: input ::= input lines.
+  15: lines ::= statement END_OF_LINE|END_OF_FILE.
+  16: statement ::= varDeclaration.
+  17: statement ::= assignment.
+  18: statement ::= if_statement.
+  19: statement ::= expression.
+  20: varDeclaration ::= IDENTIFIER ASSIGN VARTYPE ASSIGN expression. [IDENTIFIER precedence=1]
+  21: assignment ::= IDENTIFIER ASSIGN expression. [IDENTIFIER precedence=1]
+  22: if_statement ::= IF bool_expression LBRACKET statement RBRACKET. [IF precedence=1]
+  23: elseif_statement ::= if_statement ELSEIF bool_expression LBRACKET statement RBRACKET. [ELSEIF precedence=1]
