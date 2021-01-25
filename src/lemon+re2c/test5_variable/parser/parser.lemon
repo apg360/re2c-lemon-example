@@ -107,6 +107,7 @@
 // http://teampli.net/XPL/ldindex.html
 // https://www.cs.cornell.edu/andru/javaspec/2.doc.html#40415
 // https://steemit.com/programming/@drifter1/writing-a-simple-compiler-on-my-own-creating-a-grammar-for-our-language
+// http://eli-project.sourceforge.net/pascal_html/pascal-.html#s1
 
 program ::= input.
 input ::= .
