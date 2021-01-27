@@ -18,8 +18,8 @@
 
 For Golang, Javascript, Typescript, C#
  -   1. input   => lexer       => tokens
- -   2. tokens  => parser      => Syntax Tree(Parse Tree) and Symbol Table
- -   3. ST & ST => semantics   => AST (abstract syntax tree)
+ -   2. tokens  => parser      => Parse Tree and Symbol Table
+ -   3. PT & ST => semantics   => AST (abstract syntax tree)
  
 For C
  -   4. AST    => transformer => output (C source code)
@@ -65,19 +65,19 @@ Characters/letters become words/tokens :
 
 
 ## STEP2 Syntax Analyzer
-#### Syntax tree (syntactic structure) and Symbol Table
+#### Parse tree (syntactic structure) and Symbol Table
 
 Tokens are organized into a hierarchical structure, a parse tree :
 ![parsetree](parsetree.png)
 
 
 Parse tree is like figuring out what the grammar is.
-Then parse tree is refined to become an Abstract Syntax Tree
 Parse tree have no representation of semantics.
+Later then parse tree is refined to become an Abstract Syntax Tree
 
 
 ## STEP3 Semantic Analyzer
-#### Syntax tree and Symbol Table >>to Abstract Syntax Tree
+#### Parse Tree and Symbol Table >>to Abstract Syntax Tree
 
 AST is built from the parse tree and represents the behavior of the source code.
 
