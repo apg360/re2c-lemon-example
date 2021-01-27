@@ -67,6 +67,7 @@ R? : zero or one R. That means, there maybe an R or not.
     // https://github.com/drifter1/compiler/blob/master/Symbol%20Table%20and%20Lexer/lexer.l
     // https://cs.nyu.edu/rgrimm/xtc/rats-intro.html
     // https://www.lysator.liu.se/c/ANSI-C-grammar-l.html
+    // https://stackoverflow.com/questions/2644597/how-do-i-implement-if-statement-in-flex-bison
     
     end = ( [\r\n] |"\x00"|"\x0A"|"\x0D" )+;
     whitespace = ( " " | [\t\v\f] )+;      // whitespace and tabulation

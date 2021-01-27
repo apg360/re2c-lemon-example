@@ -111,6 +111,7 @@
 // https://www.lysator.liu.se/c/ANSI-C-grammar-y.html
 // http://www.quut.com/c/ANSI-C-grammar-y.html
 // http://www.open-std.org/jtc1/sc22/wg14/www/docs/n1570.pdf#page=476
+// https://github.com/antlr/grammars-v4/blob/master/c/C.g4
 
 program ::= input.
 input ::= .
@@ -127,15 +128,12 @@ statement 			  ::= varDeclaration.
 statement 			  ::= if_statement.
 //statement 		  ::= for_statement.
 //statement 		  ::= switch_statement.
-//statement 		  ::= BREAK expression|BREAK|FALLTHROUGH.
-//statement 		  ::= RETURN expression|RETURN.
+//statement 		  ::= jump_statement.
 statement 			  ::= expression.
 varDeclaration 		  ::= IDENTIFIER ASSIGN VARTYPE ASSIGN expression. // x=u16=0
 varDeclaration 		  ::= IDENTIFIER ASSIGN VARTYPE.                   // x=u16 // x value = undefined of type u16
 varDeclaration 		  ::= IDENTIFIER ASSIGN expression.                // x=0   // this is also same for assignment, from undefined to a value.
 //assignment 		  ::= IDENTIFIER ASSIGN expression.					
-
-
 
   if_statement        ::=                  IF     bool_expression LBRACKET statement RBRACKET.                             // if expression {true part}
   if_statement        ::=                  IF     bool_expression LBRACKET statement RBRACKET LBRACKET statement RBRACKET. // if expression {true part} { else part }
@@ -146,7 +144,7 @@ varDeclaration 		  ::= IDENTIFIER ASSIGN expression.                // x=0   // 
 //switch_statement ::= SWITCH expression compound_stmt.
 //compound_stmt ::= expression LBRACKET <stmt> RBRACKET| default LBRACKET <stmt> RBRACKET.
 
-
+jump_statement        ::= BREAK expression|BREAK|FALLTHROUGH|RETURN expression|RETURN.
 bool_expression       ::= expression OR  expression|bool_and_expression.
 bool_and_expression   ::= expression AND expression|bool_unary_expression.
 bool_unary_expression ::= NOT expression|bool_relop_expression.
