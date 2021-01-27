@@ -71,6 +71,7 @@ continue_scanning:
      // So the order of the rules solves the ambiguity by using the first match and that’s why the tokens identifying keywords such as class or function are defined first,
      // while the one for the identifier is put last.
 
+     // https://www.lysator.liu.se/c/ANSI-C-grammar-l.html
       "/*"            { goto comment; }
       '('             { set_token( MACRO_VALUE_AND_NAME(TK_LPAREN)      ); goto parser_now;}
       ")"             { set_token( MACRO_VALUE_AND_NAME(TK_RPAREN)      ); goto parser_now;}
@@ -93,6 +94,7 @@ continue_scanning:
       
       "and"           { set_token( MACRO_VALUE_AND_NAME(TK_AND)         ); goto parser_now;}
       "or"            { set_token( MACRO_VALUE_AND_NAME(TK_OR)          ); goto parser_now;}
+      "not"           { set_token( MACRO_VALUE_AND_NAME(TK_NOT)         ); goto parser_now;}
       "=="            { set_token( MACRO_VALUE_AND_NAME(TK_EQ)          ); goto parser_now;}
       "not="          { set_token( MACRO_VALUE_AND_NAME(TK_NE)          ); goto parser_now;}
       ">"             { set_token( MACRO_VALUE_AND_NAME(TK_GT)          ); goto parser_now;}
