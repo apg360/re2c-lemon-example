@@ -8,22 +8,25 @@
 
 
 ////////////////////////////////////////////////////////////////////////
-// https://github.com/drifter1/compiler
-//
-// https://steemit.com/utopian-io/@drifter1/writing-a-simple-compiler-on-my-own-abstract-syntax-tree-management-c-flex-bison
-// https://steemit.com/utopian-io/@drifter1/writing-a-simple-compiler-on-my-own-abstract-syntax-tree-structure-c-flex-bison
-// https://steemit.com/utopian-io/@drifter1/writing-a-simple-compiler-on-my-own-abstract-syntax-tree-principle-c-flex-bison
-// https://efxa.org/2014/05/25/how-to-create-an-abstract-syntax-tree-while-parsing-an-input-stream/
-// http://www.cse.iitb.ac.in/grc/intdocs/gcc-implementation-details.html#The-AST/Generic-Data-Structures
-//
-// http://teampli.net/XPL/ldindex.html
-// https://www.cs.cornell.edu/andru/javaspec/2.doc.html#40415
-// https://steemit.com/programming/@drifter1/writing-a-simple-compiler-on-my-own-creating-a-grammar-for-our-language
-// http://eli-project.sourceforge.net/pascal_html/pascal-.html#s1
-// https://www.lysator.liu.se/c/ANSI-C-grammar-y.html
-// http://www.quut.com/c/ANSI-C-grammar-y.html
-// http://www.open-std.org/jtc1/sc22/wg14/www/docs/n1570.pdf#page=476
-// https://github.com/antlr/grammars-v4/blob/master/c/C.g4
+/*
+   https://github.com/drifter1/compiler
+  
+   https://steemit.com/utopian-io/@drifter1/writing-a-simple-compiler-on-my-own-abstract-syntax-tree-management-c-flex-bison
+   https://steemit.com/utopian-io/@drifter1/writing-a-simple-compiler-on-my-own-abstract-syntax-tree-structure-c-flex-bison
+   https://steemit.com/utopian-io/@drifter1/writing-a-simple-compiler-on-my-own-abstract-syntax-tree-principle-c-flex-bison
+   https://efxa.org/2014/05/25/how-to-create-an-abstract-syntax-tree-while-parsing-an-input-stream/
+   http://www.cse.iitb.ac.in/grc/intdocs/gcc-implementation-details.html#The-AST/Generic-Data-Structures
+  
+   http://teampli.net/XPL/ldindex.html
+   https://www.cs.cornell.edu/andru/javaspec/2.doc.html#40415
+   https://steemit.com/programming/@drifter1/writing-a-simple-compiler-on-my-own-creating-a-grammar-for-our-language
+   http://eli-project.sourceforge.net/pascal_html/pascal-.html#s1
+   https://www.lysator.liu.se/c/ANSI-C-grammar-y.html
+   http://www.quut.com/c/ANSI-C-grammar-y.html
+   http://www.open-std.org/jtc1/sc22/wg14/www/docs/n1570.pdf#page=476
+   https://github.com/antlr/grammars-v4/blob/master/c/C.g4
+   https://www.cs.rochester.edu/u/scott/courses/173/notes/05_grammars
+*/
 ////////////////////////////////////////////////////////////////////////
 
 
