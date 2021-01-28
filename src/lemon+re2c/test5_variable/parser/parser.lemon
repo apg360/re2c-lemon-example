@@ -105,7 +105,7 @@
 /*
 	§ HOW IS THE LEMON GRAMMAR §
 
-no compund statement !
+no compund statement ! one grammar rule is one condition, no multi option like in regular expression
 Example : jump_statement        ::= BREAK expression|BREAK.
 Will become
 		  jump_statement        ::= BREAK expression.
@@ -117,7 +117,7 @@ Will become
 
 
     terminals = tokens
-non-terminals = grammar rules (different kinds of nodes in the parse tree)
+non-terminals = names of other grammar rules (different kinds of nodes in the parse tree)
 
 */
 
@@ -161,6 +161,8 @@ statement             ::= if_statement.
 //statement             ::= switch_statement.
 statement             ::= jump_statement.
 statement             ::= expression.
+
+//example of ast parse tree for variable => https://info.itemis.com/demo/agl/editor
 varDeclaration        ::= IDENTIFIER ASSIGN VARTYPE ASSIGN expression.  // x=u16=0
 varDeclaration        ::= IDENTIFIER ASSIGN VARTYPE.                    // x=u16 // x value = undefined of type u16
 varDeclaration        ::= IDENTIFIER ASSIGN expression.                 // x=0   // this is also same for assignment, from undefined to a value.
