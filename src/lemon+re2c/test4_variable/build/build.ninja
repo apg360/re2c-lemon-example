@@ -39,7 +39,7 @@ include CMakeFiles/rules.ninja
 # Utility command for rebuild_cache
 
 build CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
-  COMMAND = cd /home/manj20/Documents/GitHub/re2c-lemon-example/src/lemon+re2c/test5_variable/build && /usr/bin/cmake --regenerate-during-build -S/home/manj20/Documents/GitHub/re2c-lemon-example/src/lemon+re2c/test5_variable -B/home/manj20/Documents/GitHub/re2c-lemon-example/src/lemon+re2c/test5_variable/build
+  COMMAND = cd /home/manj20/Documents/GitHub/re2c-lemon-example/src/lemon+re2c/test4_variable/build && /usr/bin/cmake --regenerate-during-build -S/home/manj20/Documents/GitHub/re2c-lemon-example/src/lemon+re2c/test4_variable -B/home/manj20/Documents/GitHub/re2c-lemon-example/src/lemon+re2c/test4_variable/build
   DESC = Running CMake to regenerate build system...
   pool = console
   restat = 1
@@ -51,7 +51,7 @@ build rebuild_cache: phony CMakeFiles/rebuild_cache.util
 # Utility command for edit_cache
 
 build CMakeFiles/edit_cache.util: CUSTOM_COMMAND
-  COMMAND = cd /home/manj20/Documents/GitHub/re2c-lemon-example/src/lemon+re2c/test5_variable/build && /usr/bin/cmake-gui -S/home/manj20/Documents/GitHub/re2c-lemon-example/src/lemon+re2c/test5_variable -B/home/manj20/Documents/GitHub/re2c-lemon-example/src/lemon+re2c/test5_variable/build
+  COMMAND = cd /home/manj20/Documents/GitHub/re2c-lemon-example/src/lemon+re2c/test4_variable/build && /usr/bin/cmake-gui -S/home/manj20/Documents/GitHub/re2c-lemon-example/src/lemon+re2c/test4_variable -B/home/manj20/Documents/GitHub/re2c-lemon-example/src/lemon+re2c/test4_variable/build
   DESC = Running CMake cache editor...
   pool = console
   restat = 1
@@ -148,7 +148,7 @@ build common_requirement: phony libcommon_requirement.a
 # =============================================================================
 
 #############################################
-# Folder: /home/manj20/Documents/GitHub/re2c-lemon-example/src/lemon+re2c/test5_variable/build
+# Folder: /home/manj20/Documents/GitHub/re2c-lemon-example/src/lemon+re2c/test4_variable/build
 
 build all: phony libcommon_requirement.a mycalc
 

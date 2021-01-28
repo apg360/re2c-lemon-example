@@ -10,12 +10,12 @@ The output was:
 
 Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "a.out"
 
-The C compiler identification is Clang, found in "/home/manj20/Documents/GitHub/re2c-lemon-example/src/lemon+re2c/test5_variable/build/CMakeFiles/3.19.1/CompilerIdC/a.out"
+The C compiler identification is Clang, found in "/home/manj20/Documents/GitHub/re2c-lemon-example/src/lemon+re2c/test4_variable/build/CMakeFiles/3.19.1/CompilerIdC/a.out"
 
 Detecting C compiler ABI info compiled with the following output:
-Change Dir: /home/manj20/Documents/GitHub/re2c-lemon-example/src/lemon+re2c/test5_variable/build/CMakeFiles/CMakeTmp
+Change Dir: /home/manj20/Documents/GitHub/re2c-lemon-example/src/lemon+re2c/test4_variable/build/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/usr/bin/ninja cmTC_bd0ca && [1/2] Building C object CMakeFiles/cmTC_bd0ca.dir/CMakeCCompilerABI.c.o
+Run Build Command(s):/usr/bin/ninja cmTC_25325 && [1/2] Building C object CMakeFiles/cmTC_25325.dir/CMakeCCompilerABI.c.o
 clang version 11.0.0
 Target: x86_64-pc-linux-gnu
 Thread model: posix
@@ -29,7 +29,7 @@ Candidate multilib: .;@m64
 Candidate multilib: 32;@m32
 Selected multilib: .;@m64
  (in-process)
- "/usr/bin/clang-11" -cc1 -triple x86_64-pc-linux-gnu -emit-obj -mrelax-all -disable-free -disable-llvm-verifier -discard-value-names -main-file-name CMakeCCompilerABI.c -mrelocation-model pic -pic-level 2 -pic-is-pie -mframe-pointer=all -fmath-errno -fno-rounding-math -mconstructor-aliases -munwind-tables -target-cpu x86-64 -fno-split-dwarf-inlining -debugger-tuning=gdb -v -resource-dir /usr/lib/clang/11.0.0 -dependency-file CMakeFiles/cmTC_bd0ca.dir/CMakeCCompilerABI.c.o.d -MT CMakeFiles/cmTC_bd0ca.dir/CMakeCCompilerABI.c.o -sys-header-deps -I/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/opt/local/include -internal-isystem /usr/local/include -internal-isystem /usr/lib/clang/11.0.0/include -internal-externc-isystem /include -internal-externc-isystem /usr/include -fdebug-compilation-dir /home/manj20/Documents/GitHub/re2c-lemon-example/src/lemon+re2c/test5_variable/build/CMakeFiles/CMakeTmp -ferror-limit 19 -stack-protector 2 -fgnuc-version=4.2.1 -faddrsig -o CMakeFiles/cmTC_bd0ca.dir/CMakeCCompilerABI.c.o -x c /usr/share/cmake-3.19/Modules/CMakeCCompilerABI.c
+ "/usr/bin/clang-11" -cc1 -triple x86_64-pc-linux-gnu -emit-obj -mrelax-all -disable-free -disable-llvm-verifier -discard-value-names -main-file-name CMakeCCompilerABI.c -mrelocation-model pic -pic-level 2 -pic-is-pie -mframe-pointer=all -fmath-errno -fno-rounding-math -mconstructor-aliases -munwind-tables -target-cpu x86-64 -fno-split-dwarf-inlining -debugger-tuning=gdb -v -resource-dir /usr/lib/clang/11.0.0 -dependency-file CMakeFiles/cmTC_25325.dir/CMakeCCompilerABI.c.o.d -MT CMakeFiles/cmTC_25325.dir/CMakeCCompilerABI.c.o -sys-header-deps -I/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/opt/local/include -internal-isystem /usr/local/include -internal-isystem /usr/lib/clang/11.0.0/include -internal-externc-isystem /include -internal-externc-isystem /usr/include -fdebug-compilation-dir /home/manj20/Documents/GitHub/re2c-lemon-example/src/lemon+re2c/test4_variable/build/CMakeFiles/CMakeTmp -ferror-limit 19 -stack-protector 2 -fgnuc-version=4.2.1 -faddrsig -o CMakeFiles/cmTC_25325.dir/CMakeCCompilerABI.c.o -x c /usr/share/cmake-3.19/Modules/CMakeCCompilerABI.c
 clang -cc1 version 11.0.0 based upon LLVM 11.0.0 default target x86_64-pc-linux-gnu
 ignoring nonexistent directory "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk"
 ignoring nonexistent directory "/opt/local/include"
@@ -40,7 +40,7 @@ ignoring nonexistent directory "/include"
  /usr/lib/clang/11.0.0/include
  /usr/include
 End of search list.
-[2/2] Linking C executable cmTC_bd0ca
+[2/2] Linking C executable cmTC_25325
 clang version 11.0.0
 Target: x86_64-pc-linux-gnu
 Thread model: posix
@@ -53,7 +53,7 @@ Selected GCC installation: /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/10.2.0
 Candidate multilib: .;@m64
 Candidate multilib: 32;@m32
 Selected multilib: .;@m64
- "/usr/bin/ld" -pie --eh-frame-hdr -m elf_x86_64 -dynamic-linker /lib64/ld-linux-x86-64.so.2 -o cmTC_bd0ca /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/10.2.0/../../../../lib64/Scrt1.o /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/10.2.0/../../../../lib64/crti.o /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/10.2.0/crtbeginS.o -L/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/10.2.0 -L/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/10.2.0/../../../../lib64 -L/usr/bin/../lib64 -L/lib/../lib64 -L/usr/lib/../lib64 -L/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/10.2.0/../../.. -L/usr/bin/../lib -L/lib -L/usr/lib -L/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/lib -L/opt/local/lib CMakeFiles/cmTC_bd0ca.dir/CMakeCCompilerABI.c.o -lgcc --as-needed -lgcc_s --no-as-needed -lc -lgcc --as-needed -lgcc_s --no-as-needed /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/10.2.0/crtendS.o /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/10.2.0/../../../../lib64/crtn.o
+ "/usr/bin/ld" -pie --eh-frame-hdr -m elf_x86_64 -dynamic-linker /lib64/ld-linux-x86-64.so.2 -o cmTC_25325 /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/10.2.0/../../../../lib64/Scrt1.o /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/10.2.0/../../../../lib64/crti.o /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/10.2.0/crtbeginS.o -L/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/10.2.0 -L/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/10.2.0/../../../../lib64 -L/usr/bin/../lib64 -L/lib/../lib64 -L/usr/lib/../lib64 -L/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/10.2.0/../../.. -L/usr/bin/../lib -L/lib -L/usr/lib -L/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/lib -L/opt/local/lib CMakeFiles/cmTC_25325.dir/CMakeCCompilerABI.c.o -lgcc --as-needed -lgcc_s --no-as-needed -lc -lgcc --as-needed -lgcc_s --no-as-needed /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/10.2.0/crtendS.o /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/10.2.0/../../../../lib64/crtn.o
 
 
 
@@ -72,9 +72,9 @@ Parsed C implicit include dir info from above output: rv=done
 
 Parsed C implicit link information from above output:
   link line regex: [^( *|.*[/\])(ld|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\]+-)?ld|collect2)[^/\]*( |$)]
-  ignore line: [Change Dir: /home/manj20/Documents/GitHub/re2c-lemon-example/src/lemon+re2c/test5_variable/build/CMakeFiles/CMakeTmp]
+  ignore line: [Change Dir: /home/manj20/Documents/GitHub/re2c-lemon-example/src/lemon+re2c/test4_variable/build/CMakeFiles/CMakeTmp]
   ignore line: []
-  ignore line: [Run Build Command(s):/usr/bin/ninja cmTC_bd0ca && [1/2] Building C object CMakeFiles/cmTC_bd0ca.dir/CMakeCCompilerABI.c.o]
+  ignore line: [Run Build Command(s):/usr/bin/ninja cmTC_25325 && [1/2] Building C object CMakeFiles/cmTC_25325.dir/CMakeCCompilerABI.c.o]
   ignore line: [clang version 11.0.0]
   ignore line: [Target: x86_64-pc-linux-gnu]
   ignore line: [Thread model: posix]
@@ -91,7 +91,7 @@ Parsed C implicit link information from above output:
   ignore line: [Selected multilib: .]
   ignore line: [@m64]
   ignore line: [ (in-process)]
-  ignore line: [ "/usr/bin/clang-11" -cc1 -triple x86_64-pc-linux-gnu -emit-obj -mrelax-all -disable-free -disable-llvm-verifier -discard-value-names -main-file-name CMakeCCompilerABI.c -mrelocation-model pic -pic-level 2 -pic-is-pie -mframe-pointer=all -fmath-errno -fno-rounding-math -mconstructor-aliases -munwind-tables -target-cpu x86-64 -fno-split-dwarf-inlining -debugger-tuning=gdb -v -resource-dir /usr/lib/clang/11.0.0 -dependency-file CMakeFiles/cmTC_bd0ca.dir/CMakeCCompilerABI.c.o.d -MT CMakeFiles/cmTC_bd0ca.dir/CMakeCCompilerABI.c.o -sys-header-deps -I/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/opt/local/include -internal-isystem /usr/local/include -internal-isystem /usr/lib/clang/11.0.0/include -internal-externc-isystem /include -internal-externc-isystem /usr/include -fdebug-compilation-dir /home/manj20/Documents/GitHub/re2c-lemon-example/src/lemon+re2c/test5_variable/build/CMakeFiles/CMakeTmp -ferror-limit 19 -stack-protector 2 -fgnuc-version=4.2.1 -faddrsig -o CMakeFiles/cmTC_bd0ca.dir/CMakeCCompilerABI.c.o -x c /usr/share/cmake-3.19/Modules/CMakeCCompilerABI.c]
+  ignore line: [ "/usr/bin/clang-11" -cc1 -triple x86_64-pc-linux-gnu -emit-obj -mrelax-all -disable-free -disable-llvm-verifier -discard-value-names -main-file-name CMakeCCompilerABI.c -mrelocation-model pic -pic-level 2 -pic-is-pie -mframe-pointer=all -fmath-errno -fno-rounding-math -mconstructor-aliases -munwind-tables -target-cpu x86-64 -fno-split-dwarf-inlining -debugger-tuning=gdb -v -resource-dir /usr/lib/clang/11.0.0 -dependency-file CMakeFiles/cmTC_25325.dir/CMakeCCompilerABI.c.o.d -MT CMakeFiles/cmTC_25325.dir/CMakeCCompilerABI.c.o -sys-header-deps -I/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/opt/local/include -internal-isystem /usr/local/include -internal-isystem /usr/lib/clang/11.0.0/include -internal-externc-isystem /include -internal-externc-isystem /usr/include -fdebug-compilation-dir /home/manj20/Documents/GitHub/re2c-lemon-example/src/lemon+re2c/test4_variable/build/CMakeFiles/CMakeTmp -ferror-limit 19 -stack-protector 2 -fgnuc-version=4.2.1 -faddrsig -o CMakeFiles/cmTC_25325.dir/CMakeCCompilerABI.c.o -x c /usr/share/cmake-3.19/Modules/CMakeCCompilerABI.c]
   ignore line: [clang -cc1 version 11.0.0 based upon LLVM 11.0.0 default target x86_64-pc-linux-gnu]
   ignore line: [ignoring nonexistent directory "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk"]
   ignore line: [ignoring nonexistent directory "/opt/local/include"]
@@ -102,7 +102,7 @@ Parsed C implicit link information from above output:
   ignore line: [ /usr/lib/clang/11.0.0/include]
   ignore line: [ /usr/include]
   ignore line: [End of search list.]
-  ignore line: [[2/2] Linking C executable cmTC_bd0ca]
+  ignore line: [[2/2] Linking C executable cmTC_25325]
   ignore line: [clang version 11.0.0]
   ignore line: [Target: x86_64-pc-linux-gnu]
   ignore line: [Thread model: posix]
@@ -118,7 +118,7 @@ Parsed C implicit link information from above output:
   ignore line: [@m32]
   ignore line: [Selected multilib: .]
   ignore line: [@m64]
-  link line: [ "/usr/bin/ld" -pie --eh-frame-hdr -m elf_x86_64 -dynamic-linker /lib64/ld-linux-x86-64.so.2 -o cmTC_bd0ca /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/10.2.0/../../../../lib64/Scrt1.o /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/10.2.0/../../../../lib64/crti.o /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/10.2.0/crtbeginS.o -L/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/10.2.0 -L/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/10.2.0/../../../../lib64 -L/usr/bin/../lib64 -L/lib/../lib64 -L/usr/lib/../lib64 -L/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/10.2.0/../../.. -L/usr/bin/../lib -L/lib -L/usr/lib -L/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/lib -L/opt/local/lib CMakeFiles/cmTC_bd0ca.dir/CMakeCCompilerABI.c.o -lgcc --as-needed -lgcc_s --no-as-needed -lc -lgcc --as-needed -lgcc_s --no-as-needed /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/10.2.0/crtendS.o /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/10.2.0/../../../../lib64/crtn.o]
+  link line: [ "/usr/bin/ld" -pie --eh-frame-hdr -m elf_x86_64 -dynamic-linker /lib64/ld-linux-x86-64.so.2 -o cmTC_25325 /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/10.2.0/../../../../lib64/Scrt1.o /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/10.2.0/../../../../lib64/crti.o /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/10.2.0/crtbeginS.o -L/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/10.2.0 -L/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/10.2.0/../../../../lib64 -L/usr/bin/../lib64 -L/lib/../lib64 -L/usr/lib/../lib64 -L/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/10.2.0/../../.. -L/usr/bin/../lib -L/lib -L/usr/lib -L/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/lib -L/opt/local/lib CMakeFiles/cmTC_25325.dir/CMakeCCompilerABI.c.o -lgcc --as-needed -lgcc_s --no-as-needed -lc -lgcc --as-needed -lgcc_s --no-as-needed /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/10.2.0/crtendS.o /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/10.2.0/../../../../lib64/crtn.o]
     arg [/usr/bin/ld] ==> ignore
     arg [-pie] ==> ignore
     arg [--eh-frame-hdr] ==> ignore
@@ -127,7 +127,7 @@ Parsed C implicit link information from above output:
     arg [-dynamic-linker] ==> ignore
     arg [/lib64/ld-linux-x86-64.so.2] ==> ignore
     arg [-o] ==> ignore
-    arg [cmTC_bd0ca] ==> ignore
+    arg [cmTC_25325] ==> ignore
     arg [/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/10.2.0/../../../../lib64/Scrt1.o] ==> ignore
     arg [/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/10.2.0/../../../../lib64/crti.o] ==> ignore
     arg [/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/10.2.0/crtbeginS.o] ==> ignore
@@ -142,7 +142,7 @@ Parsed C implicit link information from above output:
     arg [-L/usr/lib] ==> dir [/usr/lib]
     arg [-L/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/lib] ==> dir [/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/lib]
     arg [-L/opt/local/lib] ==> dir [/opt/local/lib]
-    arg [CMakeFiles/cmTC_bd0ca.dir/CMakeCCompilerABI.c.o] ==> ignore
+    arg [CMakeFiles/cmTC_25325.dir/CMakeCCompilerABI.c.o] ==> ignore
     arg [-lgcc] ==> lib [gcc]
     arg [--as-needed] ==> ignore
     arg [-lgcc_s] ==> lib [gcc_s]

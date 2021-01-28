@@ -1,0 +1,401 @@
+State 0:
+          start ::= * in
+     (12) in ::= *
+          in ::= * in expression END_OF_FILE
+          in ::= * in expression END_OF_LINE
+
+                         start accept
+                            in shift        1      
+                     {default} reduce       12     in ::=
+
+State 1:
+     (11) start ::= in *
+          in ::= in * expression END_OF_FILE
+          in ::= in * expression END_OF_LINE
+          expression ::= * expr
+          expr ::= * expr ADD expr
+          expr ::= * expr SUB expr
+          expr ::= * expr MUL expr
+          expr ::= * expr DIV expr
+          expr ::= * expr MOD expr
+          expr ::= * expr EXP expr
+          expr ::= * LPAREN expr RPAREN
+          expr ::= * ADD expr
+          expr ::= * SUB expr
+          expr ::= * INT_LITERAL
+
+                             $ reduce       11     start ::= in
+                           ADD shift        3      
+                           SUB shift        2      
+                        LPAREN shift        4      
+                   INT_LITERAL shift-reduce 10     expr ::= INT_LITERAL
+                    expression shift        15     
+                          expr shift        12     
+
+State 2:
+          expr ::= * expr ADD expr
+          expr ::= * expr SUB expr
+          expr ::= * expr MUL expr
+          expr ::= * expr DIV expr
+          expr ::= * expr MOD expr
+          expr ::= * expr EXP expr
+          expr ::= * LPAREN expr RPAREN
+          expr ::= * ADD expr
+          expr ::= * SUB expr
+          expr ::= SUB * expr
+          expr ::= * INT_LITERAL
+
+                           ADD shift        3      
+                           SUB shift        2      
+                        LPAREN shift        4      
+                   INT_LITERAL shift-reduce 10     expr ::= INT_LITERAL
+                          expr shift        16     
+
+State 3:
+          expr ::= * expr ADD expr
+          expr ::= * expr SUB expr
+          expr ::= * expr MUL expr
+          expr ::= * expr DIV expr
+          expr ::= * expr MOD expr
+          expr ::= * expr EXP expr
+          expr ::= * LPAREN expr RPAREN
+          expr ::= * ADD expr
+          expr ::= ADD * expr
+          expr ::= * SUB expr
+          expr ::= * INT_LITERAL
+
+                           ADD shift        3      
+                           SUB shift        2      
+                        LPAREN shift        4      
+                   INT_LITERAL shift-reduce 10     expr ::= INT_LITERAL
+                          expr shift        17     
+
+State 4:
+          expr ::= * expr ADD expr
+          expr ::= * expr SUB expr
+          expr ::= * expr MUL expr
+          expr ::= * expr DIV expr
+          expr ::= * expr MOD expr
+          expr ::= * expr EXP expr
+          expr ::= * LPAREN expr RPAREN
+          expr ::= LPAREN * expr RPAREN
+          expr ::= * ADD expr
+          expr ::= * SUB expr
+          expr ::= * INT_LITERAL
+
+                           ADD shift        3      
+                           SUB shift        2      
+                        LPAREN shift        4      
+                   INT_LITERAL shift-reduce 10     expr ::= INT_LITERAL
+                          expr shift        11     
+
+State 5:
+          expr ::= * expr ADD expr
+          expr ::= * expr SUB expr
+          expr ::= * expr MUL expr
+          expr ::= * expr DIV expr
+          expr ::= * expr MOD expr
+          expr ::= * expr EXP expr
+          expr ::= expr EXP * expr
+          expr ::= * LPAREN expr RPAREN
+          expr ::= * ADD expr
+          expr ::= * SUB expr
+          expr ::= * INT_LITERAL
+
+                           ADD shift        3      
+                           SUB shift        2      
+                        LPAREN shift        4      
+                   INT_LITERAL shift-reduce 10     expr ::= INT_LITERAL
+                          expr shift        18     
+
+State 6:
+          expr ::= * expr ADD expr
+          expr ::= * expr SUB expr
+          expr ::= * expr MUL expr
+          expr ::= * expr DIV expr
+          expr ::= * expr MOD expr
+          expr ::= expr MOD * expr
+          expr ::= * expr EXP expr
+          expr ::= * LPAREN expr RPAREN
+          expr ::= * ADD expr
+          expr ::= * SUB expr
+          expr ::= * INT_LITERAL
+
+                           ADD shift        3      
+                           SUB shift        2      
+                        LPAREN shift        4      
+                   INT_LITERAL shift-reduce 10     expr ::= INT_LITERAL
+                          expr shift        19     
+
+State 7:
+          expr ::= * expr ADD expr
+          expr ::= * expr SUB expr
+          expr ::= * expr MUL expr
+          expr ::= * expr DIV expr
+          expr ::= expr DIV * expr
+          expr ::= * expr MOD expr
+          expr ::= * expr EXP expr
+          expr ::= * LPAREN expr RPAREN
+          expr ::= * ADD expr
+          expr ::= * SUB expr
+          expr ::= * INT_LITERAL
+
+                           ADD shift        3      
+                           SUB shift        2      
+                        LPAREN shift        4      
+                   INT_LITERAL shift-reduce 10     expr ::= INT_LITERAL
+                          expr shift        20     
+
+State 8:
+          expr ::= * expr ADD expr
+          expr ::= * expr SUB expr
+          expr ::= * expr MUL expr
+          expr ::= expr MUL * expr
+          expr ::= * expr DIV expr
+          expr ::= * expr MOD expr
+          expr ::= * expr EXP expr
+          expr ::= * LPAREN expr RPAREN
+          expr ::= * ADD expr
+          expr ::= * SUB expr
+          expr ::= * INT_LITERAL
+
+                           ADD shift        3      
+                           SUB shift        2      
+                        LPAREN shift        4      
+                   INT_LITERAL shift-reduce 10     expr ::= INT_LITERAL
+                          expr shift        21     
+
+State 9:
+          expr ::= * expr ADD expr
+          expr ::= * expr SUB expr
+          expr ::= expr SUB * expr
+          expr ::= * expr MUL expr
+          expr ::= * expr DIV expr
+          expr ::= * expr MOD expr
+          expr ::= * expr EXP expr
+          expr ::= * LPAREN expr RPAREN
+          expr ::= * ADD expr
+          expr ::= * SUB expr
+          expr ::= * INT_LITERAL
+
+                           ADD shift        3      
+                           SUB shift        2      
+                        LPAREN shift        4      
+                   INT_LITERAL shift-reduce 10     expr ::= INT_LITERAL
+                          expr shift        13     
+
+State 10:
+          expr ::= * expr ADD expr
+          expr ::= expr ADD * expr
+          expr ::= * expr SUB expr
+          expr ::= * expr MUL expr
+          expr ::= * expr DIV expr
+          expr ::= * expr MOD expr
+          expr ::= * expr EXP expr
+          expr ::= * LPAREN expr RPAREN
+          expr ::= * ADD expr
+          expr ::= * SUB expr
+          expr ::= * INT_LITERAL
+
+                           ADD shift        3      
+                           SUB shift        2      
+                        LPAREN shift        4      
+                   INT_LITERAL shift-reduce 10     expr ::= INT_LITERAL
+                          expr shift        14     
+
+State 11:
+          expr ::= expr * ADD expr
+          expr ::= expr * SUB expr
+          expr ::= expr * MUL expr
+          expr ::= expr * DIV expr
+          expr ::= expr * MOD expr
+          expr ::= expr * EXP expr
+          expr ::= LPAREN expr * RPAREN
+
+                           ADD shift        10     
+                           SUB shift        9      
+                           DIV shift        7      
+                           MUL shift        8      
+                           MOD shift        6      
+                           EXP shift        5      
+                        RPAREN shift-reduce 7      expr ::= LPAREN expr RPAREN
+
+State 12:
+      (0) expression ::= expr *
+          expr ::= expr * ADD expr
+          expr ::= expr * SUB expr
+          expr ::= expr * MUL expr
+          expr ::= expr * DIV expr
+          expr ::= expr * MOD expr
+          expr ::= expr * EXP expr
+
+                           ADD shift        10     
+                           SUB shift        9      
+                           DIV shift        7      
+                           MUL shift        8      
+                           MOD shift        6      
+                           EXP shift        5      
+                     {default} reduce       0      expression ::= expr
+
+State 13:
+          expr ::= expr * ADD expr
+          expr ::= expr * SUB expr
+      (2) expr ::= expr SUB expr *
+          expr ::= expr * MUL expr
+          expr ::= expr * DIV expr
+          expr ::= expr * MOD expr
+          expr ::= expr * EXP expr
+
+                           DIV shift        7      
+                           MUL shift        8      
+                           MOD shift        6      
+                           EXP shift        5      
+                     {default} reduce       2      expr ::= expr SUB expr
+
+State 14:
+          expr ::= expr * ADD expr
+      (1) expr ::= expr ADD expr *
+          expr ::= expr * SUB expr
+          expr ::= expr * MUL expr
+          expr ::= expr * DIV expr
+          expr ::= expr * MOD expr
+          expr ::= expr * EXP expr
+
+                           DIV shift        7      
+                           MUL shift        8      
+                           MOD shift        6      
+                           EXP shift        5      
+                     {default} reduce       1      expr ::= expr ADD expr
+
+State 15:
+          in ::= in expression * END_OF_FILE
+          in ::= in expression * END_OF_LINE
+
+                   END_OF_FILE shift-reduce 13     in ::= in expression END_OF_FILE
+                   END_OF_LINE shift-reduce 14     in ::= in expression END_OF_LINE
+
+State 16:
+          expr ::= expr * ADD expr
+          expr ::= expr * SUB expr
+          expr ::= expr * MUL expr
+          expr ::= expr * DIV expr
+          expr ::= expr * MOD expr
+          expr ::= expr * EXP expr
+      (9) expr ::= SUB expr *
+
+                           EXP shift        5      
+                     {default} reduce       9      expr ::= SUB expr
+
+State 17:
+          expr ::= expr * ADD expr
+          expr ::= expr * SUB expr
+          expr ::= expr * MUL expr
+          expr ::= expr * DIV expr
+          expr ::= expr * MOD expr
+          expr ::= expr * EXP expr
+      (8) expr ::= ADD expr *
+
+                           EXP shift        5      
+                     {default} reduce       8      expr ::= ADD expr
+
+State 18:
+          expr ::= expr * ADD expr
+          expr ::= expr * SUB expr
+          expr ::= expr * MUL expr
+          expr ::= expr * DIV expr
+          expr ::= expr * MOD expr
+          expr ::= expr * EXP expr
+      (6) expr ::= expr EXP expr *
+
+                           EXP shift        5      
+                     {default} reduce       6      expr ::= expr EXP expr
+
+State 19:
+          expr ::= expr * ADD expr
+          expr ::= expr * SUB expr
+          expr ::= expr * MUL expr
+          expr ::= expr * DIV expr
+          expr ::= expr * MOD expr
+      (5) expr ::= expr MOD expr *
+          expr ::= expr * EXP expr
+
+                           EXP shift        5      
+                     {default} reduce       5      expr ::= expr MOD expr
+
+State 20:
+          expr ::= expr * ADD expr
+          expr ::= expr * SUB expr
+          expr ::= expr * MUL expr
+          expr ::= expr * DIV expr
+      (4) expr ::= expr DIV expr *
+          expr ::= expr * MOD expr
+          expr ::= expr * EXP expr
+
+                           EXP shift        5      
+                     {default} reduce       4      expr ::= expr DIV expr
+
+State 21:
+          expr ::= expr * ADD expr
+          expr ::= expr * SUB expr
+          expr ::= expr * MUL expr
+      (3) expr ::= expr MUL expr *
+          expr ::= expr * DIV expr
+          expr ::= expr * MOD expr
+          expr ::= expr * EXP expr
+
+                           EXP shift        5      
+                     {default} reduce       3      expr ::= expr MUL expr
+
+----------------------------------------------------
+Symbols:
+The first-set of non-terminals is shown after the name.
+
+    0: $:
+    1: AND (precedence=1)
+    2: OR (precedence=1)
+    3: EQ (precedence=1)
+    4: NE (precedence=1)
+    5: GT (precedence=1)
+    6: GE (precedence=1)
+    7: LT (precedence=1)
+    8: LE (precedence=1)
+    9: ADD (precedence=2)
+   10: SUB (precedence=2)
+   11: DIV (precedence=3)
+   12: MUL (precedence=3)
+   13: MOD (precedence=3)
+   14: POS (precedence=4)
+   15: NEG (precedence=4)
+   16: EXP (precedence=5)
+   17: LPAREN (precedence=6)
+   18: RPAREN (precedence=6)
+   19: END_OF_FILE
+   20: END_OF_LINE
+   21: INT_LITERAL
+   22: start: <lambda> ADD SUB LPAREN INT_LITERAL
+   23: in: <lambda> ADD SUB LPAREN INT_LITERAL
+   24: expression: ADD SUB LPAREN INT_LITERAL
+   25: expr: ADD SUB LPAREN INT_LITERAL
+----------------------------------------------------
+Syntax-only Symbols:
+The following symbols never carry semantic content.
+
+$ AND OR EQ NE GT GE LT LE ADD SUB DIV MUL MOD POS NEG EXP LPAREN RPAREN
+END_OF_FILE END_OF_LINE start in expression
+----------------------------------------------------
+Rules:
+   0: expression ::= expr.
+   1: expr ::= expr ADD expr. [ADD precedence=2]
+   2: expr ::= expr SUB expr. [SUB precedence=2]
+   3: expr ::= expr MUL expr. [MUL precedence=3]
+   4: expr ::= expr DIV expr. [DIV precedence=3]
+   5: expr ::= expr MOD expr. [MOD precedence=3]
+   6: expr ::= expr EXP expr. [EXP precedence=5]
+   7: expr ::= LPAREN expr RPAREN. [LPAREN precedence=6]
+   8: expr ::= ADD expr. [POS precedence=4]
+   9: expr ::= SUB expr. [NEG precedence=4]
+  10: expr ::= INT_LITERAL.
+  11: start ::= in.
+  12: in ::=.
+  13: in ::= in expression END_OF_FILE.
+  14: in ::= in expression END_OF_LINE.
