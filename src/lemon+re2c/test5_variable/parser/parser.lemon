@@ -121,18 +121,19 @@ non-terminals = grammar rules (different kinds of nodes in the parse tree)
 
 */
 
+
 /*
-    <> (inequality)                             - use != instead will be : not=
+    <> (inequality)                             - use != instead 		will be : not=
     add (concatenation (strings))               - use + instead
     eq (equality (strings))                     - use == instead
-    ne (not equal (strings))                    - use != instead will be : not=
+    ne (not equal (strings))                    - use != instead 		will be : not=
     lt (less than (strings))                    - use < instead
     le (less than or equal to (strings))        - use <= instead
     gt (greater than (strings))                 - use > instead
     ge (greater than or equal to (strings))     - use >= instead
-    and (logical and)                           - use && instead mine will be : and
-    or (logical or)                             - use || instead mine will be : or
-    not (logical not)                           - use ! instead  mine will be : not
+    and (logical and)                           - use && instead  		will be : and
+    or (logical or)                             - use || instead  		will be : or
+    not (logical not)                           - use ! instead   		will be : not
 */
 
 // Math order of priority => BIDMAS : Bracket/Parenthesis Indices/Power/Order Divide Multiply Addition Substraction
@@ -142,7 +143,6 @@ non-terminals = grammar rules (different kinds of nodes in the parse tree)
 %left POS NEG.       // Negation--unary minus
 %right EXP.          // 2^3^2 = 2^(3^2) = 512
 %left LBRACKET RBRACKET LPAREN RPAREN.
-
 
 program ::= input.
 input ::= .
