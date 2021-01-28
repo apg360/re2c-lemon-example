@@ -6,19 +6,26 @@
 // https://www.wikiwand.com/en/Shift-reduce_parser
 // https://www.wikiwand.com/en/Parsing#/Computational_methods#section_Lookahead
 
-/*
-    <> (inequality)                             - use != instead will be : not=
-    add (concatenation (strings))               - use + instead
-    eq (equality (strings))                     - use == instead
-    ne (not equal (strings))                    - use != instead will be : not=
-    lt (less than (strings))                    - use < instead
-    le (less than or equal to (strings))        - use <= instead
-    gt (greater than (strings))                 - use > instead
-    ge (greater than or equal to (strings))     - use >= instead
-    and (logical and)                           - use && instead mine will be : and
-    or (logical or)                             - use || instead mine will be : or
-    not (logical not)                           - use ! instead  mine will be : not
-*/
+
+////////////////////////////////////////////////////////////////////////
+// https://github.com/drifter1/compiler
+//
+// https://steemit.com/utopian-io/@drifter1/writing-a-simple-compiler-on-my-own-abstract-syntax-tree-management-c-flex-bison
+// https://steemit.com/utopian-io/@drifter1/writing-a-simple-compiler-on-my-own-abstract-syntax-tree-structure-c-flex-bison
+// https://steemit.com/utopian-io/@drifter1/writing-a-simple-compiler-on-my-own-abstract-syntax-tree-principle-c-flex-bison
+// https://efxa.org/2014/05/25/how-to-create-an-abstract-syntax-tree-while-parsing-an-input-stream/
+// http://www.cse.iitb.ac.in/grc/intdocs/gcc-implementation-details.html#The-AST/Generic-Data-Structures
+//
+// http://teampli.net/XPL/ldindex.html
+// https://www.cs.cornell.edu/andru/javaspec/2.doc.html#40415
+// https://steemit.com/programming/@drifter1/writing-a-simple-compiler-on-my-own-creating-a-grammar-for-our-language
+// http://eli-project.sourceforge.net/pascal_html/pascal-.html#s1
+// https://www.lysator.liu.se/c/ANSI-C-grammar-y.html
+// http://www.quut.com/c/ANSI-C-grammar-y.html
+// http://www.open-std.org/jtc1/sc22/wg14/www/docs/n1570.pdf#page=476
+// https://github.com/antlr/grammars-v4/blob/master/c/C.g4
+////////////////////////////////////////////////////////////////////////
+
 
 %syntax_error  { PARSER_STATE->error = true; fprintf(stderr, "Syntax Error.\n"); }
 %parse_failure { PARSER_STATE->error = true; fprintf(stderr, "Parse failure.\n"); }
@@ -95,6 +102,39 @@
 
 %token_type      { double }
 
+/*
+	§ HOW IS THE LEMON GRAMMAR §
+
+no compund statement !
+Example : jump_statement        ::= BREAK expression|BREAK.
+Will become
+		  jump_statement        ::= BREAK expression.
+	      jump_statement        ::= BREAK.
+
+1.Tokens are consumed one-by-one and added to a stack
+2.A reduction is performed : when a grammar rule is not ambiguous and can be applied to a sequence of one/or more terminals/non-terminals at the top of the stack
+3.Goal is to reduce input to a single non-terminal
+
+
+    terminals = tokens
+non-terminals = grammar rules (different kinds of nodes in the parse tree)
+
+*/
+
+/*
+    <> (inequality)                             - use != instead will be : not=
+    add (concatenation (strings))               - use + instead
+    eq (equality (strings))                     - use == instead
+    ne (not equal (strings))                    - use != instead will be : not=
+    lt (less than (strings))                    - use < instead
+    le (less than or equal to (strings))        - use <= instead
+    gt (greater than (strings))                 - use > instead
+    ge (greater than or equal to (strings))     - use >= instead
+    and (logical and)                           - use && instead mine will be : and
+    or (logical or)                             - use || instead mine will be : or
+    not (logical not)                           - use ! instead  mine will be : not
+*/
+
 // Math order of priority => BIDMAS : Bracket/Parenthesis Indices/Power/Order Divide Multiply Addition Substraction
 %nonassoc DEFAULT BREAK RETURN FALLTHROUGH SEMCOL FOR SWITCH IF VARTYPE IDENTIFIER ASSIGN NOT AND OR EQ NE GT GE LT LE.
 %left ADD SUB.       // PLUS   MINUS
@@ -103,22 +143,6 @@
 %right EXP.          // 2^3^2 = 2^(3^2) = 512
 %left LBRACKET RBRACKET LPAREN RPAREN.
 
-// https://github.com/drifter1/compiler
-//
-// https://steemit.com/utopian-io/@drifter1/writing-a-simple-compiler-on-my-own-abstract-syntax-tree-management-c-flex-bison
-// https://steemit.com/utopian-io/@drifter1/writing-a-simple-compiler-on-my-own-abstract-syntax-tree-structure-c-flex-bison
-// https://steemit.com/utopian-io/@drifter1/writing-a-simple-compiler-on-my-own-abstract-syntax-tree-principle-c-flex-bison
-// https://efxa.org/2014/05/25/how-to-create-an-abstract-syntax-tree-while-parsing-an-input-stream/
-// http://www.cse.iitb.ac.in/grc/intdocs/gcc-implementation-details.html#The-AST/Generic-Data-Structures
-//
-// http://teampli.net/XPL/ldindex.html
-// https://www.cs.cornell.edu/andru/javaspec/2.doc.html#40415
-// https://steemit.com/programming/@drifter1/writing-a-simple-compiler-on-my-own-creating-a-grammar-for-our-language
-// http://eli-project.sourceforge.net/pascal_html/pascal-.html#s1
-// https://www.lysator.liu.se/c/ANSI-C-grammar-y.html
-// http://www.quut.com/c/ANSI-C-grammar-y.html
-// http://www.open-std.org/jtc1/sc22/wg14/www/docs/n1570.pdf#page=476
-// https://github.com/antlr/grammars-v4/blob/master/c/C.g4
 
 program ::= input.
 input ::= .
@@ -171,10 +195,8 @@ relop                 ::= LE|LT|GT|GE|EQ|NE.                            // <=,<,
 
 // Function = https://steemit.com/utopian-io/@drifter1/writing-a-simple-compiler-on-my-own-function-semantics-part-1-c-flex-bison
 
-//     terminals = tokens
-// non-terminals = grammar rules (different kinds of nodes in the parse tree)
-// A reduction is performed : when a grammar rule is not ambiguous and can be applied to a sequence of one/or more terminals/non-terminals at the top of the stack
-// Syntactic Rules  { Semantic Actions }
+
+// Grammar/Syntactic Rules  { Semantic Actions }
 expression ::= expr(A).             { PARSER_STATE->result_value.value_is_a_number = A; }
 
 expr(X) ::= expr(A) ADD expr(B).    { X = A + B; }
