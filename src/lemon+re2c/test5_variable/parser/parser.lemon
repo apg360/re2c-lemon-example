@@ -96,14 +96,21 @@
 %token_type      { double }
 
 // Math order of priority => BIDMAS : Bracket/Parenthesis Indices/Power/Order Divide Multiply Addition Substraction
-%nonassoc BREAK RETURN FALLTHROUGH SEMCOL FOR SWITCH IF VARTYPE IDENTIFIER ASSIGN NOT AND OR EQ NE GT GE LT LE.
+%nonassoc DEFAULT BREAK RETURN FALLTHROUGH SEMCOL FOR SWITCH IF VARTYPE IDENTIFIER ASSIGN NOT AND OR EQ NE GT GE LT LE.
 %left ADD SUB.       // PLUS   MINUS
 %left DIV MUL MOD.   // DIVIDE TIMES MODULUS(remainder operator)
 %left POS NEG.       // Negation--unary minus
 %right EXP.          // 2^3^2 = 2^(3^2) = 512
 %left LBRACKET RBRACKET LPAREN RPAREN.
 
-
+// https://github.com/drifter1/compiler
+//
+// https://steemit.com/utopian-io/@drifter1/writing-a-simple-compiler-on-my-own-abstract-syntax-tree-management-c-flex-bison
+// https://steemit.com/utopian-io/@drifter1/writing-a-simple-compiler-on-my-own-abstract-syntax-tree-structure-c-flex-bison
+// https://steemit.com/utopian-io/@drifter1/writing-a-simple-compiler-on-my-own-abstract-syntax-tree-principle-c-flex-bison
+// https://efxa.org/2014/05/25/how-to-create-an-abstract-syntax-tree-while-parsing-an-input-stream/
+// http://www.cse.iitb.ac.in/grc/intdocs/gcc-implementation-details.html#The-AST/Generic-Data-Structures
+//
 // http://teampli.net/XPL/ldindex.html
 // https://www.cs.cornell.edu/andru/javaspec/2.doc.html#40415
 // https://steemit.com/programming/@drifter1/writing-a-simple-compiler-on-my-own-creating-a-grammar-for-our-language
@@ -124,33 +131,49 @@ lines ::= statements END_OF_LINE|END_OF_FILE.
 //statements ::= statements statement|statement.
 statements ::= statement.
 
-statement 			  ::= varDeclaration.
-statement 			  ::= if_statement.
-//statement 		  ::= for_statement.
-//statement 		  ::= switch_statement.
-//statement 		  ::= jump_statement.
-statement 			  ::= expression.
-varDeclaration 		  ::= IDENTIFIER ASSIGN VARTYPE ASSIGN expression. // x=u16=0
-varDeclaration 		  ::= IDENTIFIER ASSIGN VARTYPE.                   // x=u16 // x value = undefined of type u16
-varDeclaration 		  ::= IDENTIFIER ASSIGN expression.                // x=0   // this is also same for assignment, from undefined to a value.
-//assignment 		  ::= IDENTIFIER ASSIGN expression.					
+statement             ::= varDeclaration.
+statement             ::= if_statement.
+//statement           ::= for_statement.
+//statement             ::= switch_statement.
+statement             ::= jump_statement.
+statement             ::= expression.
+varDeclaration        ::= IDENTIFIER ASSIGN VARTYPE ASSIGN expression.  // x=u16=0
+varDeclaration        ::= IDENTIFIER ASSIGN VARTYPE.                    // x=u16 // x value = undefined of type u16
+varDeclaration        ::= IDENTIFIER ASSIGN expression.                 // x=0   // this is also same for assignment, from undefined to a value.
+//assignment          ::= IDENTIFIER ASSIGN expression.                 
 
+// https://steemit.com/utopian-io/@drifter1/writing-a-simple-compiler-on-my-own-action-rules-for-if-else-statements-c-flex-bison
   if_statement        ::=                  IF     bool_expression LBRACKET statement RBRACKET.                             // if expression {true part}
   if_statement        ::=                  IF     bool_expression LBRACKET statement RBRACKET LBRACKET statement RBRACKET. // if expression {true part} { else part }
 //else_statement      ::= if_statement     ELSE                   LBRACKET statement RBRACKET. 
 //elif_statement      ::= if_statement     ELSEIF bool_expression LBRACKET statement RBRACKET.                             // if expression {true part} expression { elseif part } { else part }
 //elif_statement      ::= elif_statement   ELSE                   LBRACKET statement RBRACKET.
 
-//switch_statement ::= SWITCH expression compound_stmt.
-//compound_stmt ::= expression LBRACKET <stmt> RBRACKET| default LBRACKET <stmt> RBRACKET.
+//switch_statement      ::= SWITCH expression compound_stmt.
+//compound_stmt         ::= expression LBRACKET compound_stmt RBRACKET.
+//compound_stmt         ::= DEFAULT LBRACKET compound_stmt RBRACKET.
 
-jump_statement        ::= BREAK expression|BREAK|FALLTHROUGH|RETURN expression|RETURN.
-bool_expression       ::= expression OR  expression|bool_and_expression.
-bool_and_expression   ::= expression AND expression|bool_unary_expression.
-bool_unary_expression ::= NOT expression|bool_relop_expression.
+jump_statement        ::= BREAK expression.
+jump_statement        ::= BREAK.
+jump_statement        ::= FALLTHROUGH.
+jump_statement        ::= RETURN expression.
+jump_statement        ::= RETURN.
+
+bool_expression       ::= expression OR expression.
+bool_expression       ::= bool_and_expression.
+bool_and_expression   ::= expression AND expression.
+bool_and_expression   ::= bool_unary_expression.
+bool_unary_expression ::= NOT expression.
+bool_unary_expression ::= bool_relop_expression.
+
 bool_relop_expression ::= expression relop expression.
-relop                 ::= LE|LT|GT|GE|EQ|NE. 							// <=,<,>,>=,==,!=
+relop                 ::= LE|LT|GT|GE|EQ|NE.                            // <=,<,>,>=,==,!=
 
+// Function = https://steemit.com/utopian-io/@drifter1/writing-a-simple-compiler-on-my-own-function-semantics-part-1-c-flex-bison
+
+//     terminals = tokens
+// non-terminals = grammar rules (different kinds of nodes in the parse tree)
+// A reduction is performed : when a grammar rule is not ambiguous and can be applied to a sequence of one/or more terminals/non-terminals at the top of the stack
 // Syntactic Rules  { Semantic Actions }
 expression ::= expr(A).             { PARSER_STATE->result_value.value_is_a_number = A; }
 

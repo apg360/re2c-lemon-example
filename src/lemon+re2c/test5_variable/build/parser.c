@@ -140,7 +140,7 @@
 #endif
 /************* Begin control #defines *****************************************/
 #define YYCODETYPE unsigned char
-#define YYNOCODE 44
+#define YYNOCODE 51
 #define YYACTIONTYPE unsigned char
 #define ParseTOKENTYPE  double 
 typedef union {
@@ -160,18 +160,18 @@ typedef union {
 #define ParseCTX_PARAM
 #define ParseCTX_FETCH
 #define ParseCTX_STORE
-#define YYNSTATE             35
-#define YYNRULE              25
-#define YYNRULE_WITH_ACTION  12
-#define YYNTOKEN             34
-#define YY_MAX_SHIFT         34
-#define YY_MIN_SHIFTREDUCE   47
-#define YY_MAX_SHIFTREDUCE   71
-#define YY_ERROR_ACTION      72
-#define YY_ACCEPT_ACTION     73
-#define YY_NO_ACTION         74
-#define YY_MIN_REDUCE        75
-#define YY_MAX_REDUCE        99
+#define YYNSTATE             40
+#define YYNRULE              38
+#define YYNRULE_WITH_ACTION  11
+#define YYNTOKEN             36
+#define YY_MAX_SHIFT         39
+#define YY_MIN_SHIFTREDUCE   63
+#define YY_MAX_SHIFTREDUCE   100
+#define YY_ERROR_ACTION      101
+#define YY_ACCEPT_ACTION     102
+#define YY_NO_ACTION         103
+#define YY_MIN_REDUCE        104
+#define YY_MAX_REDUCE        141
 /************* End control #defines *******************************************/
 #define YY_NLOOKAHEAD ((int)(sizeof(yy_lookahead)/sizeof(yy_lookahead[0])))
 
@@ -238,55 +238,64 @@ typedef union {
 **  yy_default[]       Default action for each state.
 **
 *********** Begin parsing tables **********************************************/
-#define YY_ACTTAB_COUNT (93)
+#define YY_ACTTAB_COUNT (132)
 static const YYACTIONTYPE yy_action[] = {
- /*     0 */    89,   22,   22,   22,   22,   22,   27,   19,   17,   26,
- /*    10 */    19,    6,    6,    6,    6,    6,    6,    6,    6,   87,
- /*    20 */    16,   15,   13,   14,   12,   33,    4,   11,   34,   73,
- /*    30 */     1,   55,    4,   97,   34,   19,    9,    8,    9,    8,
- /*    40 */    28,    9,    8,   71,    9,    8,   10,   75,   10,   19,
- /*    50 */    58,   10,   58,   18,   10,   58,   29,   30,   58,   16,
- /*    60 */    15,   13,   14,   12,   62,   62,   11,   23,   23,   23,
- /*    70 */    23,   31,   19,   25,   25,   25,   25,   95,   19,   19,
- /*    80 */    13,   14,   12,    2,   32,   11,   20,    3,   21,   24,
- /*    90 */    11,    7,    5,
+ /*     0 */   115,    7,   11,   10,   90,   11,   10,   90,    4,   32,
+ /*    10 */    39,    4,   33,   39,  117,   27,   27,   27,   27,   27,
+ /*    20 */    27,   15,   14,   23,   15,   14,   24,   19,   20,   18,
+ /*    30 */   126,   16,   17,   34,   16,   73,   24,   35,   73,    8,
+ /*    40 */     9,  100,  100,  100,  100,  100,  100,   36,   22,   21,
+ /*    50 */    19,   20,   18,  102,    1,   17,   77,   77,   37,   70,
+ /*    60 */    28,   28,   28,   28,   28,   30,   30,   30,   30,   30,
+ /*    70 */    24,   25,   26,   87,   29,   24,   13,   31,   31,   31,
+ /*    80 */    31,   17,   24,   22,   21,   19,   20,   18,    6,  138,
+ /*    90 */    17,  103,   38,    2,    3,   24,  140,   15,   14,   15,
+ /*   100 */    14,   12,   24,  103,   15,   14,    5,   16,  103,   16,
+ /*   110 */   136,   73,  103,   73,   16,  134,   24,  103,   73,  103,
+ /*   120 */   103,   24,  103,  132,  129,  124,  103,  103,  103,   24,
+ /*   130 */    24,   24,
 };
 static const YYCODETYPE yy_lookahead[] = {
- /*     0 */    36,   37,   38,   39,   40,   41,   43,   43,   41,   42,
- /*    10 */    43,   11,   12,   13,   14,   15,   16,   17,   18,    0,
- /*    20 */    19,   20,   21,   22,   23,    8,    7,   26,    9,   34,
- /*    30 */    35,   30,    7,   41,    9,   43,   19,   20,   19,   20,
- /*    40 */    43,   19,   20,   28,   19,   20,   29,   41,   29,   43,
- /*    50 */    33,   29,   33,   43,   29,   33,   43,   43,   33,   19,
- /*    60 */    20,   21,   22,   23,   31,   32,   26,   38,   39,   40,
- /*    70 */    41,   43,   43,   38,   39,   40,   41,   41,   43,   43,
- /*    80 */    21,   22,   23,   27,   43,   26,   43,   27,   43,   28,
- /*    90 */    26,   10,   10,   44,   44,   44,   44,   44,   44,   44,
- /*   100 */    44,   44,   44,   44,   44,   44,   44,   44,   44,   44,
- /*   110 */    44,   44,   44,   44,   44,   44,   44,   44,   44,   44,
- /*   120 */    44,   44,   44,   44,   44,   44,   44,
+ /*     0 */     0,   49,    2,    3,    4,    2,    3,    4,    8,   50,
+ /*    10 */    10,    8,   50,   10,   38,   39,   40,   41,   42,   43,
+ /*    20 */    44,   21,   22,   50,   21,   22,   50,   23,   24,   25,
+ /*    30 */    44,   31,   28,   50,   31,   35,   50,   50,   35,   13,
+ /*    40 */    14,   15,   16,   17,   18,   19,   20,   50,   21,   22,
+ /*    50 */    23,   24,   25,   36,   37,   28,   33,   34,   50,   32,
+ /*    60 */    40,   41,   42,   43,   44,   40,   41,   42,   43,   44,
+ /*    70 */    50,   50,   50,   30,   30,   50,   44,   45,   46,   47,
+ /*    80 */    48,   28,   50,   21,   22,   23,   24,   25,   12,   44,
+ /*    90 */    28,   51,    9,   29,   29,   50,   44,   21,   22,   21,
+ /*   100 */    22,   11,   50,   51,   21,   22,   11,   31,   51,   31,
+ /*   110 */    44,   35,   51,   35,   31,   44,   50,   51,   35,   51,
+ /*   120 */    51,   50,   51,   44,   44,   44,   51,   51,   51,   50,
+ /*   130 */    50,   50,   51,   51,   51,   51,   51,   51,   51,   51,
+ /*   140 */    51,   51,   51,   36,   36,   36,   36,   36,   36,   36,
+ /*   150 */    36,   36,   36,   36,   36,   36,   36,   36,   36,   36,
+ /*   160 */    36,   36,   36,   36,   36,   36,   36,   36,
 };
-#define YY_SHIFT_COUNT    (34)
+#define YY_SHIFT_COUNT    (39)
 #define YY_SHIFT_MIN      (0)
-#define YY_SHIFT_MAX      (82)
+#define YY_SHIFT_MAX      (95)
 static const unsigned char yy_shift_ofst[] = {
- /*     0 */    93,   19,   25,   25,   22,   17,   22,   22,   22,   22,
- /*    10 */    22,   22,   22,   22,   22,   22,   22,    0,    1,   40,
- /*    20 */    59,   59,   33,   15,   56,   61,   60,   64,   64,   64,
- /*    30 */    64,   64,   64,   81,   82,
+ /*     0 */   132,    0,    3,    3,   76,   83,   78,   78,   78,   78,
+ /*    10 */    78,   78,   78,   26,   78,   78,   78,   78,   78,   78,
+ /*    20 */    78,   78,   78,   27,   62,    4,    4,   23,   43,   64,
+ /*    30 */    44,   65,   53,   53,   53,   53,   53,   53,   90,   95,
 };
-#define YY_REDUCE_COUNT (16)
-#define YY_REDUCE_MIN   (-37)
-#define YY_REDUCE_MAX   (45)
+#define YY_REDUCE_COUNT (22)
+#define YY_REDUCE_MIN   (-48)
+#define YY_REDUCE_MAX   (81)
 static const signed char yy_reduce_ofst[] = {
- /*     0 */    -5,  -36,   29,   35,  -33,   -8,    6,   36,  -37,   -3,
- /*    10 */    10,   13,   14,   28,   41,   43,   45,
+ /*     0 */    17,  -24,   20,   25,   32,  -14,   45,   52,   66,   71,
+ /*    10 */    79,   80,   81,  -48,  -41,  -38,  -27,  -17,  -13,   -3,
+ /*    20 */     8,   21,   22,
 };
 static const YYACTIONTYPE yy_default[] = {
- /*     0 */    88,   72,   72,   72,   72,   72,   72,   72,   72,   72,
- /*    10 */    72,   72,   72,   72,   72,   72,   72,   72,   72,   76,
- /*    20 */    78,   77,   72,   72,   98,   72,   72,   85,   84,   82,
- /*    30 */    81,   80,   79,   96,   72,
+ /*     0 */   116,  101,  101,  101,  101,  101,  101,  101,  101,  101,
+ /*    10 */   133,  130,  101,  101,  101,  101,  101,  101,  101,  101,
+ /*    20 */   101,  101,  101,  101,  104,  106,  105,  101,  101,  127,
+ /*    30 */   101,  101,  113,  112,  110,  109,  108,  107,  125,  101,
 };
 /********** End of lemon-generated parsing tables *****************************/
 
@@ -395,49 +404,56 @@ void ParseTrace(FILE *TraceFILE, char *zTracePrompt){
 ** are required.  The following table supplies these names */
 static const char *const yyTokenName[] = { 
   /*    0 */ "$",
-  /*    1 */ "BREAK",
-  /*    2 */ "RETURN",
-  /*    3 */ "FALLTHROUGH",
-  /*    4 */ "SEMCOL",
-  /*    5 */ "FOR",
-  /*    6 */ "SWITCH",
-  /*    7 */ "IF",
-  /*    8 */ "VARTYPE",
-  /*    9 */ "IDENTIFIER",
-  /*   10 */ "ASSIGN",
-  /*   11 */ "AND",
-  /*   12 */ "OR",
-  /*   13 */ "EQ",
-  /*   14 */ "NE",
-  /*   15 */ "GT",
-  /*   16 */ "GE",
-  /*   17 */ "LT",
-  /*   18 */ "LE",
-  /*   19 */ "ADD",
-  /*   20 */ "SUB",
-  /*   21 */ "DIV",
-  /*   22 */ "MUL",
-  /*   23 */ "MOD",
-  /*   24 */ "POS",
-  /*   25 */ "NEG",
-  /*   26 */ "EXP",
-  /*   27 */ "LBRACKET",
-  /*   28 */ "RBRACKET",
-  /*   29 */ "LPAREN",
-  /*   30 */ "RPAREN",
-  /*   31 */ "END_OF_LINE",
-  /*   32 */ "END_OF_FILE",
-  /*   33 */ "INT_LITERAL",
-  /*   34 */ "program",
-  /*   35 */ "input",
-  /*   36 */ "lines",
-  /*   37 */ "statements",
-  /*   38 */ "statement",
-  /*   39 */ "varDeclaration",
-  /*   40 */ "if_statement",
-  /*   41 */ "expression",
-  /*   42 */ "bool_expression",
-  /*   43 */ "expr",
+  /*    1 */ "DEFAULT",
+  /*    2 */ "BREAK",
+  /*    3 */ "RETURN",
+  /*    4 */ "FALLTHROUGH",
+  /*    5 */ "SEMCOL",
+  /*    6 */ "FOR",
+  /*    7 */ "SWITCH",
+  /*    8 */ "IF",
+  /*    9 */ "VARTYPE",
+  /*   10 */ "IDENTIFIER",
+  /*   11 */ "ASSIGN",
+  /*   12 */ "NOT",
+  /*   13 */ "AND",
+  /*   14 */ "OR",
+  /*   15 */ "EQ",
+  /*   16 */ "NE",
+  /*   17 */ "GT",
+  /*   18 */ "GE",
+  /*   19 */ "LT",
+  /*   20 */ "LE",
+  /*   21 */ "ADD",
+  /*   22 */ "SUB",
+  /*   23 */ "DIV",
+  /*   24 */ "MUL",
+  /*   25 */ "MOD",
+  /*   26 */ "POS",
+  /*   27 */ "NEG",
+  /*   28 */ "EXP",
+  /*   29 */ "LBRACKET",
+  /*   30 */ "RBRACKET",
+  /*   31 */ "LPAREN",
+  /*   32 */ "RPAREN",
+  /*   33 */ "END_OF_LINE",
+  /*   34 */ "END_OF_FILE",
+  /*   35 */ "INT_LITERAL",
+  /*   36 */ "program",
+  /*   37 */ "input",
+  /*   38 */ "lines",
+  /*   39 */ "statements",
+  /*   40 */ "statement",
+  /*   41 */ "varDeclaration",
+  /*   42 */ "if_statement",
+  /*   43 */ "jump_statement",
+  /*   44 */ "expression",
+  /*   45 */ "bool_expression",
+  /*   46 */ "bool_and_expression",
+  /*   47 */ "bool_unary_expression",
+  /*   48 */ "bool_relop_expression",
+  /*   49 */ "relop",
+  /*   50 */ "expr",
 };
 #endif /* defined(YYCOVERAGE) || !defined(NDEBUG) */
 
@@ -445,31 +461,44 @@ static const char *const yyTokenName[] = {
 /* For tracing reduce actions, the names of all rules are required.
 */
 static const char *const yyRuleName[] = {
- /*   0 */ "bool_expression ::= expression AND|OR|EQ|NE|GT|GE|LT|LE expression",
- /*   1 */ "expression ::= expr",
- /*   2 */ "expr ::= expr ADD expr",
- /*   3 */ "expr ::= expr SUB expr",
- /*   4 */ "expr ::= expr MUL expr",
- /*   5 */ "expr ::= expr DIV expr",
- /*   6 */ "expr ::= expr MOD expr",
- /*   7 */ "expr ::= expr EXP expr",
- /*   8 */ "expr ::= LPAREN expr RPAREN",
- /*   9 */ "expr ::= ADD expr",
- /*  10 */ "expr ::= SUB expr",
- /*  11 */ "expr ::= INT_LITERAL",
- /*  12 */ "program ::= input",
- /*  13 */ "input ::=",
- /*  14 */ "input ::= input lines",
- /*  15 */ "lines ::= statements END_OF_LINE|END_OF_FILE",
- /*  16 */ "statements ::= statement",
- /*  17 */ "statement ::= varDeclaration",
- /*  18 */ "statement ::= if_statement",
+ /*   0 */ "expression ::= expr",
+ /*   1 */ "expr ::= expr ADD expr",
+ /*   2 */ "expr ::= expr SUB expr",
+ /*   3 */ "expr ::= expr MUL expr",
+ /*   4 */ "expr ::= expr DIV expr",
+ /*   5 */ "expr ::= expr MOD expr",
+ /*   6 */ "expr ::= expr EXP expr",
+ /*   7 */ "expr ::= LPAREN expr RPAREN",
+ /*   8 */ "expr ::= ADD expr",
+ /*   9 */ "expr ::= SUB expr",
+ /*  10 */ "expr ::= INT_LITERAL",
+ /*  11 */ "program ::= input",
+ /*  12 */ "input ::=",
+ /*  13 */ "input ::= input lines",
+ /*  14 */ "lines ::= statements END_OF_LINE|END_OF_FILE",
+ /*  15 */ "statements ::= statement",
+ /*  16 */ "statement ::= varDeclaration",
+ /*  17 */ "statement ::= if_statement",
+ /*  18 */ "statement ::= jump_statement",
  /*  19 */ "statement ::= expression",
  /*  20 */ "varDeclaration ::= IDENTIFIER ASSIGN VARTYPE ASSIGN expression",
  /*  21 */ "varDeclaration ::= IDENTIFIER ASSIGN VARTYPE",
  /*  22 */ "varDeclaration ::= IDENTIFIER ASSIGN expression",
  /*  23 */ "if_statement ::= IF bool_expression LBRACKET statement RBRACKET",
  /*  24 */ "if_statement ::= IF bool_expression LBRACKET statement RBRACKET LBRACKET statement RBRACKET",
+ /*  25 */ "jump_statement ::= BREAK expression",
+ /*  26 */ "jump_statement ::= BREAK",
+ /*  27 */ "jump_statement ::= FALLTHROUGH",
+ /*  28 */ "jump_statement ::= RETURN expression",
+ /*  29 */ "jump_statement ::= RETURN",
+ /*  30 */ "bool_expression ::= expression OR expression",
+ /*  31 */ "bool_expression ::= bool_and_expression",
+ /*  32 */ "bool_and_expression ::= expression AND expression",
+ /*  33 */ "bool_and_expression ::= bool_unary_expression",
+ /*  34 */ "bool_unary_expression ::= NOT expression",
+ /*  35 */ "bool_unary_expression ::= bool_relop_expression",
+ /*  36 */ "bool_relop_expression ::= expression relop expression",
+ /*  37 */ "relop ::= LE|LT|GT|GE|EQ|NE",
 };
 #endif /* NDEBUG */
 
@@ -881,61 +910,87 @@ static void yy_shift(
 /* For rule J, yyRuleInfoLhs[J] contains the symbol on the left-hand side
 ** of that rule */
 static const YYCODETYPE yyRuleInfoLhs[] = {
-    42,  /* (0) bool_expression ::= expression AND|OR|EQ|NE|GT|GE|LT|LE expression */
-    41,  /* (1) expression ::= expr */
-    43,  /* (2) expr ::= expr ADD expr */
-    43,  /* (3) expr ::= expr SUB expr */
-    43,  /* (4) expr ::= expr MUL expr */
-    43,  /* (5) expr ::= expr DIV expr */
-    43,  /* (6) expr ::= expr MOD expr */
-    43,  /* (7) expr ::= expr EXP expr */
-    43,  /* (8) expr ::= LPAREN expr RPAREN */
-    43,  /* (9) expr ::= ADD expr */
-    43,  /* (10) expr ::= SUB expr */
-    43,  /* (11) expr ::= INT_LITERAL */
-    34,  /* (12) program ::= input */
-    35,  /* (13) input ::= */
-    35,  /* (14) input ::= input lines */
-    36,  /* (15) lines ::= statements END_OF_LINE|END_OF_FILE */
-    37,  /* (16) statements ::= statement */
-    38,  /* (17) statement ::= varDeclaration */
-    38,  /* (18) statement ::= if_statement */
-    38,  /* (19) statement ::= expression */
-    39,  /* (20) varDeclaration ::= IDENTIFIER ASSIGN VARTYPE ASSIGN expression */
-    39,  /* (21) varDeclaration ::= IDENTIFIER ASSIGN VARTYPE */
-    39,  /* (22) varDeclaration ::= IDENTIFIER ASSIGN expression */
-    40,  /* (23) if_statement ::= IF bool_expression LBRACKET statement RBRACKET */
-    40,  /* (24) if_statement ::= IF bool_expression LBRACKET statement RBRACKET LBRACKET statement RBRACKET */
+    44,  /* (0) expression ::= expr */
+    50,  /* (1) expr ::= expr ADD expr */
+    50,  /* (2) expr ::= expr SUB expr */
+    50,  /* (3) expr ::= expr MUL expr */
+    50,  /* (4) expr ::= expr DIV expr */
+    50,  /* (5) expr ::= expr MOD expr */
+    50,  /* (6) expr ::= expr EXP expr */
+    50,  /* (7) expr ::= LPAREN expr RPAREN */
+    50,  /* (8) expr ::= ADD expr */
+    50,  /* (9) expr ::= SUB expr */
+    50,  /* (10) expr ::= INT_LITERAL */
+    36,  /* (11) program ::= input */
+    37,  /* (12) input ::= */
+    37,  /* (13) input ::= input lines */
+    38,  /* (14) lines ::= statements END_OF_LINE|END_OF_FILE */
+    39,  /* (15) statements ::= statement */
+    40,  /* (16) statement ::= varDeclaration */
+    40,  /* (17) statement ::= if_statement */
+    40,  /* (18) statement ::= jump_statement */
+    40,  /* (19) statement ::= expression */
+    41,  /* (20) varDeclaration ::= IDENTIFIER ASSIGN VARTYPE ASSIGN expression */
+    41,  /* (21) varDeclaration ::= IDENTIFIER ASSIGN VARTYPE */
+    41,  /* (22) varDeclaration ::= IDENTIFIER ASSIGN expression */
+    42,  /* (23) if_statement ::= IF bool_expression LBRACKET statement RBRACKET */
+    42,  /* (24) if_statement ::= IF bool_expression LBRACKET statement RBRACKET LBRACKET statement RBRACKET */
+    43,  /* (25) jump_statement ::= BREAK expression */
+    43,  /* (26) jump_statement ::= BREAK */
+    43,  /* (27) jump_statement ::= FALLTHROUGH */
+    43,  /* (28) jump_statement ::= RETURN expression */
+    43,  /* (29) jump_statement ::= RETURN */
+    45,  /* (30) bool_expression ::= expression OR expression */
+    45,  /* (31) bool_expression ::= bool_and_expression */
+    46,  /* (32) bool_and_expression ::= expression AND expression */
+    46,  /* (33) bool_and_expression ::= bool_unary_expression */
+    47,  /* (34) bool_unary_expression ::= NOT expression */
+    47,  /* (35) bool_unary_expression ::= bool_relop_expression */
+    48,  /* (36) bool_relop_expression ::= expression relop expression */
+    49,  /* (37) relop ::= LE|LT|GT|GE|EQ|NE */
 };
 
 /* For rule J, yyRuleInfoNRhs[J] contains the negative of the number
 ** of symbols on the right-hand side of that rule. */
 static const signed char yyRuleInfoNRhs[] = {
-   -3,  /* (0) bool_expression ::= expression AND|OR|EQ|NE|GT|GE|LT|LE expression */
-   -1,  /* (1) expression ::= expr */
-   -3,  /* (2) expr ::= expr ADD expr */
-   -3,  /* (3) expr ::= expr SUB expr */
-   -3,  /* (4) expr ::= expr MUL expr */
-   -3,  /* (5) expr ::= expr DIV expr */
-   -3,  /* (6) expr ::= expr MOD expr */
-   -3,  /* (7) expr ::= expr EXP expr */
-   -3,  /* (8) expr ::= LPAREN expr RPAREN */
-   -2,  /* (9) expr ::= ADD expr */
-   -2,  /* (10) expr ::= SUB expr */
-   -1,  /* (11) expr ::= INT_LITERAL */
-   -1,  /* (12) program ::= input */
-    0,  /* (13) input ::= */
-   -2,  /* (14) input ::= input lines */
-   -2,  /* (15) lines ::= statements END_OF_LINE|END_OF_FILE */
-   -1,  /* (16) statements ::= statement */
-   -1,  /* (17) statement ::= varDeclaration */
-   -1,  /* (18) statement ::= if_statement */
+   -1,  /* (0) expression ::= expr */
+   -3,  /* (1) expr ::= expr ADD expr */
+   -3,  /* (2) expr ::= expr SUB expr */
+   -3,  /* (3) expr ::= expr MUL expr */
+   -3,  /* (4) expr ::= expr DIV expr */
+   -3,  /* (5) expr ::= expr MOD expr */
+   -3,  /* (6) expr ::= expr EXP expr */
+   -3,  /* (7) expr ::= LPAREN expr RPAREN */
+   -2,  /* (8) expr ::= ADD expr */
+   -2,  /* (9) expr ::= SUB expr */
+   -1,  /* (10) expr ::= INT_LITERAL */
+   -1,  /* (11) program ::= input */
+    0,  /* (12) input ::= */
+   -2,  /* (13) input ::= input lines */
+   -2,  /* (14) lines ::= statements END_OF_LINE|END_OF_FILE */
+   -1,  /* (15) statements ::= statement */
+   -1,  /* (16) statement ::= varDeclaration */
+   -1,  /* (17) statement ::= if_statement */
+   -1,  /* (18) statement ::= jump_statement */
    -1,  /* (19) statement ::= expression */
    -5,  /* (20) varDeclaration ::= IDENTIFIER ASSIGN VARTYPE ASSIGN expression */
    -3,  /* (21) varDeclaration ::= IDENTIFIER ASSIGN VARTYPE */
    -3,  /* (22) varDeclaration ::= IDENTIFIER ASSIGN expression */
    -5,  /* (23) if_statement ::= IF bool_expression LBRACKET statement RBRACKET */
    -8,  /* (24) if_statement ::= IF bool_expression LBRACKET statement RBRACKET LBRACKET statement RBRACKET */
+   -2,  /* (25) jump_statement ::= BREAK expression */
+   -1,  /* (26) jump_statement ::= BREAK */
+   -1,  /* (27) jump_statement ::= FALLTHROUGH */
+   -2,  /* (28) jump_statement ::= RETURN expression */
+   -1,  /* (29) jump_statement ::= RETURN */
+   -3,  /* (30) bool_expression ::= expression OR expression */
+   -1,  /* (31) bool_expression ::= bool_and_expression */
+   -3,  /* (32) bool_and_expression ::= expression AND expression */
+   -1,  /* (33) bool_and_expression ::= bool_unary_expression */
+   -2,  /* (34) bool_unary_expression ::= NOT expression */
+   -1,  /* (35) bool_unary_expression ::= bool_relop_expression */
+   -3,  /* (36) bool_relop_expression ::= expression relop expression */
+   -1,  /* (37) relop ::= LE|LT|GT|GE|EQ|NE */
 };
 
 static void yy_accept(yyParser*);  /* Forward Declaration */
@@ -1026,65 +1081,76 @@ static YYACTIONTYPE yy_reduce(
   */
 /********** Begin reduce actions **********************************************/
         YYMINORTYPE yylhsminor;
-      case 0: /* bool_expression ::= expression AND|OR|EQ|NE|GT|GE|LT|LE expression */
-{ printf("X = A AND|OR|EQ|NE|GT|GE|LT|LE B;"); }
-        break;
-      case 1: /* expression ::= expr */
+      case 0: /* expression ::= expr */
 { PARSER_STATE->result_value.value_is_a_number = yymsp[0].minor.yy0; }
         break;
-      case 2: /* expr ::= expr ADD expr */
+      case 1: /* expr ::= expr ADD expr */
 { yylhsminor.yy0 = yymsp[-2].minor.yy0 + yymsp[0].minor.yy0; }
   yymsp[-2].minor.yy0 = yylhsminor.yy0;
         break;
-      case 3: /* expr ::= expr SUB expr */
+      case 2: /* expr ::= expr SUB expr */
 { yylhsminor.yy0 = yymsp[-2].minor.yy0 - yymsp[0].minor.yy0; }
   yymsp[-2].minor.yy0 = yylhsminor.yy0;
         break;
-      case 4: /* expr ::= expr MUL expr */
+      case 3: /* expr ::= expr MUL expr */
 { yylhsminor.yy0 = yymsp[-2].minor.yy0 * yymsp[0].minor.yy0; }
   yymsp[-2].minor.yy0 = yylhsminor.yy0;
         break;
-      case 5: /* expr ::= expr DIV expr */
+      case 4: /* expr ::= expr DIV expr */
 { if(yymsp[0].minor.yy0 != 0){ yylhsminor.yy0 = yymsp[-2].minor.yy0 / yymsp[0].minor.yy0;
                                         }else{ puts("/!\\ warning divide by zero" ); yylhsminor.yy0 = 0; PARSER_STATE->error = true;} 
                                     }
   yymsp[-2].minor.yy0 = yylhsminor.yy0;
         break;
-      case 6: /* expr ::= expr MOD expr */
+      case 5: /* expr ::= expr MOD expr */
 { yylhsminor.yy0 = fmod(yymsp[-2].minor.yy0, yymsp[0].minor.yy0 ); }
   yymsp[-2].minor.yy0 = yylhsminor.yy0;
         break;
-      case 7: /* expr ::= expr EXP expr */
+      case 6: /* expr ::= expr EXP expr */
 { yylhsminor.yy0 = pow(yymsp[-2].minor.yy0, yymsp[0].minor.yy0); }
   yymsp[-2].minor.yy0 = yylhsminor.yy0;
         break;
-      case 8: /* expr ::= LPAREN expr RPAREN */
+      case 7: /* expr ::= LPAREN expr RPAREN */
 { yymsp[-2].minor.yy0 = yymsp[-1].minor.yy0; }
         break;
-      case 9: /* expr ::= ADD expr */
+      case 8: /* expr ::= ADD expr */
 { yymsp[-1].minor.yy0 = yymsp[0].minor.yy0; }
         break;
-      case 10: /* expr ::= SUB expr */
+      case 9: /* expr ::= SUB expr */
 { yymsp[-1].minor.yy0 = yymsp[0].minor.yy0 * -1; }
         break;
-      case 11: /* expr ::= INT_LITERAL */
+      case 10: /* expr ::= INT_LITERAL */
 { yylhsminor.yy0 = yymsp[0].minor.yy0; }
   yymsp[0].minor.yy0 = yylhsminor.yy0;
         break;
       default:
-      /* (12) program ::= input */ yytestcase(yyruleno==12);
-      /* (13) input ::= */ yytestcase(yyruleno==13);
-      /* (14) input ::= input lines */ yytestcase(yyruleno==14);
-      /* (15) lines ::= statements END_OF_LINE|END_OF_FILE */ yytestcase(yyruleno==15);
-      /* (16) statements ::= statement (OPTIMIZED OUT) */ assert(yyruleno!=16);
-      /* (17) statement ::= varDeclaration (OPTIMIZED OUT) */ assert(yyruleno!=17);
-      /* (18) statement ::= if_statement (OPTIMIZED OUT) */ assert(yyruleno!=18);
+      /* (11) program ::= input */ yytestcase(yyruleno==11);
+      /* (12) input ::= */ yytestcase(yyruleno==12);
+      /* (13) input ::= input lines */ yytestcase(yyruleno==13);
+      /* (14) lines ::= statements END_OF_LINE|END_OF_FILE */ yytestcase(yyruleno==14);
+      /* (15) statements ::= statement (OPTIMIZED OUT) */ assert(yyruleno!=15);
+      /* (16) statement ::= varDeclaration (OPTIMIZED OUT) */ assert(yyruleno!=16);
+      /* (17) statement ::= if_statement (OPTIMIZED OUT) */ assert(yyruleno!=17);
+      /* (18) statement ::= jump_statement (OPTIMIZED OUT) */ assert(yyruleno!=18);
       /* (19) statement ::= expression (OPTIMIZED OUT) */ assert(yyruleno!=19);
       /* (20) varDeclaration ::= IDENTIFIER ASSIGN VARTYPE ASSIGN expression */ yytestcase(yyruleno==20);
       /* (21) varDeclaration ::= IDENTIFIER ASSIGN VARTYPE */ yytestcase(yyruleno==21);
       /* (22) varDeclaration ::= IDENTIFIER ASSIGN expression */ yytestcase(yyruleno==22);
       /* (23) if_statement ::= IF bool_expression LBRACKET statement RBRACKET */ yytestcase(yyruleno==23);
       /* (24) if_statement ::= IF bool_expression LBRACKET statement RBRACKET LBRACKET statement RBRACKET */ yytestcase(yyruleno==24);
+      /* (25) jump_statement ::= BREAK expression */ yytestcase(yyruleno==25);
+      /* (26) jump_statement ::= BREAK */ yytestcase(yyruleno==26);
+      /* (27) jump_statement ::= FALLTHROUGH */ yytestcase(yyruleno==27);
+      /* (28) jump_statement ::= RETURN expression */ yytestcase(yyruleno==28);
+      /* (29) jump_statement ::= RETURN */ yytestcase(yyruleno==29);
+      /* (30) bool_expression ::= expression OR expression */ yytestcase(yyruleno==30);
+      /* (31) bool_expression ::= bool_and_expression (OPTIMIZED OUT) */ assert(yyruleno!=31);
+      /* (32) bool_and_expression ::= expression AND expression */ yytestcase(yyruleno==32);
+      /* (33) bool_and_expression ::= bool_unary_expression (OPTIMIZED OUT) */ assert(yyruleno!=33);
+      /* (34) bool_unary_expression ::= NOT expression */ yytestcase(yyruleno==34);
+      /* (35) bool_unary_expression ::= bool_relop_expression (OPTIMIZED OUT) */ assert(yyruleno!=35);
+      /* (36) bool_relop_expression ::= expression relop expression */ yytestcase(yyruleno==36);
+      /* (37) relop ::= LE|LT|GT|GE|EQ|NE */ yytestcase(yyruleno==37);
         break;
 /********** End reduce actions ************************************************/
   };
