@@ -127,7 +127,7 @@ comment:
     */
 
 parser_now:
-      if (scanner_DebugMode == true) { 
+      if (scanner_DebugMode == true) {
         printf("Line:%d / Col:%d ", SCANNER_STATE.line_number, SCANNER_STATE.column_position);
         printf("parser(%s, %.lf) \n", SCANNER_STATE.Token.type_name, SCANNER_STATE.Token.value_is_a_number); // Formating number of digits after dot %.15lf
       }
