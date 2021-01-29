@@ -178,6 +178,9 @@ varDeclaration        ::= IDENTIFIER ASSIGN expression.                 // x=0  
 //elif_statement      ::= if_statement     ELSEIF bool_expression LBRACKET statement RBRACKET.                             // if expression {true part} expression { elseif part } { else part }
 //elif_statement      ::= elif_statement   ELSE                   LBRACKET statement RBRACKET.
 
+// https://www.cs.cornell.edu/andru/javaspec/2.doc.html#40415
+//for_statement       ::= 
+
 //switch_statement      ::= SWITCH expression compound_stmt.
 //compound_stmt         ::= expression LBRACKET compound_stmt RBRACKET.
 //compound_stmt         ::= DEFAULT LBRACKET compound_stmt RBRACKET.
