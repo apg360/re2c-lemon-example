@@ -129,7 +129,7 @@ non-terminals = names of other grammar rules (different kinds of nodes in the pa
     <> (inequality)                             - use != instead 		will be : not=
     add (concatenation (strings))               - use + instead
     eq (equality (strings))                     - use == instead
-    ne (not equal (strings))                    - use != instead 		will be : not=
+    ne (not equal (strings))                    - use != instead 		will be : not= or not==
     lt (less than (strings))                    - use < instead
     le (less than or equal to (strings))        - use <= instead
     gt (greater than (strings))                 - use > instead
