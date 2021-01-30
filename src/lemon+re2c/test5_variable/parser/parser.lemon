@@ -182,6 +182,14 @@ varDeclaration        ::= IDENTIFIER ASSIGN expression.                 // x=0  
 //elif_statement      ::= if_statement     ELSEIF bool_expression LBRACKET statement RBRACKET.                             // if expression {true part} expression { elseif part } { else part }
 //elif_statement      ::= elif_statement   ELSE                   LBRACKET statement RBRACKET.
 
+//if (expression) one-line_statement;
+//if (expression) {statements}
+//if (expression) one-line_statement; else one-line_statement;
+//if (expression) one-line_statement; else {statements}
+//if (expression) {statements} else one-line_statement;
+//if (expression) {statements} else {statements}
+
+
 // https://www.cs.cornell.edu/andru/javaspec/2.doc.html#40415
 //for_statement       ::= 
 
