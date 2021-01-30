@@ -1,32 +1,28 @@
 // https://sqlite.org/src/doc/trunk/doc/lemon.html
 // https://sqlite.org/src/doc/trunk/doc/lemon.html#token_type
 // http://souptonuts.sourceforge.net/readme_lemon_tutorial.html
+// http://matt.might.net/articles/grammars-bnf-ebnf
+// https://www.tutorialspoint.com/compiler_design/compiler_design_syntax_analysis.htm
+// https://www.wikiwand.com/en/Shift-reduce_parser
+// https://www.wikiwand.com/en/Parsing#/Computational_methods#section_Lookahead
+
 
 ////////////////////////////////////////////////////////////////////////
 /*
-
-   C grammar in EBNF
-   https://www.lysator.liu.se/c/ANSI-C-grammar-y.html
-   http://www.quut.com/c/ANSI-C-grammar-y.html
-   https://www2.cs.arizona.edu/~debray/Teaching/CSc453/DOCS/cminusminusspec.html
-   https://cs.wmich.edu/~gupta/teaching/cs4850/sumII06/The%20syntax%20of%20C%20in%20Backus-Naur%20form.htm
-   
-
    https://github.com/drifter1/compiler
-   http://matt.might.net/articles/grammars-bnf-ebnf
-   https://www.tutorialspoint.com/compiler_design/compiler_design_syntax_analysis.htm
-   https://www.wikiwand.com/en/Shift-reduce_parser
-   https://www.wikiwand.com/en/Parsing#/Computational_methods#section_Lookahead
+  
    https://steemit.com/utopian-io/@drifter1/writing-a-simple-compiler-on-my-own-abstract-syntax-tree-management-c-flex-bison
    https://steemit.com/utopian-io/@drifter1/writing-a-simple-compiler-on-my-own-abstract-syntax-tree-structure-c-flex-bison
    https://steemit.com/utopian-io/@drifter1/writing-a-simple-compiler-on-my-own-abstract-syntax-tree-principle-c-flex-bison
    https://efxa.org/2014/05/25/how-to-create-an-abstract-syntax-tree-while-parsing-an-input-stream/
    http://www.cse.iitb.ac.in/grc/intdocs/gcc-implementation-details.html#The-AST/Generic-Data-Structures
-   
-   https://steemit.com/programming/@drifter1/writing-a-simple-compiler-on-my-own-creating-a-grammar-for-our-language
+  
    http://teampli.net/XPL/ldindex.html
    https://www.cs.cornell.edu/andru/javaspec/2.doc.html#40415
+   https://steemit.com/programming/@drifter1/writing-a-simple-compiler-on-my-own-creating-a-grammar-for-our-language
    http://eli-project.sourceforge.net/pascal_html/pascal-.html#s1
+   https://www.lysator.liu.se/c/ANSI-C-grammar-y.html
+   http://www.quut.com/c/ANSI-C-grammar-y.html
    http://www.open-std.org/jtc1/sc22/wg14/www/docs/n1570.pdf#page=476
    https://github.com/antlr/grammars-v4/blob/master/c/C.g4
    https://www.cs.rochester.edu/u/scott/courses/173/notes/05_grammars
@@ -110,13 +106,13 @@
 %token_type      { double }
 
 /*
-    § HOW IS THE LEMON GRAMMAR §
+	§ HOW IS THE LEMON GRAMMAR §
 
 no compund statement ! one grammar rule is one condition, no multi option like in regular expression
 Example : jump_statement        ::= BREAK expression|BREAK.
 Will become
-          jump_statement        ::= BREAK expression.
-          jump_statement        ::= BREAK.
+		  jump_statement        ::= BREAK expression.
+	      jump_statement        ::= BREAK.
 
 1.Tokens are consumed one-by-one and added to a stack
 2.A reduction is performed : when a grammar rule is not ambiguous and can be applied to a sequence of one/or more terminals/non-terminals at the top of the stack
@@ -130,17 +126,17 @@ non-terminals = names of other grammar rules (different kinds of nodes in the pa
 
 
 /*
-    <> (inequality)                             - use != instead        will be : not=
+    <> (inequality)                             - use != instead 		will be : not=
     add (concatenation (strings))               - use + instead
     eq (equality (strings))                     - use == instead
-    ne (not equal (strings))                    - use != instead        will be : not=
+    ne (not equal (strings))                    - use != instead 		will be : not= or not==
     lt (less than (strings))                    - use < instead
     le (less than or equal to (strings))        - use <= instead
     gt (greater than (strings))                 - use > instead
     ge (greater than or equal to (strings))     - use >= instead
-    and (logical and)                           - use && instead        will be : and
-    or (logical or)                             - use || instead        will be : or
-    not (logical not)                           - use ! instead         will be : not
+    and (logical and)                           - use && instead  		will be : and
+    or (logical or)                             - use || instead  		will be : or
+    not (logical not)                           - use ! instead   		will be : not
 */
 
 // Math order of priority => BIDMAS : Bracket/Parenthesis Indices/Power/Order Divide Multiply Addition Substraction
@@ -176,7 +172,6 @@ varDeclaration        ::= IDENTIFIER ASSIGN expression.                 // x=0  
 //assignment          ::= IDENTIFIER ASSIGN expression.                 
 
 // https://steemit.com/utopian-io/@drifter1/writing-a-simple-compiler-on-my-own-action-rules-for-if-else-statements-c-flex-bison
-// http://teampli.net/XPL/ldindex.html
   if_statement        ::=                  IF     bool_expression LBRACKET statement RBRACKET.                             // if expression {true part}
   if_statement        ::=                  IF     bool_expression LBRACKET statement RBRACKET LBRACKET statement RBRACKET. // if expression {true part} { else part }
 //else_statement      ::= if_statement     ELSE                   LBRACKET statement RBRACKET. 
@@ -184,7 +179,6 @@ varDeclaration        ::= IDENTIFIER ASSIGN expression.                 // x=0  
 //elif_statement      ::= elif_statement   ELSE                   LBRACKET statement RBRACKET.
 
 // https://www.cs.cornell.edu/andru/javaspec/2.doc.html#40415
-// https://docs.oracle.com/javase/specs/jls/se8/html/jls-2.html#jls-2.2
 //for_statement       ::= 
 
 //switch_statement      ::= SWITCH expression compound_stmt.

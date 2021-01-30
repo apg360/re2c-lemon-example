@@ -8,8 +8,8 @@
 
 
 1.Lexical Analysis (split the input up into tokens or lexical units)
-2.Syntax Analysis or Parsing (syntax tree of the tokens)
-3.Semantic Analysis (check correctness of syntax tree)
+2.Syntax Analysis or Parsing (Parse Tree : syntax tree of the tokens)
+3.Semantic Analysis (check correctness of Parse tree/Syntax tree)
 4.Intermediate Code Generation (abstract syntax tree with important nodes only)
 5.Optimization (Optimize the AST by doing some operations)
 6.Machine code generation (Generate Assembly code for some CPU) : use [C--](https://en.wikipedia.org/wiki/C--) instead or transpile to C
@@ -18,7 +18,7 @@
 
 For Golang, Javascript, Typescript, C#
  -   1. input   => lexer       => tokens
- -   2. tokens  => parser      => Parse Tree and Symbol Table
+ -   2. tokens  => parser      => Parse/Syntax Tree and Symbol Table
  -   3. PT & ST => semantics   => AST (abstract syntax tree)
  
 For C
@@ -65,7 +65,9 @@ Characters/letters become words/tokens :
 
 
 ## STEP2 Syntax Analyzer
-#### Parse tree (syntactic structure) and Symbol Table
+#### Parse/Syntax tree (syntactic structure) and Symbol Table
+
+[Difference between parse tree and AST](https://stackoverflow.com/questions/5026517/whats-the-difference-between-parse-tree-and-ast)
 
 Tokens are organized into a hierarchical structure, a parse tree :
 ![parsetree](parsetree.png)
@@ -78,6 +80,8 @@ Later then parse tree is refined to become an Abstract Syntax Tree
 
 ## STEP3 Semantic Analyzer
 #### Parse Tree and Symbol Table >>to Abstract Syntax Tree
+
+[Difference between parse tree and AST](https://stackoverflow.com/questions/5026517/whats-the-difference-between-parse-tree-and-ast)
 
 AST is built from the parse tree and represents the behavior of the source code.
 
