@@ -1,16 +1,22 @@
 // https://sqlite.org/src/doc/trunk/doc/lemon.html
 // https://sqlite.org/src/doc/trunk/doc/lemon.html#token_type
 // http://souptonuts.sourceforge.net/readme_lemon_tutorial.html
-// http://matt.might.net/articles/grammars-bnf-ebnf
-// https://www.tutorialspoint.com/compiler_design/compiler_design_syntax_analysis.htm
-// https://www.wikiwand.com/en/Shift-reduce_parser
-// https://www.wikiwand.com/en/Parsing#/Computational_methods#section_Lookahead
-
 
 ////////////////////////////////////////////////////////////////////////
 /*
+   
+   C grammar in EBNF
+   https://www.lysator.liu.se/c/ANSI-C-grammar-y.html
+   http://www.quut.com/c/ANSI-C-grammar-y.html
+   https://www2.cs.arizona.edu/~debray/Teaching/CSc453/DOCS/cminusminusspec.html
+   https://cs.wmich.edu/~gupta/teaching/cs4850/sumII06/The%20syntax%20of%20C%20in%20Backus-Naur%20form.htm
+   
    https://github.com/drifter1/compiler
-  
+   http://matt.might.net/articles/grammars-bnf-ebnf
+   https://www.tutorialspoint.com/compiler_design/compiler_design_syntax_analysis.htm
+   https://www.wikiwand.com/en/Shift-reduce_parser
+   https://www.wikiwand.com/en/Parsing#/Computational_methods#section_Lookahead
+   
    https://steemit.com/utopian-io/@drifter1/writing-a-simple-compiler-on-my-own-abstract-syntax-tree-management-c-flex-bison
    https://steemit.com/utopian-io/@drifter1/writing-a-simple-compiler-on-my-own-abstract-syntax-tree-structure-c-flex-bison
    https://steemit.com/utopian-io/@drifter1/writing-a-simple-compiler-on-my-own-abstract-syntax-tree-principle-c-flex-bison
@@ -21,8 +27,6 @@
    https://www.cs.cornell.edu/andru/javaspec/2.doc.html#40415
    https://steemit.com/programming/@drifter1/writing-a-simple-compiler-on-my-own-creating-a-grammar-for-our-language
    http://eli-project.sourceforge.net/pascal_html/pascal-.html#s1
-   https://www.lysator.liu.se/c/ANSI-C-grammar-y.html
-   http://www.quut.com/c/ANSI-C-grammar-y.html
    http://www.open-std.org/jtc1/sc22/wg14/www/docs/n1570.pdf#page=476
    https://github.com/antlr/grammars-v4/blob/master/c/C.g4
    https://www.cs.rochester.edu/u/scott/courses/173/notes/05_grammars
