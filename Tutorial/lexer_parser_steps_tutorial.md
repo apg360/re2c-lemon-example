@@ -102,6 +102,7 @@ Symbol Table is used by various phases of compiler as follows :
 - Code Optimization: Uses information present in symbol table for machine dependent optimization.
 - Target Code generation: Generates code by using address information of identifier present in the table.
 
+[Symbol Table](http://hjemmesider.diku.dk/~torbenm/Basics/basics_lulu2.pdf#page=126)
 
 Records context about the program : variable, function names
 Symbol table often implemented as a hash table.
