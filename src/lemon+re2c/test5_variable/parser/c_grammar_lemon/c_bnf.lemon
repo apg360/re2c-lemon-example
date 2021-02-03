@@ -1,5 +1,6 @@
 // C grammar in Lemon
 // https://www.lysator.liu.se/c/ANSI-C-grammar-y.html
+// https://www.lysator.liu.se/c/ANSI-C-grammar-l.html
 // https://github.com/antlr/grammars-v4/blob/master/c/C.g4
 //
 ////////////////////////////////////////////////////////////////////////
@@ -27,548 +28,412 @@
     void Parse(
         void * pParser,                        // The parser
         const int pTokentype,                  // The major token code number
-        const double pTokenvalue,              // Value associated with a token %token_type { double }
-        struct _parser_state * pPARSER_STATE   // %extra_argument parameter
+        const double pTokenvalue              // Value associated with a token %token_type { double }
     );
 
 }//END %include
 
 %token_prefix TK_ // All token codes are integers with #defines that begin with "TK_"
-%start_symbol primaryExpression
+%start_symbol translation_unit
 
-// +    = PLUS
-// -    = MINUS
-// *    = MUL
-// /    = DIV
-// -> 	= ARROW
-// ++ 	= PLUSPLUS
-// -- 	= MINUSMINUS
-// [  	= LSQUAREBRACKET
-// ]  	= RSQUAREBRACKET
-// :  	= COLON
-// == 	= EQEQ
-// != 	= NOTEQ
-// &  	= AMPERSAND
-// && 	= AMPAMPERSAND
-// |  	= PIPE
-// || 	= PIPEPIPE
-// ^  	= CIRCUMFLEX
-// =  	= EQ
-// *= 	= MULEQ
-// /=   = DIVEQ
-// %=   = MODEQ
-// +=   = PLUSEQ
-// -=   = MINUSEQ
-// <<=  = LSHIFTEQ
-// >>=  = RSHIFTEQ
-// <<   = LSHIFT
-// >>   = RSHIFT
-// &=   = ANDEQ
-// ^=   = EXPEQ
-// |=   = OREQ
-// <    = LT
-// >    = GT
-// <=   = LE
-// >=   = GE
-// ~    = TILDE
-// !    = EXCLAMATION
-// ,    = COMMA
-// .    = DOT
-// sizeof = SIZEOF
-// ???  = DIGITSEQUENCE
+%left IDENTIFIER CONSTANT STRING_LITERAL SIZEOF
+%left PTR_OP INC_OP DEC_OP LEFT_OP RIGHT_OP LE_OP GE_OP EQ_OP NE_OP
+%left AND_OP OR_OP MUL_ASSIGN DIV_ASSIGN MOD_ASSIGN ADD_ASSIGN
+%left SUB_ASSIGN LEFT_ASSIGN RIGHT_ASSIGN AND_ASSIGN
+%left XOR_ASSIGN OR_ASSIGN TYPE_NAME
+%left TYPEDEF EXTERN STATIC AUTO REGISTER
+%left CHAR SHORT INT LONG SIGNED UNSIGNED FLOAT DOUBLE CONST VOLATILE VOID
+%left STRUCT UNION ENUM ELLIPSIS
+%left CASE DEFAULT IF ELSE SWITCH WHILE DO FOR GOTO CONTINUE BREAK RETURN
 
-primaryExpression
-    ::=   IDENTIFIER
-    |CONSTANT
-    |STRINGLITERAL
-    |LPAREN expression RPAREN
-    .
-    
-/*postfixExpression
-    ::=   primaryExpression
-    |postfixExpression LSQUAREBRACKET expression RSQUAREBRACKET
-    |postfixExpression LPAREN argumentExpressionList RPAREN
-    |postfixExpression DOT IDENTIFIER
-    |postfixExpression ARROW IDENTIFIER
-    |postfixExpression PLUSPLUS
-    |postfixExpression MINUSMINUS
-    .*/
-    
-argumentExpressionList
-    ::=   assignmentExpression
-    |argumentExpressionList COMMA assignmentExpression
-    .
-    /*
-unaryExpression
-    ::=   postfixExpression
-    |PLUSPLUS unaryExpression
-    |MINUSMINUS unaryExpression
-    |unaryOperator castExpression
-    |SIZEOF unaryExpression
-    |SIZEOF LPAREN typeName RPAREN
-    .
-    
-unaryOperator
-    ::=   AMPERSAND // &
-    |MUL            // *
-    |PLUS           // +
-    |MINUS          // -
-    |TILDE 			// ~
-    |EXCLAMATION	// !
-    .
-    
-castExpression
-    ::=   LPAREN typeName RPAREN castExpression
-    |LPAREN typeName RPAREN castExpression
-    |unaryExpression
-    |DIGITSEQUENCE
-    .
-    
-multiplicativeExpression
-    ::=   castExpression
-    |multiplicativeExpression MUL castExpression
-    |multiplicativeExpression DIV castExpression
-    |multiplicativeExpression MOD castExpression
-    .
-    
-additiveExpression
-    ::=   multiplicativeExpression
-    |additiveExpression PLUS multiplicativeExpression
-    |additiveExpression MINUS multiplicativeExpression
-    .
-    
-shiftExpression
-    ::=   additiveExpression
-    |shiftExpression LSHIFT additiveExpression
-    |shiftExpression RSHIFT additiveExpression
-    .
-    
-relationalExpression
-    ::=   shiftExpression
-    |relationalExpression LT shiftExpression
-    |relationalExpression GT shiftExpression
-    |relationalExpression LE shiftExpression
-    |relationalExpression GE shiftExpression
-    .
-    
-equalityExpression
-    ::=   relationalExpression
-    |equalityExpression EQEQ relationalExpression
-    |equalityExpression NOTEQ relationalExpression
-    .
-    
-andExpression
-    ::=   equalityExpression
-    |andExpression AMPERSAND equalityExpression
-    .
-    
-exclusiveOrExpression
-    ::=   andExpression
-    |exclusiveOrExpression CIRCUMFLEX andExpression
-    .
-    
-inclusiveOrExpression
-    ::=   exclusiveOrExpression
-    |inclusiveOrExpression PIPE exclusiveOrExpression
-    .
-    
-logicalAndExpression
-    ::=   inclusiveOrExpression
-    |logicalAndExpression AMPAMPERSAND inclusiveOrExpression
-    .
-    
-logicalOrExpression
-    ::=   logicalAndExpression
-    |logicalOrExpression PIPEPIPE logicalAndExpression
-    .
-    
-conditionalExpression
-    ::=   logicalOrExpression LPAREN expression COLON conditionalExpression RPAREN
-    .
-    */
-assignmentExpression
-    ::=   conditionalExpression
-    |unaryExpression assignmentOperator assignmentExpression
-    |DIGITSEQUENCE
-    .
-    
-assignmentOperator
-    ::=   EQ        // '='
-    |MULEQ		    // '*=' 
-    |DIVEQ		    // '/=' 
-    |MODEQ          // '%=' 
-    |PLUSEQ         // '+=' 
-    |MINUSEQ        // '-='
-    |LSHIFTEQ       // '<<=' 
-    |RSHIFTEQ       // '>>=' 
-    |ANDEQ		    // '&=' 
-    |EXPEQ		    // '^=' 
-    |OREQ		    // '|='
-    .
-    
-expression ::= VALUE.
+primary_expression
+	::= IDENTIFIER
+	| CONSTANT
+	| STRING_LITERAL
+	| LPAREN expression RPAREN
+	.
 
+postfix_expression
+	::= primary_expression
+	| postfix_expression '[' expression ']'
+	| postfix_expression LPAREN RPAREN
+	| postfix_expression LPAREN argument_expression_list RPAREN
+	| postfix_expression '.' IDENTIFIER
+	| postfix_expression PTR_OP IDENTIFIER
+	| postfix_expression INC_OP
+	| postfix_expression DEC_OP
+	.
 
+argument_expression_list
+	::= assignment_expression
+	| argument_expression_list ',' assignment_expression
+	.
 
-//////////////////////////////////
-/*
+unary_expression
+	::= postfix_expression
+	| INC_OP unary_expression
+	| DEC_OP unary_expression
+	| unary_operator cast_expression
+	| SIZEOF unary_expression
+	| SIZEOF LPAREN type_name RPAREN
+	.
+
+unary_operator
+	::= '&'
+	| '*'
+	| '+'
+	| '-'
+	| '~'
+	| '!'
+	.
+
+cast_expression
+	::= unary_expression
+	| LPAREN type_name RPAREN cast_expression
+	.
+
+multiplicative_expression
+	::= cast_expression
+	| multiplicative_expression '*' cast_expression
+	| multiplicative_expression '/' cast_expression
+	| multiplicative_expression '%' cast_expression
+	.
+
+additive_expression
+	::= multiplicative_expression
+	| additive_expression '+' multiplicative_expression
+	| additive_expression '-' multiplicative_expression
+	.
+
+shift_expression
+	::= additive_expression
+	| shift_expression LEFT_OP additive_expression
+	| shift_expression RIGHT_OP additive_expression
+	.
+
+relational_expression
+	::= shift_expression
+	| relational_expression '<' shift_expression
+	| relational_expression '>' shift_expression
+	| relational_expression LE_OP shift_expression
+	| relational_expression GE_OP shift_expression
+	.
+
+equality_expression
+	::= relational_expression
+	| equality_expression EQ_OP relational_expression
+	| equality_expression NE_OP relational_expression
+	.
+
+and_expression
+	::= equality_expression
+	| and_expression '&' equality_expression
+	.
+
+exclusive_or_expression
+	::= and_expression
+	| exclusive_or_expression '^' and_expression
+	.
+
+inclusive_or_expression
+	::= exclusive_or_expression
+	| inclusive_or_expression '|' exclusive_or_expression
+	.
+
+logical_and_expression
+	::= inclusive_or_expression
+	| logical_and_expression AND_OP inclusive_or_expression
+	.
+
+logical_or_expression
+	::= logical_and_expression
+	| logical_or_expression OR_OP logical_and_expression
+	.
+
+conditional_expression
+	::= logical_or_expression
+	| logical_or_expression '?' expression ':' conditional_expression
+	.
+
+assignment_expression
+	::= conditional_expression
+	| unary_expression assignment_operator assignment_expression
+	.
+
+assignment_operator
+	::= '='
+	| MUL_ASSIGN
+	| DIV_ASSIGN
+	| MOD_ASSIGN
+	| ADD_ASSIGN
+	| SUB_ASSIGN
+	| LEFT_ASSIGN
+	| RIGHT_ASSIGN
+	| AND_ASSIGN
+	| XOR_ASSIGN
+	| OR_ASSIGN
+	.
+
 expression
-    :   assignmentExpression
-    |   expression ',' assignmentExpression
-    ;
+	::= assignment_expression
+	| expression ',' assignment_expression
+	.
 
-constantExpression
-    :   conditionalExpression
-    ;
+constant_expression
+	::= conditional_expression
+	.
 
 declaration
-    :   declarationSpecifiers initDeclaratorList ';'
-	| 	declarationSpecifiers ';'
-    |   staticAssertDeclaration
-    ;
+	::= declaration_specifiers SEMCOL
+	| declaration_specifiers init_declarator_list SEMCOL
+	.
 
-declarationSpecifiers
-    :   declarationSpecifier+
-    ;
+declaration_specifiers
+	::= storage_class_specifier
+	| storage_class_specifier declaration_specifiers
+	| type_specifier
+	| type_specifier declaration_specifiers
+	| type_qualifier
+	| type_qualifier declaration_specifiers
+	.
 
-declarationSpecifiers2
-    :   declarationSpecifier+
-    ;
+init_declarator_list
+	::= init_declarator
+	| init_declarator_list ',' init_declarator
+	.
 
-declarationSpecifier
-    :   storageClassSpecifier
-    |   typeSpecifier
-    |   typeQualifier
-    |   functionSpecifier
-    |   alignmentSpecifier
-    ;
+init_declarator
+	::= declarator
+	| declarator '=' initializer
+	.
 
-initDeclaratorList
-    :   initDeclarator
-    |   initDeclaratorList ',' initDeclarator
-    ;
+storage_class_specifier
+	::= TYPEDEF
+	| EXTERN
+	| STATIC
+	| AUTO
+	| REGISTER
+	.
 
-initDeclarator
-    :   declarator
-    |   declarator '=' initializer
-    ;
+type_specifier
+	::= VOID
+	| CHAR
+	| SHORT
+	| INT
+	| LONG
+	| FLOAT
+	| DOUBLE
+	| SIGNED
+	| UNSIGNED
+	| struct_or_union_specifier
+	| enum_specifier
+	| TYPE_NAME
+	.
 
-storageClassSpecifier
-    :   'typedef'
-    |   'extern'
-    |   'static'
-    |   '_Thread_local'
-    |   'auto'
-    |   'register'
-    ;
+struct_or_union_specifier
+	::= struct_or_union IDENTIFIER '{' struct_declaration_list '}'
+	| struct_or_union '{' struct_declaration_list '}'
+	| struct_or_union IDENTIFIER
+	.
 
-typeSpecifier
-    :   ('void'
-    |   'char'
-    |   'short'
-    |   'int'
-    |   'long'
-    |   'float'
-    |   'double'
-    |   'signed'
-    |   'unsigned'
-    |   '_Bool'
-    |   '_Complex'
-    |   '__m128'
-    |   '__m128d'
-    |   '__m128i')
-    |   '__extension__' '(' ('__m128' | '__m128d' | '__m128i') ')'
-    |   atomicTypeSpecifier
-    |   structOrUnionSpecifier
-    |   enumSpecifier
-    |   typedefName
-    |   '__typeof__' '(' constantExpression ')' // GCC extension
-    |   typeSpecifier pointer
-    ;
+struct_or_union
+	::= STRUCT
+	| UNION
+	.
 
-structOrUnionSpecifier
-    :   structOrUnion Identifier? '{' structDeclarationList '}'
-    |   structOrUnion Identifier
-    ;
+struct_declaration_list
+	::= struct_declaration
+	| struct_declaration_list struct_declaration
+	.
 
-structOrUnion
-    :   'struct'
-    |   'union'
-    ;
+struct_declaration
+	::= specifier_qualifier_list struct_declarator_list SEMCOL
+	.
 
-structDeclarationList
-    :   structDeclaration
-    |   structDeclarationList structDeclaration
-    ;
+specifier_qualifier_list
+	::= type_specifier specifier_qualifier_list
+	| type_specifier
+	| type_qualifier specifier_qualifier_list
+	| type_qualifier
+	.
 
-structDeclaration
-    :   specifierQualifierList structDeclaratorList? ';'
-    |   staticAssertDeclaration
-    ;
+struct_declarator_list
+	::= struct_declarator
+	| struct_declarator_list ',' struct_declarator
+	.
 
-specifierQualifierList
-    :   typeSpecifier specifierQualifierList?
-    |   typeQualifier specifierQualifierList?
-    ;
+struct_declarator
+	::= declarator
+	| ':' constant_expression
+	| declarator ':' constant_expression
+	.
 
-structDeclaratorList
-    :   structDeclarator
-    |   structDeclaratorList ',' structDeclarator
-    ;
+enum_specifier
+	::= ENUM '{' enumerator_list '}'
+	| ENUM IDENTIFIER '{' enumerator_list '}'
+	| ENUM IDENTIFIER
+	.
 
-structDeclarator
-    :   declarator
-    |   declarator? ':' constantExpression
-    ;
-
-enumSpecifier
-    :   'enum' Identifier? '{' enumeratorList '}'
-    |   'enum' Identifier? '{' enumeratorList ',' '}'
-    |   'enum' Identifier
-    ;
-
-enumeratorList
-    :   enumerator
-    |   enumeratorList ',' enumerator
-    ;
+enumerator_list
+	::= enumerator
+	| enumerator_list ',' enumerator
+	.
 
 enumerator
-    :   enumerationConstant
-    |   enumerationConstant '=' constantExpression
-    ;
+	::= IDENTIFIER
+	| IDENTIFIER '=' constant_expression
+	.
 
-enumerationConstant
-    :   Identifier
-    ;
-
-atomicTypeSpecifier
-    :   '_Atomic' '(' typeName ')'
-    ;
-
-typeQualifier
-    :   'const'
-    |   'restrict'
-    |   'volatile'
-    |   '_Atomic'
-    ;
-
-functionSpecifier
-    :   ('inline'
-    |   '_Noreturn'
-    |   '__inline__' // GCC extension
-    |   '__stdcall')
-    |   gccAttributeSpecifier
-    |   '__declspec' '(' Identifier ')'
-    ;
-
-alignmentSpecifier
-    :   '_Alignas' '(' typeName ')'
-    |   '_Alignas' '(' constantExpression ')'
-    ;
+type_qualifier
+	::= CONST
+	| VOLATILE
+	.
 
 declarator
-    :   pointer? directDeclarator gccDeclaratorExtension*
-    ;
+	::= pointer direct_declarator
+	| direct_declarator
+	.
 
-directDeclarator
-    :   Identifier
-    |   '(' declarator ')'
-    |   directDeclarator '[' typeQualifierList? assignmentExpression? ']'
-    |   directDeclarator '[' 'static' typeQualifierList? assignmentExpression ']'
-    |   directDeclarator '[' typeQualifierList 'static' assignmentExpression ']'
-    |   directDeclarator '[' typeQualifierList? '*' ']'
-    |   directDeclarator '(' parameterTypeList ')'
-    |   directDeclarator '(' identifierList? ')'
-    |   Identifier ':' DigitSequence  // bit field
-    |   '(' typeSpecifier? pointer directDeclarator ')' // function pointer like: (__cdecl *f)
-    ;
-
-nestedParenthesesBlock
-    :   (   ~('(' | ')')
-        |   '(' nestedParenthesesBlock ')'
-        )*
-    ;
+direct_declarator
+	::= IDENTIFIER
+	| LPAREN declarator RPAREN
+	| direct_declarator '[' constant_expression ']'
+	| direct_declarator '[' ']'
+	| direct_declarator LPAREN parameter_type_list RPAREN
+	| direct_declarator LPAREN identifier_list RPAREN
+	| direct_declarator LPAREN RPAREN
+	.
 
 pointer
-    :   '*' typeQualifierList?
-    |   '*' typeQualifierList? pointer
-    |   '^' typeQualifierList? // Blocks language extension
-    |   '^' typeQualifierList? pointer // Blocks language extension
-    ;
+	::= '*'
+	| '*' type_qualifier_list
+	| '*' pointer
+	| '*' type_qualifier_list pointer
+	.
 
-typeQualifierList
-    :   typeQualifier
-    |   typeQualifierList typeQualifier
-    ;
+type_qualifier_list
+	::= type_qualifier
+	| type_qualifier_list type_qualifier
+	.
 
-parameterTypeList
-    :   parameterList
-    |   parameterList ',' '...'
-    ;
 
-parameterList
-    :   parameterDeclaration
-    |   parameterList ',' parameterDeclaration
-    ;
+parameter_type_list
+	::= parameter_list
+	| parameter_list ',' ELLIPSIS
+	.
 
-parameterDeclaration
-    :   declarationSpecifiers declarator
-    |   declarationSpecifiers2 abstractDeclarator?
-    ;
+parameter_list
+	::= parameter_declaration
+	| parameter_list ',' parameter_declaration
+	.
 
-identifierList
-    :   Identifier
-    |   identifierList ',' Identifier
-    ;
+parameter_declaration
+	::= declaration_specifiers declarator
+	| declaration_specifiers abstract_declarator
+	| declaration_specifiers
+	.
 
-typeName
-    :   specifierQualifierList abstractDeclarator?
-    ;
+identifier_list
+	::= IDENTIFIER
+	| identifier_list ',' IDENTIFIER
+	.
 
-abstractDeclarator
-    :   pointer
-    |   pointer? directAbstractDeclarator gccDeclaratorExtension*
-    ;
+type_name
+	::= specifier_qualifier_list
+	| specifier_qualifier_list abstract_declarator
+	.
 
-directAbstractDeclarator
-    :   '(' abstractDeclarator ')' gccDeclaratorExtension*
-    |   '[' typeQualifierList? assignmentExpression? ']'
-    |   '[' 'static' typeQualifierList? assignmentExpression ']'
-    |   '[' typeQualifierList 'static' assignmentExpression ']'
-    |   '[' '*' ']'
-    |   '(' parameterTypeList? ')' gccDeclaratorExtension*
-    |   directAbstractDeclarator '[' typeQualifierList? assignmentExpression? ']'
-    |   directAbstractDeclarator '[' 'static' typeQualifierList? assignmentExpression ']'
-    |   directAbstractDeclarator '[' typeQualifierList 'static' assignmentExpression ']'
-    |   directAbstractDeclarator '[' '*' ']'
-    |   directAbstractDeclarator '(' parameterTypeList? ')' gccDeclaratorExtension*
-    ;
+abstract_declarator
+	::= pointer
+	| direct_abstract_declarator
+	| pointer direct_abstract_declarator
+	.
 
-typedefName
-    :   Identifier
-    ;
+direct_abstract_declarator
+	::= LPAREN abstract_declarator RPAREN
+	| '[' ']'
+	| '[' constant_expression ']'
+	| direct_abstract_declarator '[' ']'
+	| direct_abstract_declarator '[' constant_expression ']'
+	| LPAREN RPAREN
+	| LPAREN parameter_type_list RPAREN
+	| direct_abstract_declarator LPAREN RPAREN
+	| direct_abstract_declarator LPAREN parameter_type_list RPAREN
+	.
 
 initializer
-    :   assignmentExpression
-    |   '{' initializerList '}'
-    |   '{' initializerList ',' '}'
-    ;
+	::= assignment_expression
+	| '{' initializer_list '}'
+	| '{' initializer_list ',' '}'
+	.
 
-initializerList
-    :   designation? initializer
-    |   initializerList ',' designation? initializer
-    ;
-
-designation
-    :   designatorList '='
-    ;
-
-designatorList
-    :   designator
-    |   designatorList designator
-    ;
-
-designator
-    :   '[' constantExpression ']'
-    |   '.' Identifier
-    ;
-
-staticAssertDeclaration
-    :   '_Static_assert' '(' constantExpression ',' StringLiteral+ ')' ';'
-    ;
+initializer_list
+	::= initializer
+	| initializer_list ',' initializer
+	.
 
 statement
-    :   labeledStatement
-    |   compoundStatement
-    |   expressionStatement
-    |   selectionStatement
-    |   iterationStatement
-    |   jumpStatement
-    |   ('__asm' | '__asm__') ('volatile' | '__volatile__') '(' (logicalOrExpression (',' logicalOrExpression)*)? (':' (logicalOrExpression (',' logicalOrExpression)*)?)* ')' ';'
-    ;
+	::= labeled_statement
+	| compound_statement
+	| expression_statement
+	| selection_statement
+	| iteration_statement
+	| jump_statement
+	.
 
-labeledStatement
-    :   Identifier ':' statement
-    |   'case' constantExpression ':' statement
-    |   'default' ':' statement
-    ;
+labeled_statement
+	::= IDENTIFIER ':' statement
+	| CASE constant_expression ':' statement
+	| DEFAULT ':' statement
+	.
 
-compoundStatement
-    :   '{' blockItemList? '}'
-    ;
+compound_statement
+	::= '{' '}'
+	| '{' statement_list '}'
+	| '{' declaration_list '}'
+	| '{' declaration_list statement_list '}'
+	.
 
-blockItemList
-    :   blockItem
-    |   blockItemList blockItem
-    ;
+declaration_list
+	::= declaration
+	| declaration_list declaration
+	.
 
-blockItem
-    :   statement
-    |   declaration
-    ;
+statement_list
+	::= statement
+	| statement_list statement
+	.
 
-expressionStatement
-    :   expression? ';'
-    ;
+expression_statement ::= SEMCOL.
+expression_statement ::= expression SEMCOL.
 
-selectionStatement
-    :   'if' '(' expression ')' statement ('else' statement)?
-    |   'switch' '(' expression ')' statement
-    ;
+selection_statement	::= IF LPAREN expression RPAREN statement.
+selection_statement	::= IF LPAREN expression RPAREN statement ELSE statement.
+selection_statement	::= SWITCH LPAREN expression RPAREN statement.
 
-iterationStatement
-    :   While '(' expression ')' statement
-    |   Do statement While '(' expression ')' ';'
-    |   For '(' forCondition ')' statement
-    ;
+iteration_statement ::= FOR LPAREN expression_statement expression_statement RPAREN statement.
+iteration_statement ::= FOR LPAREN expression_statement expression_statement expression RPAREN statement.
 
-//    |   'for' '(' expression? ';' expression?  ';' forUpdate? ')' statement
-//    |   For '(' declaration  expression? ';' expression? ')' statement
+jump_statement ::= GOTO IDENTIFIER SEMCOL.
+jump_statement ::= CONTINUE SEMCOL
+jump_statement ::= BREAK SEMCOL
+jump_statement ::= BREAK expression SEMCOL
+jump_statement ::= RETURN SEMCOL
+jump_statement ::= RETURN expression SEMCOL
 
-forCondition
-	:   forDeclaration ';' forExpression? ';' forExpression?
-	|   expression? ';' forExpression? ';' forExpression?
-	;
+translation_unit
+	::= external_declaration
+	| translation_unit external_declaration
+	.
 
-forDeclaration
-    :   declarationSpecifiers initDeclaratorList
-	| 	declarationSpecifiers
-    ;
+external_declaration
+	::= function_definition
+	| declaration
+	.
 
-forExpression
-    :   assignmentExpression
-    |   forExpression ',' assignmentExpression
-    ;
-
-jumpStatement
-    :   'goto' Identifier ';'
-    |   'continue' ';'
-    |   'break' ';'
-    |   'return' expression? ';'
-    |   'goto' unaryExpression ';' // GCC extension
-    ;
-
-compilationUnit
-    :   translationUnit? EOF
-    ;
-
-translationUnit
-    :   externalDeclaration
-    |   translationUnit externalDeclaration
-    ;
-
-externalDeclaration
-    :   functionDefinition
-    |   declaration
-    |   ';' // stray ;
-    ;
-
-functionDefinition
-    :   declarationSpecifiers? declarator declarationList? compoundStatement
-    ;
-
-declarationList
-    :   declaration
-    |   declarationList declaration
-    ;
-*/
+function_definition
+	::= declaration_specifiers declarator declaration_list compound_statement
+	| declaration_specifiers declarator compound_statement
+	| declarator declaration_list compound_statement
+	| declarator compound_statement
+	.

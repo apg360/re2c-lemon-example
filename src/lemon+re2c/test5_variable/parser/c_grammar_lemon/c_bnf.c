@@ -25,7 +25,7 @@
 #include <stdio.h>
 #include <assert.h>
 /************ Begin %include sections from the grammar ************************/
-#line 9 "c_bnf.lemon"
+#line 8 "c_bnf.lemon"
 
     #include <stdio.h>   // FILE, output on screen
     #include <assert.h>  // 
@@ -116,7 +116,7 @@
 #endif
 /************* Begin control #defines *****************************************/
 #define YYCODETYPE unsigned char
-#define YYNOCODE 9
+#define YYNOCODE 29
 #define YYACTIONTYPE unsigned char
 #define ParseTOKENTYPE void*
 typedef union {
@@ -137,17 +137,17 @@ typedef union {
 #define ParseCTX_FETCH
 #define ParseCTX_STORE
 #define YYNSTATE             4
-#define YYNRULE              2
+#define YYNRULE              11
 #define YYNRULE_WITH_ACTION  0
-#define YYNTOKEN             7
+#define YYNTOKEN             24
 #define YY_MAX_SHIFT         3
 #define YY_MIN_SHIFTREDUCE   5
-#define YY_MAX_SHIFTREDUCE   6
-#define YY_ERROR_ACTION      7
-#define YY_ACCEPT_ACTION     8
-#define YY_NO_ACTION         9
-#define YY_MIN_REDUCE        10
-#define YY_MAX_REDUCE        11
+#define YY_MAX_SHIFTREDUCE   15
+#define YY_ERROR_ACTION      16
+#define YY_ACCEPT_ACTION     17
+#define YY_NO_ACTION         18
+#define YY_MIN_REDUCE        19
+#define YY_MAX_REDUCE        29
 /************* End control #defines *******************************************/
 #define YY_NLOOKAHEAD ((int)(sizeof(yy_lookahead)/sizeof(yy_lookahead[0])))
 
@@ -214,28 +214,33 @@ typedef union {
 **  yy_default[]       Default action for each state.
 **
 *********** Begin parsing tables **********************************************/
-#define YY_ACTTAB_COUNT (9)
+#define YY_ACTTAB_COUNT (25)
 static const YYACTIONTYPE yy_action[] = {
- /*     0 */     8,    1,    1,    1,    1,    3,   10,    6,    2,
+ /*     0 */    17,    1,    1,    1,    1,    3,   19,    2,   18,   18,
+ /*    10 */    18,   18,   18,   18,   18,   18,   18,   18,   18,   18,
+ /*    20 */    18,   18,   18,   18,   15,
 };
 static const YYCODETYPE yy_lookahead[] = {
- /*     0 */     7,    1,    2,    3,    4,    8,    0,    6,    5,    9,
- /*    10 */     9,    9,    9,    9,    9,    9,
+ /*     0 */    24,    1,    2,    3,    4,   25,    0,    5,   29,   29,
+ /*    10 */    29,   29,   29,   29,   29,   29,   29,   29,   29,   29,
+ /*    20 */    29,   29,   29,   29,   23,   29,   29,   29,   29,   29,
+ /*    30 */    29,   29,   29,   29,   29,   29,   29,   29,   29,   29,
+ /*    40 */    29,   29,   29,   29,   29,   29,   29,   29,   29,
 };
 #define YY_SHIFT_COUNT    (3)
 #define YY_SHIFT_MIN      (0)
 #define YY_SHIFT_MAX      (6)
 static const unsigned char yy_shift_ofst[] = {
- /*     0 */     0,    1,    6,    3,
+ /*     0 */     0,    1,    6,    2,
 };
 #define YY_REDUCE_COUNT (1)
-#define YY_REDUCE_MIN   (-7)
+#define YY_REDUCE_MIN   (-24)
 #define YY_REDUCE_MAX   (0)
 static const signed char yy_reduce_ofst[] = {
- /*     0 */    -7,   -3,
+ /*     0 */   -24,  -20,
 };
 static const YYACTIONTYPE yy_default[] = {
- /*     0 */     7,    7,    7,    7,
+ /*     0 */    16,   16,   16,   16,
 };
 /********** End of lemon-generated parsing tables *****************************/
 
@@ -348,9 +353,29 @@ static const char *const yyTokenName[] = {
   /*    3 */ "STRINGLITERAL",
   /*    4 */ "LPAREN",
   /*    5 */ "RPAREN",
-  /*    6 */ "VALUE",
-  /*    7 */ "primaryExpression",
-  /*    8 */ "expression",
+  /*    6 */ "LSQUAREBRACKET",
+  /*    7 */ "RSQUAREBRACKET",
+  /*    8 */ "DOT",
+  /*    9 */ "ARROW",
+  /*   10 */ "PLUSPLUS",
+  /*   11 */ "MINUSMINUS",
+  /*   12 */ "EQ",
+  /*   13 */ "MULEQ",
+  /*   14 */ "DIVEQ",
+  /*   15 */ "MODEQ",
+  /*   16 */ "PLUSEQ",
+  /*   17 */ "MINUSEQ",
+  /*   18 */ "LSHIFTEQ",
+  /*   19 */ "RSHIFTEQ",
+  /*   20 */ "ANDEQ",
+  /*   21 */ "EXPEQ",
+  /*   22 */ "OREQ",
+  /*   23 */ "VALUE",
+  /*   24 */ "primaryExpression",
+  /*   25 */ "expression",
+  /*   26 */ "postfixExpression",
+  /*   27 */ "argumentExpressionList",
+  /*   28 */ "assignmentOperator",
 };
 #endif /* defined(YYCOVERAGE) || !defined(NDEBUG) */
 
@@ -359,7 +384,16 @@ static const char *const yyTokenName[] = {
 */
 static const char *const yyRuleName[] = {
  /*   0 */ "primaryExpression ::= IDENTIFIER|CONSTANT|STRINGLITERAL|LPAREN expression RPAREN",
- /*   1 */ "expression ::= VALUE",
+ /*   1 */ "postfixExpression ::= primaryExpression",
+ /*   2 */ "postfixExpression ::= postfixExpression LSQUAREBRACKET expression RSQUAREBRACKET",
+ /*   3 */ "postfixExpression ::= postfixExpression LPAREN argumentExpressionList RPAREN",
+ /*   4 */ "postfixExpression ::= postfixExpression DOT IDENTIFIER",
+ /*   5 */ "postfixExpression ::= postfixExpression ARROW IDENTIFIER",
+ /*   6 */ "postfixExpression ::= postfixExpression PLUSPLUS",
+ /*   7 */ "postfixExpression ::= postfixExpression MINUSMINUS",
+ /*   8 */ "argumentExpressionList ::= expression assignmentOperator expression",
+ /*   9 */ "assignmentOperator ::= EQ|MULEQ|DIVEQ|MODEQ|PLUSEQ|MINUSEQ|LSHIFTEQ|RSHIFTEQ|ANDEQ|EXPEQ|OREQ",
+ /*  10 */ "expression ::= VALUE",
 };
 #endif /* NDEBUG */
 
@@ -771,15 +805,33 @@ static void yy_shift(
 /* For rule J, yyRuleInfoLhs[J] contains the symbol on the left-hand side
 ** of that rule */
 static const YYCODETYPE yyRuleInfoLhs[] = {
-     7,  /* (0) primaryExpression ::= IDENTIFIER|CONSTANT|STRINGLITERAL|LPAREN expression RPAREN */
-     8,  /* (1) expression ::= VALUE */
+    24,  /* (0) primaryExpression ::= IDENTIFIER|CONSTANT|STRINGLITERAL|LPAREN expression RPAREN */
+    26,  /* (1) postfixExpression ::= primaryExpression */
+    26,  /* (2) postfixExpression ::= postfixExpression LSQUAREBRACKET expression RSQUAREBRACKET */
+    26,  /* (3) postfixExpression ::= postfixExpression LPAREN argumentExpressionList RPAREN */
+    26,  /* (4) postfixExpression ::= postfixExpression DOT IDENTIFIER */
+    26,  /* (5) postfixExpression ::= postfixExpression ARROW IDENTIFIER */
+    26,  /* (6) postfixExpression ::= postfixExpression PLUSPLUS */
+    26,  /* (7) postfixExpression ::= postfixExpression MINUSMINUS */
+    27,  /* (8) argumentExpressionList ::= expression assignmentOperator expression */
+    28,  /* (9) assignmentOperator ::= EQ|MULEQ|DIVEQ|MODEQ|PLUSEQ|MINUSEQ|LSHIFTEQ|RSHIFTEQ|ANDEQ|EXPEQ|OREQ */
+    25,  /* (10) expression ::= VALUE */
 };
 
 /* For rule J, yyRuleInfoNRhs[J] contains the negative of the number
 ** of symbols on the right-hand side of that rule. */
 static const signed char yyRuleInfoNRhs[] = {
    -3,  /* (0) primaryExpression ::= IDENTIFIER|CONSTANT|STRINGLITERAL|LPAREN expression RPAREN */
-   -1,  /* (1) expression ::= VALUE */
+   -1,  /* (1) postfixExpression ::= primaryExpression */
+   -4,  /* (2) postfixExpression ::= postfixExpression LSQUAREBRACKET expression RSQUAREBRACKET */
+   -4,  /* (3) postfixExpression ::= postfixExpression LPAREN argumentExpressionList RPAREN */
+   -3,  /* (4) postfixExpression ::= postfixExpression DOT IDENTIFIER */
+   -3,  /* (5) postfixExpression ::= postfixExpression ARROW IDENTIFIER */
+   -2,  /* (6) postfixExpression ::= postfixExpression PLUSPLUS */
+   -2,  /* (7) postfixExpression ::= postfixExpression MINUSMINUS */
+   -3,  /* (8) argumentExpressionList ::= expression assignmentOperator expression */
+   -1,  /* (9) assignmentOperator ::= EQ|MULEQ|DIVEQ|MODEQ|PLUSEQ|MINUSEQ|LSHIFTEQ|RSHIFTEQ|ANDEQ|EXPEQ|OREQ */
+   -1,  /* (10) expression ::= VALUE */
 };
 
 static void yy_accept(yyParser*);  /* Forward Declaration */
@@ -870,7 +922,16 @@ static YYACTIONTYPE yy_reduce(
 /********** Begin reduce actions **********************************************/
       default:
       /* (0) primaryExpression ::= IDENTIFIER|CONSTANT|STRINGLITERAL|LPAREN expression RPAREN */ yytestcase(yyruleno==0);
-      /* (1) expression ::= VALUE */ yytestcase(yyruleno==1);
+      /* (1) postfixExpression ::= primaryExpression (OPTIMIZED OUT) */ assert(yyruleno!=1);
+      /* (2) postfixExpression ::= postfixExpression LSQUAREBRACKET expression RSQUAREBRACKET (OPTIMIZED OUT) */ assert(yyruleno!=2);
+      /* (3) postfixExpression ::= postfixExpression LPAREN argumentExpressionList RPAREN (OPTIMIZED OUT) */ assert(yyruleno!=3);
+      /* (4) postfixExpression ::= postfixExpression DOT IDENTIFIER (OPTIMIZED OUT) */ assert(yyruleno!=4);
+      /* (5) postfixExpression ::= postfixExpression ARROW IDENTIFIER (OPTIMIZED OUT) */ assert(yyruleno!=5);
+      /* (6) postfixExpression ::= postfixExpression PLUSPLUS (OPTIMIZED OUT) */ assert(yyruleno!=6);
+      /* (7) postfixExpression ::= postfixExpression MINUSMINUS (OPTIMIZED OUT) */ assert(yyruleno!=7);
+      /* (8) argumentExpressionList ::= expression assignmentOperator expression (OPTIMIZED OUT) */ assert(yyruleno!=8);
+      /* (9) assignmentOperator ::= EQ|MULEQ|DIVEQ|MODEQ|PLUSEQ|MINUSEQ|LSHIFTEQ|RSHIFTEQ|ANDEQ|EXPEQ|OREQ (OPTIMIZED OUT) */ assert(yyruleno!=9);
+      /* (10) expression ::= VALUE */ yytestcase(yyruleno==10);
         break;
 /********** End reduce actions ************************************************/
   };

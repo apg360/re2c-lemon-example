@@ -1,0 +1,86 @@
+// C grammar in Lemon
+// https://www.lysator.liu.se/c/ANSI-C-grammar-y.html
+// https://www.lysator.liu.se/c/ANSI-C-grammar-l.html
+// https://github.com/antlr/grammars-v4/blob/master/c/C.g4
+//
+////////////////////////////////////////////////////////////////////////
+
+"auto"          {  return(TK_AUTO);            }
+"break"         {  return(TK_BREAK);           }
+"case"          {  return(TK_CASE);            }
+"char"          {  return(TK_CHAR);            }
+"const"         {  return(TK_CONST);           }
+"continue"      {  return(TK_CONTINUE);        }
+"default"       {  return(TK_DEFAULT);         }
+"do"            {  return(TK_DO);              }
+"double"        {  return(TK_DOUBLE);          }
+"else"          {  return(TK_ELSE);            }
+"enum"          {  return(TK_ENUM);            }
+"extern"        {  return(TK_EXTERN);          }
+"float"         {  return(TK_FLOAT);           }
+"for"           {  return(TK_FOR);             }
+"goto"          {  return(TK_GOTO);            }
+"if"            {  return(TK_IF);              }
+"int"           {  return(TK_INT);             }
+"long"          {  return(TK_LONG);            }
+"register"      {  return(TK_REGISTER);        }
+"return"        {  return(TK_RETURN);          }
+"short"         {  return(TK_SHORT);           }
+"signed"        {  return(TK_SIGNED);          }
+"sizeof"        {  return(TK_SIZEOF);          }
+"static"        {  return(TK_STATIC);          }
+"struct"        {  return(TK_STRUCT);          }
+"switch"        {  return(TK_SWITCH);          }
+"typedef"       {  return(TK_TYPEDEF);         }
+"union"         {  return(TK_UNION);           }
+"unsigned"      {  return(TK_UNSIGNED);        }
+"void"          {  return(TK_VOID);            }
+"volatile"      {  return(TK_VOLATILE);        }
+"while"         {  return(TK_WHILE);           }
+
+"..."           {  return(TK_ELLIPSIS);        }
+">>="           {  return(TK_RIGHT_ASSIGN);    }
+"<<="           {  return(TK_LEFT_ASSIGN);     }
+"+="            {  return(TK_ADD_ASSIGN);      }
+"-="            {  return(TK_SUB_ASSIGN);      }
+"*="            {  return(TK_MUL_ASSIGN);      }
+"/="            {  return(TK_DIV_ASSIGN);      }
+"%="            {  return(TK_MOD_ASSIGN);      }
+"&="            {  return(TK_AND_ASSIGN);      }
+"^="            {  return(TK_XOR_ASSIGN);      }
+"|="            {  return(TK_OR_ASSIGN);       }
+">>"            {  return(TK_RIGHT_OP);        }
+"<<"            {  return(TK_LEFT_OP);         }
+"++"            {  return(TK_INC_OP);          }
+"--"            {  return(TK_DEC_OP);          }
+"->"            {  return(TK_PTR_OP);          }
+"&&"            {  return(TK_AND_OP);          }
+"||"            {  return(TK_OR_OP);           }
+"<="            {  return(TK_LE_OP);           }
+">="            {  return(TK_GE_OP);           }
+"=="            {  return(TK_EQ_OP);           }
+("!="|"not=")   {  return(TK_NE_OP);           }
+";"             {  return(TK_SEMCOL);          }
+("{"|"<%")      {  return(TK_LBRACKET);        }
+("}"|"%>")      {  return(TK_RBRACKET);        }
+","             {  return(TK_COMMA);           }
+":"             {  return(TK_COLON);           }
+"="             {  return(TK_ASSIGN);          }
+"("             {  return(TK_LPAREN);          }
+")"             {  return(TK_RPAREN);          }
+("["|"<:")      {  return(TK_LSQUAREB);        }
+("]"|":>")      {  return(TK_RSQUAREB);        }
+"."             {  return(TK_DOT);             }
+"&"             {  return(TK_REF);             }
+("!"|"not")     {  return(TK_NOT);             }
+"~"             {  return(TK_TILDE);           }
+"-"             {  return(TK_MINUS);           }
+"+"             {  return(TK_PLUS);            }
+"*"             {  return(TK_MUL);             }
+"/"             {  return(TK_DIV);             }
+"%"             {  return(TK_MOD);             }
+"<"             {  return(TK_LT);              }
+">"             {  return(TK_GT);              }
+"^"             {  return(TK_XOR);             }
+"|"             {  return(TK_PIPE);            }
+"?"             {  return(TK_QUESTION);        }

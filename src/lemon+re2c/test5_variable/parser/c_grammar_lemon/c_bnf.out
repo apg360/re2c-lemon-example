@@ -11,7 +11,7 @@ State 1:
           primaryExpression ::= IDENTIFIER|CONSTANT|STRINGLITERAL|LPAREN * expression RPAREN
           expression ::= * VALUE
 
-                         VALUE shift-reduce 1      expression ::= VALUE
+                         VALUE shift-reduce 10     expression ::= VALUE
                     expression shift        3      
 
 State 2:
@@ -34,16 +34,47 @@ The first-set of non-terminals is shown after the name.
     3: STRINGLITERAL
     4: LPAREN
     5: RPAREN
-    6: VALUE
-    7: primaryExpression: IDENTIFIER CONSTANT STRINGLITERAL LPAREN
-    8: expression: VALUE
+    6: LSQUAREBRACKET
+    7: RSQUAREBRACKET
+    8: DOT
+    9: ARROW
+   10: PLUSPLUS
+   11: MINUSMINUS
+   12: EQ
+   13: MULEQ
+   14: DIVEQ
+   15: MODEQ
+   16: PLUSEQ
+   17: MINUSEQ
+   18: LSHIFTEQ
+   19: RSHIFTEQ
+   20: ANDEQ
+   21: EXPEQ
+   22: OREQ
+   23: VALUE
+   24: primaryExpression: IDENTIFIER CONSTANT STRINGLITERAL LPAREN
+   25: expression: VALUE
+   26: postfixExpression: IDENTIFIER CONSTANT STRINGLITERAL LPAREN
+   27: argumentExpressionList: VALUE
+   28: assignmentOperator: EQ MULEQ DIVEQ MODEQ PLUSEQ MINUSEQ LSHIFTEQ RSHIFTEQ ANDEQ EXPEQ OREQ
 ----------------------------------------------------
 Syntax-only Symbols:
 The following symbols never carry semantic content.
 
-$ IDENTIFIER CONSTANT STRINGLITERAL LPAREN RPAREN VALUE primaryExpression
-expression
+$ IDENTIFIER CONSTANT STRINGLITERAL LPAREN RPAREN LSQUAREBRACKET
+RSQUAREBRACKET DOT ARROW PLUSPLUS MINUSMINUS EQ MULEQ DIVEQ MODEQ PLUSEQ
+MINUSEQ LSHIFTEQ RSHIFTEQ ANDEQ EXPEQ OREQ VALUE primaryExpression
+expression postfixExpression argumentExpressionList assignmentOperator
 ----------------------------------------------------
 Rules:
    0: primaryExpression ::= IDENTIFIER|CONSTANT|STRINGLITERAL|LPAREN expression RPAREN.
-   1: expression ::= VALUE.
+   1: postfixExpression ::= primaryExpression.
+   2: postfixExpression ::= postfixExpression LSQUAREBRACKET expression RSQUAREBRACKET.
+   3: postfixExpression ::= postfixExpression LPAREN argumentExpressionList RPAREN.
+   4: postfixExpression ::= postfixExpression DOT IDENTIFIER.
+   5: postfixExpression ::= postfixExpression ARROW IDENTIFIER.
+   6: postfixExpression ::= postfixExpression PLUSPLUS.
+   7: postfixExpression ::= postfixExpression MINUSMINUS.
+   8: argumentExpressionList ::= expression assignmentOperator expression.
+   9: assignmentOperator ::= EQ|MULEQ|DIVEQ|MODEQ|PLUSEQ|MINUSEQ|LSHIFTEQ|RSHIFTEQ|ANDEQ|EXPEQ|OREQ.
+  10: expression ::= VALUE.
