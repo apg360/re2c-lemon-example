@@ -49,9 +49,8 @@
 program ::= input.
 input ::= .
 input ::= input lines.
-
-// This is to terminate with a new line, the grammar dictate when the expression can no longer be reduced.
 lines ::= translation_unit END_OF_LINE|END_OF_FILE.
+
 
 primary_expression ::= IDENTIFIER.
 primary_expression ::= CONSTANT.
