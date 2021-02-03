@@ -277,24 +277,21 @@ enumerator
 	| IDENTIFIER '=' constant_expression
 
 
-type_qualifier
-	::= CONST
-	| VOLATILE
+type_qualifier ::= CONST.
+type_qualifier ::= VOLATILE.
 
 
-declarator
-	::= pointer direct_declarator
-	| direct_declarator
+declarator ::= pointer direct_declarator.
+declarator ::= direct_declarator.
 
 
-direct_declarator
-	::= IDENTIFIER
-	| LPAREN declarator RPAREN
-	| direct_declarator LSQUAREB constant_expression RSQUAREB
-	| direct_declarator LSQUAREB RSQUAREB
-	| direct_declarator LPAREN parameter_type_list RPAREN
-	| direct_declarator LPAREN identifier_list RPAREN
-	| direct_declarator LPAREN RPAREN
+direct_declarator ::= IDENTIFIER.
+direct_declarator ::= LPAREN declarator RPAREN.
+direct_declarator ::= direct_declarator LSQUAREB constant_expression RSQUAREB.
+direct_declarator ::= direct_declarator LSQUAREB RSQUAREB.
+direct_declarator ::= direct_declarator LPAREN parameter_type_list RPAREN.
+direct_declarator ::= direct_declarator LPAREN identifier_list RPAREN.
+direct_declarator ::= direct_declarator LPAREN RPAREN.
 
 
 pointer ::= STAR.
