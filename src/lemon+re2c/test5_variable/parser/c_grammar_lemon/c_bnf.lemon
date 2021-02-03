@@ -34,7 +34,7 @@
 }//END %include
 
 %token_prefix TK_ // All token codes are integers with #defines that begin with "TK_"
-%start_symbol translation_unit
+%start_symbol program
 
 %left IDENTIFIER CONSTANT STRING_LITERAL SIZEOF.
 %left PTR_OP INC_OP DEC_OP LEFT_OP RIGHT_OP LE_OP GE_OP EQ_OP NE_OP.
@@ -45,7 +45,14 @@
 %left CHAR SHORT INT LONG SIGNED UNSIGNED FLOAT DOUBLE CONST VOLATILE VOID.
 %left STRUCT UNION ENUM ELLIPSIS.
 %left CASE DEFAULT IF ELSE SWITCH WHILE DO FOR GOTO CONTINUE BREAK RETURN.
- 
+
+program ::= input.
+input ::= .
+input ::= input lines.
+
+// This is to terminate with a new line, the grammar dictate when the expression can no longer be reduced.
+lines ::= translation_unit END_OF_LINE|END_OF_FILE.
+
 primary_expression ::= IDENTIFIER.
 primary_expression ::= CONSTANT.
 primary_expression ::= STRING_LITERAL.
