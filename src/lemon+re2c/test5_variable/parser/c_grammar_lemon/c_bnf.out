@@ -1,0 +1,49 @@
+State 0:
+          primaryExpression ::= * IDENTIFIER|CONSTANT|STRINGLITERAL|LPAREN expression RPAREN
+
+                    IDENTIFIER shift        1      
+                      CONSTANT shift        1      
+                 STRINGLITERAL shift        1      
+                        LPAREN shift        1      
+             primaryExpression accept
+
+State 1:
+          primaryExpression ::= IDENTIFIER|CONSTANT|STRINGLITERAL|LPAREN * expression RPAREN
+          expression ::= * VALUE
+
+                         VALUE shift-reduce 1      expression ::= VALUE
+                    expression shift        3      
+
+State 2:
+      (0) primaryExpression ::= IDENTIFIER|CONSTANT|STRINGLITERAL|LPAREN expression RPAREN *
+
+                             $ reduce       0      primaryExpression ::= IDENTIFIER|CONSTANT|STRINGLITERAL|LPAREN expression RPAREN
+
+State 3:
+          primaryExpression ::= IDENTIFIER|CONSTANT|STRINGLITERAL|LPAREN expression * RPAREN
+
+                        RPAREN shift        2      
+
+----------------------------------------------------
+Symbols:
+The first-set of non-terminals is shown after the name.
+
+    0: $:
+    1: IDENTIFIER
+    2: CONSTANT
+    3: STRINGLITERAL
+    4: LPAREN
+    5: RPAREN
+    6: VALUE
+    7: primaryExpression: IDENTIFIER CONSTANT STRINGLITERAL LPAREN
+    8: expression: VALUE
+----------------------------------------------------
+Syntax-only Symbols:
+The following symbols never carry semantic content.
+
+$ IDENTIFIER CONSTANT STRINGLITERAL LPAREN RPAREN VALUE primaryExpression
+expression
+----------------------------------------------------
+Rules:
+   0: primaryExpression ::= IDENTIFIER|CONSTANT|STRINGLITERAL|LPAREN expression RPAREN.
+   1: expression ::= VALUE.
