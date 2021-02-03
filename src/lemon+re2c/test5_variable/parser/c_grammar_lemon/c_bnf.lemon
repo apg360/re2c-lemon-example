@@ -38,7 +38,7 @@
 
 %left IDENTIFIER CONSTANT STRING_LITERAL SIZEOF
 %left PTR_OP INC_OP DEC_OP LEFT_OP RIGHT_OP LE_OP GE_OP EQ_OP NE_OP
-%left AND_OP OR_OP MUL_ASSIGN DIV_ASSIGN MOD_ASSIGN ADD_ASSIGN
+%left AND_OP OR_OP STAR_ASSIGN DIV_ASSIGN MOD_ASSIGN ADD_ASSIGN
 %left SUB_ASSIGN LEFT_ASSIGN RIGHT_ASSIGN AND_ASSIGN
 %left XOR_ASSIGN OR_ASSIGN TYPE_NAME
 %left TYPEDEF EXTERN STATIC AUTO REGISTER
@@ -51,23 +51,23 @@ primary_expression
 	| CONSTANT
 	| STRING_LITERAL
 	| LPAREN expression RPAREN
-	.
+
 
 postfix_expression
 	::= primary_expression
-	| postfix_expression '[' expression ']'
+	| postfix_expression LSQUAREB expression RSQUAREB
 	| postfix_expression LPAREN RPAREN
 	| postfix_expression LPAREN argument_expression_list RPAREN
 	| postfix_expression '.' IDENTIFIER
 	| postfix_expression PTR_OP IDENTIFIER
 	| postfix_expression INC_OP
 	| postfix_expression DEC_OP
-	.
+
 
 argument_expression_list
 	::= assignment_expression
-	| argument_expression_list ',' assignment_expression
-	.
+	| argument_expression_list COMMA assignment_expression
+
 
 unary_expression
 	::= postfix_expression
@@ -76,40 +76,33 @@ unary_expression
 	| unary_operator cast_expression
 	| SIZEOF unary_expression
 	| SIZEOF LPAREN type_name RPAREN
-	.
 
-unary_operator
-	::= '&'
-	| '*'
-	| '+'
-	| '-'
-	| '~'
-	| '!'
-	.
+
+unary_operator ::= REF|STAR|PLUS|MINUS|TILDE|NOT.
 
 cast_expression
 	::= unary_expression
 	| LPAREN type_name RPAREN cast_expression
-	.
 
-multiplicative_expression
+
+STARtiplicative_expression
 	::= cast_expression
-	| multiplicative_expression '*' cast_expression
-	| multiplicative_expression '/' cast_expression
-	| multiplicative_expression '%' cast_expression
-	.
+	| STARtiplicative_expression STAR cast_expression
+	| STARtiplicative_expression '/' cast_expression
+	| STARtiplicative_expression '%' cast_expression
+
 
 additive_expression
-	::= multiplicative_expression
-	| additive_expression '+' multiplicative_expression
-	| additive_expression '-' multiplicative_expression
-	.
+	::= STARtiplicative_expression
+	| additive_expression '+' STARtiplicative_expression
+	| additive_expression '-' STARtiplicative_expression
+
 
 shift_expression
 	::= additive_expression
 	| shift_expression LEFT_OP additive_expression
 	| shift_expression RIGHT_OP additive_expression
-	.
+
 
 relational_expression
 	::= shift_expression
@@ -117,52 +110,52 @@ relational_expression
 	| relational_expression '>' shift_expression
 	| relational_expression LE_OP shift_expression
 	| relational_expression GE_OP shift_expression
-	.
+
 
 equality_expression
 	::= relational_expression
 	| equality_expression EQ_OP relational_expression
 	| equality_expression NE_OP relational_expression
-	.
+
 
 and_expression
 	::= equality_expression
 	| and_expression '&' equality_expression
-	.
+
 
 exclusive_or_expression
 	::= and_expression
 	| exclusive_or_expression '^' and_expression
-	.
+
 
 inclusive_or_expression
 	::= exclusive_or_expression
 	| inclusive_or_expression '|' exclusive_or_expression
-	.
+
 
 logical_and_expression
 	::= inclusive_or_expression
 	| logical_and_expression AND_OP inclusive_or_expression
-	.
+
 
 logical_or_expression
 	::= logical_and_expression
 	| logical_or_expression OR_OP logical_and_expression
-	.
+
 
 conditional_expression
 	::= logical_or_expression
 	| logical_or_expression '?' expression ':' conditional_expression
-	.
+
 
 assignment_expression
 	::= conditional_expression
 	| unary_expression assignment_operator assignment_expression
-	.
+
 
 assignment_operator
 	::= '='
-	| MUL_ASSIGN
+	| STAR_ASSIGN
 	| DIV_ASSIGN
 	| MOD_ASSIGN
 	| ADD_ASSIGN
@@ -172,21 +165,21 @@ assignment_operator
 	| AND_ASSIGN
 	| XOR_ASSIGN
 	| OR_ASSIGN
-	.
+
 
 expression
 	::= assignment_expression
-	| expression ',' assignment_expression
-	.
+	| expression COMMA assignment_expression
+
 
 constant_expression
 	::= conditional_expression
-	.
+
 
 declaration
 	::= declaration_specifiers SEMCOL
 	| declaration_specifiers init_declarator_list SEMCOL
-	.
+
 
 declaration_specifiers
 	::= storage_class_specifier
@@ -195,17 +188,17 @@ declaration_specifiers
 	| type_specifier declaration_specifiers
 	| type_qualifier
 	| type_qualifier declaration_specifiers
-	.
+
 
 init_declarator_list
 	::= init_declarator
-	| init_declarator_list ',' init_declarator
-	.
+	| init_declarator_list COMMA init_declarator
+
 
 init_declarator
 	::= declarator
 	| declarator '=' initializer
-	.
+
 
 storage_class_specifier
 	::= TYPEDEF
@@ -213,7 +206,7 @@ storage_class_specifier
 	| STATIC
 	| AUTO
 	| REGISTER
-	.
+
 
 type_specifier
 	::= VOID
@@ -228,212 +221,194 @@ type_specifier
 	| struct_or_union_specifier
 	| enum_specifier
 	| TYPE_NAME
-	.
+
 
 struct_or_union_specifier
-	::= struct_or_union IDENTIFIER '{' struct_declaration_list '}'
-	| struct_or_union '{' struct_declaration_list '}'
+	::= struct_or_union IDENTIFIER LBRACKET struct_declaration_list RBRACKET
+	| struct_or_union LBRACKET struct_declaration_list RBRACKET
 	| struct_or_union IDENTIFIER
-	.
+
 
 struct_or_union
 	::= STRUCT
 	| UNION
-	.
+
 
 struct_declaration_list
 	::= struct_declaration
 	| struct_declaration_list struct_declaration
-	.
+
 
 struct_declaration
 	::= specifier_qualifier_list struct_declarator_list SEMCOL
-	.
+
 
 specifier_qualifier_list
 	::= type_specifier specifier_qualifier_list
 	| type_specifier
 	| type_qualifier specifier_qualifier_list
 	| type_qualifier
-	.
+
 
 struct_declarator_list
 	::= struct_declarator
-	| struct_declarator_list ',' struct_declarator
-	.
+	| struct_declarator_list COMMA struct_declarator
+
 
 struct_declarator
 	::= declarator
 	| ':' constant_expression
 	| declarator ':' constant_expression
-	.
+
 
 enum_specifier
-	::= ENUM '{' enumerator_list '}'
-	| ENUM IDENTIFIER '{' enumerator_list '}'
+	::= ENUM LBRACKET enumerator_list RBRACKET
+	| ENUM IDENTIFIER LBRACKET enumerator_list RBRACKET
 	| ENUM IDENTIFIER
-	.
+
 
 enumerator_list
 	::= enumerator
-	| enumerator_list ',' enumerator
-	.
+	| enumerator_list COMMA enumerator
+
 
 enumerator
 	::= IDENTIFIER
 	| IDENTIFIER '=' constant_expression
-	.
+
 
 type_qualifier
 	::= CONST
 	| VOLATILE
-	.
+
 
 declarator
 	::= pointer direct_declarator
 	| direct_declarator
-	.
+
 
 direct_declarator
 	::= IDENTIFIER
 	| LPAREN declarator RPAREN
-	| direct_declarator '[' constant_expression ']'
-	| direct_declarator '[' ']'
+	| direct_declarator LSQUAREB constant_expression RSQUAREB
+	| direct_declarator LSQUAREB RSQUAREB
 	| direct_declarator LPAREN parameter_type_list RPAREN
 	| direct_declarator LPAREN identifier_list RPAREN
 	| direct_declarator LPAREN RPAREN
-	.
-
-pointer
-	::= '*'
-	| '*' type_qualifier_list
-	| '*' pointer
-	| '*' type_qualifier_list pointer
-	.
-
-type_qualifier_list
-	::= type_qualifier
-	| type_qualifier_list type_qualifier
-	.
 
 
-parameter_type_list
-	::= parameter_list
-	| parameter_list ',' ELLIPSIS
-	.
+pointer ::= STAR.
+pointer ::= STAR type_qualifier_list.
+pointer ::= STAR pointer.
+pointer ::= STAR type_qualifier_list pointer.
 
-parameter_list
-	::= parameter_declaration
-	| parameter_list ',' parameter_declaration
-	.
 
-parameter_declaration
-	::= declaration_specifiers declarator
-	| declaration_specifiers abstract_declarator
-	| declaration_specifiers
-	.
+type_qualifier_list ::= type_qualifier.
+type_qualifier_list ::= type_qualifier_list type_qualifier.
 
-identifier_list
-	::= IDENTIFIER
-	| identifier_list ',' IDENTIFIER
-	.
 
-type_name
-	::= specifier_qualifier_list
-	| specifier_qualifier_list abstract_declarator
-	.
+parameter_type_list ::= parameter_list.
+parameter_type_list ::= parameter_list COMMA ELLIPSIS.
 
-abstract_declarator
-	::= pointer
-	| direct_abstract_declarator
-	| pointer direct_abstract_declarator
-	.
 
-direct_abstract_declarator
-	::= LPAREN abstract_declarator RPAREN
-	| '[' ']'
-	| '[' constant_expression ']'
-	| direct_abstract_declarator '[' ']'
-	| direct_abstract_declarator '[' constant_expression ']'
-	| LPAREN RPAREN
-	| LPAREN parameter_type_list RPAREN
-	| direct_abstract_declarator LPAREN RPAREN
-	| direct_abstract_declarator LPAREN parameter_type_list RPAREN
-	.
+parameter_list ::= parameter_declaration.
+parameter_list ::= parameter_list COMMA parameter_declaration.
 
-initializer
-	::= assignment_expression
-	| '{' initializer_list '}'
-	| '{' initializer_list ',' '}'
-	.
 
-initializer_list
-	::= initializer
-	| initializer_list ',' initializer
-	.
+parameter_declaration ::= declaration_specifiers declarator.
+parameter_declaration ::= declaration_specifiers abstract_declarator.
+parameter_declaration ::= declaration_specifiers.
 
-statement
-	::= labeled_statement
-	| compound_statement
-	| expression_statement
-	| selection_statement
-	| iteration_statement
-	| jump_statement
-	.
 
-labeled_statement
-	::= IDENTIFIER ':' statement
-	| CASE constant_expression ':' statement
-	| DEFAULT ':' statement
-	.
+identifier_list ::= IDENTIFIER.
+identifier_list ::= identifier_list COMMA IDENTIFIER.
 
-compound_statement
-	::= '{' '}'
-	| '{' statement_list '}'
-	| '{' declaration_list '}'
-	| '{' declaration_list statement_list '}'
-	.
 
-declaration_list
-	::= declaration
-	| declaration_list declaration
-	.
+type_name ::= specifier_qualifier_list.
+type_name ::= specifier_qualifier_list abstract_declarator.
 
-statement_list
-	::= statement
-	| statement_list statement
-	.
+
+abstract_declarator ::= pointer.
+abstract_declarator ::= direct_abstract_declarator.
+abstract_declarator ::= pointer direct_abstract_declarator.
+
+
+direct_abstract_declarator ::= LPAREN abstract_declarator RPAREN.
+direct_abstract_declarator ::= LSQUAREB RSQUAREB.
+direct_abstract_declarator ::= LSQUAREB constant_expression RSQUAREB.
+direct_abstract_declarator ::= direct_abstract_declarator LSQUAREB RSQUAREB.
+direct_abstract_declarator ::= direct_abstract_declarator LSQUAREB constant_expression RSQUAREB.
+direct_abstract_declarator ::= LPAREN RPAREN.
+direct_abstract_declarator ::= LPAREN parameter_type_list RPAREN.
+direct_abstract_declarator ::= direct_abstract_declarator LPAREN RPAREN.
+direct_abstract_declarator ::= direct_abstract_declarator LPAREN parameter_type_list RPAREN.
+
+
+initializer ::= assignment_expression.
+initializer ::= LBRACKET initializer_list RBRACKET.
+initializer ::= LBRACKET initializer_list COMMA RBRACKET.
+
+
+initializer_list ::= initializer.
+initializer_list ::= initializer_list COMMA initializer.
+
+
+statement ::= labeled_statement.
+statement ::= compound_statement.
+statement ::= expression_statement.
+statement ::= selection_statement.
+statement ::= iteration_statement.
+statement ::= jump_statement.
+
+
+labeled_statement ::= IDENTIFIER ':' statement.
+labeled_statement ::= CASE constant_expression ':' statement.
+labeled_statement ::= DEFAULT ':' statement.
+
+
+compound_statement ::= LBRACKET RBRACKET.
+compound_statement ::= LBRACKET statement_list RBRACKET.
+compound_statement ::= LBRACKET declaration_list RBRACKET.
+compound_statement ::= LBRACKET declaration_list statement_list RBRACKET.
+
+
+declaration_list ::= declaration.
+declaration_list ::= declaration_list declaration.
+
+
+statement_list ::= statement.
+statement_list ::= statement_list statement.
+
 
 expression_statement ::= SEMCOL.
 expression_statement ::= expression SEMCOL.
+
 
 selection_statement	::= IF LPAREN expression RPAREN statement.
 selection_statement	::= IF LPAREN expression RPAREN statement ELSE statement.
 selection_statement	::= SWITCH LPAREN expression RPAREN statement.
 
+
 iteration_statement ::= FOR LPAREN expression_statement expression_statement RPAREN statement.
 iteration_statement ::= FOR LPAREN expression_statement expression_statement expression RPAREN statement.
 
-jump_statement ::= GOTO IDENTIFIER SEMCOL.
-jump_statement ::= CONTINUE SEMCOL
-jump_statement ::= BREAK SEMCOL
-jump_statement ::= BREAK expression SEMCOL
-jump_statement ::= RETURN SEMCOL
-jump_statement ::= RETURN expression SEMCOL
 
-translation_unit
-	::= external_declaration
-	| translation_unit external_declaration
-	.
+jump_statement ::= CONTINUE SEMCOL.
+jump_statement ::= BREAK SEMCOL.
+jump_statement ::= BREAK expression SEMCOL.
+jump_statement ::= RETURN SEMCOL.
+jump_statement ::= RETURN expression SEMCOL.
 
-external_declaration
-	::= function_definition
-	| declaration
-	.
 
-function_definition
-	::= declaration_specifiers declarator declaration_list compound_statement
-	| declaration_specifiers declarator compound_statement
-	| declarator declaration_list compound_statement
-	| declarator compound_statement
-	.
+translation_unit ::= external_declaration.
+translation_unit ::= translation_unit external_declaration.
+
+
+external_declaration ::= function_definition.
+external_declaration ::= declaration.
+
+
+function_definition ::= declaration_specifiers declarator declaration_list compound_statement.
+function_definition ::= declaration_specifiers declarator compound_statement.
+function_definition ::= declarator declaration_list compound_statement.
+function_definition ::= declarator compound_statement.
