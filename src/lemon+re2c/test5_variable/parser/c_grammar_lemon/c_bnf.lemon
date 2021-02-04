@@ -342,6 +342,7 @@ iteration_statement ::= FOR LPAREN expression_statement expression_statement exp
 
 
 jump_statement ::= CONTINUE SEMCOL.
+jump_statement ::= FALLTHROUGH SEMCOL.
 jump_statement ::= BREAK SEMCOL.
 jump_statement ::= BREAK expression SEMCOL.
 jump_statement ::= RETURN SEMCOL.

@@ -120,3 +120,31 @@
         "*" => Tok::Star,
         "~~" => Tok::TildeTilde,
         "_" => Tok::Underscore,
+
+%union
+{
+    int   					yint;
+    char  					ystr[100];
+    struct AstNode_tag   	*stNode;
+}
+
+%token <yint> IF ELSE WHILE BREAK RETURN INT REAL CHAR TRUE FALSE
+%token <yint> PRINT PRINTLN READ REPEAT TIMES UNLESS AND OR FOR 
+
+%token <ystr> INT_CONST REAL_CONST TEXT CHAR_CONST
+%token <ystr> '*' '/' '+' '-'
+%token <ystr> INCREASE_SIGN DECREASE_SIGN NOT_SIGN
+%token <ystr> PLUS_EQUALS_SIGN MINUS_EQUALS_SIGN TIMES_EQUALS_SIGN DIVIDE_EQUALS_SIGN
+%token <ystr> IS_EQUAL IS_NOT_EQUAL IS_LESS_OR_EQUAL IS_GREATER_OR_EQUAL
+%token <ystr> '=' '(' ')' '{' '}' ',' ';'
+%token <ystr> ID
+
+%type <stNode> Program MethodsList Method Parameters Formals
+%type <stNode> Type Body Declarations DeclarationsList Declaration
+%type <stNode> Variables Statements Statement Block Assign
+%type <stNode> MethodName Location Expression RelationOperator
+%type <stNode> AddExpression AddOperator Term MultiplyOperator
+%type <stNode> Factor Actuals Arguments Message MoreMessage
+%type <stNode> Printable AssignMultiple NestedAssign Code1
+%type <stNode> SimpleStatement IncDec RelationExpression
+%type <stNode> AndExpression ChangeAssignSymbol ArrayName
