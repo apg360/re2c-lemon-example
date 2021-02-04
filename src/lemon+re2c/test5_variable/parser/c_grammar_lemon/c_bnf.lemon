@@ -46,7 +46,10 @@
 %left AND_OP OR_OP STAR_ASSIGN DIV_ASSIGN MOD_ASSIGN ADD_ASSIGN.
 %left SUB_ASSIGN LEFT_ASSIGN RIGHT_ASSIGN AND_ASSIGN.
 %left XOR_ASSIGN OR_ASSIGN TYPE_NAME.
-
+//
+// non-terminals => lower case
+//     terminals => UPPER CASE
+//
 program ::= input.
 input ::= .
 input ::= input lines.
