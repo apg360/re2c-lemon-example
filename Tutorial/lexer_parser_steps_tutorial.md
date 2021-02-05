@@ -10,8 +10,10 @@
 1.Lexical Analysis (split the input up into tokens or lexical units)
 2.Syntax Analysis or Parsing (Parse Tree : syntax tree of the tokens)
 3.Semantic Analysis (check correctness of Parse tree/Syntax tree)
+
 4.Intermediate Code Generation (abstract syntax tree with important nodes only)
 5.Optimization (Optimize the AST by doing some operations)
+
 6.Machine code generation (Generate Assembly code for some CPU) : use [C--](https://en.wikipedia.org/wiki/C--) instead or transpile to C
 
 
@@ -82,6 +84,8 @@ Later then parse tree is refined to become an Abstract Syntax Tree
 #### Parse Tree and Symbol Table >>to Abstract Syntax Tree
 
 [Difference between parse tree and AST](https://stackoverflow.com/questions/5026517/whats-the-difference-between-parse-tree-and-ast)
+
+Type checking is an important part of semantic analysis where compiler makes sure that each operator has matching operands.
 
 AST is built from the parse tree and represents the behavior of the source code.
 
