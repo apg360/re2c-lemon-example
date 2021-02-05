@@ -148,3 +148,6 @@
 %type <stNode> Printable AssignMultiple NestedAssign Code1
 %type <stNode> SimpleStatement IncDec RelationExpression
 %type <stNode> AndExpression ChangeAssignSymbol ArrayName
+
+"{"               { return symbol("{",BEGIN); }
+"}"               { return symbol("}",END); }
