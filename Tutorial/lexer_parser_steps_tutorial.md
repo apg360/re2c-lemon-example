@@ -98,6 +98,7 @@ AST is built from the parse tree and represents the behavior of the source code.
 > 
 > Abstract syntax tree traversed several times during semantic analysis.
 
+Symbol Tables: A mapping between identifiers used in the program, and their meaning (and scope).
 Symbol Table is used by various phases of compiler as follows :
 - Lexical Analysis: Creates new table entries in the table, example like entries about token.
 - Syntax Analysis: Adds information regarding attribute type, scope, dimension, line of reference, use, etc in the table.
@@ -108,7 +109,12 @@ Symbol Table is used by various phases of compiler as follows :
 
 [Symbol Table](http://hjemmesider.diku.dk/~torbenm/Basics/basics_lulu2.pdf#page=126)
 
-Records context about the program : variable, function names
+Records context about the program : variables, function names
+
+e.g., local scopes, lexical scopes, namespaces, parameter names, object slots, etc.
+Such a symbol table has to be constructed from the parse tree, the grammar gives no clue about this.
+
+
 Symbol table often implemented as a hash table.
 
 Operatation  , Function for Symbol Table.
