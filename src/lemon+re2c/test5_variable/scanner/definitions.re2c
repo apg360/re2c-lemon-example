@@ -73,15 +73,10 @@ R? : zero or one R. That means, there maybe an R or not.
     whitespace = ( " " | [\t\v\f] )+;      // whitespace and tabulation
     any = [\000-\377];
     
-    letter = [A-Za-z];                     // [A-Za-z]  = will scan one letter at a time, letter after letter
-    word   = [A-Za-z]+;                    // [A-Za-z]+ = word after word
-    number = [0-9]+;                       // do not do -number or +number, You return - and INTEGER separately to the parser, and let the parser handle unary minus.
-                                           //      [-+]?([0-9]+([.][0-9]*)?|[.][0-9]+)([Ee][-+]?[0-9]+)?;
-    double = [0-9]+.[0-9]*;                // [0-9][0-9.,]+   [0-9]+|[0-9]*\.[0-9]+  ///  ([0-9]+[.][0-9]*)|([.][0-9]+)|([0-9]+)
-    digits = [1-9][0-9]*;                  // 
-    alphanum = [A-Za-z0-9];                // alphanumeric
-    identifier = [_a-zA-Z][_a-zA-Z0-9_]*;  // An identifier can never start with a number
-    hexadecimal_digits = [A-Fa-f0-9]+;     //
+    identifier = [_a-z]([_a-z0-9_])*;      // An identifier can never start with a number
+    int = [0-9]0-9]*;                      // [-+]?([0-9]+([.][0-9]*)?|[.][0-9]+)([Ee][-+]?[0-9]+)?;
+    real = [0-9]+[.,][0-9]+;               // do not do -number or +number, You return - and INTEGER separately to the parser, and let the parser handle unary minus.
+    
     punctuation = [!"#$%&’()*+,-./:;?@[\\\]_‘{|}~];
     
     dig = [0-9];
@@ -92,6 +87,7 @@ R? : zero or one R. That means, there maybe an R or not.
     oct = "0" [0-7]*;
     dec = [1-9][0-9]*;
     hex = '0x' [0-9a-fA-F]+;
+    hexadecimal_digits = [A-Fa-f0-9]+;     //
     
     vartype = "u8"|"u16"|"u32"|"u64"|"u128"|"i8"|"i16"|"i32"|"i64"|"i128"|"f16"|"f32"|"f64";
     
