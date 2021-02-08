@@ -83,6 +83,19 @@ Later then parse tree is refined to become an Abstract Syntax Tree
 ## STEP3 Semantic Analyzer
 #### Parse Tree and Symbol Table >>to Abstract Syntax Tree
 
+[Abstract Tree](https://ssw.jku.at/Research/Projects/Coco/Doc/AST.pdf)
+An abstract syntax tree differs from a concrete syntax tree (or parse tree) in that it does not reflect the parsed productions but rather the logical structure of the compiled program.
+Its inner nodes are operators and its leaves are operands.
+An AST for the statement x = 3 * x + 1; could look as follows:
+
+      =
+     / \
+    x   +
+       / \
+      *   1
+     / \
+    3   x
+
 [Difference between parse tree and AST](https://stackoverflow.com/questions/5026517/whats-the-difference-between-parse-tree-and-ast)
 
 Type checking is an important part of semantic analysis where compiler makes sure that each operator has matching operands.
