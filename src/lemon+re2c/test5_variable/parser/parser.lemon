@@ -112,13 +112,13 @@
 %token_type      { double }
 
 /*
-	§ HOW IS THE LEMON GRAMMAR §
+    § HOW IS THE LEMON GRAMMAR §
 
 no compund statement ! one grammar rule is one condition, no multi option like in regular expression
 Example : jump_statement        ::= BREAK expression|BREAK.
 Will become
-		  jump_statement        ::= BREAK expression.
-	      jump_statement        ::= BREAK.
+          jump_statement        ::= BREAK expression.
+          jump_statement        ::= BREAK.
 
 1.Tokens are consumed one-by-one and added to a stack
 2.A reduction is performed : when a grammar rule is not ambiguous and can be applied to a sequence of one/or more terminals/non-terminals at the top of the stack
@@ -132,26 +132,29 @@ non-terminals = names of other grammar rules (different kinds of nodes in the pa
 
 
 /*
-    <> (inequality)                             - use != instead 		will be : not=
+    <> (inequality)                             - use != instead        will be : not=
     add (concatenation (strings))               - use + instead
     eq (equality (strings))                     - use == instead
-    ne (not equal (strings))                    - use != instead 		will be : not= or not==
+    ne (not equal (strings))                    - use != instead        will be : not= or not==
     lt (less than (strings))                    - use < instead
     le (less than or equal to (strings))        - use <= instead
     gt (greater than (strings))                 - use > instead
     ge (greater than or equal to (strings))     - use >= instead
-    and (logical and)                           - use && instead  		will be : and
-    or (logical or)                             - use || instead  		will be : or
-    not (logical not)                           - use ! instead   		will be : not
+    and (logical and)                           - use && instead        will be : and
+    or (logical or)                             - use || instead        will be : or
+    not (logical not)                           - use ! instead         will be : not
 */
 
 // Math order of priority => BIDMAS : Bracket/Parenthesis Indices/Power/Order Divide Multiply Addition Substraction
-%nonassoc DEFAULT BREAK RETURN FALLTHROUGH SEMCOL FOR SWITCH IF VARTYPE IDENTIFIER ASSIGN NOT AND OR EQ NE GT GE LT LE.
-%left ADD SUB.       // PLUS   MINUS
-%left DIV MUL MOD.   // DIVIDE TIMES MODULUS(remainder operator)
-%left POS NEG.       // Negation--unary minus
-%right EXP.          // 2^3^2 = 2^(3^2) = 512
-%left LBRACKET RBRACKET LPAREN RPAREN.
+%nonassoc DEFAULT BREAK RETURN FALLTHROUGH SEMCOL FOR SWITCH IF VARTYPE IDENTIFIER ASSIGN.
+%left AND.
+%left OR.
+%nonassoc EQ NE GT GE LT LE.            // == not= > >= < <=
+%left ADD SUB.                          // PLUS MINUS
+%left MUL DIV MOD.                      // DIVIDE TIMES MODULUS(remainder operator)
+%left POS NEG.                          // Negation--unary minus
+%left LBRACKET RBRACKET LPAREN RPAREN.  // { } ( )
+%right EXP NOT.                         // 2^3^2 = 2^(3^2) = 512
 
 program ::= input.
 input ::= .
