@@ -7,7 +7,13 @@
 // With Lemon it is the lexer/tokenizer that calls/initiate the parser
 // re2c calls lemon
 //----------------------------------------------------------------------
-
+// C grammar in Lemon
+// https://www.lysator.liu.se/c/ANSI-C-grammar-y.html
+// https://www.lysator.liu.se/c/ANSI-C-grammar-l.html
+// https://github.com/antlr/grammars-v4/blob/master/c/C.g4
+//
+////////////////////////////////////////////////////////////////////////
+//
 // the contents of 'definitions.re2c' are copy-pasted verbatim in place of the directive
 /*!include:re2c "definitions.re2c"*/
 

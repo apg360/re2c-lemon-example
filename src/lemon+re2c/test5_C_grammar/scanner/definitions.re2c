@@ -1,10 +1,128 @@
-// C grammar in Lemon
-// https://www.lysator.liu.se/c/ANSI-C-grammar-y.html
-// https://www.lysator.liu.se/c/ANSI-C-grammar-l.html
-// https://github.com/antlr/grammars-v4/blob/master/c/C.g4
-//
-////////////////////////////////////////////////////////////////////////
+//definitions.re2c START -----------------------
+#include <common.h>  // A library with most common needs when programming
+#include <token.h>   // 
 
+bool scanner_DebugMode = false;
+struct _scanner_state SCANNER_STATE;
+
+//Parser START----------------------------------------------------------
+    
+    // A way to access the PARSER_STATE variable of inside parser.c
+    // Make sure parser.c is added at compilation time.
+    // variable name must be same as the one in parser.lemon
+    extern const struct _parser_state PARSER_STATE;
+    //printf("Result : %f\n",PARSER_STATE.result_value.number);
+    
+    // header for functions in parser.c  Make sure parser.c is added at compilation time.
+    void PARSER_INIT(bool parser_DebugMode);
+    void PARSER(const struct _Token * pToken);
+    void PARSER_FREE();
+    
+//Parser END-----------------------------------------------------------
+
+/*
+R* : zero or more occurrences of the regular expression R.
+R+ : one or more repetition of the regular expression R.
+R? : zero or one R. That means, there maybe an R or not.
+*/
+/*!re2c
+    //regex types
+    
+    // https://www.eso.org/~ndelmott/ascii.html
+    // https://c.developpez.com/cours/bernard-cassagne/node17.php#SECTION00383000000000000000
+    // LF(Line Feed)=10 CR(Carriage Return)=13
+    // carriage return+new line or new line or 0
+    // \n  new line
+    // \r  carriage return (character 15)
+    // \x00  NUL
+    // \x0A  newline
+    // \x0D  return
+    //-----------------
+    // \t  horizontal tabulation
+    // \v  vertical tabulation
+    // \b  back space
+    // \f  form feed
+    // \a  audible alert
+    //-----------------
+    // \n for newline (linefeed, character 10)
+    // \r for carriage return (character 13 or 15 ?)
+    // \0 for null (character 0)
+    // \a for alarm bell (character 7)
+    // \b for backspace (character 8)
+    // \t for tab (character 9)
+    // \v for vertical tab (character 11), whatever that is.
+    // \" for a double quote (character 34 or 42 ?)
+    // \' for a single quote (character 39)
+    // \\ for a backslash (character 92 or 134 ?)
+    // \xCC for an 8-bit character code (where CC is two hex digits)
+    // \uCCCC for a 16-bit character code (where CCCC is four hex digits)
+    // In modern times, \a, \b and \v are almost never used. \' is only needed in a single-quoted string to represent the single quote mark itself ('\'').
+    // Any escape sequences that are not on the list (i.e. backslash followed by anything else) are illegal.
+    //-----------------
+    // line endings :
+    //    UNIX (\n)
+    //    Windows (\r\n)
+    //    Macintosh (\r)
+    // https://steemit.com/programming/@drifter1/writing-a-simple-compiler-on-my-own-a-simple-c-language?q=A+simple+C+Language
+    // https://github.com/drifter1/compiler/blob/master/Symbol%20Table%20and%20Lexer/lexer.l
+    // https://cs.nyu.edu/rgrimm/xtc/rats-intro.html
+    // https://www.lysator.liu.se/c/ANSI-C-grammar-l.html
+    // https://stackoverflow.com/questions/2644597/how-do-i-implement-if-statement-in-flex-bison
+    
+    end = ( [\r\n] |"\x00"|"\x0A"|"\x0D" )+;
+    whitespace = ( " " | [\t\v\f] )+;      // whitespace and tabulation
+    any = [\000-\377];
+    
+    identifier = [_a-z]([_a-z0-9_])*;      // An identifier can never start with a number
+    int = [0-9]0-9]*;                      // [-+]?([0-9]+([.][0-9]*)?|[.][0-9]+)([Ee][-+]?[0-9]+)?;
+    real = [0-9]+[.,][0-9]+;               // do not do -number or +number, You return - and INTEGER separately to the parser, and let the parser handle unary minus.
+    
+    punctuation = [!"#$%&’()*+,-./:;?@[\\\]_‘{|}~];
+    
+    letter = [a-z];
+    digit = [0-9];
+    octdigit = [0-7]; // [01234567]
+    hexdigit = {digit} + [A-Fa-f]+; // [abcdefABCDEF];  // [A-Fa-f0-9]+;
+    
+    /*
+    {Id Head}        = {Letter} + [_]
+    {Id Tail}        = {Id Head} + {Digit}
+    {String Ch}      = {Printable} - ["]
+    {Char Ch}        = {Printable} - ['']
+    StringLiteral    = '"'( {String Ch} | '\'{Printable} )* '"'
+    CharLiteral      = '' ( {Char Ch} | '\'{Printable} )''
+    */
+    
+    int_des = [uUlL]*;
+    bin = '0b' [01]+;
+    oct = "0" [0-7]*;
+    dec = [1-9][0-9]*;
+    hex = '0x' [0-9a-fA-F]+;
+    
+    DecLiteral       = [1-9]{digit}*; //[123456789]{digit}*
+    OctLiteral       = 0{octdigit}*
+    HexLiteral       = 0x{hexdigit}+
+    FloatLiteral     = {digit}*'.'{digit}+
+    
+    vartype = "u8"|"u16"|"u32"|"u64"|"u128"|"i8"|"i16"|"i32"|"i64"|"i128"|"f16"|"f32"|"f64";
+    
+*/
+//definitions.re2c END -----------------------
+
+/*
+    u8          the set of all unsigned  8-bit integers  (0 to 255)
+    u16         the set of all unsigned 16-bit integers  (0 to 65535)
+    u32         the set of all unsigned 32-bit integers  (0 to 4294967295)
+    u64         the set of all unsigned 64-bit integers  (0 to 18446744073709551615)
+    i8          the set of all signed  8-bit  integers (-128 to 127)
+    i16         the set of all signed 16-bit  integers (-32768 to 32767)
+    i32         the set of all signed 32-bit  integers (-2147483648 to 2147483647)
+    i64         the set of all signed 64-bit  integers (-9223372036854775808 to 9223372036854775807)
+    f16         the set of all IEEE-754-2008 16-bit floating point numbers (10-bit mantissa)
+    f32         the set of all IEEE-754 32-bit floating-point numbers
+    f64         the set of all IEEE-754 64-bit floating-point numbers
+*/
+/*
 "auto"          {  return(TK_AUTO);            }
 "break"         {  return(TK_BREAK);           }
 "case"          {  return(TK_CASE);            }
@@ -151,3 +269,4 @@
 
 "{"               { return symbol("{",BEGIN); }
 "}"               { return symbol("}",END); }
+*/

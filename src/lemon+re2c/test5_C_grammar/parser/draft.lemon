@@ -1,0 +1,91 @@
+
+
+program ::= input.
+input ::= .
+input ::= input lines.
+
+// This is to terminate with a new line, the grammar dictate when the expression can no longer be reduced.
+// Without this PARSER(0, 0); Parse(pParse,0,0) have to be called to signal the end of the input for an expression
+lines ::= statements END_OF_LINE|END_OF_FILE.
+
+//statements ::= statements statement|statement.
+statements ::= statement.
+
+statement             ::= varDeclaration.
+statement             ::= if_statement.
+//statement           ::= for_statement.
+//statement             ::= switch_statement.
+statement             ::= jump_statement.
+statement             ::= expression.
+
+//example of ast parse tree for variable => https://info.itemis.com/demo/agl/editor
+varDeclaration        ::= IDENTIFIER ASSIGN VARTYPE ASSIGN expression.  // x=u16=0
+varDeclaration        ::= IDENTIFIER ASSIGN VARTYPE.                    // x=u16 // x value = undefined of type u16
+varDeclaration        ::= IDENTIFIER ASSIGN expression.                 // x=0   // this is also same for assignment, from undefined to a value.
+//assignment          ::= IDENTIFIER ASSIGN expression.                 
+
+// https://steemit.com/utopian-io/@drifter1/writing-a-simple-compiler-on-my-own-action-rules-for-if-else-statements-c-flex-bison
+  if_statement        ::=                  IF     bool_expression LBRACKET statement RBRACKET.                             // if expression {true part}
+  if_statement        ::=                  IF     bool_expression LBRACKET statement RBRACKET LBRACKET statement RBRACKET. // if expression {true part} { else part }
+//else_statement      ::= if_statement     ELSE                   LBRACKET statement RBRACKET. 
+//elif_statement      ::= if_statement     ELSEIF bool_expression LBRACKET statement RBRACKET.                             // if expression {true part} expression { elseif part } { else part }
+//elif_statement      ::= elif_statement   ELSE                   LBRACKET statement RBRACKET.
+
+//if (expression) one-line_statement;
+//if (expression) {statements}
+//if (expression) one-line_statement; else one-line_statement;
+//if (expression) one-line_statement; else {statements}
+//if (expression) {statements} else one-line_statement;
+//if (expression) {statements} else {statements}
+
+
+// https://www.cs.cornell.edu/andru/javaspec/2.doc.html#40415
+//for_statement       ::= 
+
+//switch_statement      ::= SWITCH expression compound_stmt.
+//compound_stmt         ::= expression LBRACKET compound_stmt RBRACKET.
+//compound_stmt         ::= DEFAULT LBRACKET compound_stmt RBRACKET.
+
+jump_statement        ::= BREAK expression.
+jump_statement        ::= BREAK.
+jump_statement        ::= FALLTHROUGH.
+jump_statement        ::= RETURN expression.
+jump_statement        ::= RETURN.
+
+bool_expression       ::= expression OR expression.
+bool_expression       ::= bool_and_expression.
+bool_and_expression   ::= expression AND expression.
+bool_and_expression   ::= bool_unary_expression.
+bool_unary_expression ::= NOT expression.
+bool_unary_expression ::= bool_relop_expression.
+
+bool_relop_expression ::= expression relop expression.
+relop                 ::= LE|LT|GT|GE|EQ|NE.                            // <=,<,>,>=,==,!=
+
+// Function = https://steemit.com/utopian-io/@drifter1/writing-a-simple-compiler-on-my-own-function-semantics-part-1-c-flex-bison
+
+
+// Grammar/Syntactic Rules  { Semantic Actions }
+expression ::= expr(A).             { PARSER_STATE->result_value.value_is_a_number = A; }
+
+expr(X) ::= expr(A) ADD expr(B).    { X = A + B; }
+expr(X) ::= expr(A) SUB expr(B).    { X = A - B; }
+expr(X) ::= expr(A) MUL expr(B).    { X = A * B; }
+expr(X) ::= expr(A) DIV expr(B).    { if(B != 0){ X = A / B;
+                                        }else{ puts("/!\\ warning divide by zero" ); X = 0; PARSER_STATE->error = true;} 
+                                    } // end of DIVIDE
+expr(X) ::= expr(A) MOD expr(B).    { X = fmod(A, B ); } // A % B cannot be done on double
+expr(X) ::= expr(A) EXP expr(B).    { X = pow(A, B); } // Exponentiation
+
+expr(X) ::= LPAREN expr(A) RPAREN.  { X = A; }
+
+expr(X) ::= ADD expr(A). [POS]      { X = A; }
+expr(X) ::= SUB expr(A). [NEG]      { X = A * -1; } // Negation--unary minus
+
+expr(X) ::= INT_LITERAL(A).         { X = A; }
+
+
+
+
+
+
