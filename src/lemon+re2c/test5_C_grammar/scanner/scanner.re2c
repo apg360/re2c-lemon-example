@@ -19,8 +19,8 @@
 
 void set_token(const int tokentype, const char* tokentypename)
 {
-    SCANNER_STATE.Token.type = tokentype;
-    SCANNER_STATE.Token.type_name = tokentypename;
+    SCANNER_STATE.Token.token_id = tokentype;
+    SCANNER_STATE.Token.token_name = tokentypename;
     SCANNER_STATE.column_position=(int)(SCANNER_STATE.begin - SCANNER_STATE.lexemes);
     
     // if numeric(TK_INT) then take input(string) and convert it to double
@@ -29,7 +29,7 @@ void set_token(const int tokentype, const char* tokentypename)
       char tokenvalue_string[255];
       sprintf( tokenvalue_string, "%.*s", (int)(SCANNER_STATE.cursor - SCANNER_STATE.begin), SCANNER_STATE.begin );
       // converting string to double
-      SCANNER_STATE.Token.value_is_a_number = char_to_double(tokenvalue_string);
+      SCANNER_STATE.Token.token_value = tokenvalue_string;
     }
 }
 
@@ -60,7 +60,7 @@ continue_scanning:
     // Reset variables
     SCANNER_STATE.begin = SCANNER_STATE.cursor;
     SCANNER_STATE.Token.type = 0;
-    SCANNER_STATE.Token.value_is_a_number = 0;
+    SCANNER_STATE.Token.token_value = 0;
     
     // If reached end of the text, last character (does not have "end");
     if ( SCANNER_STATE.cursor >= SCANNER_STATE.end )
@@ -135,23 +135,14 @@ comment:
 parser_now:
       if (scanner_DebugMode == true) {
         printf("Line:%d / Col:%d ", SCANNER_STATE.line_number, SCANNER_STATE.column_position);
-        printf("parser(%s, %.lf) \n", SCANNER_STATE.Token.type_name, SCANNER_STATE.Token.value_is_a_number); // Formating number of digits after dot %.15lf
+        printf("parser(%s, %s) \n", SCANNER_STATE.Token.token_name, SCANNER_STATE.Token.token_value); // Formating number of digits after dot %.15lf
       }
       
       PARSER( &SCANNER_STATE.Token );
       
       // end inifinite loop when reached end of text
-      if( TK_END_OF_FILE == SCANNER_STATE.Token.type ) break;
+      if( TK_END_OF_FILE == SCANNER_STATE.Token.token_id ) break;
     }//end for loop
     if (scanner_DebugMode == true) puts("\n ** THE END ** \n");
 }
 
-double eval(const char *the_text)
-{
-    double result;
-    SCANNER(the_text);
-    // Access PARSER_STATE and take the result value
-    result = PARSER_STATE.result_value.value_is_a_number;
-    
-    return result;
-}

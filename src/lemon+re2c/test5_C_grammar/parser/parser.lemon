@@ -51,8 +51,8 @@
 // must call PARSER(0, 0); to enter %parse_accept
 // Formating number of digits after dot %.15lf
 %parse_accept  { PARSER_STATE->error = false;
-                 printf(" ** Parser Result : %.lf\n",PARSER_STATE->result_value.value_is_a_number);
-                 // puts("The parser has completed successfully.");
+                 printf(" ** Parser Result : %s\n",PARSER_STATE->result_value.token_value);
+                 puts("The parser has completed successfully.");
                }
 
 %include
@@ -82,7 +82,7 @@
     void Parse(
         void * pParser,                        // The parser
         const int pTokentype,                  // The major token code number
-        //const double pTokenvalue,              // Value associated with a token %token_type { double }
+        const char* pTokenvalue,               // Value associated with a token %token_type { char* }
         struct _parser_state * pPARSER_STATE   // %extra_argument parameter
     );
     
@@ -93,22 +93,19 @@
     void PARSER(const struct _Token * pToken){
       
       // Reset variables
-      PARSER_STATE.result_value.value_is_a_number = 0;
+      PARSER_STATE.result_value.token_value = 0;
       
-      if ( TK_END_OF_LINE == pToken->type || TK_END_OF_FILE == pToken->type )
+      if ( TK_END_OF_LINE == pToken->token_id || TK_END_OF_FILE == pToken->token_id )
       {
         //    PARSER(TK_END_OF_LINE,0); 
         // or PARSER(TK_END_OF_FILE,0);
-        //Parse(theParser, pToken->type, pToken->value_is_a_number, &PARSER_STATE);
-        Parse(theParser, pToken->type, &PARSER_STATE);
+        Parse(theParser, pToken->token_id, pToken->token_value, &PARSER_STATE);
         // must call PARSER(0, 0); to enter %parse_accept
-        //Parse(theParser, 0, 0, &PARSER_STATE);
-        Parse(theParser, 0, &PARSER_STATE);
+        Parse(theParser, 0, 0, &PARSER_STATE);
       }
       else 
       {
-        //Parse(theParser, pToken->type, pToken->value_is_a_number, &PARSER_STATE);
-        Parse(theParser, pToken->type, &PARSER_STATE);
+        Parse(theParser, pToken->token_id, 0, &PARSER_STATE);
       }
     }
     void PARSER_FREE(){
@@ -120,7 +117,7 @@
 %extra_argument  { struct _parser_state * PARSER_STATE }
 %token_prefix TK_ // All token codes are integers with #defines that begin with "TK_"
 %start_symbol program
-
+%token_type      { char* }
 
 /*
 ---------
