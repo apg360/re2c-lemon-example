@@ -84,12 +84,12 @@ int main() {
     scanner_DebugMode=false;
     PARSER_INIT(false);
     
-    validation_test();
+    //validation_test();
     
     SCANNER("50+125");
-    SCANNER("15/5");
-    SCANNER("50*125-50+125");
-    SCANNER("   4 + 5 - 20 + 7\n \
+    //SCANNER("15/5");
+    //SCANNER("50*125-50+125");
+    //SCANNER("   4 + 5 - 20 + 7\n \
 (24/2)*5\n \
 ");
     

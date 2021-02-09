@@ -23,8 +23,8 @@ void set_token(const int tokentype, const char* tokentypename)
     SCANNER_STATE.Token.type_name = tokentypename;
     SCANNER_STATE.column_position=(int)(SCANNER_STATE.begin - SCANNER_STATE.lexemes);
     
-    // if numeric(TK_INT_LITERAL) then take input(string) and convert it to double
-    if ( TK_INT_LITERAL == tokentype )
+    // if numeric(TK_INT) then take input(string) and convert it to double
+    if ( TK_INT == tokentype )
     {
       char tokenvalue_string[255];
       sprintf( tokenvalue_string, "%.*s", (int)(SCANNER_STATE.cursor - SCANNER_STATE.begin), SCANNER_STATE.begin );
@@ -109,7 +109,7 @@ continue_scanning:
       "<="            { set_token( MACRO_VALUE_AND_NAME(TK_LE)          ); goto parser_now;}
       
       identifier      { set_token( MACRO_VALUE_AND_NAME(TK_IDENTIFIER ) ); goto parser_now;}
-      number          { set_token( MACRO_VALUE_AND_NAME(TK_INT_LITERAL) ); goto parser_now;}
+      number          { set_token( MACRO_VALUE_AND_NAME(TK_INT)         ); goto parser_now;}
       
       vartype         { set_token( MACRO_VALUE_AND_NAME(TK_VARTYPE)     ); goto parser_now;}
       

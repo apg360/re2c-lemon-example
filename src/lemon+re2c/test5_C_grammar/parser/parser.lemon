@@ -82,7 +82,7 @@
     void Parse(
         void * pParser,                        // The parser
         const int pTokentype,                  // The major token code number
-        const double pTokenvalue,              // Value associated with a token %token_type { double }
+        //const double pTokenvalue,              // Value associated with a token %token_type { double }
         struct _parser_state * pPARSER_STATE   // %extra_argument parameter
     );
     
@@ -99,20 +99,23 @@
       {
         //    PARSER(TK_END_OF_LINE,0); 
         // or PARSER(TK_END_OF_FILE,0);
-        Parse(theParser, pToken->type, pToken->value_is_a_number, &PARSER_STATE);
+        //Parse(theParser, pToken->type, pToken->value_is_a_number, &PARSER_STATE);
+        Parse(theParser, pToken->type, &PARSER_STATE);
         // must call PARSER(0, 0); to enter %parse_accept
-        Parse(theParser, 0, 0, &PARSER_STATE);
+        //Parse(theParser, 0, 0, &PARSER_STATE);
+        Parse(theParser, 0, &PARSER_STATE);
       }
       else 
       {
-        Parse(theParser, pToken->type, pToken->value_is_a_number, &PARSER_STATE);
+        //Parse(theParser, pToken->type, pToken->value_is_a_number, &PARSER_STATE);
+        Parse(theParser, pToken->type, &PARSER_STATE);
       }
     }
     void PARSER_FREE(){
       ParseFree(theParser, free);
     }
 
-} // end %include
+} // END %include
 
 %extra_argument  { struct _parser_state * PARSER_STATE }
 %token_prefix TK_ // All token codes are integers with #defines that begin with "TK_"

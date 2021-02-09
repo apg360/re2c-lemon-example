@@ -3,7 +3,7 @@
 # (*) MacOS : brew install lemon-3.34.0 re2c-2.0.3
 
 cmake_minimum_required(VERSION 3.19)
-project(mycalc VERSION 0.1.0 LANGUAGES C)
+project(CGRAM VERSION 0.1.0 LANGUAGES C)
 
 # CURRENT_BINARY_DIR = CURRENT_SOURCE_DIR/build
 file(RENAME ${CMAKE_CURRENT_SOURCE_DIR}/scanner/scanner.h ${CMAKE_CURRENT_BINARY_DIR}/scanner.h)

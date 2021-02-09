@@ -20,11 +20,6 @@ struct _scanner_state SCANNER_STATE;
     
 //Parser END-----------------------------------------------------------
 
-/*
-R* : zero or more occurrences of the regular expression R.
-R+ : one or more repetition of the regular expression R.
-R? : zero or one R. That means, there maybe an R or not.
-*/
 /*!re2c
     //regex types
     
@@ -68,21 +63,23 @@ R? : zero or one R. That means, there maybe an R or not.
     // https://cs.nyu.edu/rgrimm/xtc/rats-intro.html
     // https://www.lysator.liu.se/c/ANSI-C-grammar-l.html
     // https://stackoverflow.com/questions/2644597/how-do-i-implement-if-statement-in-flex-bison
+    //
+    // R* : zero or more occurrences of the regular expression R.
+    // R+ : one or more repetition of the regular expression R.
+    // R? : zero or one R. That means, there maybe an R or not.
     
     end = ( [\r\n] |"\x00"|"\x0A"|"\x0D" )+;
     whitespace = ( " " | [\t\v\f] )+;      // whitespace and tabulation
     any = [\000-\377];
     
-    identifier = [_a-z]([_a-z0-9_])*;      // An identifier can never start with a number
-    int = [0-9]0-9]*;                      // [-+]?([0-9]+([.][0-9]*)?|[.][0-9]+)([Ee][-+]?[0-9]+)?;
-    real = [0-9]+[.,][0-9]+;               // do not do -number or +number, You return - and INTEGER separately to the parser, and let the parser handle unary minus.
-    
     punctuation = [!"#$%&’()*+,-./:;?@[\\\]_‘{|}~];
     
-    letter = [a-z];
+    letter = [a-z];                     // [A-Za-z]  = will scan one letter at a time, letter after letter
+    word   = [a-z]+;                    // [A-Za-z]+ = word after word
+    number = [0-9]+;                       // [-+]?([0-9]+([.][0-9]*)?|[.][0-9]+)([Ee][-+]?[0-9]+)?;
     digit = [0-9];
     octdigit = [0-7]; // [01234567]
-    hexdigit = {digit} + [A-Fa-f]+; // [abcdefABCDEF];  // [A-Fa-f0-9]+;
+    hexdigit = [digit]+ [A-Fa-f]+; // [abcdefABCDEF];  // [A-Fa-f0-9]+;
     
     /*
     {Id Head}        = {Letter} + [_]
@@ -93,16 +90,19 @@ R? : zero or one R. That means, there maybe an R or not.
     CharLiteral      = '' ( {Char Ch} | '\'{Printable} )''
     */
     
+    identifier = [_a-z]([_a-z0-9_])*;      // An identifier can never start with a number
+    real = [0-9]+[.,][0-9]+;               // do not do -number or +number, You return - and INTEGER separately to the parser, and let the parser handle unary minus.
+    
     int_des = [uUlL]*;
     bin = '0b' [01]+;
     oct = "0" [0-7]*;
     dec = [1-9][0-9]*;
     hex = '0x' [0-9a-fA-F]+;
     
-    DecLiteral       = [1-9]{digit}*; //[123456789]{digit}*
-    OctLiteral       = 0{octdigit}*
-    HexLiteral       = 0x{hexdigit}+
-    FloatLiteral     = {digit}*'.'{digit}+
+    DecLiteral       = [1-9][digit]*; //[123456789]{digit}*
+    OctLiteral       = "0"[octdigit]*;
+    HexLiteral       = "0x"[hexdigit]+;
+    FloatLiteral     = [digit]*'.'[digit]+;
     
     vartype = "u8"|"u16"|"u32"|"u64"|"u128"|"i8"|"i16"|"i32"|"i64"|"i128"|"f16"|"f32"|"f64";
     
@@ -241,9 +241,9 @@ R? : zero or one R. That means, there maybe an R or not.
 
 %union
 {
-    int   					yint;
-    char  					ystr[100];
-    struct AstNode_tag   	*stNode;
+    int                     yint;
+    char                    ystr[100];
+    struct AstNode_tag      *stNode;
 }
 
 %token <yint> IF ELSE WHILE BREAK RETURN INT REAL CHAR TRUE FALSE
