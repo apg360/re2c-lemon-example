@@ -79,15 +79,30 @@ R? : zero or one R. That means, there maybe an R or not.
     
     punctuation = [!"#$%&’()*+,-./:;?@[\\\]_‘{|}~];
     
-    dig = [0-9];
-    let = [_a-zA-Z_];
-    int_des = [uUlL]*;
+    letter = [a-z];
+    digit = [0-9];
+    octdigit = [0-7]; // [01234567]
+    hexdigit = {digit} + [A-Fa-f]+; // [abcdefABCDEF];  // [A-Fa-f0-9]+;
     
+    /*
+    {Id Head}        = {Letter} + [_]
+    {Id Tail}        = {Id Head} + {Digit}
+    {String Ch}      = {Printable} - ["]
+    {Char Ch}        = {Printable} - ['']
+    StringLiteral    = '"'( {String Ch} | '\'{Printable} )* '"'
+    CharLiteral      = '' ( {Char Ch} | '\'{Printable} )''
+    */
+    
+    int_des = [uUlL]*;
     bin = '0b' [01]+;
     oct = "0" [0-7]*;
     dec = [1-9][0-9]*;
     hex = '0x' [0-9a-fA-F]+;
-    hexadecimal_digits = [A-Fa-f0-9]+;     //
+    
+    DecLiteral       = [1-9]{digit}*; //[123456789]{digit}*
+    OctLiteral       = 0{octdigit}*
+    HexLiteral       = 0x{hexdigit}+
+    FloatLiteral     = {digit}*'.'{digit}+
     
     vartype = "u8"|"u16"|"u32"|"u64"|"u128"|"i8"|"i16"|"i32"|"i64"|"i128"|"f16"|"f32"|"f64";
     
