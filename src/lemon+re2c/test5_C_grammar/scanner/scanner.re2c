@@ -22,15 +22,7 @@ void set_token(const int tokentype, const char* tokentypename)
     SCANNER_STATE.Token.token_id = tokentype;
     SCANNER_STATE.Token.token_name = tokentypename;
     SCANNER_STATE.column_position=(int)(SCANNER_STATE.begin - SCANNER_STATE.lexemes);
-    
-    // if numeric(TK_INT) then take input(string) and convert it to double
-    if ( TK_INT == tokentype )
-    {
-      char tokenvalue_string[255];
-      sprintf( tokenvalue_string, "%.*s", (int)(SCANNER_STATE.cursor - SCANNER_STATE.begin), SCANNER_STATE.begin );
-      // converting string to double
-      SCANNER_STATE.Token.token_value = tokenvalue_string;
-    }
+    //sprintf( SCANNER_STATE.Token.token_value, "%s", (SCANNER_STATE.cursor - SCANNER_STATE.begin), SCANNER_STATE.begin );
 }
 
 void SCANNER(const char *the_text)
@@ -59,9 +51,9 @@ void SCANNER(const char *the_text)
 continue_scanning:
     // Reset variables
     SCANNER_STATE.begin = SCANNER_STATE.cursor;
-    SCANNER_STATE.Token.type = 0;
-    SCANNER_STATE.Token.token_value = 0;
-    
+    SCANNER_STATE.Token.token_id = 0;
+    sprintf( SCANNER_STATE.Token.token_value, "%s", "" );
+
     // If reached end of the text, last character (does not have "end");
     if ( SCANNER_STATE.cursor >= SCANNER_STATE.end )
     { 

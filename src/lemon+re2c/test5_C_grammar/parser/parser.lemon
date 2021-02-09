@@ -51,7 +51,7 @@
 // must call PARSER(0, 0); to enter %parse_accept
 // Formating number of digits after dot %.15lf
 %parse_accept  { PARSER_STATE->error = false;
-                 printf(" ** Parser Result : %s\n",PARSER_STATE->result_value.token_value);
+                 //printf(" ** Parser Result : %s\n",PARSER_STATE->result_value.token_value);
                  puts("The parser has completed successfully.");
                }
 
@@ -93,7 +93,7 @@
     void PARSER(const struct _Token * pToken){
       
       // Reset variables
-      PARSER_STATE.result_value.token_value = 0;
+      sprintf( PARSER_STATE.result_value.token_value, "%s", "" );
       
       if ( TK_END_OF_LINE == pToken->token_id || TK_END_OF_FILE == pToken->token_id )
       {
