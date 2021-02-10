@@ -82,7 +82,7 @@
     void Parse(
         void * pParser,                        // The parser
         const int pTokentype,                  // The major token code number
-        const char* pTokenvalue,               // Value associated with a token %token_type { char* }
+        const char* pTokenvalue,               // Value associated with a token %token_type { const char* }
         struct _parser_state * pPARSER_STATE   // %extra_argument parameter
     );
     
@@ -117,7 +117,7 @@
 %extra_argument  { struct _parser_state * PARSER_STATE }
 %token_prefix TK_ // All token codes are integers with #defines that begin with "TK_"
 %start_symbol program
-%token_type      { char* }
+%token_type      { const char* }
 
 /*
 ---------
