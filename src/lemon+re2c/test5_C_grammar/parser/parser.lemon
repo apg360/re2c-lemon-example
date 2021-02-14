@@ -108,6 +108,8 @@
       
     } // END PARSER
     
+    void println(const char * pString)
+    { printf("GAZGAZ %s\n",pString); };
 
 } // END %include
 
@@ -180,7 +182,7 @@ non-terminals => lower case
 program ::= input.
 input ::= .
 input ::= input lines.
-lines ::= translation_unit END_OF_LINE|END_OF_FILE.
+lines ::= translation_unit(A) END_OF_LINE|END_OF_FILE.                     { println(A); }
 
 
 primary_expression ::= IDENTIFIER.

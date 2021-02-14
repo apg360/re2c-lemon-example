@@ -25,9 +25,9 @@ void set_token(const int tokentype, const char* tokentypename)
     
     //https://www.tutorialspoint.com/cprogramming/c_strings.htm
     //https://www.tutorialspoint.com/c_standard_library/c_function_sprintf.htm
-    //sprintf( SCANNER_STATE.token_value, "%s", (SCANNER_STATE.cursor - SCANNER_STATE.begin), SCANNER_STATE.begin );
-    //strcpy(  SCANNER_STATE.token_name, tokentypename);
-    //sprintf( SCANNER_STATE.token_name, "%s", tokentypename );
+    sprintf( SCANNER_STATE.token_value, "%d", (SCANNER_STATE.cursor - SCANNER_STATE.begin), SCANNER_STATE.begin );
+    //strcpy(  SCANNER_STATE.token_value, tokentypename);
+    //sprintf( SCANNER_STATE.token_value, "%s", tokentypename );
     
 }
 
