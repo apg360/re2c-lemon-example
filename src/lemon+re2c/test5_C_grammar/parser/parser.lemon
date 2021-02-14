@@ -81,7 +81,7 @@
     );
     void Parse(
         void * pParser,                        // The parser
-        const int pTokentype,                  // The major token code number
+        const int pTokenID                     // The major token code number
         const char* pTokenvalue,               // Value associated with a token %token_type { const char* }
         struct _parser_state * pPARSER_STATE   // %extra_argument parameter
     );

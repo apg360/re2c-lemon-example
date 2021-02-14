@@ -29,11 +29,10 @@ struct _scanner_state
                                         //                Lexer compares YYCURSOR to YYLIMIT in order to determine if there is enough input characters left
     const char *marker;                 // marker - the position of the most recent match
     const char *lexemes;                // unconsumed part -> the next input remaining to be scanned.
-
+    
     int line_number, column_position;   // line number, column position
     
     struct _Token Token;                // token code, token name and token value
-
 };
 
 struct _parser_state {
