@@ -99,7 +99,7 @@
       PARSER_STATE.error = false;
       
       // Start parsing
-      Parse(theParser, pSCANNER_STATE->token_id, pSCANNER_STATE->token_value);
+      Parse(theParser, pSCANNER_STATE->token_id, pSCANNER_STATE->token_stringvalue);
       
       // If it is end of Line, end the parser.
       // Must 'call PARSER(0, 0);' so parser enter the '%parse_accept'

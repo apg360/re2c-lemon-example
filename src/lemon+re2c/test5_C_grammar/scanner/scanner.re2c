@@ -21,29 +21,42 @@ void set_token(const int tokentype, const char* tokentypename)
 {
     SCANNER_STATE.token_id = tokentype;
     SCANNER_STATE.token_name = tokentypename;
-    SCANNER_STATE.column_position=(int)(SCANNER_STATE.begin - SCANNER_STATE.lexemes);
     
-    //https://www.tutorialspoint.com/cprogramming/c_strings.htm
-    //https://www.tutorialspoint.com/c_standard_library/c_function_sprintf.htm
-    sprintf( SCANNER_STATE.token_value, "%d", (SCANNER_STATE.cursor - SCANNER_STATE.begin), SCANNER_STATE.begin );
-    //strcpy(  SCANNER_STATE.token_value, tokentypename);
-    //sprintf( SCANNER_STATE.token_value, "%s", tokentypename );
+    /*
+    Example : 50+125
+    STEP1: lexemes : 50+125, cursor : +125
+    STEP2: lexemes : +125, cursor : 125
+    STEP3: lexemes : 125, cursor :
+    STEP4: lexemes : , cursor :
+    */
+    SCANNER_STATE.token_text_len  = (int)(SCANNER_STATE.cursor - SCANNER_STATE.lexemes);
     
+    // lexemes = linetext + column_position THEN column_position = lexemes - linetext
+    SCANNER_STATE.column_position = (int)(SCANNER_STATE.lexemes - SCANNER_STATE.linetext);
+    
+    // https://www.tutorialspoint.com/cprogramming/c_strings.htm
+    // https://www.tutorialspoint.com/c_standard_library/c_function_strncpy.htm
+    // start from 0 with 'src' chars and copy 'len' chars into destination
+    // strncpy(dest, src, len);
+    //
+    strncpy(SCANNER_STATE.token_stringvalue, SCANNER_STATE.lexemes, SCANNER_STATE.token_text_len);
+    
+
 }
 
 void reset_token()
 {
     SCANNER_STATE.token_id = 0;
-    sprintf( SCANNER_STATE.token_value, "%s", "" );
-    //strcpy( SCANNER_STATE.token_value, "");
+    sprintf( SCANNER_STATE.token_stringvalue, "%s", "" );
+    //strcpy( SCANNER_STATE.token_stringvalue, "");
 }
 
 void SCANNER(const char *the_text)
 {
-    SCANNER_STATE.begin            = the_text;
-    SCANNER_STATE.end              = the_text + strlen(the_text);
-    SCANNER_STATE.cursor           = the_text;
     SCANNER_STATE.lexemes          = the_text;
+    SCANNER_STATE.cursor           = the_text;
+    SCANNER_STATE.end              = the_text + strlen(the_text);
+    SCANNER_STATE.linetext         = the_text;
     SCANNER_STATE.line_number      = 1;
     SCANNER_STATE.column_position  = 1;
     
@@ -63,7 +76,7 @@ void SCANNER(const char *the_text)
     {
 continue_scanning:
     // Reset variables
-    SCANNER_STATE.begin = SCANNER_STATE.cursor;
+    SCANNER_STATE.lexemes = SCANNER_STATE.cursor;
     reset_token();
 
     // If reached end of the text, last character (does not have "end");
@@ -120,7 +133,7 @@ continue_scanning:
       whitespace      { goto continue_scanning;}
       
       end             { set_token( MACRO_VALUE_AND_NAME(TK_END_OF_LINE) );
-                        SCANNER_STATE.lexemes = SCANNER_STATE.cursor;    // remove already scanned text, remaining only unconsumed part
+                        SCANNER_STATE.linetext = SCANNER_STATE.cursor;    // remove already scanned text, remaining only unconsumed part
                         SCANNER_STATE.line_number++;                     // line counter increase +1
                         goto parser_now;
                       }
@@ -139,10 +152,10 @@ comment:
 parser_now:
       if (scanner_DebugMode == true) {
         printf("Line:%d / Col:%d ", SCANNER_STATE.line_number, SCANNER_STATE.column_position);
-        printf("parser(%s, %s) \n", SCANNER_STATE.token_name, SCANNER_STATE.token_value); // Formating number of digits after dot %.15lf
+        printf("parser(%s, %s) \n", SCANNER_STATE.token_name, SCANNER_STATE.token_stringvalue); // Formating number of digits after dot %.15lf
       }
       
-      PARSER( &SCANNER_STATE );
+      //PARSER( &SCANNER_STATE );
       
       // end inifinite loop when reached end of text
       if( TK_END_OF_FILE == SCANNER_STATE.token_id ) break;
