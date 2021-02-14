@@ -40,15 +40,19 @@ void set_token(const int tokentype, const char* tokentypename)
     // strncpy(dest, src, len);
     //
     strncpy(SCANNER_STATE.token_stringvalue, SCANNER_STATE.lexemes, SCANNER_STATE.token_text_len);
-    
+    printf("lexemes: %s\n",SCANNER_STATE.lexemes);
+    printf("text len : %d\n",SCANNER_STATE.token_text_len);
+    printf("text value : %s\n",SCANNER_STATE.token_stringvalue);
 
 }
 
 void reset_token()
 {
     SCANNER_STATE.token_id = 0;
-    sprintf( SCANNER_STATE.token_stringvalue, "%s", "" );
-    //strcpy( SCANNER_STATE.token_stringvalue, "");
+    // Erase/Empty token_stringvalue
+    memset(SCANNER_STATE.token_stringvalue, '\0', sizeof(SCANNER_STATE.token_stringvalue));     // https://www.tutorialspoint.com/c_standard_library/c_function_memset.htm
+    SCANNER_STATE.token_text_len  = strlen(SCANNER_STATE.token_stringvalue);
+    printf("GAZ GAZ %d \n",SCANNER_STATE.token_text_len);
 }
 
 void SCANNER(const char *the_text)
