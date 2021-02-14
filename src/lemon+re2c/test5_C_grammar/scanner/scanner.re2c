@@ -19,23 +19,23 @@
 
 void set_token(const int tokentype, const char* tokentypename)
 {
-    SCANNER_STATE.Token.token_id = tokentype;
-    SCANNER_STATE.Token.token_name = tokentypename;
+    SCANNER_STATE.token_id = tokentype;
+    SCANNER_STATE.token_name = tokentypename;
     SCANNER_STATE.column_position=(int)(SCANNER_STATE.begin - SCANNER_STATE.lexemes);
     
     //https://www.tutorialspoint.com/cprogramming/c_strings.htm
     //https://www.tutorialspoint.com/c_standard_library/c_function_sprintf.htm
-    //sprintf( SCANNER_STATE.Token.token_value.value, "%s", (SCANNER_STATE.cursor - SCANNER_STATE.begin), SCANNER_STATE.begin );
-    //strcpy(  SCANNER_STATE.Token.token_name, tokentypename);
-    //sprintf( SCANNER_STATE.Token.token_name, "%s", tokentypename );
+    //sprintf( SCANNER_STATE.token_value, "%s", (SCANNER_STATE.cursor - SCANNER_STATE.begin), SCANNER_STATE.begin );
+    //strcpy(  SCANNER_STATE.token_name, tokentypename);
+    //sprintf( SCANNER_STATE.token_name, "%s", tokentypename );
     
 }
 
 void reset_token()
 {
-    SCANNER_STATE.Token.token_id = 0;
-    sprintf( SCANNER_STATE.Token.token_value.value, "%s", "" );
-    //strcpy( PARSER_STATE.result_value.token_value, "");
+    SCANNER_STATE.token_id = 0;
+    sprintf( SCANNER_STATE.token_value, "%s", "" );
+    //strcpy( SCANNER_STATE.token_value, "");
 }
 
 void SCANNER(const char *the_text)
@@ -68,7 +68,7 @@ continue_scanning:
 
     // If reached end of the text, last character (does not have "end");
     if ( SCANNER_STATE.cursor >= SCANNER_STATE.end )
-    { 
+    {
       set_token( MACRO_VALUE_AND_NAME(TK_END_OF_FILE) );
       goto parser_now;
     };
@@ -139,13 +139,13 @@ comment:
 parser_now:
       if (scanner_DebugMode == true) {
         printf("Line:%d / Col:%d ", SCANNER_STATE.line_number, SCANNER_STATE.column_position);
-        printf("parser(%s, %s) \n", SCANNER_STATE.Token.token_name, SCANNER_STATE.Token.token_value.value); // Formating number of digits after dot %.15lf
+        printf("parser(%s, %s) \n", SCANNER_STATE.token_name, SCANNER_STATE.token_value); // Formating number of digits after dot %.15lf
       }
       
-      PARSER( &SCANNER_STATE.Token );
+      PARSER( &SCANNER_STATE );
       
       // end inifinite loop when reached end of text
-      if( TK_END_OF_FILE == SCANNER_STATE.Token.token_id ) break;
+      if( TK_END_OF_FILE == SCANNER_STATE.token_id ) break;
     }//end for loop
     if (scanner_DebugMode == true) puts("\n ** THE END ** \n");
 }

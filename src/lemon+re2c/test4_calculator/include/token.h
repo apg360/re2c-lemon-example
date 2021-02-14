@@ -4,7 +4,7 @@
 
 #define MACRO_VALUE_AND_NAME(X)  X, #X  // eg : this call MACRO_VALUE_AND_NAME(TK_NEWLINE) will return 5,TK_NEWLINE
 
-//https://zestedesavoir.com/tutoriels/755/le-langage-c-1/notions-avancees/les-unions
+// https://zestedesavoir.com/tutoriels/755/le-langage-c-1/notions-avancees/les-unions
 // https://data-flair.training/blogs/union-in-c-language
 // union means only one member can be accessed at a time in a union.
 // Only one data member of a union can be accessed at one time.
