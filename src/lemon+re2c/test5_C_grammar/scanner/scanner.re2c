@@ -40,8 +40,8 @@ void set_token(const int tokentype, const char* tokentypename)
     // strncpy(dest, src, len);
     //
     strncpy(SCANNER_STATE.token_stringvalue, SCANNER_STATE.lexemes, SCANNER_STATE.token_text_len);
-    printf("text len : %d\n",SCANNER_STATE.token_text_len);
-    printf("text value : %s\n",SCANNER_STATE.token_stringvalue);
+    //printf("text len : %d\n",SCANNER_STATE.token_text_len);
+    //printf("text value : %s\n",SCANNER_STATE.token_stringvalue);
 }
 
 void reset_token()
@@ -156,7 +156,7 @@ parser_now:
         printf("parser(%s, %s) \n", SCANNER_STATE.token_name, SCANNER_STATE.token_stringvalue); // Formating number of digits after dot %.15lf
       }
       
-      //PARSER( &SCANNER_STATE );
+      PARSER( &SCANNER_STATE );
       
       // end inifinite loop when reached end of text
       if( TK_END_OF_FILE == SCANNER_STATE.token_id ) break;
