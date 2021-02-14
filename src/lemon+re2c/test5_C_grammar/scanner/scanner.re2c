@@ -22,7 +22,13 @@ void set_token(const int tokentype, const char* tokentypename)
     SCANNER_STATE.Token.token_id = tokentype;
     SCANNER_STATE.Token.token_name = tokentypename;
     SCANNER_STATE.column_position=(int)(SCANNER_STATE.begin - SCANNER_STATE.lexemes);
-    //sprintf( SCANNER_STATE.Token.token_value, "%s", (SCANNER_STATE.cursor - SCANNER_STATE.begin), SCANNER_STATE.begin );
+    
+    //https://www.tutorialspoint.com/cprogramming/c_strings.htm
+    //https://www.tutorialspoint.com/c_standard_library/c_function_sprintf.htm
+    //sprintf( SCANNER_STATE.Token.token_value.value, "%s", (SCANNER_STATE.cursor - SCANNER_STATE.begin), SCANNER_STATE.begin );
+    //strcpy(  SCANNER_STATE.Token.token_name, tokentypename);
+    //sprintf( SCANNER_STATE.Token.token_name, "%s", tokentypename );
+    
 }
 
 void SCANNER(const char *the_text)
@@ -52,7 +58,8 @@ continue_scanning:
     // Reset variables
     SCANNER_STATE.begin = SCANNER_STATE.cursor;
     SCANNER_STATE.Token.token_id = 0;
-    sprintf( SCANNER_STATE.Token.token_value, "%s", "" );
+    sprintf( SCANNER_STATE.Token.token_value.value, "%s", "" );
+    //strcpy( PARSER_STATE.result_value.token_value, "");
 
     // If reached end of the text, last character (does not have "end");
     if ( SCANNER_STATE.cursor >= SCANNER_STATE.end )
@@ -107,7 +114,7 @@ continue_scanning:
       
       whitespace      { goto continue_scanning;}
       
-      end             { set_token( MACRO_VALUE_AND_NAME(TK_END_OF_LINE)     );
+      end             { set_token( MACRO_VALUE_AND_NAME(TK_END_OF_LINE) );
                         SCANNER_STATE.lexemes = SCANNER_STATE.cursor;    // remove already scanned text, remaining only unconsumed part
                         SCANNER_STATE.line_number++;                     // line counter increase +1
                         goto parser_now;
@@ -127,7 +134,7 @@ comment:
 parser_now:
       if (scanner_DebugMode == true) {
         printf("Line:%d / Col:%d ", SCANNER_STATE.line_number, SCANNER_STATE.column_position);
-        printf("parser(%s, %s) \n", SCANNER_STATE.Token.token_name, SCANNER_STATE.Token.token_value); // Formating number of digits after dot %.15lf
+        printf("parser(%s, %s) \n", SCANNER_STATE.Token.token_name, SCANNER_STATE.Token.token_value.value); // Formating number of digits after dot %.15lf
       }
       
       PARSER( &SCANNER_STATE.Token );

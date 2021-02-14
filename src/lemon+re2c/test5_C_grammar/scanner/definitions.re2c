@@ -122,7 +122,7 @@ struct _scanner_state SCANNER_STATE;
     f32         the set of all IEEE-754 32-bit floating-point numbers
     f64         the set of all IEEE-754 64-bit floating-point numbers
 */
-/*
+/**********************************************************************
 "auto"          {  return(TK_AUTO);            }
 "break"         {  return(TK_BREAK);           }
 "case"          {  return(TK_CASE);            }
@@ -205,7 +205,7 @@ struct _scanner_state SCANNER_STATE;
 
 
 
-///////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////
         "&" => Tok::Ampersand,
         "!=" => Tok::BangEquals,
         "!~" => Tok::BangTilde,
@@ -269,4 +269,4 @@ struct _scanner_state SCANNER_STATE;
 
 "{"               { return symbol("{",BEGIN); }
 "}"               { return symbol("}",END); }
-*/
+***********************************************************************/

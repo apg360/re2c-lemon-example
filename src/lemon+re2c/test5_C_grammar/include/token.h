@@ -12,13 +12,13 @@
 // A union prohibits the initialization of all its data members. The first member of the union can only be initialized through an object.
 // ll the data members of a union share the same memory location. Hence, changes made in one data member inevitably affects the other.
 union _Tokenvalue {
-    char     token_value[255]; // the current assigned value. No more than 255 characters
+    char value[255]; // the current assigned value. No more than 255 characters
 };
 
 struct _Token {
-    int  token_id;               // int value as found in <parser.h>
-    const char * token_name;     // string name as found in <parser.h>
-    char token_value[255];       // the current assigned value. No more than 255 characters
+    int token_id;                        // int value as found in <parser.h>
+    const char * token_name;             // string name as found in <parser.h>
+    union _Tokenvalue token_value;       // the current assigned value. No more than 255 characters
 };
 
 struct _scanner_state
@@ -32,12 +32,11 @@ struct _scanner_state
 
     int line_number, column_position;   // line number, column position
     
-    struct _Token Token;                // token code, token type and token value
+    struct _Token Token;                // token code, token name and token value
 
 };
 
 struct _parser_state {
-    union _Tokenvalue result_value;
     bool error;
 };
 
