@@ -109,7 +109,7 @@
     } // END PARSER
     
     void println(const char * pString)
-    { printf("GAZGAZ %s\n",pString); };
+    { printf("function println %s\n",pString); };
 
 } // END %include
 
