@@ -172,9 +172,8 @@ Will become
 non-terminals = names of other grammar rules (different kinds of nodes in the parse tree)
 
 
-
-   non-terminals => lower case
-       terminals => UPPER CASE
+non-terminals => lower case
+    terminals => UPPER CASE
 */
 
 //
