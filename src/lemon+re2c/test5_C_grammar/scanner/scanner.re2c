@@ -31,6 +31,13 @@ void set_token(const int tokentype, const char* tokentypename)
     
 }
 
+void reset_token()
+{
+    SCANNER_STATE.Token.token_id = 0;
+    sprintf( SCANNER_STATE.Token.token_value.value, "%s", "" );
+    //strcpy( PARSER_STATE.result_value.token_value, "");
+}
+
 void SCANNER(const char *the_text)
 {
     SCANNER_STATE.begin            = the_text;
@@ -43,8 +50,8 @@ void SCANNER(const char *the_text)
     printf(" ** START Scanning : '%s'\n",the_text);
     if (scanner_DebugMode == true) printf("Number of characters %lu\n", strlen(the_text));
     
-    /*!re2c 
-      //configuration
+    //re2c configuration
+    /*!re2c
       re2c:define:YYCURSOR = SCANNER_STATE.cursor;
       re2c:define:YYMARKER = SCANNER_STATE.marker;
       re2c:define:YYCTYPE = char;                    // The type of the input characters (code units). For ASCII, EBCDIC and UTF-8 encodings it should be 1-byte unsigned integer.
@@ -57,9 +64,7 @@ void SCANNER(const char *the_text)
 continue_scanning:
     // Reset variables
     SCANNER_STATE.begin = SCANNER_STATE.cursor;
-    SCANNER_STATE.Token.token_id = 0;
-    sprintf( SCANNER_STATE.Token.token_value.value, "%s", "" );
-    //strcpy( PARSER_STATE.result_value.token_value, "");
+    reset_token();
 
     // If reached end of the text, last character (does not have "end");
     if ( SCANNER_STATE.cursor >= SCANNER_STATE.end )
