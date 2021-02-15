@@ -10,37 +10,10 @@
 // https://sqlite.org/src/doc/trunk/doc/lemon.html#token_type
 // http://souptonuts.sourceforge.net/readme_lemon_tutorial.html
 //
-////////////////////////////////////////////////////////////////////////
-/*
-   
-   C grammar in EBNF
-   https://www.lysator.liu.se/c/ANSI-C-grammar-y.html
-   http://www.quut.com/c/ANSI-C-grammar-y.html
-   https://www2.cs.arizona.edu/~debray/Teaching/CSc453/DOCS/cminusminusspec.html
-   https://cs.wmich.edu/~gupta/teaching/cs4850/sumII06/The%20syntax%20of%20C%20in%20Backus-Naur%20form.htm
-   
-   https://github.com/Thanasis1101/Compiler-for-custom-language/blob/master/Source%20Code/Compiler/Semantics.c
-   https://github.com/Thanasis1101/Compiler-for-custom-language
-   https://github.com/gwenn/lemon-rs/blob/master/examples/simple.y
-   https://github.com/drifter1/compiler
-   http://matt.might.net/articles/grammars-bnf-ebnf
-   https://www.tutorialspoint.com/compiler_design/compiler_design_syntax_analysis.htm
-   https://www.wikiwand.com/en/Shift-reduce_parser
-   https://www.wikiwand.com/en/Parsing#/Computational_methods#section_Lookahead
-   
-   https://steemit.com/utopian-io/@drifter1/writing-a-simple-compiler-on-my-own-abstract-syntax-tree-management-c-flex-bison
-   https://steemit.com/utopian-io/@drifter1/writing-a-simple-compiler-on-my-own-abstract-syntax-tree-structure-c-flex-bison
-   https://steemit.com/utopian-io/@drifter1/writing-a-simple-compiler-on-my-own-abstract-syntax-tree-principle-c-flex-bison
-   https://efxa.org/2014/05/25/how-to-create-an-abstract-syntax-tree-while-parsing-an-input-stream/
-   http://www.cse.iitb.ac.in/grc/intdocs/gcc-implementation-details.html#The-AST/Generic-Data-Structures
-  
-   http://teampli.net/XPL/ldindex.html
-   https://www.cs.cornell.edu/andru/javaspec/2.doc.html#40415
-   https://steemit.com/programming/@drifter1/writing-a-simple-compiler-on-my-own-creating-a-grammar-for-our-language
-   http://eli-project.sourceforge.net/pascal_html/pascal-.html#s1
-   http://www.open-std.org/jtc1/sc22/wg14/www/docs/n1570.pdf#page=476
-   https://github.com/antlr/grammars-v4/blob/master/c/C.g4
-   https://www.cs.rochester.edu/u/scott/courses/173/notes/05_grammars
+// https://www.lysator.liu.se/c/ANSI-C-grammar-y.html
+// http://www.quut.com/c/ANSI-C-grammar-y.html
+// https://www2.cs.arizona.edu/~debray/Teaching/CSc453/DOCS/cminusminusspec.html
+// https://cs.wmich.edu/~gupta/teaching/cs4850/sumII06/The%20syntax%20of%20C%20in%20Backus-Naur%20form.htm
 */
 ////////////////////////////////////////////////////////////////////////
 
@@ -119,18 +92,6 @@
 
 /*
 ---------
-<> (inequality)                             - use != instead        will be : not=
-add (concatenation (strings))               - use +  instead
-eq (equality (strings))                     - use == instead
-ne (not equal (strings))                    - use != instead        will be : not= or not==
-lt (less than (strings))                    - use <  instead
-le (less than or equal to (strings))        - use <= instead
-gt (greater than (strings))                 - use >  instead
-ge (greater than or equal to (strings))     - use >= instead
-and (logical and)                           - use && instead        will be : and
-or (logical or)                             - use || instead        will be : or
-not (logical not)                           - use !  instead         will be : not
----------
 %nonassoc IDENTIFIER CONSTANT STRING_LITERAL SIZEOF.
 %nonassoc TYPEDEF EXTERN STATIC AUTO REGISTER.
 %nonassoc CHAR SHORT INT LONG SIGNED UNSIGNED FLOAT DOUBLE CONST VOLATILE VOID.
@@ -182,7 +143,7 @@ non-terminals => lower case
 program ::= input.
 input ::= .
 input ::= input lines.
-lines ::= translation_unit END_OF_LINE|END_OF_FILE.                     { println("lines ::= translation_unit END_OF_LINE|END_OF_FILE."); }
+lines ::= translation_unit END_OF_LINE|END_OF_FILE.
 
 
 primary_expression ::= IDENTIFIER.
@@ -291,8 +252,12 @@ declaration ::= declaration_specifiers SEMCOL.
 declaration ::= declaration_specifiers init_declarator_list SEMCOL.
 
 
+declaration_specifiers ::= storage_class_specifier.
+declaration_specifiers ::= storage_class_specifier declaration_specifiers.
 declaration_specifiers ::= type_specifier.
 declaration_specifiers ::= type_specifier declaration_specifiers.
+declaration_specifiers ::= type_qualifier.
+declaration_specifiers ::= type_qualifier declaration_specifiers.
 
 
 init_declarator_list ::= init_declarator.
@@ -301,6 +266,9 @@ init_declarator_list ::= init_declarator_list COMMA init_declarator.
 
 init_declarator ::= declarator.
 init_declarator ::= declarator ASSIGN initializer.
+
+
+storage_class_specifier ::= TYPEDEF|EXTERN|STATIC|AUTO|REGISTER.
 
 
 type_specifier ::= VOID|CHAR|SHORT|INT|LONG|FLOAT|DOUBLE|SIGNED|UNSIGNED|TYPE_NAME.
@@ -325,6 +293,8 @@ struct_declaration ::= specifier_qualifier_list struct_declarator_list SEMCOL.
 
 specifier_qualifier_list ::= type_specifier specifier_qualifier_list.
 specifier_qualifier_list ::= type_specifier.
+specifier_qualifier_list ::= type_qualifier specifier_qualifier_list.
+specifier_qualifier_list ::= type_qualifier.
 
 
 struct_declarator_list ::= struct_declarator.
@@ -349,6 +319,9 @@ enumerator ::= IDENTIFIER.
 enumerator ::= IDENTIFIER ASSIGN constant_expression.
 
 
+type_qualifier ::= CONST.
+
+
 declarator ::= pointer direct_declarator.
 declarator ::= direct_declarator.
 
@@ -363,7 +336,13 @@ direct_declarator ::= direct_declarator LPAREN RPAREN.
 
 
 pointer ::= STAR.
+pointer ::= STAR type_qualifier_list.
 pointer ::= STAR pointer.
+pointer ::= STAR type_qualifier_list pointer.
+
+
+type_qualifier_list ::= type_qualifier.
+type_qualifier_list ::= type_qualifier_list type_qualifier.
 
 
 parameter_type_list ::= parameter_list.
@@ -412,11 +391,17 @@ initializer_list ::= initializer.
 initializer_list ::= initializer_list COMMA initializer.
 
 
+statement ::= labeled_statement.
 statement ::= compound_statement.
 statement ::= expression_statement.
 statement ::= selection_statement.
 statement ::= iteration_statement.
 statement ::= jump_statement.
+
+
+labeled_statement ::= IDENTIFIER COLON statement.
+labeled_statement ::= CASE constant_expression COLON statement.
+labeled_statement ::= DEFAULT COLON statement.
 
 
 compound_statement ::= LBRACKET RBRACKET.
@@ -442,16 +427,19 @@ selection_statement ::= IF LPAREN expression RPAREN statement ELSE statement.
 selection_statement ::= SWITCH LPAREN expression RPAREN statement.
 
 
+iteration_statement ::= WHILE LPAREN expression RPAREN statement.
+iteration_statement ::= DO statement WHILE LPAREN expression RPAREN SEMCOL.
+
+
 iteration_statement ::= FOR LPAREN expression_statement expression_statement RPAREN statement.
 iteration_statement ::= FOR LPAREN expression_statement expression_statement expression RPAREN statement.
 
 
+jump_statement ::= GOTO IDENTIFIER SEMCOL.
 jump_statement ::= CONTINUE SEMCOL.
-jump_statement ::= FALLTHROUGH SEMCOL.
 jump_statement ::= BREAK SEMCOL.
-jump_statement ::= BREAK primary_expression SEMCOL.
-jump_statement ::= RETURN SEMCOL.                                       { println("jump_statement ::= RETURN SEMCOL."); }
-jump_statement ::= RETURN primary_expression SEMCOL.                    { println("jump_statement ::= RETURN primary_expression SEMCOL."); }
+jump_statement ::= RETURN SEMCOL.
+jump_statement ::= RETURN expression SEMCOL.
 
 
 translation_unit ::= external_declaration.

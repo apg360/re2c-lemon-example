@@ -97,7 +97,7 @@ continue_scanning:
 
      // https://www.lysator.liu.se/c/ANSI-C-grammar-l.html
       "/*"            { goto comment; }
-      '('             { set_token( MACRO_VALUE_AND_NAME(TK_LPAREN)      ); goto parser_now;}
+      "("             { set_token( MACRO_VALUE_AND_NAME(TK_LPAREN)      ); goto parser_now;}
       ")"             { set_token( MACRO_VALUE_AND_NAME(TK_RPAREN)      ); goto parser_now;}
       "^"             { set_token( MACRO_VALUE_AND_NAME(TK_EXP)         ); goto parser_now;}
       "/"             { set_token( MACRO_VALUE_AND_NAME(TK_DIV)         ); goto parser_now;}
@@ -127,7 +127,8 @@ continue_scanning:
       "<="            { set_token( MACRO_VALUE_AND_NAME(TK_LE)          ); goto parser_now;}
       
       identifier      { set_token( MACRO_VALUE_AND_NAME(TK_IDENTIFIER ) ); goto parser_now;}
-      number          { set_token( MACRO_VALUE_AND_NAME(TK_INT)         ); goto parser_now;}
+      number          { set_token( MACRO_VALUE_AND_NAME(TK_CONSTANT )   ); goto parser_now;}
+      word            { set_token( MACRO_VALUE_AND_NAME(TK_STRING_LITERAL ) ); goto parser_now;}
       
       vartype         { set_token( MACRO_VALUE_AND_NAME(TK_VARTYPE)     ); goto parser_now;}
       

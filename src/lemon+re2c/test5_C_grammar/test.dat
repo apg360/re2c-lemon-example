@@ -1,4 +1,4 @@
-int main() {
+main() {
     scanner_DebugMode=false;
     PARSER_INIT(false);
     
