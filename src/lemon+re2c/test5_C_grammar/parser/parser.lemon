@@ -184,6 +184,7 @@ input ::= .
 input ::= input lines.
 lines ::= translation_unit END_OF_LINE|END_OF_FILE.                     { println("lines ::= translation_unit END_OF_LINE|END_OF_FILE."); }
 
+//https://www.essaytaste.com/solved-consider-following-ebnf-grammar-simple-programming-language-program-s-statemt-statemt-assn-q35399240-2/
 
 primary_expression ::= IDENTIFIER.
 primary_expression ::= CONSTANT.
