@@ -186,6 +186,24 @@ lines ::= translation_unit END_OF_LINE|END_OF_FILE.                     { printl
 
 //https://www.essaytaste.com/solved-consider-following-ebnf-grammar-simple-programming-language-program-s-statemt-statemt-assn-q35399240-2/
 
+
+assignment_operator ::= ASSIGN|STAR_ASSIGN|DIV_ASSIGN|MOD_ASSIGN|ADD_ASSIGN
+                    |SUB_ASSIGN|LEFT_ASSIGN|RIGHT_ASSIGN|AND_ASSIGN|XOR_ASSIGN|OR_ASSIGN.
+type_specifier ::= VOID|CHAR|SHORT|INT|LONG|FLOAT|DOUBLE|SIGNED|UNSIGNED|TYPE_NAME.
+type_specifier ::= struct_or_union_specifier.
+type_specifier ::= enum_specifier.
+struct_or_union::= STRUCT|UNION.
+
+translation_unit ::= external_declaration.
+translation_unit ::= translation_unit external_declaration.
+external_declaration ::= function_definition.
+external_declaration ::= declaration.
+
+
+function_definition ::= declarator declaration_list compound_statement.
+function_definition ::= declarator compound_statement.
+
+
 primary_expression ::= IDENTIFIER.
 primary_expression ::= CONSTANT.
 primary_expression ::= STRING_LITERAL.
@@ -272,10 +290,6 @@ cast_expression ::= LPAREN type_name RPAREN cast_expression.
 assignment_expression ::= unary_expression assignment_operator assignment_expression.
 
 
-assignment_operator ::= ASSIGN|STAR_ASSIGN|DIV_ASSIGN|MOD_ASSIGN|ADD_ASSIGN
-                    |SUB_ASSIGN|LEFT_ASSIGN|RIGHT_ASSIGN|AND_ASSIGN|XOR_ASSIGN|OR_ASSIGN.
-
-
 expression ::= assignment_expression.
 expression ::= expression COMMA assignment_expression.
 
@@ -296,17 +310,9 @@ init_declarator ::= declarator.
 init_declarator ::= declarator ASSIGN initializer.
 
 
-type_specifier ::= VOID|CHAR|SHORT|INT|LONG|FLOAT|DOUBLE|SIGNED|UNSIGNED|TYPE_NAME.
-type_specifier ::= struct_or_union_specifier.
-type_specifier ::= enum_specifier.
-
-
 struct_or_union_specifier ::= struct_or_union IDENTIFIER LBRACKET struct_declaration_list RBRACKET.
 struct_or_union_specifier ::= struct_or_union LBRACKET struct_declaration_list RBRACKET.
 struct_or_union_specifier ::= struct_or_union IDENTIFIER.
-
-
-struct_or_union::= STRUCT|UNION.
 
 
 struct_declaration_list ::= struct_declaration.
@@ -330,12 +336,8 @@ struct_declarator ::= declarator.
 enum_specifier ::= ENUM LBRACKET enumerator_list RBRACKET.
 enum_specifier ::= ENUM IDENTIFIER LBRACKET enumerator_list RBRACKET.
 enum_specifier ::= ENUM IDENTIFIER.
-
-
 enumerator_list ::= enumerator.
 enumerator_list ::= enumerator_list COMMA enumerator.
-
-
 enumerator ::= IDENTIFIER.
 
 
@@ -434,15 +436,3 @@ jump_statement ::= RETURN SEMCOL.                                       { printl
 jump_statement ::= RETURN primary_expression SEMCOL.                    { println("jump_statement ::= RETURN primary_expression SEMCOL."); }
 
 
-translation_unit ::= external_declaration.
-translation_unit ::= translation_unit external_declaration.
-
-
-external_declaration ::= function_definition.
-external_declaration ::= declaration.
-
-
-function_definition ::= declaration_specifiers declarator declaration_list compound_statement.
-function_definition ::= declaration_specifiers declarator compound_statement.
-function_definition ::= declarator declaration_list compound_statement.
-function_definition ::= declarator compound_statement.
