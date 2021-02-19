@@ -36,6 +36,7 @@ void set_token(const int tokentype, const char* tokentypename)
     
     // https://www.tutorialspoint.com/cprogramming/c_strings.htm
     // https://www.tutorialspoint.com/c_standard_library/c_function_strncpy.htm
+    // https://tutorialspoint.dev/language/cpp/strchr-function-in-cpp
     // start from 0 with 'src' chars and copy 'len' chars into destination
     // strncpy(dest, src, len);
     //

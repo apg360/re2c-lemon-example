@@ -268,11 +268,6 @@ logical_or_expression ::= logical_and_expression.
 logical_or_expression ::= logical_or_expression OR_OP logical_and_expression.
 
 
-conditional_expression ::= logical_or_expression.
-conditional_expression ::= logical_or_expression QUESTION expression COLON conditional_expression.
-
-
-assignment_expression ::= conditional_expression.
 assignment_expression ::= unary_expression assignment_operator assignment_expression.
 
 
@@ -282,9 +277,6 @@ assignment_operator ::= ASSIGN|STAR_ASSIGN|DIV_ASSIGN|MOD_ASSIGN|ADD_ASSIGN
 
 expression ::= assignment_expression.
 expression ::= expression COMMA assignment_expression.
-
-
-constant_expression ::= conditional_expression.
 
 
 declaration ::= declaration_specifiers SEMCOL.
@@ -332,8 +324,6 @@ struct_declarator_list ::= struct_declarator_list COMMA struct_declarator.
 
 
 struct_declarator ::= declarator.
-struct_declarator ::= COLON constant_expression.
-struct_declarator ::= declarator COLON constant_expression.
 
 
 enum_specifier ::= ENUM LBRACKET enumerator_list RBRACKET.
@@ -346,7 +336,6 @@ enumerator_list ::= enumerator_list COMMA enumerator.
 
 
 enumerator ::= IDENTIFIER.
-enumerator ::= IDENTIFIER ASSIGN constant_expression.
 
 
 declarator ::= pointer direct_declarator.
@@ -355,7 +344,6 @@ declarator ::= direct_declarator.
 
 direct_declarator ::= IDENTIFIER.
 direct_declarator ::= LPAREN declarator RPAREN.
-direct_declarator ::= direct_declarator LSQUAREB constant_expression RSQUAREB.
 direct_declarator ::= direct_declarator LSQUAREB RSQUAREB.
 direct_declarator ::= direct_declarator LPAREN parameter_type_list RPAREN.
 direct_declarator ::= direct_declarator LPAREN identifier_list RPAREN.
@@ -394,9 +382,7 @@ abstract_declarator ::= pointer direct_abstract_declarator.
 
 direct_abstract_declarator ::= LPAREN abstract_declarator RPAREN.
 direct_abstract_declarator ::= LSQUAREB RSQUAREB.
-direct_abstract_declarator ::= LSQUAREB constant_expression RSQUAREB.
 direct_abstract_declarator ::= direct_abstract_declarator LSQUAREB RSQUAREB.
-direct_abstract_declarator ::= direct_abstract_declarator LSQUAREB constant_expression RSQUAREB.
 direct_abstract_declarator ::= LPAREN RPAREN.
 direct_abstract_declarator ::= LPAREN parameter_type_list RPAREN.
 direct_abstract_declarator ::= direct_abstract_declarator LPAREN RPAREN.
