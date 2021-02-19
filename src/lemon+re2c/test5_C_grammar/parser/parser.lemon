@@ -194,35 +194,150 @@ type_specifier ::= struct_or_union_specifier.
 type_specifier ::= enum_specifier.
 struct_or_union::= STRUCT|UNION.
 
+
 translation_unit ::= external_declaration.
 translation_unit ::= translation_unit external_declaration.
 external_declaration ::= function_definition.
 external_declaration ::= declaration.
-
-
 function_definition ::= declarator declaration_list compound_statement.
 function_definition ::= declarator compound_statement.
+
+
+statement_list ::= statement.
+statement_list ::= statement_list statement.
+
+
+statement ::= compound_statement.
+statement ::= expression_statement. //UNARY OPERATIONS
+statement ::= selection_statement.
+statement ::= forloop_iteration_statement.
+statement ::= jump_statement.
+
+
+compound_statement ::= LBRACKET RBRACKET.
+compound_statement ::= LBRACKET statement_list RBRACKET.
+compound_statement ::= LBRACKET declaration_list RBRACKET.
+compound_statement ::= LBRACKET declaration_list statement_list RBRACKET.
 
 
 primary_expression ::= IDENTIFIER.
 primary_expression ::= CONSTANT.
 primary_expression ::= STRING_LITERAL.
-primary_expression ::= LPAREN expression RPAREN.
+primary_expression ::= LPAREN expression RPAREN. //UNARY OPERATIONS
+
+declaration_list ::= declaration.
+declaration_list ::= declaration_list declaration.
+declaration ::= declaration_specifiers SEMCOL.
+declaration ::= declaration_specifiers init_declarator_list SEMCOL.
+declaration_specifiers ::= type_specifier.
+declaration_specifiers ::= type_specifier declaration_specifiers.
 
 
+init_declarator_list ::= init_declarator.
+init_declarator_list ::= init_declarator_list COMMA init_declarator.
+init_declarator ::= declarator.
+init_declarator ::= declarator ASSIGN initializer.
+
+
+struct_or_union_specifier ::= struct_or_union IDENTIFIER LBRACKET struct_declaration_list RBRACKET.
+struct_or_union_specifier ::= struct_or_union LBRACKET struct_declaration_list RBRACKET.
+struct_or_union_specifier ::= struct_or_union IDENTIFIER.
+
+
+struct_declaration_list ::= struct_declaration.
+struct_declaration_list ::= struct_declaration_list struct_declaration.
+struct_declaration ::= specifier_qualifier_list struct_declarator_list SEMCOL.
+
+
+type_name ::= specifier_qualifier_list.
+type_name ::= specifier_qualifier_list abstract_declarator.
+specifier_qualifier_list ::= type_specifier specifier_qualifier_list.
+specifier_qualifier_list ::= type_specifier.
+
+
+struct_declarator_list ::= struct_declarator.
+struct_declarator_list ::= struct_declarator_list COMMA struct_declarator.
+struct_declarator ::= declarator.
+declarator ::= direct_declarator.
+direct_declarator ::= IDENTIFIER.
+direct_declarator ::= LPAREN declarator RPAREN.
+direct_declarator ::= direct_declarator LSQUAREB RSQUAREB.
+direct_declarator ::= direct_declarator LPAREN parameter_type_list RPAREN.
+direct_declarator ::= direct_declarator LPAREN identifier_list RPAREN.
+direct_declarator ::= direct_declarator LPAREN RPAREN.
+
+abstract_declarator ::= direct_abstract_declarator.
+direct_abstract_declarator ::= LPAREN abstract_declarator RPAREN.
+direct_abstract_declarator ::= LSQUAREB RSQUAREB.
+direct_abstract_declarator ::= direct_abstract_declarator LSQUAREB RSQUAREB.
+direct_abstract_declarator ::= LPAREN RPAREN.
+direct_abstract_declarator ::= LPAREN parameter_type_list RPAREN.
+direct_abstract_declarator ::= direct_abstract_declarator LPAREN RPAREN.
+direct_abstract_declarator ::= direct_abstract_declarator LPAREN parameter_type_list RPAREN.
+
+
+parameter_type_list ::= parameter_list.
+parameter_type_list ::= parameter_list COMMA ELLIPSIS.
+parameter_list ::= parameter_declaration.
+parameter_list ::= parameter_list COMMA parameter_declaration.
+parameter_declaration ::= declaration_specifiers declarator.
+parameter_declaration ::= declaration_specifiers abstract_declarator.
+parameter_declaration ::= declaration_specifiers.
+
+
+identifier_list ::= IDENTIFIER.
+identifier_list ::= identifier_list COMMA IDENTIFIER.
+initializer_list ::= initializer.
+initializer_list ::= initializer_list COMMA initializer.
+initializer ::= assignment_expression.
+initializer ::= LBRACKET initializer_list RBRACKET.
+initializer ::= LBRACKET initializer_list COMMA RBRACKET.
+
+
+// IF, SWITCH, FOR
+selection_statement ::= IF LPAREN expression RPAREN statement.
+selection_statement ::= IF LPAREN expression RPAREN statement ELSE statement.
+selection_statement ::= SWITCH LPAREN expression RPAREN statement.
+forloop_iteration_statement ::= FOR LPAREN expression_statement expression_statement RPAREN statement.
+forloop_iteration_statement ::= FOR LPAREN expression_statement expression_statement expression RPAREN statement.
+jump_statement ::= CONTINUE SEMCOL.
+jump_statement ::= FALLTHROUGH SEMCOL.
+jump_statement ::= BREAK SEMCOL.
+jump_statement ::= BREAK primary_expression SEMCOL.
+jump_statement ::= RETURN SEMCOL.                                       { println("jump_statement ::= RETURN SEMCOL."); }
+jump_statement ::= RETURN primary_expression SEMCOL.                    { println("jump_statement ::= RETURN primary_expression SEMCOL."); }
+
+
+// ENUM
+enum_specifier ::= ENUM LBRACKET enumerator_list RBRACKET.
+enum_specifier ::= ENUM IDENTIFIER LBRACKET enumerator_list RBRACKET.
+enum_specifier ::= ENUM IDENTIFIER.
+enumerator_list ::= enumerator.
+enumerator_list ::= enumerator_list COMMA enumerator.
+enumerator ::= IDENTIFIER.
+
+
+// ++var, var++, --var, var--
 postfix_expression ::= primary_expression.
 postfix_expression ::= postfix_expression LSQUAREB expression RSQUAREB.
 postfix_expression ::= postfix_expression LPAREN RPAREN.
-postfix_expression ::= postfix_expression LPAREN argument_expression_list RPAREN.
+postfix_expression ::= postfix_expression LPAREN argument_expression_list RPAREN. //UNARY OPERATIONS
 postfix_expression ::= postfix_expression DOT IDENTIFIER.
-postfix_expression ::= postfix_expression PTR_OP IDENTIFIER.
 postfix_expression ::= postfix_expression INC_OP.
 postfix_expression ::= postfix_expression DEC_OP.
 
 
+//UNARY OPERATIONS
+unary_operator ::= REF|STAR|PLUS|MINUS|TILDE|NOT.
+
 argument_expression_list ::= assignment_expression.
 argument_expression_list ::= argument_expression_list COMMA assignment_expression.
+expression_statement ::= SEMCOL.
+expression_statement ::= expression SEMCOL.
+expression ::= assignment_expression.
+expression ::= expression COMMA assignment_expression.
 
+assignment_expression ::= unary_expression assignment_operator assignment_expression.
 
 unary_expression ::= postfix_expression.
 unary_expression ::= INC_OP unary_expression.
@@ -230,10 +345,6 @@ unary_expression ::= DEC_OP unary_expression.
 unary_expression ::= unary_operator cast_expression.
 unary_expression ::= SIZEOF unary_expression.
 unary_expression ::= SIZEOF LPAREN type_name RPAREN.
-
-
-unary_operator ::= REF|STAR|PLUS|MINUS|TILDE|NOT.
-
 
 cast_expression ::= unary_expression.
 cast_expression ::= LPAREN type_name RPAREN cast_expression.
@@ -285,154 +396,3 @@ cast_expression ::= LPAREN type_name RPAREN cast_expression.
 
 //logical_or_expression ::= logical_and_expression.
 //logical_or_expression ::= logical_or_expression OR_OP logical_and_expression.
-
-
-assignment_expression ::= unary_expression assignment_operator assignment_expression.
-
-
-expression ::= assignment_expression.
-expression ::= expression COMMA assignment_expression.
-
-
-declaration ::= declaration_specifiers SEMCOL.
-declaration ::= declaration_specifiers init_declarator_list SEMCOL.
-
-
-declaration_specifiers ::= type_specifier.
-declaration_specifiers ::= type_specifier declaration_specifiers.
-
-
-init_declarator_list ::= init_declarator.
-init_declarator_list ::= init_declarator_list COMMA init_declarator.
-
-
-init_declarator ::= declarator.
-init_declarator ::= declarator ASSIGN initializer.
-
-
-struct_or_union_specifier ::= struct_or_union IDENTIFIER LBRACKET struct_declaration_list RBRACKET.
-struct_or_union_specifier ::= struct_or_union LBRACKET struct_declaration_list RBRACKET.
-struct_or_union_specifier ::= struct_or_union IDENTIFIER.
-
-
-struct_declaration_list ::= struct_declaration.
-struct_declaration_list ::= struct_declaration_list struct_declaration.
-
-
-struct_declaration ::= specifier_qualifier_list struct_declarator_list SEMCOL.
-
-
-specifier_qualifier_list ::= type_specifier specifier_qualifier_list.
-specifier_qualifier_list ::= type_specifier.
-
-
-struct_declarator_list ::= struct_declarator.
-struct_declarator_list ::= struct_declarator_list COMMA struct_declarator.
-
-
-struct_declarator ::= declarator.
-
-
-enum_specifier ::= ENUM LBRACKET enumerator_list RBRACKET.
-enum_specifier ::= ENUM IDENTIFIER LBRACKET enumerator_list RBRACKET.
-enum_specifier ::= ENUM IDENTIFIER.
-enumerator_list ::= enumerator.
-enumerator_list ::= enumerator_list COMMA enumerator.
-enumerator ::= IDENTIFIER.
-
-
-declarator ::= direct_declarator.
-
-
-direct_declarator ::= IDENTIFIER.
-direct_declarator ::= LPAREN declarator RPAREN.
-direct_declarator ::= direct_declarator LSQUAREB RSQUAREB.
-direct_declarator ::= direct_declarator LPAREN parameter_type_list RPAREN.
-direct_declarator ::= direct_declarator LPAREN identifier_list RPAREN.
-direct_declarator ::= direct_declarator LPAREN RPAREN.
-
-
-parameter_type_list ::= parameter_list.
-parameter_type_list ::= parameter_list COMMA ELLIPSIS.
-
-
-parameter_list ::= parameter_declaration.
-parameter_list ::= parameter_list COMMA parameter_declaration.
-
-
-parameter_declaration ::= declaration_specifiers declarator.
-parameter_declaration ::= declaration_specifiers abstract_declarator.
-parameter_declaration ::= declaration_specifiers.
-
-
-identifier_list ::= IDENTIFIER.
-identifier_list ::= identifier_list COMMA IDENTIFIER.
-
-
-type_name ::= specifier_qualifier_list.
-type_name ::= specifier_qualifier_list abstract_declarator.
-
-
-abstract_declarator ::= direct_abstract_declarator.
-
-
-direct_abstract_declarator ::= LPAREN abstract_declarator RPAREN.
-direct_abstract_declarator ::= LSQUAREB RSQUAREB.
-direct_abstract_declarator ::= direct_abstract_declarator LSQUAREB RSQUAREB.
-direct_abstract_declarator ::= LPAREN RPAREN.
-direct_abstract_declarator ::= LPAREN parameter_type_list RPAREN.
-direct_abstract_declarator ::= direct_abstract_declarator LPAREN RPAREN.
-direct_abstract_declarator ::= direct_abstract_declarator LPAREN parameter_type_list RPAREN.
-
-
-initializer ::= assignment_expression.
-initializer ::= LBRACKET initializer_list RBRACKET.
-initializer ::= LBRACKET initializer_list COMMA RBRACKET.
-
-
-initializer_list ::= initializer.
-initializer_list ::= initializer_list COMMA initializer.
-
-
-statement ::= compound_statement.
-statement ::= expression_statement.
-statement ::= selection_statement.
-statement ::= iteration_statement.
-statement ::= jump_statement.
-
-
-compound_statement ::= LBRACKET RBRACKET.
-compound_statement ::= LBRACKET statement_list RBRACKET.
-compound_statement ::= LBRACKET declaration_list RBRACKET.
-compound_statement ::= LBRACKET declaration_list statement_list RBRACKET.
-
-
-declaration_list ::= declaration.
-declaration_list ::= declaration_list declaration.
-
-
-statement_list ::= statement.
-statement_list ::= statement_list statement.
-
-
-expression_statement ::= SEMCOL.
-expression_statement ::= expression SEMCOL.
-
-
-selection_statement ::= IF LPAREN expression RPAREN statement.
-selection_statement ::= IF LPAREN expression RPAREN statement ELSE statement.
-selection_statement ::= SWITCH LPAREN expression RPAREN statement.
-
-
-iteration_statement ::= FOR LPAREN expression_statement expression_statement RPAREN statement.
-iteration_statement ::= FOR LPAREN expression_statement expression_statement expression RPAREN statement.
-
-
-jump_statement ::= CONTINUE SEMCOL.
-jump_statement ::= FALLTHROUGH SEMCOL.
-jump_statement ::= BREAK SEMCOL.
-jump_statement ::= BREAK primary_expression SEMCOL.
-jump_statement ::= RETURN SEMCOL.                                       { println("jump_statement ::= RETURN SEMCOL."); }
-jump_statement ::= RETURN primary_expression SEMCOL.                    { println("jump_statement ::= RETURN primary_expression SEMCOL."); }
-
-
