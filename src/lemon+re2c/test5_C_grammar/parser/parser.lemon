@@ -210,30 +210,30 @@ statement ::= jump_statement.
 statement ::= proc_definition.
 statement ::= proc_call.
 
-ifstmt     ::= IF expression LBRACKET block_statement RBRACKET.
-ifstmt     ::= IF expression LBRACKET block_statement RBRACKET ELSE LBRACKET block_statement RBRACKET.
-forstmt    ::= FOR for_init SEMCOL expression SEMCOL for_update block_statement.
-for_init   ::= expression | variable_declaration
-for_update ::= expression
+ifstmt              ::= IF expression LBRACKET block_statement RBRACKET.
+ifstmt              ::= IF expression LBRACKET block_statement RBRACKET ELSE LBRACKET block_statement RBRACKET.
+forstmt             ::= FOR for_init SEMCOL expression SEMCOL for_update for_block_statement.
+for_init            ::= expression | variable_declaration
+for_update          ::= expression
+for_block_statement ::= block_statement.
+for_block_statement ::= for_jump_statement.
+for_jump_statement  ::= BREAK.
+for_jump_statement  ::= BREAK primary_expression.
+for_jump_statement  ::= CONTINUE.
 
-switchstmt     ::= SWITCH expression LBRACKET switch_block RBRACKET.
-switch_block   ::= expression LBRACKET switch_case_block RBRACKET.
-switch_block   ::= default    LBRACKET statement RBRACKET.
-switch_case_block ::= FALLTHROUGH.
-switch_case_block ::= statement.
+switchstmt          ::= SWITCH expression LBRACKET switch_block RBRACKET.
+switch_block        ::= expression LBRACKET switch_case_block RBRACKET.
+switch_block        ::= DEFAULT    LBRACKET statement RBRACKET.         // DEFAULT {}
+switch_case_block   ::= FALLTHROUGH.
+switch_case_block   ::= statement.
 
-jump_statement ::= CONTINUE SEMCOL.
-jump_statement ::= FALLTHROUGH SEMCOL.
-jump_statement ::= BREAK SEMCOL.
-jump_statement ::= BREAK primary_expression SEMCOL.
-jump_statement ::= RETURN SEMCOL.                                       { println("jump_statement ::= RETURN SEMCOL."); }
-jump_statement ::= RETURN primary_expression SEMCOL.                    { println("jump_statement ::= RETURN primary_expression SEMCOL."); }
+proc_definition     ::= IDENTIFIER LPAREN RPAREN block_statement.       // proc_add() { ... }
+proc_definition     ::= IDENTIFIER LPAREN argument_list RPAREN block_statement. // proc_add(x,y,z) { ... }
 
-proc_definition    ::= IDENTIFIER LPAREN RPAREN block_statement.
-proc_definition    ::= IDENTIFIER LPAREN argument_list RPAREN block_statement.
-
-proc_call ::= IDENTIFIER LPAREN RPAREN.                                 // proc_add()
-proc_call ::= IDENTIFIER LPAREN argument_list RPAREN.                   // proc_add(x, y, z)
+proc_call           ::= IDENTIFIER LPAREN RPAREN.                       // proc_add()
+proc_call           ::= IDENTIFIER LPAREN argument_list RPAREN.         // proc_add(x,y,z)
+proc_return         ::= RETURN.                                         { println("proc_return ::= RETURN."); }
+proc_return         ::= RETURN expression.                              { println("proc_return ::= RETURN expression."); }
 
 
 // EXPRESSIONS
@@ -246,7 +246,7 @@ variable_declaration ::= IDENTIFIER ASSIGN QUOTE STRING_LITERAL QUOTE.  // var="
 variable_declaration ::= IDENTIFIER ASSIGN boolean_literal.             // var=true + var=false
 variable_assignment  ::= IDENTIFIER ASSIGN expression.                  // existing var change value var=17
 variable_assignment  ::= identifier_list ASSIGN identifier_list.        // i,j,k=a,b,c
-//variable_assignment  ::= identifier_list ASSIGN expression_list.        // i,j,k=1,2,3 or i,j,k=1*2,2*2,3*3
+//variable_assignment  ::= identifier_list ASSIGN expression_list.      // i,j,k=1,2,3 or i,j,k=1*2,2*2,3*3
 
 conditional_expression ::= conditional_or_expression
 conditional_or_expression ::= conditional_and_expression | conditional_or_expression || conditional_and_expression
