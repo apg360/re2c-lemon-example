@@ -130,13 +130,11 @@ gt (greater than (strings))                 - use >  instead
 ge (greater than or equal to (strings))     - use >= instead
 and (logical and)                           - use && instead        will be : and
 or (logical or)                             - use || instead        will be : or
-not (logical not)                           - use !  instead         will be : not
+not (logical not)                           - use !  instead        will be : not
 ---------
-%nonassoc IDENTIFIER CONSTANT STRING_LITERAL SIZEOF.
+%nonassoc IDENTIFIER NUMBER_LITERAL STRING_LITERAL TRUE FALSE QUOTE.
 %nonassoc TYPEDEF EXTERN STATIC AUTO REGISTER.
-%nonassoc CHAR SHORT INT LONG SIGNED UNSIGNED FLOAT DOUBLE CONST VOLATILE VOID.
-%nonassoc STRUCT UNION ENUM ELLIPSIS.
-%nonassoc CASE DEFAULT IF ELSE SWITCH WHILE DO FOR GOTO CONTINUE BREAK RETURN.
+%nonassoc IF ELSE TRUE FALSE FOR SWITCH RETURN BREAK CONTINUE FALLTHROUGH DEFAULT VARTYPE.
 %left PTR_OP INC_OP DEC_OP LEFT_OP RIGHT_OP LE_OP GE_OP EQ_OP NE_OP.
 %left AND_OP OR_OP STAR_ASSIGN DIV_ASSIGN MOD_ASSIGN ADD_ASSIGN.
 %left SUB_ASSIGN LEFT_ASSIGN RIGHT_ASSIGN AND_ASSIGN.
@@ -185,15 +183,89 @@ input ::= .
 input ::= input lines.
 lines ::= translation_unit END_OF_LINE|END_OF_FILE.                     { println("lines ::= translation_unit END_OF_LINE|END_OF_FILE."); }
 
-//https://www.essaytaste.com/solved-consider-following-ebnf-grammar-simple-programming-language-program-s-statemt-statemt-assn-q35399240-2/
+/*
+
+boolean_literal     ::= true | false.
+//type     ::= u8 | u16 | u32 | u64 | u128 | i8 | i16 | i32 | i64 | i128 | f16 | f32 | f64.
+assignment_operator ::= ASSIGN|STAR_ASSIGN|DIV_ASSIGN|MOD_ASSIGN|ADD_ASSIGN|SUB_ASSIGN   // = | *= | /= | %= | += | -=
+                    |LEFT_ASSIGN|RIGHT_ASSIGN|AND_ASSIGN|XOR_ASSIGN|OR_ASSIGN.           // <<= | >>= | &= | ^= | |=
+unary_operator  ::= PLUS|MINUS|TILDE|NOT.
+
+identifier_list ::= IDENTIFIER.
+identifier_list ::= identifier_list COMMA IDENTIFIER.
+argument_list   ::= expression.
+argument_list   ::= argument_list COMMA expression.
+
+block_statement ::= LBRACKET RBRACKET.
+block_statement ::= LBRACKET statement_list RBRACKET.
+
+statement_list ::= statement.
+statement_list ::= statement_list statement.
+
+statement ::= variable_declaration.
+statement ::= ifstmt.
+statement ::= forstmt.
+statement ::= switchstmt.
+statement ::= jump_statement.
+statement ::= proc_definition.
+statement ::= proc_call.
+
+ifstmt     ::= IF expression LBRACKET block_statement RBRACKET.
+ifstmt     ::= IF expression LBRACKET block_statement RBRACKET ELSE LBRACKET block_statement RBRACKET.
+forstmt    ::= FOR for_init SEMCOL expression SEMCOL for_update block_statement.
+for_init   ::= expression | variable_declaration
+for_update ::= expression
+
+switchstmt     ::= SWITCH expression LBRACKET switch_block RBRACKET.
+switch_block   ::= expression LBRACKET switch_case_block RBRACKET.
+switch_block   ::= default    LBRACKET statement RBRACKET.
+switch_case_block ::= FALLTHROUGH.
+switch_case_block ::= statement.
+
+jump_statement ::= CONTINUE SEMCOL.
+jump_statement ::= FALLTHROUGH SEMCOL.
+jump_statement ::= BREAK SEMCOL.
+jump_statement ::= BREAK primary_expression SEMCOL.
+jump_statement ::= RETURN SEMCOL.                                       { println("jump_statement ::= RETURN SEMCOL."); }
+jump_statement ::= RETURN primary_expression SEMCOL.                    { println("jump_statement ::= RETURN primary_expression SEMCOL."); }
+
+proc_definition    ::= IDENTIFIER LPAREN RPAREN block_statement.
+proc_definition    ::= IDENTIFIER LPAREN argument_list RPAREN block_statement.
+
+proc_call ::= IDENTIFIER LPAREN RPAREN.                                 // proc_add()
+proc_call ::= IDENTIFIER LPAREN argument_list RPAREN.                   // proc_add(x, y, z)
 
 
-assignment_operator ::= ASSIGN|STAR_ASSIGN|DIV_ASSIGN|MOD_ASSIGN|ADD_ASSIGN
-                    |SUB_ASSIGN|LEFT_ASSIGN|RIGHT_ASSIGN|AND_ASSIGN|XOR_ASSIGN|OR_ASSIGN.
-type_specifier ::= VOID|CHAR|SHORT|INT|LONG|FLOAT|DOUBLE|SIGNED|UNSIGNED|TYPE_NAME.
-type_specifier ::= struct_or_union_specifier.
-type_specifier ::= enum_specifier.
-struct_or_union::= STRUCT|UNION.
+// EXPRESSIONS
+
+expression ::= conditional_expression | variable_assignment
+
+variable_declaration ::= IDENTIFIER ASSIGN type.                        // var=u16
+variable_declaration ::= IDENTIFIER ASSIGN type ASSIGN NUMBER_LITERAL.  // var=u16=15
+variable_declaration ::= IDENTIFIER ASSIGN QUOTE STRING_LITERAL QUOTE.  // var="string"
+variable_declaration ::= IDENTIFIER ASSIGN boolean_literal.             // var=true + var=false
+variable_assignment  ::= IDENTIFIER ASSIGN expression.                  // existing var change value var=17
+variable_assignment  ::= identifier_list ASSIGN identifier_list.        // i,j,k=a,b,c
+//variable_assignment  ::= identifier_list ASSIGN expression_list.        // i,j,k=1,2,3 or i,j,k=1*2,2*2,3*3
+
+conditional_expression ::= conditional_or_expression
+conditional_or_expression ::= conditional_and_expression | conditional_or_expression || conditional_and_expression
+conditional_and_expression ::= inclusive_or_expression | conditional_and_expression && inclusive_or_expression
+inclusive_or_expression ::= exclusive_or_expression | inclusive_or_expression | exclusive_or_expression
+exclusive_or_expression ::= and_expression | exclusive_or_expression ^ and_expression
+and_expression ::= equality_expression | and_expression & equality_expression
+equality_expression ::= relational_expression | equality_expression == relational_expression | equality_expression != relational_expression
+relational_expression ::= shift_expression | relational_expression < shift_expression | relational_expression > shift_expression | relational_expression <= shift_expression | relational_expression >= shift_expression
+shift_expression ::= additive_expression | shift_expression << additive_expression | shift_expression >> additive_expression | shift_expression >>> additive_expression
+additive_expression ::= multiplicative_expression | additive_expression + multiplicative_expression | additive_expression - multiplicative_expression
+multiplicative_expression ::= unary_expression | multiplicative_expression * unary_expression | multiplicative_expression / unary_expression | multiplicative_expression % unary_expression
+
+// https://en.wikipedia.org/wiki/Unary_operation
+unary_expression ::= primary_expression | + unary_expression | - unary_expression | ~ unary_expression | NOT unary_expression
+primary_expression ::= primary | expression name
+primary ::= IDENTIFIER | ( expression )
+
+*/
 
 
 translation_unit ::= external_declaration.
@@ -240,85 +312,26 @@ init_declarator ::= declarator.
 init_declarator ::= declarator ASSIGN initializer.
 
 
-struct_or_union_specifier ::= struct_or_union IDENTIFIER LBRACKET struct_declaration_list RBRACKET.
-struct_or_union_specifier ::= struct_or_union LBRACKET struct_declaration_list RBRACKET.
-struct_or_union_specifier ::= struct_or_union IDENTIFIER.
-
-
-struct_declaration_list ::= struct_declaration.
-struct_declaration_list ::= struct_declaration_list struct_declaration.
-struct_declaration ::= specifier_qualifier_list struct_declarator_list SEMCOL.
-
-
 type_name ::= specifier_qualifier_list.
 type_name ::= specifier_qualifier_list abstract_declarator.
 specifier_qualifier_list ::= type_specifier specifier_qualifier_list.
-specifier_qualifier_list ::= type_specifier.
+specifier_qualifier_list ::= type_specifier
+
+//UNARY OPERATIONS
 
 
-struct_declarator_list ::= struct_declarator.
-struct_declarator_list ::= struct_declarator_list COMMA struct_declarator.
-struct_declarator ::= declarator.
-declarator ::= direct_declarator.
-direct_declarator ::= IDENTIFIER.
-direct_declarator ::= LPAREN declarator RPAREN.
-direct_declarator ::= direct_declarator LSQUAREB RSQUAREB.
-direct_declarator ::= direct_declarator LPAREN parameter_type_list RPAREN.
-direct_declarator ::= direct_declarator LPAREN identifier_list RPAREN.
-direct_declarator ::= direct_declarator LPAREN RPAREN.
-
-abstract_declarator ::= direct_abstract_declarator.
-direct_abstract_declarator ::= LPAREN abstract_declarator RPAREN.
-direct_abstract_declarator ::= LSQUAREB RSQUAREB.
-direct_abstract_declarator ::= direct_abstract_declarator LSQUAREB RSQUAREB.
-direct_abstract_declarator ::= LPAREN RPAREN.
-direct_abstract_declarator ::= LPAREN parameter_type_list RPAREN.
-direct_abstract_declarator ::= direct_abstract_declarator LPAREN RPAREN.
-direct_abstract_declarator ::= direct_abstract_declarator LPAREN parameter_type_list RPAREN.
+argument_expression_list ::= assignment_expression.
+argument_expression_list ::= argument_expression_list COMMA assignment_expression.
+expression_statement ::= SEMCOL.
+expression_statement ::= expression SEMCOL.
+expression ::= assignment_expression.
+expression ::= expression COMMA assignment_expression.
 
 
-parameter_type_list ::= parameter_list.
-parameter_type_list ::= parameter_list COMMA ELLIPSIS.
-parameter_list ::= parameter_declaration.
-parameter_list ::= parameter_list COMMA parameter_declaration.
-parameter_declaration ::= declaration_specifiers declarator.
-parameter_declaration ::= declaration_specifiers abstract_declarator.
-parameter_declaration ::= declaration_specifiers.
-
-
-identifier_list ::= IDENTIFIER.
-identifier_list ::= identifier_list COMMA IDENTIFIER.
-initializer_list ::= initializer.
-initializer_list ::= initializer_list COMMA initializer.
-initializer ::= assignment_expression.
-initializer ::= LBRACKET initializer_list RBRACKET.
-initializer ::= LBRACKET initializer_list COMMA RBRACKET.
-
-
-// IF, SWITCH, FOR
-selection_statement ::= IF LPAREN expression RPAREN statement.
-selection_statement ::= IF LPAREN expression RPAREN statement ELSE statement.
-selection_statement ::= SWITCH LPAREN expression RPAREN statement.
-forloop_iteration_statement ::= FOR LPAREN expression_statement expression_statement RPAREN statement.
-forloop_iteration_statement ::= FOR LPAREN expression_statement expression_statement expression RPAREN statement.
-jump_statement ::= CONTINUE SEMCOL.
-jump_statement ::= FALLTHROUGH SEMCOL.
-jump_statement ::= BREAK SEMCOL.
-jump_statement ::= BREAK primary_expression SEMCOL.
-jump_statement ::= RETURN SEMCOL.                                       { println("jump_statement ::= RETURN SEMCOL."); }
-jump_statement ::= RETURN primary_expression SEMCOL.                    { println("jump_statement ::= RETURN primary_expression SEMCOL."); }
-
-
-// ENUM
-enum_specifier ::= ENUM LBRACKET enumerator_list RBRACKET.
-enum_specifier ::= ENUM IDENTIFIER LBRACKET enumerator_list RBRACKET.
-enum_specifier ::= ENUM IDENTIFIER.
-enumerator_list ::= enumerator.
-enumerator_list ::= enumerator_list COMMA enumerator.
-enumerator ::= IDENTIFIER.
-
-
-// ++var, var++, --var, var--
+assignment_expression ::= unary_expression assignment_operator assignment_expression. // --var += var++
+unary_expression ::= postfix_expression.
+unary_expression ::= INC_OP unary_expression.
+unary_expression ::= DEC_OP unary_expression.
 postfix_expression ::= primary_expression.
 postfix_expression ::= postfix_expression LSQUAREB expression RSQUAREB.
 postfix_expression ::= postfix_expression LPAREN RPAREN.
@@ -328,33 +341,10 @@ postfix_expression ::= postfix_expression INC_OP.
 postfix_expression ::= postfix_expression DEC_OP.
 
 
-//UNARY OPERATIONS
-unary_operator ::= REF|STAR|PLUS|MINUS|TILDE|NOT.
-
-argument_expression_list ::= assignment_expression.
-argument_expression_list ::= argument_expression_list COMMA assignment_expression.
-expression_statement ::= SEMCOL.
-expression_statement ::= expression SEMCOL.
-expression ::= assignment_expression.
-expression ::= expression COMMA assignment_expression.
-
-assignment_expression ::= unary_expression assignment_operator assignment_expression.
-
-unary_expression ::= postfix_expression.
-unary_expression ::= INC_OP unary_expression.
-unary_expression ::= DEC_OP unary_expression.
-unary_expression ::= unary_operator cast_expression.
-unary_expression ::= SIZEOF unary_expression.
-unary_expression ::= SIZEOF LPAREN type_name RPAREN.
-
-cast_expression ::= unary_expression.
-cast_expression ::= LPAREN type_name RPAREN cast_expression.
-
-
-//multiplicative_expression ::= cast_expression.
-//multiplicative_expression ::= multiplicative_expression STAR cast_expression.
-//multiplicative_expression ::= multiplicative_expression DIV cast_expression.
-//multiplicative_expression ::= multiplicative_expression MOD cast_expression.
+//multiplicative_expression ::= unary_expression.
+//multiplicative_expression ::= multiplicative_expression STAR unary_expression.
+//multiplicative_expression ::= multiplicative_expression DIV unary_expression.
+//multiplicative_expression ::= multiplicative_expression MOD unary_expression.
 
 
 //additive_expression ::= multiplicative_expression.
@@ -397,3 +387,26 @@ cast_expression ::= LPAREN type_name RPAREN cast_expression.
 
 //logical_or_expression ::= logical_and_expression.
 //logical_or_expression ::= logical_or_expression OR_OP logical_and_expression.
+
+/*
+//https://www.essaytaste.com/solved-consider-following-ebnf-grammar-simple-programming-language-program-s-statemt-statemt-assn-q35399240-2/
+program  ::= S {statemt}
+statemt  ::= assnmt | ifstmt | do | inout | progcall
+assnmt   ::= ident ~ exprsn ;
+ifstmt   ::= I comprsn @ {statemt} [% {statemt}] &
+do       ::= D {statemt} U comprsn E
+inout    ::= iosym ident {, ident } ;
+iosym    ::= R | O
+progcall ::= C program G
+comprsn  ::= ( oprnd opratr oprnd )
+exprsn   ::= factor {+ factor}
+factor   ::= oprnd {* oprnd}
+oprnd    ::= integer | ident | bool | ( exprsn )
+opratr   ::= < | = | > | ! | ^
+ident    ::= letter {char}
+char     ::= letter | digit
+integer  ::= digit {digit}
+letter   ::= W | X | Y | Z
+digit    ::= 0 | 1
+bool     ::= T | F
+*/

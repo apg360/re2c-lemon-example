@@ -68,24 +68,17 @@ struct _scanner_state SCANNER_STATE;
     
     punctuation = [!"#$%&’()*+,-./:;?@[\\\]_‘{|}~];
     
-    letter = [a-z];                     // [A-Za-z]  = will scan one letter at a time, letter after letter
-    word   = [a-z]+;                    // [A-Za-z]+ = word after word
-    number = [0-9]+;                       // [-+]?([0-9]+([.][0-9]*)?|[.][0-9]+)([Ee][-+]?[0-9]+)?;
-    digit = [0-9];
+    letter   = [a-z];                        // [A-Za-z]  = will scan one letter at a time, letter after letter
+    word     = [a-z]+;                       // [A-Za-z]+ = word after word
+    
+    number   = [0-9]+;                       // [-+]?([0-9]+([.][0-9]*)?|[.][0-9]+)([Ee][-+]?[0-9]+)?;
+    real     = [0-9]+[.,][0-9]+;             // do not do -number or +number, You return - and INTEGER separately to the parser, and let the parser handle unary minus.
+    
+    digit    = [0-9];
     octdigit = [0-7]; // [01234567]
-    hexdigit = [digit]+ [A-Fa-f]+; // [abcdefABCDEF];  // [A-Fa-f0-9]+;
+    hexdigit = [digit]+ [A-Fa-f]+;           // [abcdefABCDEF];  // [A-Fa-f0-9]+;
     
-    /*
-    {Id Head}        = {Letter} + [_]
-    {Id Tail}        = {Id Head} + {Digit}
-    {String Ch}      = {Printable} - ["]
-    {Char Ch}        = {Printable} - ['']
-    StringLiteral    = '"'( {String Ch} | '\'{Printable} )* '"'
-    CharLiteral      = '' ( {Char Ch} | '\'{Printable} )''
-    */
-    
-    identifier = [_a-z]([_a-z0-9_])*;      // An identifier can never start with a number
-    real = [0-9]+[.,][0-9]+;               // do not do -number or +number, You return - and INTEGER separately to the parser, and let the parser handle unary minus.
+    identifier = [_a-z]([_a-z0-9])*;         // An identifier can never start with a number
     
     int_des = [uUlL]*;
     bin = '0b' [01]+;
@@ -93,7 +86,7 @@ struct _scanner_state SCANNER_STATE;
     dec = [1-9][0-9]*;
     hex = '0x' [0-9a-fA-F]+;
     
-    DecLiteral       = [1-9][digit]*; //[123456789]{digit}*
+    DecLiteral       = [1-9][digit]*;        //[123456789]{digit}*
     OctLiteral       = "0"[octdigit]*;
     HexLiteral       = "0x"[hexdigit]+;
     FloatLiteral     = [digit]*'.'[digit]+;
@@ -115,6 +108,14 @@ struct _scanner_state SCANNER_STATE;
     f16         the set of all IEEE-754-2008 16-bit floating point numbers (10-bit mantissa)
     f32         the set of all IEEE-754 32-bit floating-point numbers
     f64         the set of all IEEE-754 64-bit floating-point numbers
+    
+    {Id Head}        = {Letter} + [_]
+    {Id Tail}        = {Id Head} + {Digit}
+    {String Ch}      = {Printable} - ["]
+    {Char Ch}        = {Printable} - ['']
+    StringLiteral    = '"'( {String Ch} | '\'{Printable} )* '"'
+    CharLiteral      = '' ( {Char Ch} | '\'{Printable} )''
+    
 */
 /**********************************************************************
 "auto"          {  return(TK_AUTO);            }
