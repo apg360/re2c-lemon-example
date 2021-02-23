@@ -343,50 +343,82 @@ primary_expression ::= LPAREN expression RPAREN. //UNARY OPERATIONS
 
 ////////////////////////////////////////////////////////////////////////////////
 
+expression  ::= expression ',' OpAssign.
+expression  ::= OpAssign.
+
+OpAssign    ::= OpOr '='   OpAssign.
+OpAssign    ::= OpOr '+='  OpAssign.
+OpAssign    ::= OpOr '-='  OpAssign.
+OpAssign    ::= OpOr '*='  OpAssign.
+OpAssign    ::= OpOr '/='  OpAssign.
+OpAssign    ::= OpOr '^='  OpAssign.
+OpAssign    ::= OpOr '&='  OpAssign.
+OpAssign    ::= OpOr '|='  OpAssign.
+OpAssign    ::= OpOr '>>=' OpAssign.
+OpAssign    ::= OpOr '<<=' OpAssign.
+OpAssign    ::= OpOr.
+
+OpOr        ::= OpOr '||' OpAnd.
+OpOr        ::= OpAnd.
+
+OpAnd       ::= OpAnd '&&' OpBinOR
+OpAnd       ::= OpBinOR.
+
+OpBinOR     ::= OpBinOr '|' OpBinXOR.
+OpBinOR     ::= OpBinXOR.
+
+OpBinXOR    ::= OpBinXOR '^' OpBinAND.
+OpBinXOR    ::= OpBinAND.
+
+OpBinAND    ::= OpBinAND '&' OpEquate.
+OpBinAND    ::= OpEquate.
+
+OpEquate    ::= OpEquate '==' OpCompare.
+OpEquate    ::= OpEquate '!=' OpCompare.
+OpEquate    ::= OpCompare.
+
+OpCompare   ::= OpCompare '<'  OpShift.
+OpCompare   ::= OpCompare '>'  OpShift.
+OpCompare   ::= OpCompare '<=' OpShift.
+OpCompare   ::= OpCompare '>=' OpShift.
+OpCompare   ::= OpShift.
+
+OpShift     ::= OpShift '<<' OpAdd.
+OpShift     ::= OpShift '>>' OpAdd.
+OpShift     ::= OpAdd.
+
+OpAdd       ::= OpAdd '+' OpMult.
+OpAdd       ::= OpAdd '-' OpMult.
+OpAdd       ::= OpMult.
+
+OpMult      ::= OpMult '*' OpUnary.
+OpMult      ::= OpMult '/' OpUnary.
+OpMult      ::= OpMult '%' OpUnary.
+OpMult      ::= OpUnary.
+
+OpUnary     ::= '!' OpUnary.
+OpUnary     ::= '~' OpUnary.
+OpUnary     ::= '-' OpUnary.
+OpUnary     ::= value.
+
+value       ::= OCTLITERAL.
+value       ::= HEXLITERAL.
+value       ::= NUMBERLITERAL.
+value       ::= STRINGLITERAL.
+value       ::= CHARLITERAL.
+value       ::= FLOATLITERAL.
+value       ::= IDENTIFIER LPAREN expression RPAREN.
+value       ::= IDENTIFIER LPAREN RPAREN.
+value       ::= IDENTIFIER.
+value       ::= LPAREN expression RPAREN.
 
 
-
-
-
-
-<expression>   ::= <expression> '>'  <Add Exp> 
-                 | <expression> '<'  <Add Exp> 
-                 | <expression> '<=' <Add Exp> 
-                 | <expression> '>=' <Add Exp>
-                 | <expression> '==' <Add Exp>
-                 | <expression> '<>' <Add Exp>
-                 | <Add Exp>
-
-<Add Exp>      ::= <Add Exp> '+' <Mult Exp>
-                 | <Add Exp> '-' <Mult Exp>
-                 | <Add Exp> '&' <Mult Exp>
-                 | <Mult Exp> 
-
-<Mult Exp>    ::= <Mult Exp> '*' <Negate Exp> 
-                | <Mult Exp> '/' <Negate Exp> 
-                | <Negate Exp> 
-
-<Negate Exp>  ::= '-' <Value> 
-                | <Value> 
-                
-                
-value         ::= OCTLITERAL
-               | HEXLITERAL
-               | NUMBERLITERAL
-               | STRINGLITERAL
-               | CHARLITERAL
-               | FLOATLITERAL
-               | IDENTIFIER '(' <expression> ')'
-               | IDENTIFIER '(' ')'          
-               | IDENTIFIER
-               | '(' <expression> ')'
-
-
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
 
 
-//UNARY OPERATIONS
 
 argument_expression_list ::= assignment_expression.
 argument_expression_list ::= argument_expression_list COMMA assignment_expression.
@@ -641,66 +673,6 @@ bool     ::= T | F
 ! ===================================================================
 ! Here begins the C's 15 levels of operator precedence.
 ! ===================================================================
-
-<Expr>       ::= <Expr> ',' <Op Assign>   
-               | <Op Assign>
-
-<Op Assign>  ::= <Op If> '='   <Op Assign>
-               | <Op If> '+='  <Op Assign>
-               | <Op If> '-='  <Op Assign>
-               | <Op If> '*='  <Op Assign>
-               | <Op If> '/='  <Op Assign>
-               | <Op If> '^='  <Op Assign>
-               | <Op If> '&='  <Op Assign>
-               | <Op If> '|='  <Op Assign>
-               | <Op If> '>>=' <Op Assign>
-               | <Op If> '<<=' <Op Assign>
-               | <Op If>
-
-<Op If>      ::= <Op Or> '?' <Op If> ':' <Op If>
-               | <Op Or>
-
-<Op Or>      ::= <Op Or> '||' <Op And>
-               | <Op And>
-
-<Op And>     ::= <Op And> '&&' <Op BinOR>
-               | <Op BinOR>
-
-<Op BinOR>   ::= <Op BinOr> '|' <Op BinXOR>
-               | <Op BinXOR>
-
-<Op BinXOR>  ::= <Op BinXOR> '^' <Op BinAND>
-               | <Op BinAND>
-
-<Op BinAND>  ::= <Op BinAND> '&' <Op Equate>
-               | <Op Equate>
-
-<Op Equate>  ::= <Op Equate> '==' <Op Compare>
-<Op Equate>  ::= <Op Equate> '!=' <Op Compare>
-<Op Equate>  ::= OpCompare
-
-OpCompare ::= OpCompare '<'  OpShift.
-OpCompare ::= OpCompare '>'  OpShift.
-OpCompare ::= OpCompare '<=' OpShift.
-OpCompare ::= OpCompare '>=' OpShift.
-OpCompare ::= OpShift.
-
-OpShift     ::= OpShift '<<' OpAdd.
-OpShift     ::= OpShift '>>' OpAdd.
-OpShift     ::= OpAdd.
-
-OpAdd       ::= OpAdd '+' OpMult.
-OpAdd       ::= OpAdd '-' OpMult.
-OpAdd       ::= OpMult.
-
-OpMult      ::= OpMult '*' OpUnary.
-OpMult      ::= OpMult '/' OpUnary.
-OpMult      ::= OpMult '%' OpUnary.
-OpMult      ::= OpUnary.
-
-OpUnary     ::= '!'    OpUnary.
-OpUnary     ::= '~'    OpUnary.
-OpUnary     ::= '-'    OpUnary.
 
 
 <Op Unary>   ::= '*'    <Op Unary>
