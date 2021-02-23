@@ -349,13 +349,13 @@ primary_expression ::= LPAREN expression RPAREN. //UNARY OPERATIONS
 
 
 
-<Expression>   ::= <Expression> '>'  <Add Exp> 
-                 | <Expression> '<'  <Add Exp> 
-                 | <Expression> '<=' <Add Exp> 
-                 | <Expression> '>=' <Add Exp>
-                 | <Expression> '==' <Add Exp>
-                 | <Expression> '<>' <Add Exp>
-                 | <Add Exp> 
+<expression>   ::= <expression> '>'  <Add Exp> 
+                 | <expression> '<'  <Add Exp> 
+                 | <expression> '<=' <Add Exp> 
+                 | <expression> '>=' <Add Exp>
+                 | <expression> '==' <Add Exp>
+                 | <expression> '<>' <Add Exp>
+                 | <Add Exp>
 
 <Add Exp>      ::= <Add Exp> '+' <Mult Exp>
                  | <Add Exp> '-' <Mult Exp>
@@ -368,12 +368,18 @@ primary_expression ::= LPAREN expression RPAREN. //UNARY OPERATIONS
 
 <Negate Exp>  ::= '-' <Value> 
                 | <Value> 
-
-<Value>       ::= ID           
-                | StringLiteral
-                | NumberLiteral
-                | '(' <Expression> ')'
-
+                
+                
+value         ::= OCTLITERAL
+               | HEXLITERAL
+               | NUMBERLITERAL
+               | STRINGLITERAL
+               | CHARLITERAL
+               | FLOATLITERAL
+               | IDENTIFIER '(' <expression> ')'
+               | IDENTIFIER '(' ')'          
+               | IDENTIFIER
+               | '(' <expression> ')'
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -704,14 +710,4 @@ bool     ::= T | F
                | <Op Pointer> '[' <Expr> ']'
                | <Value>
 
-<Value>      ::= OctLiteral
-               | HexLiteral
-               | DecLiteral  
-               | StringLiteral
-               | CharLiteral
-               | FloatLiteral
-               | Id '(' <Expr> ')'
-               | Id '(' ')'          
 
-               | Id
-               | '(' <Expr> ')'

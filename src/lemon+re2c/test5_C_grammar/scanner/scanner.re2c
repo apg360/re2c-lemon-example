@@ -134,8 +134,8 @@ continue_scanning:
       "<="            { set_token( MACRO_VALUE_AND_NAME(TK_LE)          ); goto parser_now;}
       
       identifier      { set_token( MACRO_VALUE_AND_NAME(TK_IDENTIFIER ) ); goto parser_now;}
-      number          { set_token( MACRO_VALUE_AND_NAME(TK_NUMBER_LITERAL ) ); goto parser_now;}
-      word            { set_token( MACRO_VALUE_AND_NAME(TK_STRING_LITERAL ) ); goto parser_now;}
+      number          { set_token( MACRO_VALUE_AND_NAME(TK_NUMBERLITERAL ) ); goto parser_now;}
+      word            { set_token( MACRO_VALUE_AND_NAME(TK_STRINGLITERAL ) ); goto parser_now;}
       
       vartype         { set_token( MACRO_VALUE_AND_NAME(TK_VARTYPE)     ); goto parser_now;}
       

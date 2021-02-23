@@ -21,11 +21,20 @@ struct _scanner_state SCANNER_STATE;
     // https://c.developpez.com/cours/bernard-cassagne/node17.php#SECTION00383000000000000000
     // LF(Line Feed)=10 CR(Carriage Return)=13
     // carriage return+new line or new line or 0
-    // \n  new line
-    // \r  carriage return (character 15)
+    // \n for newline (linefeed, character 10)
+    // \r for carriage return (character 13 or 15 ?)
+    // \0 for null (character 0)
     // \x00  NUL
     // \x0A  newline
     // \x0D  return
+    // line endings :
+    //    UNIX (\n)
+    //    Windows (\r\n)
+    //    Macintosh (\r)
+    //
+    // R* : zero or more occurrences of the regular expression R.
+    // R+ : one or more repetition of the regular expression R.
+    // R? : zero or one R. That means, there maybe an R or not.
     //-----------------
     // \t  horizontal tabulation
     // \v  vertical tabulation
@@ -33,69 +42,37 @@ struct _scanner_state SCANNER_STATE;
     // \f  form feed
     // \a  audible alert
     //-----------------
-    // \n for newline (linefeed, character 10)
-    // \r for carriage return (character 13 or 15 ?)
-    // \0 for null (character 0)
-    // \a for alarm bell (character 7)
-    // \b for backspace (character 8)
-    // \t for tab (character 9)
-    // \v for vertical tab (character 11), whatever that is.
-    // \" for a double quote (character 34 or 42 ?)
-    // \' for a single quote (character 39)
-    // \\ for a backslash (character 92 or 134 ?)
-    // \xCC for an 8-bit character code (where CC is two hex digits)
-    // \uCCCC for a 16-bit character code (where CCCC is four hex digits)
-    // In modern times, \a, \b and \v are almost never used. \' is only needed in a single-quoted string to represent the single quote mark itself ('\'').
-    // Any escape sequences that are not on the list (i.e. backslash followed by anything else) are illegal.
-    //-----------------
-    // line endings :
-    //    UNIX (\n)
-    //    Windows (\r\n)
-    //    Macintosh (\r)
-    // https://steemit.com/programming/@drifter1/writing-a-simple-compiler-on-my-own-a-simple-c-language?q=A+simple+C+Language
-    // https://github.com/drifter1/compiler/blob/master/Symbol%20Table%20and%20Lexer/lexer.l
-    // https://cs.nyu.edu/rgrimm/xtc/rats-intro.html
-    // https://www.lysator.liu.se/c/ANSI-C-grammar-l.html
-    // https://stackoverflow.com/questions/2644597/how-do-i-implement-if-statement-in-flex-bison
-    //
-    // R* : zero or more occurrences of the regular expression R.
-    // R+ : one or more repetition of the regular expression R.
-    // R? : zero or one R. That means, there maybe an R or not.
     
-    end = ( [\r\n] |"\x00"|"\x0A"|"\x0D" )+;
-    whitespace = ( " " | [\t\v\f] )+;      // whitespace and tabulation
-    any = [\000-\377];
+    end              = ( [\r\n] |"\x00"|"\x0A"|"\x0D" )+;
+    whitespace       = ( " " | [\t\v\f] )+;          // whitespace and tabulation
+    any              = [\000-\377];
     
-    punctuation = [!"#$%&’()*+,-./:;?@[\\\]_‘{|}~];
+    letter           = [a-zA-Z];                     //  will scan one letter at a time, letter after letter
+    digit            = [0123456789];                 // [0-9]
+    octdigit         = [01234567];                   // [0-7]
+    hexdigit         = [digit]+ [abcdefABCDEF];      // [A-Fa-f];
     
-    letter   = [a-z];                        // [A-Za-z]  = will scan one letter at a time, letter after letter
-    word     = [a-z]+;                       // [A-Za-z]+ = word after word
     
-    number   = [0-9]+;                       // [-+]?([0-9]+([.][0-9]*)?|[.][0-9]+)([Ee][-+]?[0-9]+)?;
-    real     = [0-9]+[.,][0-9]+;             // do not do -number or +number, You return - and INTEGER separately to the parser, and let the parser handle unary minus.
+    IDentifier       = [_a-zA-Z]([_a-zA-Z0-9])*;     // An identifier can never start with a number
+    StringLiteral    = '"'[letter]+'"';              // [A-Za-z]+ = word after word
+    NumberLiteral    = [123456789][digit]*;          // DecLiteral
+    FloatLiteral     = [digit]*'.'[digit]+;          // 
+    OctLiteral       = "0"[octdigit]*;               // 
+    HexLiteral       = "0x"[hexdigit]+;              // 
     
-    digit    = [0-9];
-    octdigit = [0-7]; // [01234567]
-    hexdigit = [digit]+ [A-Fa-f]+;           // [abcdefABCDEF];  // [A-Fa-f0-9]+;
-    
-    identifier = [_a-z]([_a-z0-9])*;         // An identifier can never start with a number
-    
-    int_des = [uUlL]*;
-    bin = '0b' [01]+;
-    oct = "0" [0-7]*;
-    dec = [1-9][0-9]*;
-    hex = '0x' [0-9a-fA-F]+;
-    
-    DecLiteral       = [1-9][digit]*;        //[123456789]{digit}*
-    OctLiteral       = "0"[octdigit]*;
-    HexLiteral       = "0x"[hexdigit]+;
-    FloatLiteral     = [digit]*'.'[digit]+;
-    
-    vartype = "u8"|"u16"|"u32"|"u64"|"u128"|"i8"|"i16"|"i32"|"i64"|"i128"|"f16"|"f32"|"f64";
+    vartype          = "u8"|"u16"|"u32"|"u64"|"u128"|"i8"|"i16"|"i32"|"i64"|"i128"|"f16"|"f32"|"f64";
     
 */
 //definitions.re2c END -----------------------
 
+
+
+
+
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /*
     u8          the set of all unsigned  8-bit integers  (0 to 255)
     u16         the set of all unsigned 16-bit integers  (0 to 65535)
@@ -108,14 +85,6 @@ struct _scanner_state SCANNER_STATE;
     f16         the set of all IEEE-754-2008 16-bit floating point numbers (10-bit mantissa)
     f32         the set of all IEEE-754 32-bit floating-point numbers
     f64         the set of all IEEE-754 64-bit floating-point numbers
-    
-    {Id Head}        = {Letter} + [_]
-    {Id Tail}        = {Id Head} + {Digit}
-    {String Ch}      = {Printable} - ["]
-    {Char Ch}        = {Printable} - ['']
-    StringLiteral    = '"'( {String Ch} | '\'{Printable} )* '"'
-    CharLiteral      = '' ( {Char Ch} | '\'{Printable} )''
-    
 */
 /**********************************************************************
 "auto"          {  return(TK_AUTO);            }
@@ -264,4 +233,38 @@ struct _scanner_state SCANNER_STATE;
 
 "{"               { return symbol("{",BEGIN); }
 "}"               { return symbol("}",END); }
+
+    {Id Head}        = {Letter} + [_]
+    {Id Tail}        = {Id Head} + {Digit}
+    
+    punctuation = [!"#$%&’()*+,-./:;?@[\\\]_‘{|}~];
+    
+    number   = [0-9]+;                       // [-+]?([0-9]+([.][0-9]*)?|[.][0-9]+)([Ee][-+]?[0-9]+)?;
+    real     = [0-9]+[.,][0-9]+;             // do not do -number or +number, You return - and INTEGER separately to the parser, and let the parser handle unary minus.
+    
+    
+    int_des = [uUlL]*;
+    bin = '0b' [01]+;
+    oct = "0" [0-7]*;
+    dec = [1-9][0-9]*;
+    hex = '0x' [0-9a-fA-F]+;
+
 ***********************************************************************/
+    // \a for alarm bell (character 7)
+    // \b for backspace (character 8)
+    // \t for tab (character 9)
+    // \v for vertical tab (character 11), whatever that is.
+    // \" for a double quote (character 34 or 42 ?)
+    // \' for a single quote (character 39)
+    // \\ for a backslash (character 92 or 134 ?)
+    // \xCC for an 8-bit character code (where CC is two hex digits)
+    // \uCCCC for a 16-bit character code (where CCCC is four hex digits)
+    // In modern times, \a, \b and \v are almost never used. \' is only needed in a single-quoted string to represent the single quote mark itself ('\'').
+    // Any escape sequences that are not on the list (i.e. backslash followed by anything else) are illegal.
+    //-----------------
+    // https://steemit.com/programming/@drifter1/writing-a-simple-compiler-on-my-own-a-simple-c-language?q=A+simple+C+Language
+    // https://github.com/drifter1/compiler/blob/master/Symbol%20Table%20and%20Lexer/lexer.l
+    // https://cs.nyu.edu/rgrimm/xtc/rats-intro.html
+    // https://www.lysator.liu.se/c/ANSI-C-grammar-l.html
+    // https://stackoverflow.com/questions/2644597/how-do-i-implement-if-statement-in-flex-bison
+    //
