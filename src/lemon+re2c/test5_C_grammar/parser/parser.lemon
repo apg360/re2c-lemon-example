@@ -1,8 +1,11 @@
+//
 // C grammar in Lemon
+//
 // https://www.lysator.liu.se/c/ANSI-C-grammar-y.html
 // https://www.lysator.liu.se/c/ANSI-C-grammar-l.html
 // https://cs.au.dk/~amoeller/RegAut/JavaBNF.html
 // 
+// http://www.quut.com/c/ANSI-C-grammar-y.html
 // https://github.com/antlr/grammars-v4/blob/master/c/C.g4
 // http://www2.cs.tum.edu/projects/cup/examples.php#gast
 //
@@ -12,39 +15,6 @@
 // http://souptonuts.sourceforge.net/readme_lemon_tutorial.html
 //
 ////////////////////////////////////////////////////////////////////////
-/*
-   
-   C grammar in EBNF
-   https://www.lysator.liu.se/c/ANSI-C-grammar-y.html
-   http://www.quut.com/c/ANSI-C-grammar-y.html
-   https://www2.cs.arizona.edu/~debray/Teaching/CSc453/DOCS/cminusminusspec.html
-   https://cs.wmich.edu/~gupta/teaching/cs4850/sumII06/The%20syntax%20of%20C%20in%20Backus-Naur%20form.htm
-   
-   https://github.com/Thanasis1101/Compiler-for-custom-language/blob/master/Source%20Code/Compiler/Semantics.c
-   https://github.com/Thanasis1101/Compiler-for-custom-language
-   https://github.com/gwenn/lemon-rs/blob/master/examples/simple.y
-   https://github.com/drifter1/compiler
-   http://matt.might.net/articles/grammars-bnf-ebnf
-   https://www.tutorialspoint.com/compiler_design/compiler_design_syntax_analysis.htm
-   https://www.wikiwand.com/en/Shift-reduce_parser
-   https://www.wikiwand.com/en/Parsing#/Computational_methods#section_Lookahead
-   
-   https://steemit.com/utopian-io/@drifter1/writing-a-simple-compiler-on-my-own-abstract-syntax-tree-management-c-flex-bison
-   https://steemit.com/utopian-io/@drifter1/writing-a-simple-compiler-on-my-own-abstract-syntax-tree-structure-c-flex-bison
-   https://steemit.com/utopian-io/@drifter1/writing-a-simple-compiler-on-my-own-abstract-syntax-tree-principle-c-flex-bison
-   https://efxa.org/2014/05/25/how-to-create-an-abstract-syntax-tree-while-parsing-an-input-stream/
-   http://www.cse.iitb.ac.in/grc/intdocs/gcc-implementation-details.html#The-AST/Generic-Data-Structures
-  
-   http://teampli.net/XPL/ldindex.html
-   https://www.cs.cornell.edu/andru/javaspec/2.doc.html#40415
-   https://steemit.com/programming/@drifter1/writing-a-simple-compiler-on-my-own-creating-a-grammar-for-our-language
-   http://eli-project.sourceforge.net/pascal_html/pascal-.html#s1
-   http://www.open-std.org/jtc1/sc22/wg14/www/docs/n1570.pdf#page=476
-   https://github.com/antlr/grammars-v4/blob/master/c/C.g4
-   https://www.cs.rochester.edu/u/scott/courses/173/notes/05_grammars
-*/
-////////////////////////////////////////////////////////////////////////
-
 
 %syntax_error  { PARSER_STATE.error = true; fprintf(stderr, "/!\\ Syntax Error.\n"); }
 %parse_failure { PARSER_STATE.error = true; fprintf(stderr, "/!\\ Parse failure.\n"); }
@@ -118,30 +88,6 @@
 %token_type { const char* }     // All token values are strings, they will be converted to their value type during semantic analysis.
 %start_symbol program           // First grammar rule to start with
 
-/*
----------
-<> (inequality)                             - use != instead        will be : not=
-add (concatenation (strings))               - use +  instead
-eq (equality (strings))                     - use == instead
-ne (not equal (strings))                    - use != instead        will be : not= or not==
-lt (less than (strings))                    - use <  instead
-le (less than or equal to (strings))        - use <= instead
-gt (greater than (strings))                 - use >  instead
-ge (greater than or equal to (strings))     - use >= instead
-and (logical and)                           - use && instead        will be : and
-or (logical or)                             - use || instead        will be : or
-not (logical not)                           - use !  instead        will be : not
----------
-%nonassoc IDENTIFIER NUMBER_LITERAL STRING_LITERAL TRUE FALSE QUOTE.
-%nonassoc TYPEDEF EXTERN STATIC AUTO REGISTER.
-%nonassoc IF ELSE TRUE FALSE FOR SWITCH RETURN BREAK CONTINUE FALLTHROUGH DEFAULT VARTYPE.
-%left PTR_OP INC_OP DEC_OP LEFT_OP RIGHT_OP LE_OP GE_OP EQ_OP NE_OP.
-%left AND_OP OR_OP STAR_ASSIGN DIV_ASSIGN MOD_ASSIGN ADD_ASSIGN.
-%left SUB_ASSIGN LEFT_ASSIGN RIGHT_ASSIGN AND_ASSIGN.
-%left XOR_ASSIGN OR_ASSIGN TYPE_NAME.
----------
-*/
-
 
 %nonassoc DEFAULT BREAK RETURN FALLTHROUGH SEMCOL FOR SWITCH IF VARTYPE IDENTIFIER ASSIGN.
 %left AND.
@@ -155,9 +101,10 @@ not (logical not)                           - use !  instead        will be : no
 %right EXP NOT.                         // 2^3^2 = 2^(3^2) = 512
 
 
-/*
-    § HOW IS THE LEMON GRAMMAR §
+/************************************************************************
 
+                    § THE LEMON GRAMMAR RULES §
+________________________________________________________________________
 no compund statement ! one grammar rule is one condition, no multi option like in regular expression
 Example : jump_statement        ::= BREAK expression|BREAK.
 Will become
@@ -175,7 +122,9 @@ non-terminals = names of other grammar rules (different kinds of nodes in the pa
 
 non-terminals => lower case
     terminals => UPPER CASE
-*/
+________________________________________________________________________
+************************************************************************/
+
 
 //
 program ::= input.
@@ -186,10 +135,7 @@ lines ::= block_statement END_OF_LINE|END_OF_FILE.                     { println
 /*
 
 boolean_literal     ::= true | false.
-//type     ::= u8 | u16 | u32 | u64 | u128 | i8 | i16 | i32 | i64 | i128 | f16 | f32 | f64.
-assignment_operator ::= ASSIGN|STAR_ASSIGN|DIV_ASSIGN|MOD_ASSIGN|ADD_ASSIGN|SUB_ASSIGN   // = | *= | /= | %= | += | -=
-                    |LEFT_ASSIGN|RIGHT_ASSIGN|AND_ASSIGN|XOR_ASSIGN|OR_ASSIGN.           // <<= | >>= | &= | ^= | |=
-unary_operator  ::= PLUS|MINUS|TILDE|NOT.
+type     ::= u8 | u16 | u32 | u64 | u128 | i8 | i16 | i32 | i64 | i128 | f16 | f32 | f64.
 
 identifier_list ::= IDENTIFIER.
 identifier_list ::= identifier_list COMMA IDENTIFIER.
@@ -209,9 +155,8 @@ statement ::= switchstmt.
 statement ::= proc_definition.
 statement ::= proc_call.
 
-///////////////
 // VARIABLES //
-///////////////
+
 variable ::= variable_declaration.
 variable ::= variable_assignment.
 
@@ -224,15 +169,15 @@ variable_assignment  ::= IDENTIFIER ASSIGN expression.                  // exist
 variable_assignment  ::= identifier_list ASSIGN identifier_list.        // i,j,k=a,b,c
 //variable_assignment  ::= identifier_list ASSIGN expression_list.      // i,j,k=1,2,3 or i,j,k=1*2,2*2,3*3
 
-//////////////////
+
 // IF STATEMENT //
-//////////////////
+
 ifstmt              ::= IF expression LBRACKET block_statement RBRACKET.
 ifstmt              ::= IF expression LBRACKET block_statement RBRACKET ELSE LBRACKET block_statement RBRACKET.
 
-//////////////
+
 // FOR LOOP //
-//////////////
+
 //forstmt             ::= FOR for_init SEMCOL expression SEMCOL for_update for_block_statement.
 //for_init            ::= expression | variable_declaration.
 //for_update          ::= expression.
@@ -242,18 +187,18 @@ ifstmt              ::= IF expression LBRACKET block_statement RBRACKET ELSE LBR
 //for_jump_statement  ::= BREAK primary_expression.
 //for_jump_statement  ::= CONTINUE.
 
-/////////////////
+
 // SWITCH CASE //
-/////////////////
+
 //switchstmt          ::= SWITCH expression LBRACKET switch_block RBRACKET.
 //switch_block        ::= expression LBRACKET switch_case_block RBRACKET.
 //switch_block        ::= DEFAULT    LBRACKET statement RBRACKET.         // DEFAULT {}
 //switch_case_block   ::= FALLTHROUGH.
 //switch_case_block   ::= statement.
 
-///////////////
+
 // PROCEDURE //
-///////////////
+
 proc_definition     ::= IDENTIFIER LPAREN RPAREN proc_statement.       // proc_add() { ... }
 proc_definition     ::= IDENTIFIER LPAREN argument_list RPAREN proc_statement. // proc_add(x,y,z) { ... }
 proc_statement      ::= block_statement.
@@ -264,84 +209,22 @@ proc_return         ::= RETURN expression.                              { printl
 proc_call           ::= IDENTIFIER LPAREN RPAREN.                       // proc_add()
 proc_call           ::= IDENTIFIER LPAREN argument_list RPAREN.         // proc_add(x,y,z)
 
-////////////////////////////////////////////////////////////////////////
+//=====================================================================//
 //////////////////////////////////  EXPRESSIONS  ///////////////////////
-////////////////////////////////////////////////////////////////////////
-
-expression ::= conditional_expression | variable_assignment
-
-conditional_expression ::= conditional_or_expression.
-conditional_or_expression ::= conditional_and_expression.
-conditional_or_expression ::= conditional_or_expression || conditional_and_expression.
-conditional_and_expression ::= inclusive_or_expression.
-conditional_and_expression ::= conditional_and_expression && inclusive_or_expression.
-
-inclusive_or_expression ::= exclusive_or_expression.
-inclusive_or_expression ::= inclusive_or_expression exclusive_or_expression.
-
-exclusive_or_expression ::= and_expression.
-exclusive_or_expression ::= exclusive_or_expression ^ and_expression.
-
-and_expression ::= equality_expression.
-and_expression ::= and_expression & equality_expression.
-
-equality_expression ::= relational_expression.
-equality_expression ::= equality_expression == relational_expression.
-equality_expression ::= equality_expression not= relational_expression.
-
-relational_expression ::= shift_expression.
-relational_expression ::= relational_expression < shift_expression.
-relational_expression ::= relational_expression > shift_expression.
-relational_expression ::= relational_expression <= shift_expression.
-relational_expression ::= relational_expression >= shift_expression.
-
-shift_expression ::= additive_expression.
-shift_expression ::= shift_expression << additive_expression.
-shift_expression ::= shift_expression >> additive_expression.
-shift_expression ::= shift_expression >>> additive_expression.
-
-additive_expression ::= multiplicative_expression.
-additive_expression ::= additive_expression + multiplicative_expression.
-additive_expression ::= additive_expression - multiplicative_expression.
-
-multiplicative_expression ::= unary_expression.
-multiplicative_expression ::= multiplicative_expression * unary_expression.
-multiplicative_expression ::= multiplicative_expression / unary_expression.
-multiplicative_expression ::= multiplicative_expression % unary_expression.
-
-// https://en.wikipedia.org/wiki/Unary_operation
-unary_expression ::= primary.
-unary_expression ::= + unary_expression.
-unary_expression ::= - unary_expression.
-unary_expression ::= ~ unary_expression.
-unary_expression ::= NOT unary_expression.
-primary ::= IDENTIFIER | ( expression ).
-
+//=====================================================================//
+/*
+<> (inequality)                             - use != instead        will be : not=
+add (concatenation (strings))               - use +  instead
+eq (equality (strings))                     - use == instead
+ne (not equal (strings))                    - use != instead        will be : not= or not==
+lt (less than (strings))                    - use <  instead
+le (less than or equal to (strings))        - use <= instead
+gt (greater than (strings))                 - use >  instead
+ge (greater than or equal to (strings))     - use >= instead
+and (logical and)                           - use && instead        will be : and
+or (logical or)                             - use || instead        will be : or
+not (logical not)                           - use !  instead        will be : not
 */
-
-statement_list ::= statement.
-statement_list ::= statement_list statement.
-statement ::= compound_statement.
-statement ::= expression_statement. //UNARY OPERATIONS
-statement ::= selection_statement.
-statement ::= forloop_iteration_statement.
-statement ::= jump_statement.
-
-compound_statement ::= LBRACKET RBRACKET.
-compound_statement ::= LBRACKET statement_list RBRACKET.
-compound_statement ::= LBRACKET declaration_list RBRACKET.
-compound_statement ::= LBRACKET declaration_list statement_list RBRACKET.
-
-primary_expression ::= IDENTIFIER.
-primary_expression ::= CONSTANT.
-primary_expression ::= STRING_LITERAL.
-primary_expression ::= LPAREN expression RPAREN. //UNARY OPERATIONS
-
-
-
-
-
-////////////////////////////////////////////////////////////////////////////////
 
 expression  ::= expression ',' OpAssign.
 expression  ::= OpAssign.
@@ -412,12 +295,120 @@ value       ::= IDENTIFIER LPAREN RPAREN.
 value       ::= IDENTIFIER.
 value       ::= LPAREN expression RPAREN.
 
-
+*/
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
 
+
+/***********************************************************************
+
+
+
+   
+   C grammar in EBNF
+   https://www.lysator.liu.se/c/ANSI-C-grammar-y.html
+   http://www.quut.com/c/ANSI-C-grammar-y.html
+   https://www2.cs.arizona.edu/~debray/Teaching/CSc453/DOCS/cminusminusspec.html
+   https://cs.wmich.edu/~gupta/teaching/cs4850/sumII06/The%20syntax%20of%20C%20in%20Backus-Naur%20form.htm
+   
+   https://github.com/Thanasis1101/Compiler-for-custom-language/blob/master/Source%20Code/Compiler/Semantics.c
+   https://github.com/Thanasis1101/Compiler-for-custom-language
+   https://github.com/gwenn/lemon-rs/blob/master/examples/simple.y
+   https://github.com/drifter1/compiler
+   http://matt.might.net/articles/grammars-bnf-ebnf
+   https://www.tutorialspoint.com/compiler_design/compiler_design_syntax_analysis.htm
+   https://www.wikiwand.com/en/Shift-reduce_parser
+   https://www.wikiwand.com/en/Parsing#/Computational_methods#section_Lookahead
+   
+   https://steemit.com/utopian-io/@drifter1/writing-a-simple-compiler-on-my-own-abstract-syntax-tree-management-c-flex-bison
+   https://steemit.com/utopian-io/@drifter1/writing-a-simple-compiler-on-my-own-abstract-syntax-tree-structure-c-flex-bison
+   https://steemit.com/utopian-io/@drifter1/writing-a-simple-compiler-on-my-own-abstract-syntax-tree-principle-c-flex-bison
+   https://efxa.org/2014/05/25/how-to-create-an-abstract-syntax-tree-while-parsing-an-input-stream/
+   http://www.cse.iitb.ac.in/grc/intdocs/gcc-implementation-details.html#The-AST/Generic-Data-Structures
+  
+   http://teampli.net/XPL/ldindex.html
+   https://www.cs.cornell.edu/andru/javaspec/2.doc.html#40415
+   https://steemit.com/programming/@drifter1/writing-a-simple-compiler-on-my-own-creating-a-grammar-for-our-language
+   http://eli-project.sourceforge.net/pascal_html/pascal-.html#s1
+   http://www.open-std.org/jtc1/sc22/wg14/www/docs/n1570.pdf#page=476
+   https://github.com/antlr/grammars-v4/blob/master/c/C.g4
+   https://www.cs.rochester.edu/u/scott/courses/173/notes/05_grammars
+
+
+assignment_operator ::= ASSIGN|STAR_ASSIGN|DIV_ASSIGN|MOD_ASSIGN|ADD_ASSIGN|SUB_ASSIGN   // = | *= | /= | %= | += | -=
+                    |LEFT_ASSIGN|RIGHT_ASSIGN|AND_ASSIGN|XOR_ASSIGN|OR_ASSIGN.           // <<= | >>= | &= | ^= | |=
+unary_operator  ::= PLUS|MINUS|TILDE|NOT.
+
+
+expression ::= conditional_expression | variable_assignment
+
+conditional_expression ::= conditional_or_expression.
+conditional_or_expression ::= conditional_and_expression.
+conditional_or_expression ::= conditional_or_expression || conditional_and_expression.
+conditional_and_expression ::= inclusive_or_expression.
+conditional_and_expression ::= conditional_and_expression && inclusive_or_expression.
+
+inclusive_or_expression ::= exclusive_or_expression.
+inclusive_or_expression ::= inclusive_or_expression exclusive_or_expression.
+
+exclusive_or_expression ::= and_expression.
+exclusive_or_expression ::= exclusive_or_expression ^ and_expression.
+
+and_expression ::= equality_expression.
+and_expression ::= and_expression & equality_expression.
+
+equality_expression ::= relational_expression.
+equality_expression ::= equality_expression == relational_expression.
+equality_expression ::= equality_expression not= relational_expression.
+
+relational_expression ::= shift_expression.
+relational_expression ::= relational_expression < shift_expression.
+relational_expression ::= relational_expression > shift_expression.
+relational_expression ::= relational_expression <= shift_expression.
+relational_expression ::= relational_expression >= shift_expression.
+
+shift_expression ::= additive_expression.
+shift_expression ::= shift_expression << additive_expression.
+shift_expression ::= shift_expression >> additive_expression.
+shift_expression ::= shift_expression >>> additive_expression.
+
+additive_expression ::= multiplicative_expression.
+additive_expression ::= additive_expression + multiplicative_expression.
+additive_expression ::= additive_expression - multiplicative_expression.
+
+multiplicative_expression ::= unary_expression.
+multiplicative_expression ::= multiplicative_expression * unary_expression.
+multiplicative_expression ::= multiplicative_expression / unary_expression.
+multiplicative_expression ::= multiplicative_expression % unary_expression.
+
+// https://en.wikipedia.org/wiki/Unary_operation
+unary_expression ::= primary.
+unary_expression ::= + unary_expression.
+unary_expression ::= - unary_expression.
+unary_expression ::= ~ unary_expression.
+unary_expression ::= NOT unary_expression.
+primary ::= IDENTIFIER | ( expression ).
+
+
+statement_list ::= statement.
+statement_list ::= statement_list statement.
+statement ::= compound_statement.
+statement ::= expression_statement. //UNARY OPERATIONS
+statement ::= selection_statement.
+statement ::= forloop_iteration_statement.
+statement ::= jump_statement.
+
+compound_statement ::= LBRACKET RBRACKET.
+compound_statement ::= LBRACKET statement_list RBRACKET.
+compound_statement ::= LBRACKET declaration_list RBRACKET.
+compound_statement ::= LBRACKET declaration_list statement_list RBRACKET.
+
+primary_expression ::= IDENTIFIER.
+primary_expression ::= CONSTANT.
+primary_expression ::= STRING_LITERAL.
+primary_expression ::= LPAREN expression RPAREN. //UNARY OPERATIONS
 
 
 argument_expression_list ::= assignment_expression.
@@ -476,7 +467,7 @@ assignment_expression ::= unary_expression assignment_operator assignment_expres
 //logical_or_expression ::= logical_and_expression.
 //logical_or_expression ::= logical_or_expression OR_OP logical_and_expression.
 
-/*
+
 //https://www.essaytaste.com/solved-consider-following-ebnf-grammar-simple-programming-language-program-s-statemt-statemt-assn-q35399240-2/
 program  ::= S {statemt}
 statemt  ::= assnmt | ifstmt | do | inout | progcall
@@ -497,7 +488,7 @@ integer  ::= digit {digit}
 letter   ::= W | X | Y | Z
 digit    ::= 0 | 1
 bool     ::= T | F
-*/
+
 
 
 !=======================================================
@@ -684,3 +675,18 @@ bool     ::= T | F
                | <Value>
 
 
+/*
+
+%nonassoc IDENTIFIER NUMBER_LITERAL STRING_LITERAL TRUE FALSE QUOTE.
+%nonassoc TYPEDEF EXTERN STATIC AUTO REGISTER.
+%nonassoc IF ELSE TRUE FALSE FOR SWITCH RETURN BREAK CONTINUE FALLTHROUGH DEFAULT VARTYPE.
+%left PTR_OP INC_OP DEC_OP LEFT_OP RIGHT_OP LE_OP GE_OP EQ_OP NE_OP.
+%left AND_OP OR_OP STAR_ASSIGN DIV_ASSIGN MOD_ASSIGN ADD_ASSIGN.
+%left SUB_ASSIGN LEFT_ASSIGN RIGHT_ASSIGN AND_ASSIGN.
+%left XOR_ASSIGN OR_ASSIGN TYPE_NAME.
+
+
+*/
+
+
+*/
