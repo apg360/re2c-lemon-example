@@ -264,9 +264,9 @@ proc_return         ::= RETURN expression.                              { printl
 proc_call           ::= IDENTIFIER LPAREN RPAREN.                       // proc_add()
 proc_call           ::= IDENTIFIER LPAREN argument_list RPAREN.         // proc_add(x,y,z)
 
-/////////////////
-// EXPRESSIONS //
-/////////////////
+////////////////////////////////////////////////////////////////////////
+//////////////////////////////////  EXPRESSIONS  ///////////////////////
+////////////////////////////////////////////////////////////////////////
 
 expression ::= conditional_expression | variable_assignment
 
@@ -336,6 +336,48 @@ primary_expression ::= IDENTIFIER.
 primary_expression ::= CONSTANT.
 primary_expression ::= STRING_LITERAL.
 primary_expression ::= LPAREN expression RPAREN. //UNARY OPERATIONS
+
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+
+<Expression>   ::= <Expression> '>'  <Add Exp> 
+                 | <Expression> '<'  <Add Exp> 
+                 | <Expression> '<=' <Add Exp> 
+                 | <Expression> '>=' <Add Exp>
+                 | <Expression> '==' <Add Exp>
+                 | <Expression> '<>' <Add Exp>
+                 | <Add Exp> 
+
+<Add Exp>      ::= <Add Exp> '+' <Mult Exp>
+                 | <Add Exp> '-' <Mult Exp>
+                 | <Add Exp> '&' <Mult Exp>
+                 | <Mult Exp> 
+
+<Mult Exp>    ::= <Mult Exp> '*' <Negate Exp> 
+                | <Mult Exp> '/' <Negate Exp> 
+                | <Negate Exp> 
+
+<Negate Exp>  ::= '-' <Value> 
+                | <Value> 
+
+<Value>       ::= ID           
+                | StringLiteral
+                | NumberLiteral
+                | '(' <Expression> ')'
+
+
+
+////////////////////////////////////////////////////////////////////////////////
+
 
 
 //UNARY OPERATIONS
@@ -418,3 +460,258 @@ letter   ::= W | X | Y | Z
 digit    ::= 0 | 1
 bool     ::= T | F
 */
+
+
+!=======================================================
+
+<Decls> ::= <Decl> <Decls>
+          |
+
+<Decl>  ::= <Func Decl>
+          | <Func Proto>
+          | <Struct Decl>
+          | <Union Decl>
+          | <Enum Decl>
+          | <Var Decl>    
+          | <Typedef Decl>
+              
+! ===================================================================
+! Function  Declaration
+! ===================================================================
+
+<Func Proto> ::= <Func ID> '(' <Types>  ')' ';'
+               | <Func ID> '(' <Params> ')' ';'
+               | <Func ID> '(' ')' ';'
+
+<Func Decl>  ::= <Func ID> '(' <Params>  ')' <Block>
+               | <Func ID> '(' <Id List> ')' <Struct Def> <Block>
+               | <Func ID> '(' ')' <Block>
+
+
+<Params>     ::= <Param> ',' <Params>
+               | <Param>
+               
+<Param>      ::= const <Type> ID
+               |       <Type> ID
+               
+<Types>      ::= <Type>  ',' <Types>
+               | <Type> 
+   
+<Id List>    ::= Id ',' <Id List>
+               | Id
+
+<Func ID>    ::= <Type> ID
+               | ID
+
+! ===================================================================
+! Type Declaration
+! ===================================================================
+
+<Typedef Decl> ::= typedef <Type> ID ';'
+
+<Struct Decl>  ::= struct Id '{' <Struct Def> '}'  ';' 
+
+<Union Decl>   ::= union Id '{' <Struct Def> '}'  ';' 
+
+
+<Struct Def>   ::= <Var Decl> <Struct Def>
+                 | <Var Decl>
+
+! ===================================================================
+! Variable Declaration
+! ===================================================================
+
+<Var Decl>     ::= <Mod> <Type> <Var> <Var List>  ';'
+                 |       <Type> <Var> <Var List>  ';'
+                 | <Mod>        <Var> <Var List>  ';'
+             
+<Var>      ::= ID <Array>
+             | ID <Array> '=' <Op If> 
+
+<Array>    ::= '[' <Expr> ']'
+             | '[' ']'
+             |
+             
+<Var List> ::=  ',' <Var Item> <Var List>
+             | 
+
+<Var Item> ::= <Pointers> <Var>
+
+             
+<Mod>      ::= extern 
+             | static
+             | register
+             | auto
+             | volatile
+             | const   
+
+! ===================================================================
+! Enumerations
+! ===================================================================
+
+<Enum Decl>    ::= enum Id '{' <Enum Def> '}'  ';'
+ 
+<Enum Def>     ::= <Enum Val> ',' <Enum Def>
+                 | <Enum Val>
+
+<Enum Val>     ::= Id
+                 | Id '=' OctLiteral
+                 | Id '=' HexLiteral
+                 | Id '=' DecLiteral  
+
+
+! ===================================================================
+! Types
+! ===================================================================
+
+<Type>     ::= <Base> <Pointers> 
+
+<Base>     ::= <Sign> <Scalar>
+             | struct Id 
+             | struct '{' <Struct Def> '}' 
+             | union Id
+             | union '{' <Struct Def> '}' 
+             | enum Id  
+
+
+<Sign>     ::= signed 
+             | unsigned
+             |
+
+<Scalar>   ::= char
+             | int
+             | short
+             | long
+             | short int
+             | long int
+             | float
+             | double
+             | void
+
+<Pointers> ::= '*' <Pointers>
+             |
+
+! ===================================================================
+! Statements
+! ===================================================================
+
+<Stm>        ::= <Var Decl>
+               | Id ':'                            !Label
+               | if '(' <Expr> ')' <Stm>          
+               | if '(' <Expr> ')' <Then Stm> else <Stm>         
+               | while '(' <Expr> ')' <Stm> 
+               | for '(' <Arg> ';' <Arg> ';' <Arg> ')' <Stm>
+               | <Normal Stm>
+
+<Then Stm>   ::= if '(' <Expr> ')' <Then Stm> else <Then Stm> 
+               | while '(' <Expr> ')' <Then Stm> 
+               | for '(' <Arg> ';' <Arg> ';' <Arg> ')' <Then Stm>
+               | <Normal Stm>
+
+<Normal Stm> ::= do <Stm> while '(' <Expr> ')'
+               | switch '(' <Expr> ')' '{' <Case Stms> '}'
+               | <Block>
+               | <Expr> ';'               
+               | goto Id ';'
+               | break ';'
+               | continue ';'
+               | return <Expr> ';'
+               | ';'              !Null statement
+
+
+<Arg>       ::= <Expr> 
+              | 
+
+<Case Stms> ::= case <Value> ':' <Stm List> <Case Stms>
+              | default ':' <Stm List>                  
+              |
+
+<Block>     ::= '{' <Stm List> '}' 
+
+<Stm List>  ::=  <Stm> <Stm List> 
+              | 
+
+
+! ===================================================================
+! Here begins the C's 15 levels of operator precedence.
+! ===================================================================
+
+<Expr>       ::= <Expr> ',' <Op Assign>   
+               | <Op Assign>
+
+<Op Assign>  ::= <Op If> '='   <Op Assign>
+               | <Op If> '+='  <Op Assign>
+               | <Op If> '-='  <Op Assign>
+               | <Op If> '*='  <Op Assign>
+               | <Op If> '/='  <Op Assign>
+               | <Op If> '^='  <Op Assign>
+               | <Op If> '&='  <Op Assign>
+               | <Op If> '|='  <Op Assign>
+               | <Op If> '>>=' <Op Assign>
+               | <Op If> '<<=' <Op Assign>
+               | <Op If>
+
+<Op If>      ::= <Op Or> '?' <Op If> ':' <Op If>
+               | <Op Or>
+
+<Op Or>      ::= <Op Or> '||' <Op And>
+               | <Op And>
+
+<Op And>     ::= <Op And> '&&' <Op BinOR>
+               | <Op BinOR>
+
+<Op BinOR>   ::= <Op BinOr> '|' <Op BinXOR>
+               | <Op BinXOR>
+
+<Op BinXOR>  ::= <Op BinXOR> '^' <Op BinAND>
+               | <Op BinAND>
+
+<Op BinAND>  ::= <Op BinAND> '&' <Op Equate>
+               | <Op Equate>
+
+<Op Equate>  ::= <Op Equate> '==' <Op Compare>
+               | <Op Equate> '!=' <Op Compare>
+               | <Op Compare>
+
+<Op Compare> ::= <Op Compare> '<'  <Op Shift>
+               | <Op Compare> '>'  <Op Shift>
+               | <Op Compare> '<=' <Op Shift>
+               | <Op Compare> '>=' <Op Shift>
+               | <Op Shift>
+
+<Op Shift>   ::= <Op Shift> '<<' <Op Add>
+               | <Op Shift> '>>' <Op Add>
+               | <Op Add>
+
+<Op Add>     ::= <Op Add> '+' <Op Mult>
+               | <Op Add> '-' <Op Mult>
+               | <Op Mult>
+
+<Op Mult>    ::= <Op Mult> '*' <Op Unary>
+               | <Op Mult> '/' <Op Unary>
+               | <Op Mult> '%' <Op Unary>
+               | <Op Unary>
+
+<Op Unary>   ::= '!'    <Op Unary>
+               | '~'    <Op Unary>   
+               | '-'    <Op Unary>
+               | '*'    <Op Unary>
+               | '&'    <Op Unary>               
+               | <Op Pointer>
+
+<Op Pointer> ::= <Op Pointer> '.' <Value>
+               | <Op Pointer> '->' <Value>
+               | <Op Pointer> '[' <Expr> ']'
+               | <Value>
+
+<Value>      ::= OctLiteral
+               | HexLiteral
+               | DecLiteral  
+               | StringLiteral
+               | CharLiteral
+               | FloatLiteral
+               | Id '(' <Expr> ')'
+               | Id '(' ')'          
+
+               | Id
+               | '(' <Expr> ')'
