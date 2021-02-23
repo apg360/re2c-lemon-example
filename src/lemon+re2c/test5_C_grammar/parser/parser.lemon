@@ -676,35 +676,36 @@ bool     ::= T | F
                | <Op Equate>
 
 <Op Equate>  ::= <Op Equate> '==' <Op Compare>
-               | <Op Equate> '!=' <Op Compare>
-               | <Op Compare>
+<Op Equate>  ::= <Op Equate> '!=' <Op Compare>
+<Op Equate>  ::= OpCompare
 
-<Op Compare> ::= <Op Compare> '<'  <Op Shift>
-               | <Op Compare> '>'  <Op Shift>
-               | <Op Compare> '<=' <Op Shift>
-               | <Op Compare> '>=' <Op Shift>
-               | <Op Shift>
+OpCompare ::= OpCompare '<'  OpShift.
+OpCompare ::= OpCompare '>'  OpShift.
+OpCompare ::= OpCompare '<=' OpShift.
+OpCompare ::= OpCompare '>=' OpShift.
+OpCompare ::= OpShift.
 
-<Op Shift>   ::= <Op Shift> '<<' <Op Add>
-               | <Op Shift> '>>' <Op Add>
-               | <Op Add>
+OpShift     ::= OpShift '<<' OpAdd.
+OpShift     ::= OpShift '>>' OpAdd.
+OpShift     ::= OpAdd.
 
-<Op Add>     ::= <Op Add> '+' <Op Mult>
-               | <Op Add> '-' <Op Mult>
-               | <Op Mult>
+OpAdd       ::= OpAdd '+' OpMult.
+OpAdd       ::= OpAdd '-' OpMult.
+OpAdd       ::= OpMult.
 
-<Op Mult>    ::= <Op Mult> '*' <Op Unary>
-               | <Op Mult> '/' <Op Unary>
-               | <Op Mult> '%' <Op Unary>
-               | <Op Unary>
+OpMult      ::= OpMult '*' OpUnary.
+OpMult      ::= OpMult '/' OpUnary.
+OpMult      ::= OpMult '%' OpUnary.
+OpMult      ::= OpUnary.
 
-<Op Unary>   ::= '!'    <Op Unary>
-               | '~'    <Op Unary>   
-               | '-'    <Op Unary>
-               | '*'    <Op Unary>
-               | '&'    <Op Unary>               
+OpUnary     ::= '!'    OpUnary.
+OpUnary     ::= '~'    OpUnary.
+OpUnary     ::= '-'    OpUnary.
+
+
+<Op Unary>   ::= '*'    <Op Unary>
+               | '&'    <Op Unary>
                | <Op Pointer>
-
 <Op Pointer> ::= <Op Pointer> '.' <Value>
                | <Op Pointer> '->' <Value>
                | <Op Pointer> '[' <Expr> ']'
