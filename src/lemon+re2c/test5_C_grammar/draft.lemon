@@ -87,5 +87,374 @@ expr(X) ::= INT_LITERAL(A).         { X = A; }
 
 
 
+//https://www.essaytaste.com/solved-consider-following-ebnf-grammar-simple-programming-language-program-s-statemt-statemt-assn-q35399240-2/
+program  ::= S {statemt}
+statemt  ::= assnmt | ifstmt | do | inout | progcall
+assnmt   ::= ident ~ exprsn ;
+ifstmt   ::= I comprsn @ {statemt} [% {statemt}] &
+do       ::= D {statemt} U comprsn E
+inout    ::= iosym ident {, ident } ;
+iosym    ::= R | O
+progcall ::= C program G
+comprsn  ::= ( oprnd opratr oprnd )
+exprsn   ::= factor {+ factor}
+factor   ::= oprnd {* oprnd}
+oprnd    ::= integer | ident | bool | ( exprsn )
+opratr   ::= < | = | > | ! | ^
+ident    ::= letter {char}
+char     ::= letter | digit
+integer  ::= digit {digit}
+letter   ::= W | X | Y | Z
+digit    ::= 0 | 1
+bool     ::= T | F
 
+
+!=======================================================
+
+<Decls> ::= <Decl> <Decls>
+          |
+
+<Decl>  ::= <Func Decl>
+          | <Func Proto>
+          | <Struct Decl>
+          | <Union Decl>
+          | <Enum Decl>
+          | <Var Decl>    
+          | <Typedef Decl>
+              
+! ===================================================================
+! Function  Declaration
+! ===================================================================
+
+<Func Proto> ::= <Func ID> '(' <Types>  ')' ';'
+               | <Func ID> '(' <Params> ')' ';'
+               | <Func ID> '(' ')' ';'
+
+<Func Decl>  ::= <Func ID> '(' <Params>  ')' <Block>
+               | <Func ID> '(' <Id List> ')' <Struct Def> <Block>
+               | <Func ID> '(' ')' <Block>
+
+
+<Params>     ::= <Param> ',' <Params>
+               | <Param>
+               
+<Param>      ::= const <Type> ID
+               |       <Type> ID
+               
+<Types>      ::= <Type>  ',' <Types>
+               | <Type> 
+   
+<Id List>    ::= Id ',' <Id List>
+               | Id
+
+<Func ID>    ::= <Type> ID
+               | ID
+
+! ===================================================================
+! Type Declaration
+! ===================================================================
+
+<Typedef Decl> ::= typedef <Type> ID ';'
+
+<Struct Decl>  ::= struct Id '{' <Struct Def> '}'  ';' 
+
+<Union Decl>   ::= union Id '{' <Struct Def> '}'  ';' 
+
+
+<Struct Def>   ::= <Var Decl> <Struct Def>
+                 | <Var Decl>
+
+! ===================================================================
+! Variable Declaration
+! ===================================================================
+
+<Var Decl>     ::= <Mod> <Type> <Var> <Var List>  ';'
+                 |       <Type> <Var> <Var List>  ';'
+                 | <Mod>        <Var> <Var List>  ';'
+             
+<Var>      ::= ID <Array>
+             | ID <Array> '=' <Op If> 
+
+<Array>    ::= '[' <Expr> ']'
+             | '[' ']'
+             |
+             
+<Var List> ::=  ',' <Var Item> <Var List>
+             | 
+
+<Var Item> ::= <Pointers> <Var>
+
+             
+<Mod>      ::= extern 
+             | static
+             | register
+             | auto
+             | volatile
+             | const   
+
+! ===================================================================
+! Enumerations
+! ===================================================================
+
+<Enum Decl>    ::= enum Id '{' <Enum Def> '}'  ';'
+ 
+<Enum Def>     ::= <Enum Val> ',' <Enum Def>
+                 | <Enum Val>
+
+<Enum Val>     ::= Id
+                 | Id '=' OctLiteral
+                 | Id '=' HexLiteral
+                 | Id '=' DecLiteral  
+
+
+! ===================================================================
+! Types
+! ===================================================================
+
+<Type>     ::= <Base> <Pointers> 
+
+<Base>     ::= <Sign> <Scalar>
+             | struct Id 
+             | struct '{' <Struct Def> '}' 
+             | union Id
+             | union '{' <Struct Def> '}' 
+             | enum Id  
+
+
+<Sign>     ::= signed 
+             | unsigned
+             |
+
+<Scalar>   ::= char
+             | int
+             | short
+             | long
+             | short int
+             | long int
+             | float
+             | double
+             | void
+
+<Pointers> ::= '*' <Pointers>
+             |
+
+! ===================================================================
+! Statements
+! ===================================================================
+
+<Stm>        ::= <Var Decl>
+               | Id ':'                            !Label
+               | if '(' <Expr> ')' <Stm>          
+               | if '(' <Expr> ')' <Then Stm> else <Stm>         
+               | while '(' <Expr> ')' <Stm> 
+               | for '(' <Arg> ';' <Arg> ';' <Arg> ')' <Stm>
+               | <Normal Stm>
+
+<Then Stm>   ::= if '(' <Expr> ')' <Then Stm> else <Then Stm> 
+               | while '(' <Expr> ')' <Then Stm> 
+               | for '(' <Arg> ';' <Arg> ';' <Arg> ')' <Then Stm>
+               | <Normal Stm>
+
+<Normal Stm> ::= do <Stm> while '(' <Expr> ')'
+               | switch '(' <Expr> ')' '{' <Case Stms> '}'
+               | <Block>
+               | <Expr> ';'               
+               | goto Id ';'
+               | break ';'
+               | continue ';'
+               | return <Expr> ';'
+               | ';'              !Null statement
+
+
+<Arg>       ::= <Expr> 
+              | 
+
+<Case Stms> ::= case <Value> ':' <Stm List> <Case Stms>
+              | default ':' <Stm List>                  
+              |
+
+<Block>     ::= '{' <Stm List> '}' 
+
+<Stm List>  ::=  <Stm> <Stm List> 
+              | 
+
+
+! ===================================================================
+! Here begins the C's 15 levels of operator precedence.
+! ===================================================================
+
+
+<Op Unary>   ::= '*'    <Op Unary>
+               | '&'    <Op Unary>
+               | <Op Pointer>
+<Op Pointer> ::= <Op Pointer> '.' <Value>
+               | <Op Pointer> '->' <Value>
+               | <Op Pointer> '[' <Expr> ']'
+               | <Value>
+               
+
+
+
+/***********************************************************************
+
+   
+   C grammar in EBNF
+   https://www.lysator.liu.se/c/ANSI-C-grammar-y.html
+   http://www.quut.com/c/ANSI-C-grammar-y.html
+   https://www2.cs.arizona.edu/~debray/Teaching/CSc453/DOCS/cminusminusspec.html
+   https://cs.wmich.edu/~gupta/teaching/cs4850/sumII06/The%20syntax%20of%20C%20in%20Backus-Naur%20form.htm
+   
+   https://github.com/Thanasis1101/Compiler-for-custom-language/blob/master/Source%20Code/Compiler/Semantics.c
+   https://github.com/Thanasis1101/Compiler-for-custom-language
+   https://github.com/gwenn/lemon-rs/blob/master/examples/simple.y
+   https://github.com/drifter1/compiler
+   http://matt.might.net/articles/grammars-bnf-ebnf
+   https://www.tutorialspoint.com/compiler_design/compiler_design_syntax_analysis.htm
+   https://www.wikiwand.com/en/Shift-reduce_parser
+   https://www.wikiwand.com/en/Parsing#/Computational_methods#section_Lookahead
+   
+   https://steemit.com/utopian-io/@drifter1/writing-a-simple-compiler-on-my-own-abstract-syntax-tree-management-c-flex-bison
+   https://steemit.com/utopian-io/@drifter1/writing-a-simple-compiler-on-my-own-abstract-syntax-tree-structure-c-flex-bison
+   https://steemit.com/utopian-io/@drifter1/writing-a-simple-compiler-on-my-own-abstract-syntax-tree-principle-c-flex-bison
+   https://efxa.org/2014/05/25/how-to-create-an-abstract-syntax-tree-while-parsing-an-input-stream/
+   http://www.cse.iitb.ac.in/grc/intdocs/gcc-implementation-details.html#The-AST/Generic-Data-Structures
+  
+   http://teampli.net/XPL/ldindex.html
+   https://www.cs.cornell.edu/andru/javaspec/2.doc.html#40415
+   https://steemit.com/programming/@drifter1/writing-a-simple-compiler-on-my-own-creating-a-grammar-for-our-language
+   http://eli-project.sourceforge.net/pascal_html/pascal-.html#s1
+   http://www.open-std.org/jtc1/sc22/wg14/www/docs/n1570.pdf#page=476
+   https://github.com/antlr/grammars-v4/blob/master/c/C.g4
+   https://www.cs.rochester.edu/u/scott/courses/173/notes/05_grammars
+
+
+assignment_operator ::= ASSIGN|STAR_ASSIGN|DIV_ASSIGN|MOD_ASSIGN|ADD_ASSIGN|SUB_ASSIGN   // = | *= | /= | %= | += | -=
+                    |LEFT_ASSIGN|RIGHT_ASSIGN|AND_ASSIGN|XOR_ASSIGN|OR_ASSIGN.           // <<= | >>= | &= | ^= | |=
+unary_operator  ::= PLUS|MINUS|TILDE|NOT.
+
+
+expression ::= conditional_expression | variable_assignment
+
+conditional_expression ::= conditional_or_expression.
+conditional_or_expression ::= conditional_and_expression.
+conditional_or_expression ::= conditional_or_expression || conditional_and_expression.
+conditional_and_expression ::= inclusive_or_expression.
+conditional_and_expression ::= conditional_and_expression && inclusive_or_expression.
+
+inclusive_or_expression ::= exclusive_or_expression.
+inclusive_or_expression ::= inclusive_or_expression exclusive_or_expression.
+
+exclusive_or_expression ::= and_expression.
+exclusive_or_expression ::= exclusive_or_expression ^ and_expression.
+
+and_expression ::= equality_expression.
+and_expression ::= and_expression & equality_expression.
+
+equality_expression ::= relational_expression.
+equality_expression ::= equality_expression == relational_expression.
+equality_expression ::= equality_expression not= relational_expression.
+
+relational_expression ::= shift_expression.
+relational_expression ::= relational_expression < shift_expression.
+relational_expression ::= relational_expression > shift_expression.
+relational_expression ::= relational_expression <= shift_expression.
+relational_expression ::= relational_expression >= shift_expression.
+
+shift_expression ::= additive_expression.
+shift_expression ::= shift_expression << additive_expression.
+shift_expression ::= shift_expression >> additive_expression.
+shift_expression ::= shift_expression >>> additive_expression.
+
+additive_expression ::= multiplicative_expression.
+additive_expression ::= additive_expression + multiplicative_expression.
+additive_expression ::= additive_expression - multiplicative_expression.
+
+multiplicative_expression ::= unary_expression.
+multiplicative_expression ::= multiplicative_expression * unary_expression.
+multiplicative_expression ::= multiplicative_expression / unary_expression.
+multiplicative_expression ::= multiplicative_expression % unary_expression.
+
+// https://en.wikipedia.org/wiki/Unary_operation
+unary_expression ::= primary.
+unary_expression ::= + unary_expression.
+unary_expression ::= - unary_expression.
+unary_expression ::= ~ unary_expression.
+unary_expression ::= NOT unary_expression.
+primary ::= IDENTIFIER | ( expression ).
+
+
+statement_list ::= statement.
+statement_list ::= statement_list statement.
+statement ::= compound_statement.
+statement ::= expression_statement. //UNARY OPERATIONS
+statement ::= selection_statement.
+statement ::= forloop_iteration_statement.
+statement ::= jump_statement.
+
+compound_statement ::= LBRACKET RBRACKET.
+compound_statement ::= LBRACKET statement_list RBRACKET.
+compound_statement ::= LBRACKET declaration_list RBRACKET.
+compound_statement ::= LBRACKET declaration_list statement_list RBRACKET.
+
+primary_expression ::= IDENTIFIER.
+primary_expression ::= CONSTANT.
+primary_expression ::= STRING_LITERAL.
+primary_expression ::= LPAREN expression RPAREN. //UNARY OPERATIONS
+
+
+argument_expression_list ::= assignment_expression.
+argument_expression_list ::= argument_expression_list COMMA assignment_expression.
+expression_statement ::= SEMCOL.
+expression_statement ::= expression SEMCOL.
+expression ::= assignment_expression.
+expression ::= expression COMMA assignment_expression.
+
+assignment_expression ::= unary_expression assignment_operator assignment_expression. // --var += var++
+
+//multiplicative_expression ::= unary_expression.
+//multiplicative_expression ::= multiplicative_expression STAR unary_expression.
+//multiplicative_expression ::= multiplicative_expression DIV unary_expression.
+//multiplicative_expression ::= multiplicative_expression MOD unary_expression.
+
+
+//additive_expression ::= multiplicative_expression.
+//additive_expression ::= additive_expression PLUS multiplicative_expression.
+//additive_expression ::= additive_expression MINUS multiplicative_expression.
+
+
+//shift_expression ::= additive_expression.
+//shift_expression ::= shift_expression LEFT_OP additive_expression.
+//shift_expression ::= shift_expression RIGHT_OP additive_expression.
+
+
+//relational_expression ::= shift_expression.
+//relational_expression ::= relational_expression LT shift_expression.
+//relational_expression ::= relational_expression GT shift_expression.
+//relational_expression ::= relational_expression LE_OP shift_expression.
+//relational_expression ::= relational_expression GE_OP shift_expression.
+
+
+//equality_expression ::= relational_expression.
+//equality_expression ::= equality_expression EQ_OP relational_expression.
+//equality_expression ::= equality_expression NE_OP relational_expression.
+
+
+//and_expression ::= equality_expression.
+//and_expression ::= and_expression REF equality_expression.
+
+
+//exclusive_or_expression ::= and_expression.
+//exclusive_or_expression ::= exclusive_or_expression XOR and_expression.
+
+
+//inclusive_or_expression ::= exclusive_or_expression.
+//inclusive_or_expression ::= inclusive_or_expression PIPE exclusive_or_expression.
+
+
+//logical_and_expression ::= inclusive_or_expression.
+//logical_and_expression ::= logical_and_expression AND_OP inclusive_or_expression.
+
+
+//logical_or_expression ::= logical_and_expression.
+//logical_or_expression ::= logical_or_expression OR_OP logical_and_expression.
 

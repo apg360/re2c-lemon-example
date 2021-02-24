@@ -69,9 +69,6 @@ struct _scanner_state SCANNER_STATE;
 
 
 
-
-
-
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /*
     u8          the set of all unsigned  8-bit integers  (0 to 255)
@@ -86,6 +83,8 @@ struct _scanner_state SCANNER_STATE;
     f32         the set of all IEEE-754 32-bit floating-point numbers
     f64         the set of all IEEE-754 64-bit floating-point numbers
 */
+
+
 /**********************************************************************
 "auto"          {  return(TK_AUTO);            }
 "break"         {  return(TK_BREAK);           }
@@ -119,55 +118,6 @@ struct _scanner_state SCANNER_STATE;
 "void"          {  return(TK_VOID);            }
 "volatile"      {  return(TK_VOLATILE);        }
 "while"         {  return(TK_WHILE);           }
-
-"..."           {  return(TK_ELLIPSIS);        }
-">>="           {  return(TK_RIGHT_ASSIGN);    }
-"<<="           {  return(TK_LEFT_ASSIGN);     }
-"+="            {  return(TK_ADD_ASSIGN);      }
-"-="            {  return(TK_SUB_ASSIGN);      }
-"*="            {  return(TK_MUL_ASSIGN);      }
-"/="            {  return(TK_DIV_ASSIGN);      }
-"%="            {  return(TK_MOD_ASSIGN);      }
-"&="            {  return(TK_AND_ASSIGN);      }
-"^="            {  return(TK_XOR_ASSIGN);      }
-"|="            {  return(TK_OR_ASSIGN);       }
-">>"            {  return(TK_RIGHT_OP);        }
-"<<"            {  return(TK_LEFT_OP);         }
-"++"            {  return(TK_INC_OP);          }
-"--"            {  return(TK_DEC_OP);          }
-"->"            {  return(TK_PTR_OP);          }
-"&&"            {  return(TK_AND_OP);          }
-"||"            {  return(TK_OR_OP);           }
-"<="            {  return(TK_LE_OP);           }
-">="            {  return(TK_GE_OP);           }
-"=="            {  return(TK_EQ_OP);           }
-("!="|"not=")   {  return(TK_NE_OP);           }
-";"             {  return(TK_SEMCOL);          }
-("{"|"<%")      {  return(TK_LBRACKET);        }
-("}"|"%>")      {  return(TK_RBRACKET);        }
-","             {  return(TK_COMMA);           }
-":"             {  return(TK_COLON);           }
-"="             {  return(TK_ASSIGN);          }
-"("             {  return(TK_LPAREN);          }
-")"             {  return(TK_RPAREN);          }
-("["|"<:")      {  return(TK_LSQUAREB);        }
-("]"|":>")      {  return(TK_RSQUAREB);        }
-"."             {  return(TK_DOT);             }
-"&"             {  return(TK_REF);             }
-("!"|"not")     {  return(TK_NOT);             }
-"~"             {  return(TK_TILDE);           }
-"-"             {  return(TK_MINUS);           }
-"+"             {  return(TK_PLUS);            }
-"*"             {  return(TK_STAR);            }
-"/"             {  return(TK_DIV);             }
-"%"             {  return(TK_MOD);             }
-"<"             {  return(TK_LT);              }
-">"             {  return(TK_GT);              }
-"^"             {  return(TK_XOR);             }
-"|"             {  return(TK_PIPE);            }
-"?"             {  return(TK_QUESTION);        }
-
-
 
 ///////////////////////////////////////////////////////////////////////
         "&" => Tok::Ampersand,
