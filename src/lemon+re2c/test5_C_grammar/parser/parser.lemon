@@ -140,14 +140,6 @@ input ::= .
 input ::= input lines.
 lines ::= block_statement END_OF_LINE|END_OF_FILE.                     { println("lines ::= translation_unit END_OF_LINE|END_OF_FILE."); }
 
-boolean_literal     ::= true | false.
-type     ::= u8 | u16 | u32 | u64 | u128 | i8 | i16 | i32 | i64 | i128 | f16 | f32 | f64.
-
-identifier_list ::= IDENTIFIER.
-identifier_list ::= identifier_list COMMA IDENTIFIER.
-argument_list   ::= expression.
-argument_list   ::= argument_list COMMA expression.
-
 block_statement ::= LBRACKET RBRACKET.
 block_statement ::= LBRACKET statement_list RBRACKET.
 
@@ -161,20 +153,29 @@ statement ::= switchstmt.
 statement ::= proc_definition.
 statement ::= proc_call.
 
+
 // VARIABLES //
 
 variable ::= variable_declaration.
 variable ::= variable_assignment.
 
-variable_declaration ::= IDENTIFIER ASSIGN type.                        // var=u16
-variable_declaration ::= IDENTIFIER ASSIGN type ASSIGN NUMBER_LITERAL.  // var=u16=15
-variable_declaration ::= IDENTIFIER ASSIGN QUOTE STRING_LITERAL QUOTE.  // var="string"
-variable_declaration ::= IDENTIFIER ASSIGN boolean_literal.             // var=true + var=false
+type     ::= U8 | U16 | U32 | U64 | U128 | I8 | I16 | I32 | I64 | I128 | F16 | F32 | F64.
+identifier_list ::= IDENTIFIER.
+identifier_list ::= identifier_list COMMA IDENTIFIER.
 
-variable_assignment  ::= IDENTIFIER ASSIGN expression.                  // existing var change value var=17
-variable_assignment  ::= identifier_list ASSIGN identifier_list.        // i,j,k=a,b,c
-//variable_assignment  ::= identifier_list ASSIGN expression_list.      // i,j,k=1,2,3 or i,j,k=1*2,2*2,3*3
+variable_declaration ::= identifier_list ASSIGN type.                        // var=u16      i,j,k=u16
+variable_declaration ::= identifier_list ASSIGN type ASSIGN expression.      // var=u16=15   i,j,k=u16=15
 
+variable_declaration ::= identifier_list ASSIGN QUOTE STRING_LITERAL QUOTE.  // var="string" i,j,k="string"
+variable_declaration ::= identifier_list ASSIGN boolean_literal.             // var=true i,j,k=false
+
+variable_assignment  ::= IDENTIFIER ASSIGN expression.                       // existing var change value var=17
+variable_assignment  ::= identifier_list ASSIGN type.                        // i,j,k=u32
+variable_assignment  ::= identifier_list ASSIGN identifier_list.             // i,j,k=a,b,c
+//variable_assignment  ::= identifier_list ASSIGN expression_list.           // i,j,k=1,2,3 or i,j,k=1*2,2*2,3*3
+
+expression_list   ::= expression.
+expression_list   ::= expression_list COMMA expression.
 
 // IF STATEMENT //
 
@@ -280,13 +281,15 @@ OpUnary     ::= value.
 value       ::= OCTLITERAL.
 value       ::= HEXLITERAL.
 value       ::= NUMBERLITERAL.
-value       ::= STRINGLITERAL.
+value       ::= QUOTE STRINGLITERAL QUOTE.
 value       ::= CHARLITERAL.
 value       ::= FLOATLITERAL.
 value       ::= IDENTIFIER LPAREN expression RPAREN.
 value       ::= IDENTIFIER LPAREN RPAREN.
 value       ::= IDENTIFIER.
 value       ::= LPAREN expression RPAREN.
+value       ::= boolean_literal.
+boolean_literal     ::= TRUE | FALSE.
 
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
