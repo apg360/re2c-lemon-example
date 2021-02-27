@@ -112,52 +112,53 @@ continue_scanning:
       // logical or                             - or ||  instead use or
       // logical not                            - not !  instead use not
       
-      "..."           { set_token( MACRO_VALUE_AND_NAME(TK_ELLIPSIS     ); goto parser_now;}
-      ">>="           { set_token( MACRO_VALUE_AND_NAME(TK_RIGHT_ASSIGN ); goto parser_now;}
-      "<<="           { set_token( MACRO_VALUE_AND_NAME(TK_LEFT_ASSIGN  ); goto parser_now;}
-      "+="            { set_token( MACRO_VALUE_AND_NAME(TK_ADD_ASSIGN   ); goto parser_now;}
-      "-="            { set_token( MACRO_VALUE_AND_NAME(TK_SUB_ASSIGN   ); goto parser_now;}
-      "*="            { set_token( MACRO_VALUE_AND_NAME(TK_MUL_ASSIGN   ); goto parser_now;}
-      "/="            { set_token( MACRO_VALUE_AND_NAME(TK_DIV_ASSIGN   ); goto parser_now;}
-      "%="            { set_token( MACRO_VALUE_AND_NAME(TK_MOD_ASSIGN   ); goto parser_now;}
-      "&="            { set_token( MACRO_VALUE_AND_NAME(TK_AND_ASSIGN   ); goto parser_now;}
-      "^="            { set_token( MACRO_VALUE_AND_NAME(TK_XOR_ASSIGN   ); goto parser_now;}
-      "|="            { set_token( MACRO_VALUE_AND_NAME(TK_OR_ASSIGN    ); goto parser_now;}
-      ">>"            { set_token( MACRO_VALUE_AND_NAME(TK_RIGHT_OP     ); goto parser_now;}
-      "<<"            { set_token( MACRO_VALUE_AND_NAME(TK_LEFT_OP      ); goto parser_now;}
-      "++"            { set_token( MACRO_VALUE_AND_NAME(TK_INC_OP       ); goto parser_now;}
-      "--"            { set_token( MACRO_VALUE_AND_NAME(TK_DEC_OP       ); goto parser_now;}
-      "->"            { set_token( MACRO_VALUE_AND_NAME(TK_PTR_OP       ); goto parser_now;}
-      "&&"            { set_token( MACRO_VALUE_AND_NAME(TK_AND_OP       ); goto parser_now;}
-      "||"            { set_token( MACRO_VALUE_AND_NAME(TK_OR_OP        ); goto parser_now;}
-      "<="            { set_token( MACRO_VALUE_AND_NAME(TK_LE_OP        ); goto parser_now;}
-      ">="            { set_token( MACRO_VALUE_AND_NAME(TK_GE_OP        ); goto parser_now;}
-      "=="            { set_token( MACRO_VALUE_AND_NAME(TK_EQ_OP        ); goto parser_now;}
-      ("!="|"not=")   { set_token( MACRO_VALUE_AND_NAME(TK_NE_OP        ); goto parser_now;}
-      ";"             { set_token( MACRO_VALUE_AND_NAME(TK_SEMCOL       ); goto parser_now;}
-      "{"             { set_token( MACRO_VALUE_AND_NAME(TK_LBRACKET     ); goto parser_now;}
-      "}"             { set_token( MACRO_VALUE_AND_NAME(TK_RBRACKET     ); goto parser_now;}
-      ","             { set_token( MACRO_VALUE_AND_NAME(TK_COMMA        ); goto parser_now;}
-      ":"             { set_token( MACRO_VALUE_AND_NAME(TK_COLON        ); goto parser_now;}
-      "="             { set_token( MACRO_VALUE_AND_NAME(TK_ASSIGN       ); goto parser_now;}
-      "("             { set_token( MACRO_VALUE_AND_NAME(TK_LPAREN       ); goto parser_now;}
-      ")"             { set_token( MACRO_VALUE_AND_NAME(TK_RPAREN       ); goto parser_now;}
-      "["             { set_token( MACRO_VALUE_AND_NAME(TK_LSQUAREB     ); goto parser_now;}
-      "]"             { set_token( MACRO_VALUE_AND_NAME(TK_RSQUAREB     ); goto parser_now;}
-      "."             { set_token( MACRO_VALUE_AND_NAME(TK_DOT          ); goto parser_now;}
-      "&"             { set_token( MACRO_VALUE_AND_NAME(TK_REF          ); goto parser_now;}
-      ("!"|"not")     { set_token( MACRO_VALUE_AND_NAME(TK_NOT          ); goto parser_now;}
-      "~"             { set_token( MACRO_VALUE_AND_NAME(TK_TILDE        ); goto parser_now;}
-      "-"             { set_token( MACRO_VALUE_AND_NAME(TK_MINUS        ); goto parser_now;}
-      "+"             { set_token( MACRO_VALUE_AND_NAME(TK_PLUS         ); goto parser_now;}
-      "*"             { set_token( MACRO_VALUE_AND_NAME(TK_STAR         ); goto parser_now;}
-      "/"             { set_token( MACRO_VALUE_AND_NAME(TK_DIV          ); goto parser_now;}
-      "%"             { set_token( MACRO_VALUE_AND_NAME(TK_MOD          ); goto parser_now;}
-      "<"             { set_token( MACRO_VALUE_AND_NAME(TK_LT           ); goto parser_now;}
-      ">"             { set_token( MACRO_VALUE_AND_NAME(TK_GT           ); goto parser_now;}
-      "^"             { set_token( MACRO_VALUE_AND_NAME(TK_XOR          ); goto parser_now;}
-      "|"             { set_token( MACRO_VALUE_AND_NAME(TK_PIPE         ); goto parser_now;}
-      "?"             { set_token( MACRO_VALUE_AND_NAME(TK_QUESTION     ); goto parser_now;}
+      
+      "..."           { set_token( MACRO_VALUE_AND_NAME(TK_ELLIPSIS)    ); goto parser_now;}
+      ">>="           { set_token( MACRO_VALUE_AND_NAME(TK_RIGHT_ASSIGN)); goto parser_now;}
+      "<<="           { set_token( MACRO_VALUE_AND_NAME(TK_LEFT_ASSIGN) ); goto parser_now;}
+      "+="            { set_token( MACRO_VALUE_AND_NAME(TK_ADD_ASSIGN)  ); goto parser_now;}
+      "-="            { set_token( MACRO_VALUE_AND_NAME(TK_SUB_ASSIGN)  ); goto parser_now;}
+      "*="            { set_token( MACRO_VALUE_AND_NAME(TK_MUL_ASSIGN)  ); goto parser_now;}
+      "/="            { set_token( MACRO_VALUE_AND_NAME(TK_DIV_ASSIGN)  ); goto parser_now;}
+      "%="            { set_token( MACRO_VALUE_AND_NAME(TK_MOD_ASSIGN)  ); goto parser_now;}
+      "&="            { set_token( MACRO_VALUE_AND_NAME(TK_AND_ASSIGN)  ); goto parser_now;}
+      "^="            { set_token( MACRO_VALUE_AND_NAME(TK_XOR_ASSIGN)  ); goto parser_now;}
+      "|="            { set_token( MACRO_VALUE_AND_NAME(TK_OR_ASSIGN)   ); goto parser_now;}
+      ">>"            { set_token( MACRO_VALUE_AND_NAME(TK_RIGHT_OP)    ); goto parser_now;}
+      "<<"            { set_token( MACRO_VALUE_AND_NAME(TK_LEFT_OP)     ); goto parser_now;}
+      "++"            { set_token( MACRO_VALUE_AND_NAME(TK_INC_OP)      ); goto parser_now;}
+      "--"            { set_token( MACRO_VALUE_AND_NAME(TK_DEC_OP)      ); goto parser_now;}
+      "->"            { set_token( MACRO_VALUE_AND_NAME(TK_PTR_OP)      ); goto parser_now;}
+      "&&"            { set_token( MACRO_VALUE_AND_NAME(TK_AND_OP)      ); goto parser_now;}
+      "||"            { set_token( MACRO_VALUE_AND_NAME(TK_OR_OP)       ); goto parser_now;}
+      "<="            { set_token( MACRO_VALUE_AND_NAME(TK_LE_OP)       ); goto parser_now;}
+      ">="            { set_token( MACRO_VALUE_AND_NAME(TK_GE_OP)       ); goto parser_now;}
+      "=="            { set_token( MACRO_VALUE_AND_NAME(TK_EQ_OP)       ); goto parser_now;}
+      ("!="|"not=")   { set_token( MACRO_VALUE_AND_NAME(TK_NE_OP)       ); goto parser_now;}
+      ";"             { set_token( MACRO_VALUE_AND_NAME(TK_SEMCOL)      ); goto parser_now;}
+      "{"             { set_token( MACRO_VALUE_AND_NAME(TK_LBRACKET)    ); goto parser_now;}
+      "}"             { set_token( MACRO_VALUE_AND_NAME(TK_RBRACKET)    ); goto parser_now;}
+      ","             { set_token( MACRO_VALUE_AND_NAME(TK_COMMA)       ); goto parser_now;}
+      ":"             { set_token( MACRO_VALUE_AND_NAME(TK_COLON)       ); goto parser_now;}
+      "="             { set_token( MACRO_VALUE_AND_NAME(TK_ASSIGN)      ); goto parser_now;}
+      "("             { set_token( MACRO_VALUE_AND_NAME(TK_LPAREN)      ); goto parser_now;}
+      ")"             { set_token( MACRO_VALUE_AND_NAME(TK_RPAREN)      ); goto parser_now;}
+      "["             { set_token( MACRO_VALUE_AND_NAME(TK_LSQUAREB)    ); goto parser_now;}
+      "]"             { set_token( MACRO_VALUE_AND_NAME(TK_RSQUAREB)    ); goto parser_now;}
+      "."             { set_token( MACRO_VALUE_AND_NAME(TK_DOT)         ); goto parser_now;}
+      "&"             { set_token( MACRO_VALUE_AND_NAME(TK_REF)         ); goto parser_now;}
+      ("!"|"not")     { set_token( MACRO_VALUE_AND_NAME(TK_NOT)         ); goto parser_now;}
+      "~"             { set_token( MACRO_VALUE_AND_NAME(TK_TILDE)       ); goto parser_now;}
+      "-"             { set_token( MACRO_VALUE_AND_NAME(TK_MINUS)       ); goto parser_now;}
+      "+"             { set_token( MACRO_VALUE_AND_NAME(TK_PLUS)        ); goto parser_now;}
+      "*"             { set_token( MACRO_VALUE_AND_NAME(TK_STAR)        ); goto parser_now;}
+      "/"             { set_token( MACRO_VALUE_AND_NAME(TK_DIV)         ); goto parser_now;}
+      "%"             { set_token( MACRO_VALUE_AND_NAME(TK_MOD)         ); goto parser_now;}
+      "<"             { set_token( MACRO_VALUE_AND_NAME(TK_LT)          ); goto parser_now;}
+      ">"             { set_token( MACRO_VALUE_AND_NAME(TK_GT)          ); goto parser_now;}
+      "^"             { set_token( MACRO_VALUE_AND_NAME(TK_XOR)         ); goto parser_now;}
+      "|"             { set_token( MACRO_VALUE_AND_NAME(TK_PIPE)        ); goto parser_now;}
+      "?"             { set_token( MACRO_VALUE_AND_NAME(TK_QUESTION)    ); goto parser_now;}
       
       "if"            { set_token( MACRO_VALUE_AND_NAME(TK_IF)          ); goto parser_now;}
       "else"          { set_token( MACRO_VALUE_AND_NAME(TK_ELSE)        ); goto parser_now;}
@@ -169,19 +170,19 @@ continue_scanning:
       "break"         { set_token( MACRO_VALUE_AND_NAME(TK_BREAK)       ); goto parser_now;}
       "return"        { set_token( MACRO_VALUE_AND_NAME(TK_RETURN)      ); goto parser_now;}
       "fallthrough"   { set_token( MACRO_VALUE_AND_NAME(TK_FALLTHROUGH) ); goto parser_now;}
-      "default"       { set_token( MACRO_VALUE_AND_NAME(TK_DEFAULT    ) ); goto parser_now;}
-      "continue"      { set_token( MACRO_VALUE_AND_NAME(TK_CONTINUE   ) ); goto parser_now;}
+      "default"       { set_token( MACRO_VALUE_AND_NAME(TK_DEFAULT)     ); goto parser_now;}
+      "continue"      { set_token( MACRO_VALUE_AND_NAME(TK_CONTINUE)    ); goto parser_now;}
       
-      identifier      { set_token( MACRO_VALUE_AND_NAME(TK_IDENTIFIER ) ); goto parser_now;}
-      number          { set_token( MACRO_VALUE_AND_NAME(TK_NUMBERLITERAL ) ); goto parser_now;}
-      word            { set_token( MACRO_VALUE_AND_NAME(TK_STRINGLITERAL ) ); goto parser_now;}
+      IDentifier      { set_token( MACRO_VALUE_AND_NAME(TK_IDENTIFIER)  ); goto parser_now;}
+      NumberLiteral   { set_token( MACRO_VALUE_AND_NAME(TK_NUMBERLITERAL) ); goto parser_now;}
+      StringLiteral   { set_token( MACRO_VALUE_AND_NAME(TK_STRINGLITERAL) ); goto parser_now;}
       
       vartype         { set_token( MACRO_VALUE_AND_NAME(TK_VARTYPE)     ); goto parser_now;}
       
       whitespace      { goto continue_scanning;}
       
       end             { set_token( MACRO_VALUE_AND_NAME(TK_END_OF_LINE) );
-                        SCANNER_STATE.linetext = SCANNER_STATE.cursor;    // remove already scanned text, remaining only unconsumed part
+                        SCANNER_STATE.linetext = SCANNER_STATE.cursor;   // remove already scanned text, remaining only unconsumed part
                         SCANNER_STATE.line_number++;                     // line counter increase +1
                         goto parser_now;
                       }

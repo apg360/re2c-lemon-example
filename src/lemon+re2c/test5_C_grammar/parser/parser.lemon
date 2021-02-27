@@ -92,6 +92,7 @@
 %nonassoc IF ELSE TRUE FALSE FOR SWITCH RETURN BREAK CONTINUE FALLTHROUGH DEFAULT.
 %nonassoc EQ NE GT GE LT LE.            // == not= > >= < <=
 
+%nonassoc DOT COLON QUESTION LSQUAREB RSQUAREB ELLIPSIS.
 
 %left PTR_OP INC_OP DEC_OP LEFT_OP RIGHT_OP LE_OP GE_OP EQ_OP NE_OP.
 %left AND_OP OR_OP STAR_ASSIGN DIV_ASSIGN MOD_ASSIGN ADD_ASSIGN.
@@ -151,10 +152,10 @@ statement_list ::= statement_list statement.
 
 statement ::= variable.
 statement ::= ifstmt.
-statement ::= forstmt.
-statement ::= switchstmt.
-statement ::= proc_definition.
-statement ::= proc_call.
+//statement ::= forstmt.
+//statement ::= switchstmt.
+//statement ::= proc_definition.
+//statement ::= proc_call.
 
 
 //=====================================================================//
@@ -182,7 +183,7 @@ opOr        ::= opAnd.
 opAnd       ::= opAnd AND_OP opBinOR.
 opAnd       ::= opBinOR.
 
-opBinOR     ::= opBinOR PIPE opBinOR.
+opBinOR     ::= opBinOR PIPE opBinXOR.
 opBinOR     ::= opBinXOR.
 
 opBinXOR    ::= opBinXOR XOR opBinAND.
@@ -239,20 +240,20 @@ boolean_literal     ::= TRUE |FALSE.
 variable ::= variable_declaration.
 variable ::= variable_assignment.
 
-type     ::= U8 |U16 |U32 |U64 |U128 |I8 |I16 |I32 |I64 |I128 |F16 |F32 |F64.
-identifier_list ::= IDENTIFIER.
-identifier_list ::= identifier_list COMMA IDENTIFIER.
+type                    ::= U8 |U16 |U32 |U64 |U128 |I8 |I16 |I32 |I64 |I128 |F16 |F32 |F64.
+identifier_list         ::= IDENTIFIER.
+identifier_list         ::= identifier_list COMMA IDENTIFIER.
 
-variable_declaration ::= identifier_list ASSIGN type.                        // var=u16      i,j,k=u16
-variable_declaration ::= identifier_list ASSIGN type ASSIGN expression.      // var=u16=15   i,j,k=u16=15
-variable_declaration ::= identifier_list ASSIGN QUOTE STRING_LITERAL QUOTE.  // var="string" i,j,k="string"
-variable_declaration ::= identifier_list ASSIGN boolean_literal.             // var=true i,j,k=false
+variable_declaration    ::= identifier_list ASSIGN type.                        // var=u16      i,j,k=u16
+variable_declaration    ::= identifier_list ASSIGN type ASSIGN expression.      // var=u16=15   i,j,k=u16=15
+variable_declaration    ::= identifier_list ASSIGN QUOTE STRING_LITERAL QUOTE.  // var="string" i,j,k="string"
+variable_declaration    ::= identifier_list ASSIGN boolean_literal.             // var=true i,j,k=false
 
-variable_assignment  ::= IDENTIFIER ASSIGN expression.                       // existing var change value var=17
-variable_assignment  ::= identifier_list ASSIGN identifier_list.             // i,j,k=a,b,c
+// existing var change value var=17
+variable_assignment     ::= identifier_list ASSIGN identifier_list.             // i,j,k=a,b,c
 
-// expression_list   ::= expression.
-// expression_list   ::= expression_list COMMA expression.
+// expression_list      ::= expression.
+// expression_list      ::= expression_list COMMA expression.
 // variable_assignment  ::= identifier_list ASSIGN expression_list.           // i,j,k=1,2,3 or i,j,k=1*2,2*2,3*3
 
 
@@ -261,8 +262,8 @@ variable_assignment  ::= identifier_list ASSIGN identifier_list.             // 
 //    IF STATEMENT      //
 //////////////////////////
 
-ifstmt              ::= IF expression LBRACKET block_statement RBRACKET.
-ifstmt              ::= IF expression LBRACKET block_statement RBRACKET ELSE LBRACKET block_statement RBRACKET.
+ifstmt                  ::= IF expression LBRACKET block_statement RBRACKET.
+ifstmt                  ::= IF expression LBRACKET block_statement RBRACKET ELSE LBRACKET block_statement RBRACKET.
 
 
 
@@ -270,15 +271,15 @@ ifstmt              ::= IF expression LBRACKET block_statement RBRACKET ELSE LBR
 //        FOR LOOP      //
 //////////////////////////
 
-forstmt             ::= FOR for_init SEMCOL expression SEMCOL for_update for_block_statement.
-for_init            ::= expression.
-for_init            ::= variable_declaration.
-for_update          ::= expression.
-for_block_statement ::= block_statement.
-for_block_statement ::= for_jump_statement.
-for_jump_statement  ::= BREAK.
-for_jump_statement  ::= BREAK expression.
-for_jump_statement  ::= CONTINUE.
+//forstmt               ::= FOR for_init SEMCOL expression SEMCOL for_update for_block_statement.
+//for_init              ::= expression.
+//for_init              ::= variable_declaration.
+//for_update            ::= expression.
+//for_block_statement   ::= block_statement.
+//for_block_statement   ::= for_jump_statement.
+//for_jump_statement    ::= BREAK.
+//for_jump_statement    ::= BREAK expression.
+//for_jump_statement    ::= CONTINUE.
 
 
 
@@ -286,11 +287,11 @@ for_jump_statement  ::= CONTINUE.
 //     SWITCH CASE      //
 //////////////////////////
 
-switchstmt          ::= SWITCH expression LBRACKET switch_block RBRACKET.
-switch_block        ::= expression LBRACKET switch_case_block RBRACKET.
-switch_block        ::= DEFAULT    LBRACKET statement RBRACKET.         // DEFAULT {}
-switch_case_block   ::= FALLTHROUGH.
-switch_case_block   ::= statement.
+//switchstmt            ::= SWITCH expression LBRACKET switch_block RBRACKET.
+//switch_block          ::= expression LBRACKET switch_case_block RBRACKET.
+//switch_block          ::= DEFAULT    LBRACKET statement RBRACKET.         // DEFAULT {}
+//switch_case_block     ::= FALLTHROUGH.
+//switch_case_block     ::= statement.
 
 
 
@@ -298,18 +299,18 @@ switch_case_block   ::= statement.
 //       PROCEDURE      //
 //////////////////////////
 
-variable_declaration_list ::= variable_declaration.
-variable_declaration_list ::= variable_declaration_list COMMA variable_declaration.
+//variable_declaration_list ::= variable_declaration.
+//variable_declaration_list ::= variable_declaration_list COMMA variable_declaration.
 
-proc_definition     ::= IDENTIFIER LPAREN RPAREN proc_statement.       // proc_add() { ... }
-proc_definition     ::= IDENTIFIER LPAREN variable_declaration_list RPAREN proc_statement. // proc_add(x,y,z) { ... }
-proc_statement      ::= block_statement.
-proc_statement      ::= proc_return.
-proc_return         ::= RETURN.                                         { println("proc_return ::= RETURN."); }
-proc_return         ::= RETURN expression.                              { println("proc_return ::= RETURN expression."); }
+//proc_definition       ::= IDENTIFIER LPAREN RPAREN proc_statement.       // proc_add() { ... }
+//proc_definition       ::= IDENTIFIER LPAREN variable_declaration_list RPAREN proc_statement. // proc_add(x,y,z) { ... }
+//proc_statement        ::= block_statement.
+//proc_statement        ::= proc_return.
+//proc_return           ::= RETURN.                                         { println("proc_return ::= RETURN."); }
+//proc_return           ::= RETURN expression.                              { println("proc_return ::= RETURN expression."); }
 
-proc_call           ::= IDENTIFIER LPAREN RPAREN.                            // proc_add()
-proc_call           ::= IDENTIFIER LPAREN variable_declaration_list RPAREN.  // proc_add(x,y,z)
+//proc_call             ::= IDENTIFIER LPAREN RPAREN.                            // proc_add()
+//proc_call             ::= IDENTIFIER LPAREN variable_declaration_list RPAREN.  // proc_add(x,y,z)
 
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
