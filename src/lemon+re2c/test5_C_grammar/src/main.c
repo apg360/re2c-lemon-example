@@ -4,14 +4,16 @@
 
 int main() {
 
-    scanner_DebugMode=false;
-    PARSER_INIT(false);
+    scanner_DebugMode=true;
+    PARSER_INIT(true);
     
     //validation_test();
     
+    //SCANNER("x=50\n");
     //SCANNER("50");
     //SCANNER("50+125");
-    SCANNER("void main() {return 0+2;}");
+    //SCANNER("void main() {return 0+2;}");
+    SCANNER("main ()");
     //SCANNER("int main() {");
     //SCANNER("50*125-50+125");
     //SCANNER("   4 + 5 - 20 + 7\n \

@@ -155,7 +155,7 @@ statement ::= ifstmt.
 //statement ::= forstmt.
 //statement ::= switchstmt.
 //statement ::= proc_definition.
-//statement ::= proc_call.
+statement ::= proc_call.
 
 
 //=====================================================================//
@@ -309,7 +309,7 @@ ifstmt                  ::= IF expression LBRACKET block_statement RBRACKET ELSE
 //proc_return           ::= RETURN.                                         { println("proc_return ::= RETURN."); }
 //proc_return           ::= RETURN expression.                              { println("proc_return ::= RETURN expression."); }
 
-//proc_call             ::= IDENTIFIER LPAREN RPAREN.                            // proc_add()
+proc_call             ::= IDENTIFIER LPAREN RPAREN.                            // proc_add()
 //proc_call             ::= IDENTIFIER LPAREN variable_declaration_list RPAREN.  // proc_add(x,y,z)
 
 ////////////////////////////////////////////////////////////////////////////////
