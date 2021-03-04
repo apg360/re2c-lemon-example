@@ -1,21 +1,21 @@
 main() {
-    scanner_DebugMode=false;
-    PARSER_INIT(false);
+    scanner_DebugMode=false
     
-    validation_test();
-    
-    for (i = 0; i<=10; i++)
-    {
-       printf("i=%d\n", i);
-    }
+    test()
     
     if (i == 0) {
-       printf("i=0");
+       printf("i=0")
     } else if (i == 1) {
-       printf("i=1");
+       printf("i=1")
     } else {
-       printf("i=0");
+       printf("i=0")
     }
     
-    return 0;
+    //PARSER_INIT(false)
+    //for (i = 0; i<=10; i++)
+    //{
+    //   printf("i=%d\n", i)
+    //}
+    
+    return 0
 }
