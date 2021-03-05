@@ -5,7 +5,7 @@
 int main() {
 
     scanner_DebugMode=true;
-    PARSER_INIT(false);
+    PARSER_INIT(true);
     
     //validation_test();
     
