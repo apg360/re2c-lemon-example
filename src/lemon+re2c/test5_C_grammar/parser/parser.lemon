@@ -14,6 +14,8 @@
 // https://sqlite.org/src/doc/trunk/doc/lemon.html#token_type
 // http://souptonuts.sourceforge.net/readme_lemon_tutorial.html
 //
+// https://docs.soliditylang.org/en/develop/grammar.html
+//
 ////////////////////////////////////////////////////////////////////////
 
 %syntax_error  { PARSER_STATE.error = true; fprintf(stderr, "/!\\ Syntax Error.\n"); }

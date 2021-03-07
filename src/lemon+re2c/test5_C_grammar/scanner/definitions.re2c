@@ -54,7 +54,7 @@ struct _scanner_state SCANNER_STATE;
     
     
     IDentifier       = [_a-zA-Z]([_a-zA-Z0-9])*;     // An identifier can never start with a number
-    StringLiteral    = '"'[letter]+'"';                    // [A-Za-z]+ = word after word
+    StringLiteral    = '"'[letter]+'"';              // [A-Za-z]+ = word after word
     NumberLiteral    = [123456789][digit]*;          // DecLiteral
     FloatLiteral     = [digit]*'.'[digit]+;          // 
     OctLiteral       = "0"[octdigit]*;               // 
