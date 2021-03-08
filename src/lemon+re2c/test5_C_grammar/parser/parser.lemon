@@ -82,7 +82,7 @@
     } // END PARSER
     
     void println(const char * pString)
-    { printf("GAZGAZ : %s\n",pString); };
+    { printf("_=> : %s\n",pString); };
 
 } // END %include
 
@@ -142,9 +142,21 @@ ________________________________________________________________________
 
 //
 program ::= input.
-input ::= .
+{
+   println("program ::= input.");
+}
+input ::=.
+{
+   println("input ::= .");
+}
 input ::= input lines.
-lines ::= block_statement END_OF_LINE|END_OF_FILE.                     { println("lines ::= translation_unit END_OF_LINE|END_OF_FILE."); }
+{
+   println("input ::= input lines.");
+}
+lines ::= block_statement END_OF_LINE|END_OF_FILE.                      
+{
+   println("lines ::= translation_unit END_OF_LINE|END_OF_FILE.");
+}
 
 block_statement ::= LBRACKET RBRACKET.
 block_statement ::= LBRACKET statement_list RBRACKET.
@@ -160,80 +172,6 @@ statement ::= ifstmt.
 statement ::= proc_call.
 
 
-//=====================================================================//
-//////////////////////////////////  EXPRESSIONS  ///////////////////////
-//=====================================================================//
-
-expression  ::= expression COMMA opAssign.
-expression  ::= opAssign.
-
-opAssign    ::= opOr ASSIGN       opAssign.
-opAssign    ::= opOr ADD_ASSIGN   opAssign.
-opAssign    ::= opOr SUB_ASSIGN   opAssign.
-opAssign    ::= opOr MUL_ASSIGN   opAssign.
-opAssign    ::= opOr DIV_ASSIGN   opAssign.
-opAssign    ::= opOr XOR_ASSIGN   opAssign.
-opAssign    ::= opOr AND_ASSIGN   opAssign.
-opAssign    ::= opOr OR_ASSIGN    opAssign.
-opAssign    ::= opOr RIGHT_ASSIGN opAssign.
-opAssign    ::= opOr LEFT_ASSIGN  opAssign.
-opAssign    ::= opOr.
-
-opOr        ::= opOr OR_OP opAnd.
-opOr        ::= opAnd.
-
-opAnd       ::= opAnd AND_OP opBinOR.
-opAnd       ::= opBinOR.
-
-opBinOR     ::= opBinOR PIPE opBinXOR.
-opBinOR     ::= opBinXOR.
-
-opBinXOR    ::= opBinXOR XOR opBinAND.
-opBinXOR    ::= opBinAND.
-
-opBinAND    ::= opBinAND REF opEquate.
-opBinAND    ::= opEquate.
-
-opEquate    ::= opEquate EQ_OP opCompare.
-opEquate    ::= opEquate NE_OP opCompare.
-opEquate    ::= opCompare.
-
-opCompare   ::= opCompare LT    opShift.
-opCompare   ::= opCompare GT    opShift.
-opCompare   ::= opCompare LE_OP opShift.
-opCompare   ::= opCompare GE_OP opShift.
-opCompare   ::= opShift.
-
-opShift     ::= opShift LEFT_OP  opAdd.
-opShift     ::= opShift RIGHT_OP opAdd.
-opShift     ::= opAdd.
-
-opAdd       ::= opAdd PLUS  opMult.
-opAdd       ::= opAdd MINUS opMult.
-opAdd       ::= opMult.
-
-opMult      ::= opMult STAR opUnary.
-opMult      ::= opMult DIV  opUnary.
-opMult      ::= opMult MOD  opUnary.
-opMult      ::= opUnary.
-
-opUnary     ::= NOT   opUnary.
-opUnary     ::= TILDE opUnary.
-opUnary     ::= MINUS opUnary.
-opUnary     ::= value.
-
-value       ::= OCTLITERAL.
-value       ::= HEXLITERAL.
-value       ::= NUMBERLITERAL.
-value       ::= QUOTE STRINGLITERAL QUOTE.
-value       ::= CHARLITERAL.
-value       ::= FLOATLITERAL.
-value       ::= IDENTIFIER LPAREN expression RPAREN.
-value       ::= IDENTIFIER LPAREN RPAREN.
-value       ::= IDENTIFIER.
-value       ::= LPAREN expression RPAREN.
-value       ::= boolean_literal.
-boolean_literal     ::= TRUE |FALSE.
 
 //=======================
 //       VARIABLES      //
@@ -313,6 +251,83 @@ ifstmt                  ::= IF expression LBRACKET block_statement RBRACKET ELSE
 
 proc_call               ::= IDENTIFIER LPAREN RPAREN.                            // proc_add()
 //proc_call             ::= IDENTIFIER LPAREN variable_declaration_list RPAREN.  // proc_add(x,y,z)
+
+
+
+//=====================================================================//
+//////////////////////////////////  EXPRESSIONS  ///////////////////////
+//=====================================================================//
+
+expression  ::= expression COMMA opAssign.
+expression  ::= opAssign.
+
+opAssign    ::= opOr ASSIGN       opAssign.
+opAssign    ::= opOr ADD_ASSIGN   opAssign.
+opAssign    ::= opOr SUB_ASSIGN   opAssign.
+opAssign    ::= opOr MUL_ASSIGN   opAssign.
+opAssign    ::= opOr DIV_ASSIGN   opAssign.
+opAssign    ::= opOr XOR_ASSIGN   opAssign.
+opAssign    ::= opOr AND_ASSIGN   opAssign.
+opAssign    ::= opOr OR_ASSIGN    opAssign.
+opAssign    ::= opOr RIGHT_ASSIGN opAssign.
+opAssign    ::= opOr LEFT_ASSIGN  opAssign.
+opAssign    ::= opOr.
+
+opOr        ::= opOr OR_OP opAnd.
+opOr        ::= opAnd.
+
+opAnd       ::= opAnd AND_OP opBinOR.
+opAnd       ::= opBinOR.
+
+opBinOR     ::= opBinOR PIPE opBinXOR.
+opBinOR     ::= opBinXOR.
+
+opBinXOR    ::= opBinXOR XOR opBinAND.
+opBinXOR    ::= opBinAND.
+
+opBinAND    ::= opBinAND REF opEquate.
+opBinAND    ::= opEquate.
+
+opEquate    ::= opEquate EQ_OP opCompare.
+opEquate    ::= opEquate NE_OP opCompare.
+opEquate    ::= opCompare.
+
+opCompare   ::= opCompare LT    opShift.
+opCompare   ::= opCompare GT    opShift.
+opCompare   ::= opCompare LE_OP opShift.
+opCompare   ::= opCompare GE_OP opShift.
+opCompare   ::= opShift.
+
+opShift     ::= opShift LEFT_OP  opAdd.
+opShift     ::= opShift RIGHT_OP opAdd.
+opShift     ::= opAdd.
+
+opAdd       ::= opAdd PLUS  opMult.
+opAdd       ::= opAdd MINUS opMult.
+opAdd       ::= opMult.
+
+opMult      ::= opMult STAR opUnary.
+opMult      ::= opMult DIV  opUnary.
+opMult      ::= opMult MOD  opUnary.
+opMult      ::= opUnary.
+
+opUnary     ::= NOT   opUnary.
+opUnary     ::= TILDE opUnary.
+opUnary     ::= MINUS opUnary.
+opUnary     ::= value.
+
+value       ::= OCTLITERAL.
+value       ::= HEXLITERAL.
+value       ::= NUMBERLITERAL.
+value       ::= QUOTE STRINGLITERAL QUOTE.
+value       ::= CHARLITERAL.
+value       ::= FLOATLITERAL.
+value       ::= IDENTIFIER LPAREN expression RPAREN.
+value       ::= IDENTIFIER LPAREN RPAREN.
+value       ::= IDENTIFIER. {println("value       ::= IDENTIFIER.");}
+value       ::= LPAREN expression RPAREN.
+value       ::= boolean_literal.
+boolean_literal     ::= TRUE |FALSE.
 
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////

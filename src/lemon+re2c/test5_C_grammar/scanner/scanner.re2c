@@ -200,7 +200,7 @@ comment:
 
 parser_now:
       if (scanner_DebugMode == true) {
-        printf("Line:%d / Col:%d ", SCANNER_STATE.line_number, SCANNER_STATE.column_position);
+        printf("Line:%d / Col:%d \n", SCANNER_STATE.line_number, SCANNER_STATE.column_position);
         printf("parser(%s, %s) \n", SCANNER_STATE.token_name, SCANNER_STATE.token_stringvalue); // Formating number of digits after dot %.15lf
       }
       

@@ -50,15 +50,14 @@ struct _scanner_state SCANNER_STATE;
     letter           = [a-zA-Z];                     //  will scan one letter at a time, letter after letter
     digit            = [0123456789];                 // [0-9]
     octdigit         = [01234567];                   // [0-7]
-    hexdigit         = [digit]+ [abcdefABCDEF];      // [A-Fa-f];
-    
+    hexdigit         = [digit]+[abcdefABCDEF];      // [A-Fa-f];
     
     IDentifier       = [_a-zA-Z]([_a-zA-Z0-9])*;     // An identifier can never start with a number
-    StringLiteral    = '"'[letter]+'"';              // [A-Za-z]+ = word after word
-    NumberLiteral    = [123456789][digit]*;          // DecLiteral
-    FloatLiteral     = [digit]*'.'[digit]+;          // 
-    OctLiteral       = "0"[octdigit]*;               // 
-    HexLiteral       = "0x"[hexdigit]+;              // 
+    StringLiteral    = '"'(letter)+'"';              // [A-Za-z]+ = word after word
+    NumberLiteral    = [123456789](digit)*;          // DecLiteral
+    FloatLiteral     = (digit)*'.'(digit)+;          // 
+    OctLiteral       = "0"(octdigit)*;               // 
+    HexLiteral       = "0x"(hexdigit)+;              // 
     
     vartype          = "u8"|"u16"|"u32"|"u64"|"u128"|"i8"|"i16"|"i32"|"i64"|"i128"|"f16"|"f32"|"f64";
     

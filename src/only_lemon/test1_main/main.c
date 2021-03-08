@@ -9,7 +9,8 @@ void Parse(void* parser, int token, const int); //, bool* valid); //parser.lem a
 int main()
 {
   void* pParser = ParseAlloc (malloc);
-
+  ParseTrace(stderr, "[Parser] >> ");
+  
   /* First input: 
       15 / 5
                                 */
