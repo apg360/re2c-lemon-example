@@ -3,9 +3,8 @@ package main
 
 import (
 	"fmt"
-	"github.com/antlr/antlr4/runtime/Go/antlr"
-
 	"./parser"
+	"github.com/antlr/antlr4/runtime/Go/antlr"
 )
 
 func main() {
