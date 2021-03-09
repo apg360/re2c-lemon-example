@@ -7,13 +7,13 @@ alias antlr='java -Xmx500M -jar $PWD/antlr-4.9.1-complete.jar'
 # https://blog.gopheracademy.com/advent-2017/parsing-with-antlr4-and-go/
 
 
-# Go get Manual install
+# If no internet, then to do "go get" Manually
 #go env
 #export GOPATH=$(go env GOPATH)
 #cd $GOPATH
-#mkdir -p github.com/antlr/antlr4/runtime/Go/antlr
-#cd $GOPATH/github.com/antlr/antlr4/runtime/Go/antlr
-#git clone github.com/antlr/antlr4/runtime/Go/antlr
-#go mod init github.com/antlr/antlr4/runtime/Go/antlr
+#mkdir -p src/github.com/antlr/antlr4
+#cd $GOPATH/github.com/antlr/antlr4
+#git clone github.com/antlr/antlr4 (or unzip the zip file)
+#go mod init github.com/antlr/antlr4
 #go build
 
