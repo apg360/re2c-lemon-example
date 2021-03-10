@@ -1,6 +1,8 @@
 #https://github.com/antlr/antlr4/blob/master/doc/go-target.md
 #go get -u github.com/antlr/antlr4/runtime/Go/antlr
 
+/Users/a0/go/pkg/darwin_amd64/github.com/antlr/antlr4/runtime/Go/antlr.a
+
 alias antlr='java -Xmx500M -jar $PWD/antlr-4.9.1-complete.jar'
 #source sourceme.sh
 #antlr -Dlanguage=Go -o parser Calc.g4
