@@ -21,3 +21,4 @@ alias antlr='java -Xmx500M -jar $PWD/antlr-4.9.1-complete.jar'
 #go mod tidy
 #go build github.com/antlr/antlr4/runtime/Go/antlr
 #go install github.com/antlr/antlr4/runtime/Go/antlr
+
