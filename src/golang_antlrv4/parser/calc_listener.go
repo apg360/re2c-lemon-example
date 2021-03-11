@@ -2,7 +2,8 @@
 
 package parser // Calc
 
-import "github.com/antlr/antlr4/runtime/Go/antlr"
+//import "github.com/antlr/antlr4/runtime/Go/antlr"
+import "antlr"
 
 // CalcListener is a complete listener for a parse tree produced by CalcParser.
 type CalcListener interface {

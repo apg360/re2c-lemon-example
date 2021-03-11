@@ -6,8 +6,8 @@ import (
 	"fmt"
 	"reflect"
 	"strconv"
-
-	"github.com/antlr/antlr4/runtime/Go/antlr"
+	"antlr"
+	//"github.com/antlr/antlr4/runtime/Go/antlr"
 )
 
 // Suppress unused import errors

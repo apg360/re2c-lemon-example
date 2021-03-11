@@ -5,8 +5,8 @@ package parser
 import (
 	"fmt"
 	"unicode"
-
-	"github.com/antlr/antlr4/runtime/Go/antlr"
+	"antlr"
+	//"github.com/antlr/antlr4/runtime/Go/antlr"
 )
 
 // Suppress unused import error
