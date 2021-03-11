@@ -14,7 +14,8 @@ alias antlr='java -Xmx500M -jar $PWD/antlr-4.9.1-complete.jar'
 #mkdir -p src/github.com/antlr/antlr4
 #cd $GOPATH/github.com/antlr/antlr4
 #git clone github.com/antlr/antlr4 (or unzip the zip file)
-#go mod init github.com/antlr/antlr4/runtime/Go/antlr
+#go test
+#go mod init
 #go mod tidy
-#go build
+#go build github.com/antlr/antlr4/runtime/Go/antlr
 #go install github.com/antlr/antlr4/runtime/Go/antlr
