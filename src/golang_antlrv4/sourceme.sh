@@ -1,3 +1,4 @@
+# Go 1.16.1
 #https://maelvls.dev/go111module-everywhere/
 #https://github.com/antlr/antlr4/blob/master/doc/go-target.md
 #go get -v -u github.com/antlr/antlr4/runtime/Go/antlr
