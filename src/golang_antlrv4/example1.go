@@ -4,7 +4,7 @@ package main
 import (
 	"fmt"
 	"antlr"
-	"./parser"
+	"parser"
 )
 
 func main() {
