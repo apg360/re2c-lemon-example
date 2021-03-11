@@ -2,7 +2,7 @@
 
 package parser // Calc
 
-import "github.com/antlr/antlr4/runtime/Go/antlr"
+import "antlr"
 
 // BaseCalcListener is a complete listener for a parse tree produced by CalcParser.
 type BaseCalcListener struct{}

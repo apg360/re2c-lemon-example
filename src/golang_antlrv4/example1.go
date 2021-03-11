@@ -3,7 +3,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/antlr/antlr4/runtime/Go/antlr"
+	"antlr"
 	"./parser"
 )
 
