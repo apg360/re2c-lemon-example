@@ -1,17 +1,28 @@
-# Go 1.16.1
-#https://maelvls.dev/go111module-everywhere
-#https://blog.golang.org/using-go-modules
-#https://github.com/antlr/antlr4/blob/master/doc/go-target.md
-#GO111MODULE=on go get -v -u github.com/antlr/antlr4/runtime/Go/antlr
+# How to use with Go 1.16.1
+# https://maelvls.dev/go111module-everywhere
+# https://blog.golang.org/using-go-modules
 
-/Users/a0/go/pkg/darwin_amd64/github.com/antlr/antlr4/runtime/Go/antlr.a
-
-alias antlr='java -Xmx500M -jar $PWD/antlr-4.9.1-complete.jar'
-#source sourceme.sh
-#antlr -Dlanguage=Go -o parser Calc.g4
+# Tutorial source
 # https://blog.gopheracademy.com/advent-2017/parsing-with-antlr4-and-go/
+# https://github.com/antlr/antlr4/blob/master/doc/go-target.md
 
 
+#STEP1
+alias antlr='java -Xmx500M -jar $PWD/antlr-4.9.1-complete.jar'
+antlr -Dlanguage=Go -o parser Calc.g4
+
+#STEP2 as root user
+unzip antlr.zip && cp antlr /usr/lib/go/src
+cp -R parser /usr/lib/go/src
+cd /usr/lib/go/src
+go build antlr
+go build parser
+
+
+
+
+
+################################# TO DELETE
 # If no internet, then to do "go get" Manually
 #go env
 #export GOPATH=$(go env GOPATH)
