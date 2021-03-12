@@ -10,7 +10,7 @@
 #STEP1
 export parsername=parser
 rm -rf $parsername
-shopt -s expand_aliases # Aliases are not expanded when the shell is not interactive, unless the expand_aliases shell option is set using shopt
+shopt -s expand_aliases 		# Aliases are not expanded when the shell is not interactive, unless the expand_aliases shell option is set using shopt
 alias antlr='java -Xmx500M -jar $PWD/antlr-4.9.1-complete.jar'
 antlr -Dlanguage=Go -o $parsername Calc.g4
 cd parser && go mod init $parsername
