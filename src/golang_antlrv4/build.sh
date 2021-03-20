@@ -1,9 +1,10 @@
 # How to use with Go 1.16.1
+# https://ukiahsmith.com/blog/a-gentle-introduction-to-golang-modules
 # https://maelvls.dev/go111module-everywhere
 # https://blog.golang.org/using-go-modules
 
 # Tutorial source
-# https://blog.gopheracademy.com/advent-2017/parsing-with-antlr4-and-go/
+# https://blog.gopheracademy.com/advent-2017/parsing-with-antlr4-and-go
 # https://github.com/antlr/antlr4/blob/master/doc/go-target.md
 
 
